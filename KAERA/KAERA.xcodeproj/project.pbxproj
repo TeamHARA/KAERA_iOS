@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E721EABD2A51D5D900A04AA0 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = E721EABC2A51D5D900A04AA0 /* Then */; };
 		E78C3A032A51840300A15120 /* Temp_Extension+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E78C3A022A51840300A15120 /* Temp_Extension+.swift */; };
 		E78C3A062A51842300A15120 /* Temp_Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = E78C3A052A51842300A15120 /* Temp_Protocols.swift */; };
 		E78C3A082A51844500A15120 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E78C3A072A51844500A15120 /* HomeViewModel.swift */; };
@@ -21,6 +22,9 @@
 		E7AC12252A51D08C00FE504C /* Temp_Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7AC12242A51D08C00FE504C /* Temp_Service.swift */; };
 		E7AC12272A51D09200FE504C /* Temp_API.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7AC12262A51D09200FE504C /* Temp_API.swift */; };
 		E7AC122B2A51D1DD00FE504C /* Temp_Base.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7AC122A2A51D1DD00FE504C /* Temp_Base.swift */; };
+		E7AC122F2A51D54900FE504C /* CombineMoya in Frameworks */ = {isa = PBXBuildFile; productRef = E7AC122E2A51D54900FE504C /* CombineMoya */; };
+		E7AC12312A51D54900FE504C /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = E7AC12302A51D54900FE504C /* Moya */; };
+		E7AC12342A51D56F00FE504C /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = E7AC12332A51D56F00FE504C /* SnapKit */; };
 		E7C808E92A4D37F800F475CE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C808E82A4D37F800F475CE /* AppDelegate.swift */; };
 		E7C808EB2A4D37F800F475CE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C808EA2A4D37F800F475CE /* SceneDelegate.swift */; };
 		E7C808ED2A4D37F800F475CE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C808EC2A4D37F800F475CE /* ViewController.swift */; };
@@ -57,6 +61,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E7AC12342A51D56F00FE504C /* SnapKit in Frameworks */,
+				E7AC12312A51D54900FE504C /* Moya in Frameworks */,
+				E7AC122F2A51D54900FE504C /* CombineMoya in Frameworks */,
+				E721EABD2A51D5D900A04AA0 /* Then in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -274,6 +282,12 @@
 			dependencies = (
 			);
 			name = KAERA;
+			packageProductDependencies = (
+				E7AC122E2A51D54900FE504C /* CombineMoya */,
+				E7AC12302A51D54900FE504C /* Moya */,
+				E7AC12332A51D56F00FE504C /* SnapKit */,
+				E721EABC2A51D5D900A04AA0 /* Then */,
+			);
 			productName = KAERA;
 			productReference = E7C808E52A4D37F800F475CE /* KAERA.app */;
 			productType = "com.apple.product-type.application";
@@ -302,6 +316,11 @@
 				Base,
 			);
 			mainGroup = E7C808DC2A4D37F800F475CE;
+			packageReferences = (
+				E7AC122D2A51D54900FE504C /* XCRemoteSwiftPackageReference "Moya" */,
+				E7AC12322A51D56F00FE504C /* XCRemoteSwiftPackageReference "SnapKit" */,
+				E721EABB2A51D5D900A04AA0 /* XCRemoteSwiftPackageReference "Then" */,
+			);
 			productRefGroup = E7C808E62A4D37F800F475CE /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -552,6 +571,56 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		E721EABB2A51D5D900A04AA0 /* XCRemoteSwiftPackageReference "Then" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/devxoul/Then";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
+			};
+		};
+		E7AC122D2A51D54900FE504C /* XCRemoteSwiftPackageReference "Moya" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Moya/Moya";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 15.0.3;
+			};
+		};
+		E7AC12322A51D56F00FE504C /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.6.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		E721EABC2A51D5D900A04AA0 /* Then */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E721EABB2A51D5D900A04AA0 /* XCRemoteSwiftPackageReference "Then" */;
+			productName = Then;
+		};
+		E7AC122E2A51D54900FE504C /* CombineMoya */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E7AC122D2A51D54900FE504C /* XCRemoteSwiftPackageReference "Moya" */;
+			productName = CombineMoya;
+		};
+		E7AC12302A51D54900FE504C /* Moya */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E7AC122D2A51D54900FE504C /* XCRemoteSwiftPackageReference "Moya" */;
+			productName = Moya;
+		};
+		E7AC12332A51D56F00FE504C /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E7AC12322A51D56F00FE504C /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = E7C808DD2A4D37F800F475CE /* Project object */;
 }
