@@ -84,7 +84,6 @@
 		E78C39F22A5138FC00A15120 /* Application */ = {
 			isa = PBXGroup;
 			children = (
-				E7C808F62A4D37FA00F475CE /* Info.plist */,
 				E7C808EA2A4D37F800F475CE /* SceneDelegate.swift */,
 				E7C808E82A4D37F800F475CE /* AppDelegate.swift */,
 			);
@@ -257,6 +256,7 @@
 			isa = PBXGroup;
 			children = (
 				E7C808EC2A4D37F800F475CE /* ViewController.swift */,
+				E7C808F62A4D37FA00F475CE /* Info.plist */,
 				E7AC12162A51CBA400FE504C /* Global */,
 				E78C39F12A5138D200A15120 /* Scenes */,
 				E78C39F52A51394A00A15120 /* Resources */,
