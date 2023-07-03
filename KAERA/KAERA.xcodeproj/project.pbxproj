@@ -38,6 +38,7 @@
 		E79AAC472A52F36500F3F439 /* NetworkResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79AAC422A52F36500F3F439 /* NetworkResult.swift */; };
 		E79AAC4A2A52F3E000F3F439 /* BaseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79AAC482A52F3E000F3F439 /* BaseVC.swift */; };
 		E79AAC4B2A52F3E000F3F439 /* BaseNC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79AAC492A52F3E000F3F439 /* BaseNC.swift */; };
+		E79AAC5A2A531E3300F3F439 /* NanumMyeongjoOTF.otf in Resources */ = {isa = PBXBuildFile; fileRef = E79AAC592A531E3300F3F439 /* NanumMyeongjoOTF.otf */; };
 		E7AC12212A51CFFD00FE504C /* GeneralResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7AC12202A51CFFD00FE504C /* GeneralResponse.swift */; };
 		E7AC12232A51D08300FE504C /* Temp_DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7AC12222A51D08300FE504C /* Temp_DataModel.swift */; };
 		E7AC12252A51D08C00FE504C /* Temp_Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7AC12242A51D08C00FE504C /* Temp_Service.swift */; };
@@ -45,6 +46,9 @@
 		E7AC122F2A51D54900FE504C /* CombineMoya in Frameworks */ = {isa = PBXBuildFile; productRef = E7AC122E2A51D54900FE504C /* CombineMoya */; };
 		E7AC12312A51D54900FE504C /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = E7AC12302A51D54900FE504C /* Moya */; };
 		E7AC12342A51D56F00FE504C /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = E7AC12332A51D56F00FE504C /* SnapKit */; };
+		E7C30F612A533D08002BD782 /* NanumSquareNeoTTF-aLt.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E7C30F5E2A533D08002BD782 /* NanumSquareNeoTTF-aLt.ttf */; };
+		E7C30F622A533D08002BD782 /* NanumSquareNeoTTF-bRg.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E7C30F5F2A533D08002BD782 /* NanumSquareNeoTTF-bRg.ttf */; };
+		E7C30F632A533D08002BD782 /* NanumSquareNeoTTF-cBd.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E7C30F602A533D08002BD782 /* NanumSquareNeoTTF-cBd.ttf */; };
 		E7C808E92A4D37F800F475CE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C808E82A4D37F800F475CE /* AppDelegate.swift */; };
 		E7C808EB2A4D37F800F475CE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C808EA2A4D37F800F475CE /* SceneDelegate.swift */; };
 		E7C808ED2A4D37F800F475CE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C808EC2A4D37F800F475CE /* ViewController.swift */; };
@@ -83,10 +87,14 @@
 		E79AAC422A52F36500F3F439 /* NetworkResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkResult.swift; sourceTree = "<group>"; };
 		E79AAC482A52F3E000F3F439 /* BaseVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseVC.swift; sourceTree = "<group>"; };
 		E79AAC492A52F3E000F3F439 /* BaseNC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseNC.swift; sourceTree = "<group>"; };
+		E79AAC592A531E3300F3F439 /* NanumMyeongjoOTF.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumMyeongjoOTF.otf; sourceTree = "<group>"; };
 		E7AC12202A51CFFD00FE504C /* GeneralResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralResponse.swift; sourceTree = "<group>"; };
 		E7AC12222A51D08300FE504C /* Temp_DataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Temp_DataModel.swift; sourceTree = "<group>"; };
 		E7AC12242A51D08C00FE504C /* Temp_Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Temp_Service.swift; sourceTree = "<group>"; };
 		E7AC12262A51D09200FE504C /* Temp_API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Temp_API.swift; sourceTree = "<group>"; };
+		E7C30F5E2A533D08002BD782 /* NanumSquareNeoTTF-aLt.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NanumSquareNeoTTF-aLt.ttf"; sourceTree = "<group>"; };
+		E7C30F5F2A533D08002BD782 /* NanumSquareNeoTTF-bRg.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NanumSquareNeoTTF-bRg.ttf"; sourceTree = "<group>"; };
+		E7C30F602A533D08002BD782 /* NanumSquareNeoTTF-cBd.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NanumSquareNeoTTF-cBd.ttf"; sourceTree = "<group>"; };
 		E7C808E52A4D37F800F475CE /* KAERA.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KAERA.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E7C808E82A4D37F800F475CE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E7C808EA2A4D37F800F475CE /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -134,6 +142,7 @@
 		E78C39F52A51394A00A15120 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				E79AAC4E2A531C0400F3F439 /* Fonts */,
 				E7C808F32A4D37FA00F475CE /* LaunchScreen.storyboard */,
 				E7C808F12A4D37FA00F475CE /* Assets.xcassets */,
 			);
@@ -209,6 +218,17 @@
 				E78C3A052A51842300A15120 /* Temp_Protocols.swift */,
 			);
 			path = Protocols;
+			sourceTree = "<group>";
+		};
+		E79AAC4E2A531C0400F3F439 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				E7C30F5E2A533D08002BD782 /* NanumSquareNeoTTF-aLt.ttf */,
+				E7C30F5F2A533D08002BD782 /* NanumSquareNeoTTF-bRg.ttf */,
+				E7C30F602A533D08002BD782 /* NanumSquareNeoTTF-cBd.ttf */,
+				E79AAC592A531E3300F3F439 /* NanumMyeongjoOTF.otf */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 		E7AC12162A51CBA400FE504C /* Global */ = {
@@ -397,6 +417,10 @@
 			files = (
 				E7C808F52A4D37FA00F475CE /* LaunchScreen.storyboard in Resources */,
 				E7C808F22A4D37FA00F475CE /* Assets.xcassets in Resources */,
+				E7C30F612A533D08002BD782 /* NanumSquareNeoTTF-aLt.ttf in Resources */,
+				E7C30F622A533D08002BD782 /* NanumSquareNeoTTF-bRg.ttf in Resources */,
+				E7C30F632A533D08002BD782 /* NanumSquareNeoTTF-cBd.ttf in Resources */,
+				E79AAC5A2A531E3300F3F439 /* NanumMyeongjoOTF.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
