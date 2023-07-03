@@ -9,63 +9,66 @@ import UIKit
 
 extension UIColor {
     
-    @nonobjc class var hBlack: UIColor {
-        return UIColor(white: 46.0 / 255.0, alpha: 1.0)
+    static func hexStringToUIColor (hex:String, alpha:Double = 1.0) -> UIColor {
+        var cString:String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+
+        if (cString.hasPrefix("#")) {
+            cString.remove(at: cString.startIndex)
+        }
+
+        if ((cString.count) != 6) {
+            return UIColor.gray
+        }
+
+        var rgbValue:UInt64 = 0
+        Scanner(string: cString).scanHexInt64(&rgbValue)
+
+        return UIColor(
+            red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
+            green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
+            blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
+            alpha: CGFloat(alpha)
+        )
     }
     
-    @nonobjc class var hWhite: UIColor {
-        return UIColor(white: 1.0, alpha: 1.0)
+    @nonobjc class var kGray1: UIColor {
+        return UIColor.hexStringToUIColor(hex:"#1E2227")
     }
     
-    @nonobjc class var hOrange1: UIColor {
-        return UIColor(red: 1.0, green: 144.0 / 255.0, blue: 62.0 / 255.0, alpha: 1.0)
+    @nonobjc class var kGray2: UIColor {
+        return UIColor.hexStringToUIColor(hex:"#30363D")
     }
     
-    @nonobjc class var hOrange2: UIColor {
-        return UIColor(red: 1.0, green: 199.0 / 255.0, blue: 158.0 / 255.0, alpha: 1.0)
+    @nonobjc class var kGray3: UIColor {
+        return UIColor.hexStringToUIColor(hex:"#444C55")
     }
     
-    @nonobjc class var hOrange3: UIColor {
-        return UIColor(red: 1.0, green: 222.0 / 255.0, blue: 197.0 / 255.0, alpha: 1.0)
+    @nonobjc class var kGray4: UIColor {
+        return UIColor.hexStringToUIColor(hex:"#9BA1AA")
     }
     
-    @nonobjc class var hRed: UIColor {
-        return UIColor(red: 1.0, green: 144.0 / 255.0, blue: 144.0 / 255.0, alpha: 1.0)
+    @nonobjc class var kGray5: UIColor {
+        return UIColor.hexStringToUIColor(hex:"#B6BCC6")
     }
     
-    @nonobjc class var hBlue1: UIColor {
-        return UIColor(red: 99.0 / 255.0, green: 121.0 / 255.0, blue: 241.0 / 255.0, alpha: 1.0)
+    @nonobjc class var kWhite: UIColor {
+        return UIColor.hexStringToUIColor(hex:"#FFFFFF")
     }
     
-    @nonobjc class var hBlue2: UIColor {
-        return UIColor(red: 177.0 / 255.0, green: 188.0 / 255.0, blue: 248.0 / 255.0, alpha: 1.0)
+    @nonobjc class var kYellow1: UIColor {
+        return UIColor.hexStringToUIColor(hex:"#F6CE66")
     }
     
-    @nonobjc class var hBlue3: UIColor {
-        return UIColor(red: 208.0 / 255.0, green: 215.0 / 255.0, blue: 251.0 / 255.0, alpha: 1.0)
+    @nonobjc class var kYellow2: UIColor {
+        return UIColor.hexStringToUIColor(hex:"#FFE5A3")
     }
     
-    @nonobjc class var hBlue4: UIColor {
-        return UIColor(red: 243.0 / 255.0, green: 244.0 / 255.0, blue: 254.0 / 255.0, alpha: 1.0)
+    @nonobjc class var kRed1: UIColor {
+        return UIColor.hexStringToUIColor(hex:"#FF5F5F")
     }
     
-    @nonobjc class var hGray1: UIColor {
-        return UIColor(white: 69.0 / 255.0, alpha: 1.0)
+    @nonobjc class var kBlue: UIColor {
+        return UIColor.hexStringToUIColor(hex:"#77A3F8")
     }
     
-    @nonobjc class var hGray2: UIColor {
-        return UIColor(white: 115.0 / 255.0, alpha: 1.0)
-    }
-    
-    @nonobjc class var hGray3: UIColor {
-        return UIColor(white: 161.0 / 255.0, alpha: 1.0)
-    }
-    
-    @nonobjc class var hGray4: UIColor {
-        return UIColor(white: 210.0 / 255.0, alpha: 1.0)
-    }
-    
-    @nonobjc class var hGray5: UIColor {
-        return UIColor(white: 230.0 / 255.0, alpha: 1.0)
-    }
 }
