@@ -25,8 +25,8 @@ extension UIFont {
         return UIFont(name: "NanumSquareNeoTTF-cBd", size: 16.0)!
     }
 
-    class var kB2M14: UIFont {
-        return UIFont(name: "NanumSquareNeoTTF-aLt", size: 14.0)!
+    class var kB2R16: UIFont {
+        return UIFont(name: "NanumSquareNeoTTF-bRg", size: 16.0)!
     }
     
     class var kB3B14: UIFont {
