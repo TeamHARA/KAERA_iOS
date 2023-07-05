@@ -128,7 +128,7 @@ extension UIViewController {
         
         toastLabel.frame = frame
         // 폰트 수정 필요
-        toastLabel.font = .kB2M14
+        toastLabel.font = .kB2R16
         toastLabel.textAlignment = .center
         toastLabel.text = message
         toastLabel.alpha = 0.0
