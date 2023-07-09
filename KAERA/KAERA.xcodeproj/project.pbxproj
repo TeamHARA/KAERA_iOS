@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		85EBC7F12A5AD7BC00B9E891 /* KaeraTabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EBC7F02A5AD7BC00B9E891 /* KaeraTabbarController.swift */; };
 		E721EABD2A51D5D900A04AA0 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = E721EABC2A51D5D900A04AA0 /* Then */; };
 		E78C3A062A51842300A15120 /* Temp_Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = E78C3A052A51842300A15120 /* Temp_Protocols.swift */; };
 		E78C3A082A51844500A15120 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E78C3A072A51844500A15120 /* HomeViewModel.swift */; };
@@ -57,6 +58,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		85EBC7F02A5AD7BC00B9E891 /* KaeraTabbarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KaeraTabbarController.swift; sourceTree = "<group>"; };
 		E78C3A052A51842300A15120 /* Temp_Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Temp_Protocols.swift; sourceTree = "<group>"; };
 		E78C3A072A51844500A15120 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		E78C3A092A51844C00A15120 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -122,6 +124,7 @@
 		E78C39F12A5138D200A15120 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				85EBC7F02A5AD7BC00B9E891 /* KaeraTabbarController.swift */,
 				E78C39F62A5182AA00A15120 /* Home */,
 				E78C39F72A5182B100A15120 /* Writing */,
 				E78C39F82A5182BC00A15120 /* Archive */,
@@ -464,6 +467,7 @@
 				E79AAC442A52F36500F3F439 /* BaseTargetType.swift in Sources */,
 				E7C808E92A4D37F800F475CE /* AppDelegate.swift in Sources */,
 				E79AAC3C2A52F2C300F3F439 /* NSObject+.swift in Sources */,
+				85EBC7F12A5AD7BC00B9E891 /* KaeraTabbarController.swift in Sources */,
 				E7AC12212A51CFFD00FE504C /* GeneralResponse.swift in Sources */,
 				E79AAC382A52F2C300F3F439 /* UIStackView+.swift in Sources */,
 				E7C808EB2A4D37F800F475CE /* SceneDelegate.swift in Sources */,
