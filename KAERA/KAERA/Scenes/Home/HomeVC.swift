@@ -12,9 +12,7 @@ class HomeVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .kGray1
-        // Do any additional setup after loading the view.
     }
-    
 
     /*
     // MARK: - Navigation

@@ -14,7 +14,6 @@ class ArchiveVC: UIViewController {
         view.backgroundColor = .kGray1
         // Do any additional setup after loading the view.
     }
-    
 
     /*
     // MARK: - Navigation

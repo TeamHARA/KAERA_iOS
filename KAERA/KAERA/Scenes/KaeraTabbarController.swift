@@ -17,8 +17,9 @@ final class KaeraTabbarController: UITabBarController {
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        setTabBar()
+        view.backgroundColor = .kGray1
         setTabBarStyle()
+        setTabBar()
         self.selectedIndex = 0
         self.delegate = self
     }
@@ -33,7 +34,7 @@ final class KaeraTabbarController: UITabBarController {
         
         // additionalSafeAreaInsets 설정
         /// ViewController가 잘려서 아래 여백을 좀 더 주려고 inset 변경
-        self.additionalSafeAreaInsets = UIEdgeInsets(top: 0, left: 0, bottom: -24, right: 0)
+//        self.additionalSafeAreaInsets = UIEdgeInsets(top: 0, left: 0, bottom: -fixedHeight, right: 0)
     }
     
     // TabBarItem 생성해 주는 메서드
@@ -41,8 +42,6 @@ final class KaeraTabbarController: UITabBarController {
         
         vc.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: tabBarImg)?.withRenderingMode(.alwaysOriginal),
                                      selectedImage: UIImage(named: tabBarSelectedImg)?.withRenderingMode(.alwaysOriginal))
-        vc.additionalSafeAreaInsets = UIEdgeInsets(top: 0, left: 0, bottom: -24, right: 0)
-        
         return vc
     }
     
