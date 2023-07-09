@@ -8,9 +8,8 @@
 import UIKit
 import SnapKit
 import Then
-import SwiftyColor
 
-final class TabBarController: UITabBarController {
+final class KaeraTabbarController: UITabBarController {
     
     // MARK: - Properties
     let fixedHeight: CGFloat = 96
@@ -42,44 +41,45 @@ final class TabBarController: UITabBarController {
         
         vc.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: tabBarImg)?.withRenderingMode(.alwaysOriginal),
                                      selectedImage: UIImage(named: tabBarSelectedImg)?.withRenderingMode(.alwaysOriginal))
+        vc.additionalSafeAreaInsets = UIEdgeInsets(top: 0, left: 0, bottom: -24, right: 0)
         
         return vc
     }
     
     /// TabBarItem을 지정하는 메서드
     func setTabBar() {
-        let homeTab = makeTabVC(vc: HomeVC(), tabBarImg:"icn_home_off", tabBarSelectedImg: "icn_home_on")
+        let homeTab = makeTabVC(vc: BaseNC(rootViewController: HomeVC()), tabBarImg:"icnHomeOff", tabBarSelectedImg: "icnHomeOn")
         homeTab.tabBarItem.tag = 0
         
-        let writeTab = makeTabVC(vc: WriteVC(), tabBarImg: "icn_write", tabBarSelectedImg: "avatar_filled")
+        let writeTab = makeTabVC(vc: UIViewController(), tabBarImg: "icnWrite", tabBarSelectedImg: "icnWrite")
         writeTab.tabBarItem.tag = 1
         
-        let storageTab = makeTabVC(vc: StorageVC(), tabBarImg: "icn_storage_off", tabBarSelectedImg: "icn_storage_on")
-        storageTab.tabBarItem.tag = 2
+        let archiveTab = makeTabVC(vc: BaseNC(rootViewController: ArchiveVC()), tabBarImg: "icnArchiveOff", tabBarSelectedImg: "icnArchiveOn")
+        archiveTab.tabBarItem.tag = 2
         
         let insetAmount: CGFloat = 32
         homeTab.tabBarItem.imageInsets = UIEdgeInsets(top: -4, left: insetAmount, bottom: 4, right: -insetAmount)
         writeTab.tabBarItem.imageInsets = UIEdgeInsets(top: -4, left: 0, bottom: 4, right: 0)
-        storageTab.tabBarItem.imageInsets = UIEdgeInsets(top: -4, left: -insetAmount, bottom: 4, right: insetAmount)
+        archiveTab.tabBarItem.imageInsets = UIEdgeInsets(top: -4, left: -insetAmount, bottom: 4, right: insetAmount)
         
-        let tabs = [homeTab, writeTab, storageTab]
+        let tabs = [homeTab, writeTab, archiveTab]
         self.setViewControllers(tabs, animated: false)
     }
     
     /// TabBar의 Style을 지정하는 메서드
     private func setTabBarStyle() {
-        tabBar.backgroundColor = 0x2A2E33.color
+        tabBar.backgroundColor = .kGray1
         tabBar.isTranslucent = false /// 투명 색 -> 반투명 색으로 바꿔주기 위해 false 로 설정(truetone color)
         
         // 탭바의 테두리를 설정합니다.
         tabBar.layer.borderWidth = 1
-        tabBar.layer.borderColor = 0x30363D.color.cgColor
+        tabBar.layer.borderColor = UIColor.kGray2.cgColor
         tabBar.layer.cornerRadius = 30
     }
 }
 
 // MARK: - UITabBarControllerDelegate
-extension TabBarController: UITabBarControllerDelegate {
+extension KaeraTabbarController: UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         if viewController.tabBarItem.tag == 1 {
             let writeVC = WriteVC()
