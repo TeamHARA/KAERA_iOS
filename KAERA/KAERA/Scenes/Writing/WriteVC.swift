@@ -18,7 +18,7 @@ class WriteVC: UIViewController {
     
     private let completeBtn = UIButton().then {
         $0.backgroundColor = .kGray3
-        $0.titleLabel?.font = .systemFont(ofSize: 14.adjustedW, weight: .medium)
+        $0.titleLabel?.font = .kB4R14
         $0.setTitle("완료", for: .normal)
         $0.setTitleColor(.white, for: .normal)
         $0.layer.cornerRadius = 12
@@ -31,7 +31,7 @@ class WriteVC: UIViewController {
     private let templateTitle = UILabel().then {
         $0.text = "템플릿을 선택해주세요"
         $0.textColor = .white
-        $0.font = .systemFont(ofSize: 16.adjustedW, weight: .medium)
+        $0.font = .kB2R16
     }
     
     private let dropdownBtn = UIButton().then {
@@ -40,32 +40,33 @@ class WriteVC: UIViewController {
     }
     
     private let underLine = UIView().then {
-        $0.backgroundColor = .kGray3 /// 0x444444로 색 변경 필요
+        $0.backgroundColor = .kGray3
     }
     
     private let worryTitleLabel = UILabel().then {
         $0.text = "고민에 이름을 붙여주세요"
         $0.textColor = .white
-        $0.font = .systemFont(ofSize: 16.adjustedW, weight: .medium)
+        $0.font = .kB2R16
     }
     
     private let worryTitleTextField = UITextField().then{
         $0.layer.cornerRadius = 8
         $0.backgroundColor = .kGray3
         $0.textColor = .kWhite
-        $0.font = .systemFont(ofSize: 12.adjustedW, weight: .medium)
+        $0.font = .kSb1R12
         $0.addLeftPadding()
         
-        // Placeholder 색상 설정
+        /// Placeholder 폰트 및 색상 설정
         let placeholderText = "이 고민에 이름을 붙이자면..."
-        let placeholderColor = UIColor.kGray4.cgColor
-        $0.attributedPlaceholder = NSAttributedString(string: placeholderText, attributes: [NSAttributedString.Key.foregroundColor: placeholderColor])
+        let placeholderColor = UIColor.kGray4
+        let placeholderFont = UIFont.kSb1R12
+        $0.attributedPlaceholder = NSAttributedString(string: placeholderText, attributes: [.foregroundColor: placeholderColor, .font: placeholderFont])
     }
     
     private let worryContentLabel = UILabel().then {
         $0.text = "고민 내용 작성하기"
         $0.textColor = .white
-        $0.font = .systemFont(ofSize: 16.adjustedW, weight: .medium)
+        $0.font = .kB2R16
     }
     
     private let baseImage = UIImageView().then {
@@ -77,13 +78,13 @@ class WriteVC: UIViewController {
     private let introTitle = UILabel().then {
         $0.text = "선택된 템플릿이 없어요!"
         $0.textColor = .white
-        $0.font = .systemFont(ofSize: 18.adjustedW, weight: .semibold)
+        $0.font = .kH3B18
     }
     
     private let introDetail = UILabel().then {
         $0.text = "상단에서 템플릿을 골라볼까요?"
         $0.textColor = .kGray4
-        $0.font = .systemFont(ofSize: 12.adjustedW, weight: .light)
+        $0.font = .kSb1R12
     }
     
     override func viewDidLoad() {
@@ -184,9 +185,11 @@ extension WriteVC{
 
 // MARK: - UITextField
 extension UITextField {
-  func addLeftPadding() {
-    let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: self.frame.height))
-    self.leftView = paddingView
-    self.leftViewMode = ViewMode.always
-  }
+    func addLeftPadding() {
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: self.frame.height))
+        self.leftView = paddingView
+        self.leftViewMode = ViewMode.always
+    }
 }
+
+
