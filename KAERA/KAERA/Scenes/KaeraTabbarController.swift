@@ -33,8 +33,8 @@ final class KaeraTabbarController: UITabBarController {
         self.tabBar.frame = tabFrame
         
         // additionalSafeAreaInsets 설정
-        /// ViewController가 잘려서 아래 여백을 좀 더 주려고 inset 변경
-//        self.additionalSafeAreaInsets = UIEdgeInsets(top: 0, left: 0, bottom: -fixedHeight, right: 0)
+        /// 탭바 아이콘 위치 조정
+        self.additionalSafeAreaInsets = UIEdgeInsets(top: 0, left: 0, bottom: -fixedHeight, right: 0)
     }
     
     // TabBarItem 생성해 주는 메서드
