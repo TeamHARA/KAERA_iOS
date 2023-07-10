@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		85EBC7F12A5AD7BC00B9E891 /* KaeraTabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EBC7F02A5AD7BC00B9E891 /* KaeraTabbarController.swift */; };
+		85EBC7F32A5AD93200B9E891 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EBC7F22A5AD93200B9E891 /* HomeVC.swift */; };
+		85EBC7F52A5AD94100B9E891 /* WriteVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EBC7F42A5AD94100B9E891 /* WriteVC.swift */; };
+		85EBC7F72A5AD95D00B9E891 /* ArchiveVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EBC7F62A5AD95D00B9E891 /* ArchiveVC.swift */; };
 		E721EABD2A51D5D900A04AA0 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = E721EABC2A51D5D900A04AA0 /* Then */; };
 		E78C3A062A51842300A15120 /* Temp_Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = E78C3A052A51842300A15120 /* Temp_Protocols.swift */; };
 		E78C3A082A51844500A15120 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E78C3A072A51844500A15120 /* HomeViewModel.swift */; };
@@ -57,6 +61,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		85EBC7F02A5AD7BC00B9E891 /* KaeraTabbarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KaeraTabbarController.swift; sourceTree = "<group>"; };
+		85EBC7F22A5AD93200B9E891 /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
+		85EBC7F42A5AD94100B9E891 /* WriteVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteVC.swift; sourceTree = "<group>"; };
+		85EBC7F62A5AD95D00B9E891 /* ArchiveVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveVC.swift; sourceTree = "<group>"; };
 		E78C3A052A51842300A15120 /* Temp_Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Temp_Protocols.swift; sourceTree = "<group>"; };
 		E78C3A072A51844500A15120 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		E78C3A092A51844C00A15120 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -122,6 +130,7 @@
 		E78C39F12A5138D200A15120 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				85EBC7F02A5AD7BC00B9E891 /* KaeraTabbarController.swift */,
 				E78C39F62A5182AA00A15120 /* Home */,
 				E78C39F72A5182B100A15120 /* Writing */,
 				E78C39F82A5182BC00A15120 /* Archive */,
@@ -152,6 +161,7 @@
 		E78C39F62A5182AA00A15120 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				85EBC7F22A5AD93200B9E891 /* HomeVC.swift */,
 				E78C39FB2A51839500A15120 /* WorryingGridView */,
 			);
 			path = Home;
@@ -160,6 +170,7 @@
 		E78C39F72A5182B100A15120 /* Writing */ = {
 			isa = PBXGroup;
 			children = (
+				85EBC7F42A5AD94100B9E891 /* WriteVC.swift */,
 				E7AC122C2A51D2A500FE504C /* WorryWritingView */,
 			);
 			path = Writing;
@@ -168,6 +179,7 @@
 		E78C39F82A5182BC00A15120 /* Archive */ = {
 			isa = PBXGroup;
 			children = (
+				85EBC7F62A5AD95D00B9E891 /* ArchiveVC.swift */,
 				E78C39FD2A5183A100A15120 /* TemplateSelectionView */,
 			);
 			path = Archive;
@@ -447,10 +459,12 @@
 				E79AAC372A52F2C300F3F439 /* CALayer+.swift in Sources */,
 				E79AAC3D2A52F2C300F3F439 /* UIFont+.swift in Sources */,
 				E79AAC392A52F2C300F3F439 /* UICollectionVIew+.swift in Sources */,
+				85EBC7F72A5AD95D00B9E891 /* ArchiveVC.swift in Sources */,
 				E79AAC432A52F36500F3F439 /* APIConstant.swift in Sources */,
 				E79AAC302A52F2C300F3F439 /* String+.swift in Sources */,
 				E79AAC4B2A52F3E000F3F439 /* BaseNC.swift in Sources */,
 				E79AAC462A52F36500F3F439 /* NetworkConstant.swift in Sources */,
+				85EBC7F52A5AD94100B9E891 /* WriteVC.swift in Sources */,
 				E7AC12272A51D09200FE504C /* Temp_API.swift in Sources */,
 				E79AAC4A2A52F3E000F3F439 /* BaseVC.swift in Sources */,
 				E79AAC3B2A52F2C300F3F439 /* UIButton+.swift in Sources */,
@@ -461,9 +475,11 @@
 				E79AAC362A52F2C300F3F439 /* UILabel+.swift in Sources */,
 				E79AAC3A2A52F2C300F3F439 /* Adjusted+.swift in Sources */,
 				E79AAC312A52F2C300F3F439 /* UIView+.swift in Sources */,
+				85EBC7F32A5AD93200B9E891 /* HomeVC.swift in Sources */,
 				E79AAC442A52F36500F3F439 /* BaseTargetType.swift in Sources */,
 				E7C808E92A4D37F800F475CE /* AppDelegate.swift in Sources */,
 				E79AAC3C2A52F2C300F3F439 /* NSObject+.swift in Sources */,
+				85EBC7F12A5AD7BC00B9E891 /* KaeraTabbarController.swift in Sources */,
 				E7AC12212A51CFFD00FE504C /* GeneralResponse.swift in Sources */,
 				E79AAC382A52F2C300F3F439 /* UIStackView+.swift in Sources */,
 				E7C808EB2A4D37F800F475CE /* SceneDelegate.swift in Sources */,
