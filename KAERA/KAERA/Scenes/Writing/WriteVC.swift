@@ -54,13 +54,12 @@ class WriteVC: UIViewController {
         $0.backgroundColor = .kGray3
         $0.textColor = .kWhite
         $0.font = .kSb1R12
-        $0.addLeftPadding()
+        $0.addLeftPadding(10)
         
         /// Placeholder 폰트 및 색상 설정
         let placeholderText = "이 고민에 이름을 붙이자면..."
         let placeholderColor = UIColor.kGray4
-        let placeholderFont = UIFont.kSb1R12
-        $0.attributedPlaceholder = NSAttributedString(string: placeholderText, attributes: [.foregroundColor: placeholderColor, .font: placeholderFont])
+        $0.attributedPlaceholder = NSAttributedString(string: placeholderText, attributes: [.foregroundColor: placeholderColor])
     }
     
     private let worryContentLabel = UILabel().then {
@@ -179,16 +178,6 @@ extension WriteVC{
             $0.top.equalTo(introTitle.snp.bottom).offset(16)
             $0.centerX.equalToSuperview()
         }
-    }
-}
-
-
-// MARK: - UITextField
-extension UITextField {
-    func addLeftPadding() {
-        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: self.frame.height))
-        self.leftView = paddingView
-        self.leftViewMode = ViewMode.always
     }
 }
 
