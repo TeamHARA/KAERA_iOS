@@ -11,29 +11,29 @@ import Then
 
 class WriteModalCVC: UICollectionViewCell {
     
-    let templateCell = UIView().then{
+    let templateCell = UIView().then {
         $0.backgroundColor = .clear
         $0.layer.cornerRadius = 8
         $0.layer.borderWidth = 1
         $0.layer.borderColor = UIColor.kGray5.cgColor
     }
     
-    private let templateImage = UIImageView().then{
+    private let templateImage = UIImageView().then {
         $0.image = UIImage(named: "jewel")
         $0.backgroundColor = .clear
     }
     
-    private let templateTitle = UILabel().then{
+    private let templateTitle = UILabel().then {
         $0.font = .kB4R14
         $0.textColor = .kWhite
     }
     
-    private let templateDetail = UILabel().then{
+    private let templateDetail = UILabel().then {
         $0.font = .kSb1R12
         $0.textColor = .kGray4
     }
     
-    let checkIcon = UIImageView().then{
+    let checkIcon = UIImageView().then {
         $0.image = UIImage(named: "icn_check")
         $0.backgroundColor = .clear
         $0.isHidden = true
@@ -49,7 +49,7 @@ class WriteModalCVC: UICollectionViewCell {
     }
 }
 
-extension WriteModalCVC{
+extension WriteModalCVC {
     
     // MARK: - Layout
     private func setLayout() {
@@ -57,29 +57,29 @@ extension WriteModalCVC{
         contentView.backgroundColor = .clear
         contentView.addSubview(templateCell)
         
-        templateCell.snp.makeConstraints{
+        templateCell.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
         
         templateCell.addSubviews([templateImage, templateTitle, templateDetail, checkIcon])
         
-        templateImage.snp.makeConstraints{
+        templateImage.snp.makeConstraints {
             $0.width.height.equalTo(46.adjustedW)
             $0.leading.equalToSuperview().offset(10.adjustedW)
             $0.centerY.equalToSuperview()
         }
         
-        templateTitle.snp.makeConstraints{
+        templateTitle.snp.makeConstraints {
             $0.leading.equalTo(templateImage.snp.trailing).offset(8.adjustedW)
             $0.top.equalToSuperview().offset(19.adjustedW)
         }
         
-        templateDetail.snp.makeConstraints{
+        templateDetail.snp.makeConstraints {
             $0.leading.equalTo(templateTitle.snp.leading)
             $0.top.equalTo(templateTitle.snp.bottom).offset(4.adjustedW)
         }
         
-        checkIcon.snp.makeConstraints{
+        checkIcon.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.trailing.equalToSuperview().offset(-20.adjustedW)
             $0.width.height.equalTo(26.adjustedW)

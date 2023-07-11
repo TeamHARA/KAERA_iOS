@@ -14,7 +14,7 @@ class WriteVC: UIViewController{
     private let writeModalVC = WriteModalVC()
     
     private let closeBtn = UIButton().then {
-        $0.setBackgroundImage(UIImage(named: "icnClose"), for: .normal)
+        $0.setBackgroundImage(UIImage(named: "icn_close"), for: .normal)
         $0.contentMode = .scaleAspectFit
     }
     
@@ -93,38 +93,38 @@ class WriteVC: UIViewController{
     let pickerVC = UIViewController()
     let pickerData = Array(1...30).map { String($0) }
     
-    private let datePickerView = UIPickerView().then{
+    private let datePickerView = UIPickerView().then {
         $0.backgroundColor = .kGray1
         $0.layer.cornerRadius = 8
     }
     
-    private let pickerViewTitle = UILabel().then{
+    private let pickerViewTitle = UILabel().then {
         $0.text = "이 고민, 언제까지 끝낼까요?"
         $0.font = .kB2R16
         $0.textColor = .kYellow1
     }
     
-    private let firstLabel = UILabel().then{
+    private let firstLabel = UILabel().then {
         $0.text = "이 고민을"
         $0.font = .kH1B20
         $0.textColor = .white
     }
     
-    private let secondLabel = UILabel().then{
+    private let secondLabel = UILabel().then {
         $0.text = "일 후까지 끝낼게요"
         $0.font = .kH1B20
         $0.textColor = .white
     }
     
-    private let upperCover = UIView().then{
+    private let upperCover = UIView().then {
         $0.backgroundColor = .kGray1
     }
     
-    private let lowerCover = UIView().then{
+    private let lowerCover = UIView().then {
         $0.backgroundColor = .kGray1
     }
     
-    private let completeWritingBtn = UIButton().then{
+    private let completeWritingBtn = UIButton().then {
         $0.backgroundColor = .kGray5
         $0.titleLabel?.font = .kB2R16
         $0.setTitle("작성완료", for: .normal)
@@ -132,7 +132,7 @@ class WriteVC: UIViewController{
         $0.layer.cornerRadius = 8
     }
     
-    private let noDeadlineBtn = UIButton().then{
+    private let noDeadlineBtn = UIButton().then {
         $0.backgroundColor = .clear
         $0.titleLabel?.font = .kB4R14
         
@@ -158,7 +158,7 @@ class WriteVC: UIViewController{
     }
     
     // MARK: - Functions
-    private func pressBtn(){
+    private func pressBtn() {
         closeBtn.press { [self] in
             dismiss(animated: true)
         }
@@ -186,80 +186,80 @@ class WriteVC: UIViewController{
 }
 
 // MARK: - Layout
-extension WriteVC{
-    private func setLayout(){
+extension WriteVC {
+    private func setLayout() {
         view.backgroundColor = .kGray1
         view.addSubviews([closeBtn, completeBtn, templateBtn, templateTitle])
         templateBtn.addSubviews([templateTitle, dropdownImg, underLine])
         view.addSubviews([worryTitleLabel, worryTitleTextField, worryContentLabel])
         view.addSubviews([baseImage, introTitle, introDetail])
         
-        closeBtn.snp.makeConstraints{
+        closeBtn.snp.makeConstraints {
             $0.top.equalTo(self.view.safeAreaLayoutGuide).offset(20.adjustedW)
             $0.leading.equalTo(self.view.safeAreaLayoutGuide).offset(16.adjustedW)
             $0.height.width.equalTo(24.adjustedW)
         }
         
-        completeBtn.snp.makeConstraints{
+        completeBtn.snp.makeConstraints {
             $0.top.equalTo(self.view.safeAreaLayoutGuide).offset(20.adjustedW)
             $0.trailing.equalTo(self.view.safeAreaLayoutGuide).offset(-16.adjustedW)
             $0.width.equalTo(50.adjustedW)
             $0.height.equalTo(26.adjustedW)
         }
         
-        templateBtn.snp.makeConstraints{
+        templateBtn.snp.makeConstraints {
             $0.top.equalTo(completeBtn.snp.bottom).offset(16)
             $0.height.equalTo(60.adjustedW)
             $0.leading.trailing.equalToSuperview()
         }
         
-        templateTitle.snp.makeConstraints{
+        templateTitle.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(12.adjustedW)
             $0.centerY.equalToSuperview()
         }
         
-        dropdownImg.snp.makeConstraints{
+        dropdownImg.snp.makeConstraints {
             $0.trailing.equalToSuperview().offset(-16.adjustedW)
             $0.centerY.equalToSuperview()
             $0.height.width.equalTo(24.adjustedW)
         }
         
-        underLine.snp.makeConstraints{
+        underLine.snp.makeConstraints {
             $0.bottom.equalTo(templateBtn.snp.bottom)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(1)
         }
         
-        worryTitleLabel.snp.makeConstraints{
+        worryTitleLabel.snp.makeConstraints {
             $0.top.equalTo(underLine.snp.bottom).offset(20.adjustedW)
             $0.leading.equalToSuperview().offset(12.adjustedW)
         }
         
-        worryTitleTextField.snp.makeConstraints{
+        worryTitleTextField.snp.makeConstraints {
             $0.top.equalTo(worryTitleLabel.snp.bottom).offset(12.adjustedW)
             $0.leading.equalToSuperview().offset(12)
             $0.trailing.equalToSuperview().offset(-12)
             $0.height.equalTo(44.adjustedW)
         }
         
-        worryContentLabel.snp.makeConstraints{
+        worryContentLabel.snp.makeConstraints {
             $0.top.equalTo(worryTitleTextField.snp.bottom).offset(26.adjustedW)
             $0.leading.equalToSuperview().offset(12.adjustedW)
         }
         
-        baseImage.snp.makeConstraints{
+        baseImage.snp.makeConstraints {
             $0.top.equalTo(worryContentLabel.snp.bottom).offset(120.adjustedW)
             $0.centerX.equalToSuperview()
             $0.width.equalTo(120.adjustedW)
             $0.height.equalTo(95.adjustedW)
         }
         
-        introTitle.snp.makeConstraints{
+        introTitle.snp.makeConstraints {
             $0.top.equalTo(baseImage.snp.bottom).offset(32)
             $0.centerX.equalToSuperview()
         }
         
-        introDetail.snp.makeConstraints{
+        introDetail.snp.makeConstraints {
             $0.top.equalTo(introTitle.snp.bottom).offset(16)
             $0.centerX.equalToSuperview()
         }
@@ -267,7 +267,7 @@ extension WriteVC{
 }
 
 // MARK: - TemplageTitleDelegate
-extension WriteVC: TemplageTitleDelegate{
+extension WriteVC: TemplageTitleDelegate {
     func sendTitle(templateTitle: String) {
         self.templateTitle.text = templateTitle
     }

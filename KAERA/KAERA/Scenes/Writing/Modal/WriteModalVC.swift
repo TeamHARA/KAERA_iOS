@@ -25,7 +25,7 @@ class WriteModalVC: UIViewController {
     
     private var templateIndex: Int = 0
     
-    private let flowLayout = UICollectionViewFlowLayout().then{
+    private let flowLayout = UICollectionViewFlowLayout().then {
         $0.scrollDirection = .vertical
     }
     
@@ -64,13 +64,13 @@ class WriteModalVC: UIViewController {
 }
 
 // MARK: - Layout
-extension WriteModalVC{
+extension WriteModalVC {
     
-    private func setLayout(){
+    private func setLayout() {
         view.backgroundColor = .kGray1
         view.addSubview(templateListCV)
         
-        templateListCV.snp.makeConstraints{
+        templateListCV.snp.makeConstraints {
             $0.top.equalToSuperview().offset(5)
             $0.leading.trailing.bottom.equalTo(self.view.safeAreaLayoutGuide)
         }
@@ -79,10 +79,10 @@ extension WriteModalVC{
 
 
 // MARK: - 뷰모델 관련
-extension WriteModalVC{
+extension WriteModalVC {
     
     /// 뷰모델의 데이터를 뷰컨의 리스트 데이터와 연동
-    fileprivate func setBindings(){
+    fileprivate func setBindings() {
         print("ViewController - setBindings()")
         self.templateVM.templateListPublisher.sink{ (updatedList : [TemplateListPublisherModel]) in
             print("ViewController - updatedList.count: \(updatedList.count)")
