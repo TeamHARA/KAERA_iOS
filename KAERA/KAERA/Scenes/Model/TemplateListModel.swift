@@ -9,7 +9,7 @@ import UIKit
 import Foundation
 
 /// 서버통신용 모델
-struct TemplateListModel{
+struct TemplateListModel {
     let templateId: Int
     let templateTitle: String
     let templateDetail: String
@@ -17,7 +17,7 @@ struct TemplateListModel{
 }
 
 /// View에 뿌려주기 위한 model
-struct TemplateListPublisherModel{
+struct TemplateListPublisherModel {
     let templateId: Int
     let templateTitle: String
     let templateDetail: String
