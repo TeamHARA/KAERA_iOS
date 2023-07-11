@@ -14,7 +14,7 @@ class WriteVC: UIViewController{
     private let writeModalVC = WriteModalVC()
     
     private let closeBtn = UIButton().then {
-        $0.setBackgroundImage(UIImage(named: "icn_back"), for: .normal)
+        $0.setBackgroundImage(UIImage(named: "icnClose"), for: .normal)
         $0.contentMode = .scaleAspectFit
     }
     
@@ -37,7 +37,7 @@ class WriteVC: UIViewController{
     }
     
     private let dropdownImg = UIImageView().then {
-        $0.image = UIImage(named: "icn_drop_down")
+        $0.image = UIImage(named: "icnDropDown")
         $0.contentMode = .scaleAspectFit
         $0.backgroundColor = .clear
     }
@@ -72,7 +72,7 @@ class WriteVC: UIViewController{
     }
     
     private let baseImage = UIImageView().then {
-        $0.image = UIImage(named: "no_template")
+        $0.image = UIImage(named: "gem_no_template")
         $0.contentMode = .scaleToFill
         $0.backgroundColor = .clear
     }
@@ -153,8 +153,6 @@ class WriteVC: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         writeModalVC.sendTitleDelegate = self
-        datePickerView.delegate = self
-        datePickerView.dataSource = self
         setLayout()
         pressBtn()
     }
@@ -163,10 +161,6 @@ class WriteVC: UIViewController{
     private func pressBtn(){
         closeBtn.press { [self] in
             dismiss(animated: true)
-        }
-        
-        completeBtn.press {
-            self.setPickerViewLayout(pickVC: self.pickerVC)
         }
         
         templateBtn.press {
@@ -269,106 +263,6 @@ extension WriteVC{
             $0.top.equalTo(introTitle.snp.bottom).offset(16)
             $0.centerX.equalToSuperview()
         }
-    }
-    
-    private func setPickerViewLayout(pickVC: UIViewController) -> Void{
-        let pickerVC = UIViewController()
-        pickerVC.view.backgroundColor = .black.withAlphaComponent(0.5)
-        pickerVC.view.addSubview(datePickerView)
-        datePickerView.addSubviews([upperCover, pickerViewTitle, lowerCover, completeWritingBtn, noDeadlineBtn])
-        
-        upperCover.snp.makeConstraints{
-            $0.top.leading.trailing.equalToSuperview()
-            $0.height.equalTo(170)
-        }
-        
-        pickerViewTitle.snp.makeConstraints{
-            $0.top.equalToSuperview().offset(90.adjustedW)
-            $0.centerX.equalToSuperview()
-        }
-        
-        lowerCover.snp.makeConstraints{
-            $0.bottom.leading.trailing.equalToSuperview()
-            $0.height.equalTo(180)
-        }
-        
-        completeWritingBtn.snp.makeConstraints{
-            $0.width.equalTo(326.adjustedW)
-            $0.height.equalTo(52.adjustedW)
-            $0.centerX.equalToSuperview()
-            $0.bottom.equalToSuperview().offset(-90.adjustedW)
-        }
-        
-        noDeadlineBtn.snp.makeConstraints{
-            $0.width.equalTo(113.adjustedW)
-            $0.height.equalTo(21.adjustedW)
-            $0.centerX.equalToSuperview()
-            $0.bottom.equalToSuperview().offset(-56.adjustedW)
-        }
-        
-        /// pickerView 관련 화면
-        datePickerView.addSubviews([firstLabel, secondLabel])
-        
-        datePickerView.snp.makeConstraints{
-            $0.width.equalTo(358.adjustedW)
-            $0.height.equalTo(448.adjustedW)
-            $0.center.equalToSuperview()
-        }
-        
-        firstLabel.snp.makeConstraints{
-            $0.leading.equalToSuperview().offset(32.adjustedW)
-            $0.centerY.equalToSuperview()
-        }
-        
-        secondLabel.snp.makeConstraints{
-            $0.trailing.equalToSuperview().offset(-32.adjustedW)
-            $0.centerY.equalToSuperview()
-        }
-        
-        // pickerView 애니메이션 설정
-        datePickerView.alpha = 0 /// pickerView를 초기에 보이지 않게 설정
-        ///
-        pickerVC.modalPresentationStyle = .overCurrentContext
-        present(pickerVC, animated: false, completion: { /// 애니메이션을 false로 설정
-            UIView.animate(withDuration: 0.5, animations: { /// 애니메이션 추가
-                self.datePickerView.snp.updateConstraints {
-                    $0.center.equalToSuperview() /// pickerView를 중앙으로 이동
-                }
-                self.datePickerView.alpha = 1 /// pickerView가 서서히 보이게 설정
-                pickerVC.view.layoutIfNeeded()
-            })
-        })
-    }
-}
-
-// MARK: - UIPickerViewDelegate, UIPickerViewDataSource
-extension WriteVC: UIPickerViewDelegate, UIPickerViewDataSource{
-    
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return pickerData.count
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
-        let customView = UIView()
-        
-        let numLabel = UILabel().then{
-            $0.text = pickerData[row]
-            $0.font = .kH1B20
-            $0.textColor = .kWhite
-        }
-        
-        customView.addSubview(numLabel)
-        
-        numLabel.snp.makeConstraints{
-            $0.leading.equalToSuperview().offset(138.adjustedW)
-            $0.centerY.equalToSuperview()
-        }
-        
-        return customView
     }
 }
 
