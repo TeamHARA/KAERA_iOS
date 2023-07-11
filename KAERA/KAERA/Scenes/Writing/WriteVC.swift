@@ -9,10 +9,12 @@ import UIKit
 import SnapKit
 import Then
 
-class WriteVC: UIViewController {
+class WriteVC: UIViewController{
+    // MARK: - Properties
+    private let writeModalVC = WriteModalVC()
     
     private let closeBtn = UIButton().then {
-        $0.setBackgroundImage(UIImage(named: "icnClose"), for: .normal)
+        $0.setBackgroundImage(UIImage(named: "icn_back"), for: .normal)
         $0.contentMode = .scaleAspectFit
     }
     
@@ -30,13 +32,14 @@ class WriteVC: UIViewController {
     
     private let templateTitle = UILabel().then {
         $0.text = "템플릿을 선택해주세요"
-        $0.textColor = .white
+        $0.textColor = .kWhite
         $0.font = .kB2R16
     }
     
-    private let dropdownBtn = UIButton().then {
-        $0.setBackgroundImage(UIImage(named: "icnDropDown"), for: .normal)
+    private let dropdownImg = UIImageView().then {
+        $0.image = UIImage(named: "icn_drop_down")
         $0.contentMode = .scaleAspectFit
+        $0.backgroundColor = .clear
     }
     
     private let underLine = UIView().then {
@@ -45,7 +48,7 @@ class WriteVC: UIViewController {
     
     private let worryTitleLabel = UILabel().then {
         $0.text = "고민에 이름을 붙여주세요"
-        $0.textColor = .white
+        $0.textColor = .kWhite
         $0.font = .kB2R16
     }
     
@@ -56,27 +59,27 @@ class WriteVC: UIViewController {
         $0.font = .kSb1R12
         $0.addLeftPadding(10)
         
-        /// Placeholder 폰트 및 색상 설정
+        // Placeholder 색상 설정
         let placeholderText = "이 고민에 이름을 붙이자면..."
         let placeholderColor = UIColor.kGray4
-        $0.attributedPlaceholder = NSAttributedString(string: placeholderText, attributes: [.foregroundColor: placeholderColor])
+        $0.attributedPlaceholder = NSAttributedString(string: placeholderText, attributes: [NSAttributedString.Key.foregroundColor: placeholderColor])
     }
     
     private let worryContentLabel = UILabel().then {
         $0.text = "고민 내용 작성하기"
-        $0.textColor = .white
+        $0.textColor = .kWhite
         $0.font = .kB2R16
     }
     
     private let baseImage = UIImageView().then {
-        $0.image = UIImage(named: "gem_no_template")
+        $0.image = UIImage(named: "no_template")
         $0.contentMode = .scaleToFill
         $0.backgroundColor = .clear
     }
     
     private let introTitle = UILabel().then {
         $0.text = "선택된 템플릿이 없어요!"
-        $0.textColor = .white
+        $0.textColor = .kWhite
         $0.font = .kH3B18
     }
     
@@ -86,8 +89,72 @@ class WriteVC: UIViewController {
         $0.font = .kSb1R12
     }
     
+    // pickerView 관련 코드
+    let pickerVC = UIViewController()
+    let pickerData = Array(1...30).map { String($0) }
+    
+    private let datePickerView = UIPickerView().then{
+        $0.backgroundColor = .kGray1
+        $0.layer.cornerRadius = 8
+    }
+    
+    private let pickerViewTitle = UILabel().then{
+        $0.text = "이 고민, 언제까지 끝낼까요?"
+        $0.font = .kB2R16
+        $0.textColor = .kYellow1
+    }
+    
+    private let firstLabel = UILabel().then{
+        $0.text = "이 고민을"
+        $0.font = .kH1B20
+        $0.textColor = .white
+    }
+    
+    private let secondLabel = UILabel().then{
+        $0.text = "일 후까지 끝낼게요"
+        $0.font = .kH1B20
+        $0.textColor = .white
+    }
+    
+    private let upperCover = UIView().then{
+        $0.backgroundColor = .kGray1
+    }
+    
+    private let lowerCover = UIView().then{
+        $0.backgroundColor = .kGray1
+    }
+    
+    private let completeWritingBtn = UIButton().then{
+        $0.backgroundColor = .kGray5
+        $0.titleLabel?.font = .kB2R16
+        $0.setTitle("작성완료", for: .normal)
+        $0.setTitleColor(.black, for: .normal)
+        $0.layer.cornerRadius = 8
+    }
+    
+    private let noDeadlineBtn = UIButton().then{
+        $0.backgroundColor = .clear
+        $0.titleLabel?.font = .kB4R14
+        
+        let title = "기한 설정하지 않기"
+        let titleAttributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.kB4R14,
+            .foregroundColor: UIColor.kGray5,
+            .underlineStyle: NSUnderlineStyle.single.rawValue,
+            .underlineColor: UIColor.kGray5
+        ]
+        
+        let attributedTitle = NSAttributedString(string: title, attributes: titleAttributes)
+        $0.setAttributedTitle(attributedTitle, for: .normal)
+    }
+    
+    
+    // MARK: - Life Cycles
     override func viewDidLoad() {
         super.viewDidLoad()
+        writeModalVC.sendTitleDelegate = self
+        datePickerView.delegate = self
+        datePickerView.dataSource = self
         setLayout()
         pressBtn()
     }
@@ -95,7 +162,31 @@ class WriteVC: UIViewController {
     // MARK: - Functions
     private func pressBtn(){
         closeBtn.press { [self] in
-            self.dismiss(animated: true)
+            dismiss(animated: true)
+        }
+        
+        completeBtn.press {
+            self.setPickerViewLayout(pickVC: self.pickerVC)
+        }
+        
+        templateBtn.press {
+            self.writeModalVC.modalPresentationStyle = .pageSheet
+            
+            if let sheet = self.writeModalVC.sheetPresentationController {
+                
+                /// 지원할 크기 지정
+                /// 크기 늘리고 싶으면 뒤에 ", .large()" 추가
+                /// 줄이려면 .medium()
+                sheet.detents = [.large()]
+                
+                /// 시트 상단에 그래버 표시 (기본 값은 false)
+                sheet.prefersGrabberVisible = true
+                
+                /// 뒤 배경 흐리게 제거 (기본 값은 모든 크기에서 배경 흐리게 됨)
+                /// 배경 흐리게 할 시에는 sheet가 올라왔을 때 배경 클릭해도 sheet 안 사라짐
+                //                sheet.largestUndimmedDetentIdentifier = .medium
+            }
+            self.present(self.writeModalVC, animated: true)
         }
     }
 }
@@ -105,7 +196,7 @@ extension WriteVC{
     private func setLayout(){
         view.backgroundColor = .kGray1
         view.addSubviews([closeBtn, completeBtn, templateBtn, templateTitle])
-        templateBtn.addSubviews([templateTitle, dropdownBtn, underLine])
+        templateBtn.addSubviews([templateTitle, dropdownImg, underLine])
         view.addSubviews([worryTitleLabel, worryTitleTextField, worryContentLabel])
         view.addSubviews([baseImage, introTitle, introDetail])
         
@@ -133,7 +224,7 @@ extension WriteVC{
             $0.centerY.equalToSuperview()
         }
         
-        dropdownBtn.snp.makeConstraints{
+        dropdownImg.snp.makeConstraints{
             $0.trailing.equalToSuperview().offset(-16.adjustedW)
             $0.centerY.equalToSuperview()
             $0.height.width.equalTo(24.adjustedW)
@@ -178,6 +269,113 @@ extension WriteVC{
             $0.top.equalTo(introTitle.snp.bottom).offset(16)
             $0.centerX.equalToSuperview()
         }
+    }
+    
+    private func setPickerViewLayout(pickVC: UIViewController) -> Void{
+        let pickerVC = UIViewController()
+        pickerVC.view.backgroundColor = .black.withAlphaComponent(0.5)
+        pickerVC.view.addSubview(datePickerView)
+        datePickerView.addSubviews([upperCover, pickerViewTitle, lowerCover, completeWritingBtn, noDeadlineBtn])
+        
+        upperCover.snp.makeConstraints{
+            $0.top.leading.trailing.equalToSuperview()
+            $0.height.equalTo(170)
+        }
+        
+        pickerViewTitle.snp.makeConstraints{
+            $0.top.equalToSuperview().offset(90.adjustedW)
+            $0.centerX.equalToSuperview()
+        }
+        
+        lowerCover.snp.makeConstraints{
+            $0.bottom.leading.trailing.equalToSuperview()
+            $0.height.equalTo(180)
+        }
+        
+        completeWritingBtn.snp.makeConstraints{
+            $0.width.equalTo(326.adjustedW)
+            $0.height.equalTo(52.adjustedW)
+            $0.centerX.equalToSuperview()
+            $0.bottom.equalToSuperview().offset(-90.adjustedW)
+        }
+        
+        noDeadlineBtn.snp.makeConstraints{
+            $0.width.equalTo(113.adjustedW)
+            $0.height.equalTo(21.adjustedW)
+            $0.centerX.equalToSuperview()
+            $0.bottom.equalToSuperview().offset(-56.adjustedW)
+        }
+        
+        /// pickerView 관련 화면
+        datePickerView.addSubviews([firstLabel, secondLabel])
+        
+        datePickerView.snp.makeConstraints{
+            $0.width.equalTo(358.adjustedW)
+            $0.height.equalTo(448.adjustedW)
+            $0.center.equalToSuperview()
+        }
+        
+        firstLabel.snp.makeConstraints{
+            $0.leading.equalToSuperview().offset(32.adjustedW)
+            $0.centerY.equalToSuperview()
+        }
+        
+        secondLabel.snp.makeConstraints{
+            $0.trailing.equalToSuperview().offset(-32.adjustedW)
+            $0.centerY.equalToSuperview()
+        }
+        
+        // pickerView 애니메이션 설정
+        datePickerView.alpha = 0 /// pickerView를 초기에 보이지 않게 설정
+        ///
+        pickerVC.modalPresentationStyle = .overCurrentContext
+        present(pickerVC, animated: false, completion: { /// 애니메이션을 false로 설정
+            UIView.animate(withDuration: 0.5, animations: { /// 애니메이션 추가
+                self.datePickerView.snp.updateConstraints {
+                    $0.center.equalToSuperview() /// pickerView를 중앙으로 이동
+                }
+                self.datePickerView.alpha = 1 /// pickerView가 서서히 보이게 설정
+                pickerVC.view.layoutIfNeeded()
+            })
+        })
+    }
+}
+
+// MARK: - UIPickerViewDelegate, UIPickerViewDataSource
+extension WriteVC: UIPickerViewDelegate, UIPickerViewDataSource{
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return pickerData.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
+        let customView = UIView()
+        
+        let numLabel = UILabel().then{
+            $0.text = pickerData[row]
+            $0.font = .kH1B20
+            $0.textColor = .kWhite
+        }
+        
+        customView.addSubview(numLabel)
+        
+        numLabel.snp.makeConstraints{
+            $0.leading.equalToSuperview().offset(138.adjustedW)
+            $0.centerY.equalToSuperview()
+        }
+        
+        return customView
+    }
+}
+
+// MARK: - TemplageTitleDelegate
+extension WriteVC: TemplageTitleDelegate{
+    func sendTitle(templateTitle: String) {
+        self.templateTitle.text = templateTitle
     }
 }
 
