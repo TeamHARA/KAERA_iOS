@@ -89,7 +89,9 @@ class WritePickerVC: UIViewController {
                 self.view.alpha = 0
                 self.view.layoutIfNeeded()
             }, completion: { _ in
-                self.dismiss(animated: false, completion: nil)
+                self.dismiss(animated: false, completion: {
+                    NotificationCenter.default.post(name: NSNotification.Name("CompleteWriting"), object: nil, userInfo: nil)
+                })
             })
         }
     }
