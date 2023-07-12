@@ -52,6 +52,7 @@
 		E7AC12342A51D56F00FE504C /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = E7AC12332A51D56F00FE504C /* SnapKit */; };
 		E7BB4F372A5D4B1D0018312B /* HomeDugVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7BB4F362A5D4B1D0018312B /* HomeDugVC.swift */; };
 		E7BB4F392A5D54A60018312B /* HomeHederView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7BB4F382A5D54A60018312B /* HomeHederView.swift */; };
+		E7BB4F3B2A5ED3610018312B /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7BB4F3A2A5ED3610018312B /* HomeVC.swift */; };
 		E7C30F612A533D08002BD782 /* NanumSquareNeoTTF-aLt.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E7C30F5E2A533D08002BD782 /* NanumSquareNeoTTF-aLt.ttf */; };
 		E7C30F622A533D08002BD782 /* NanumSquareNeoTTF-bRg.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E7C30F5F2A533D08002BD782 /* NanumSquareNeoTTF-bRg.ttf */; };
 		E7C30F632A533D08002BD782 /* NanumSquareNeoTTF-cBd.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E7C30F602A533D08002BD782 /* NanumSquareNeoTTF-cBd.ttf */; };
@@ -104,6 +105,7 @@
 		E7AC12262A51D09200FE504C /* Temp_API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Temp_API.swift; sourceTree = "<group>"; };
 		E7BB4F362A5D4B1D0018312B /* HomeDugVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeDugVC.swift; sourceTree = "<group>"; };
 		E7BB4F382A5D54A60018312B /* HomeHederView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeHederView.swift; sourceTree = "<group>"; };
+		E7BB4F3A2A5ED3610018312B /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
 		E7C30F5E2A533D08002BD782 /* NanumSquareNeoTTF-aLt.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NanumSquareNeoTTF-aLt.ttf"; sourceTree = "<group>"; };
 		E7C30F5F2A533D08002BD782 /* NanumSquareNeoTTF-bRg.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NanumSquareNeoTTF-bRg.ttf"; sourceTree = "<group>"; };
 		E7C30F602A533D08002BD782 /* NanumSquareNeoTTF-cBd.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NanumSquareNeoTTF-cBd.ttf"; sourceTree = "<group>"; };
@@ -165,10 +167,11 @@
 		E78C39F62A5182AA00A15120 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				E7BB4F3A2A5ED3610018312B /* HomeVC.swift */,
 				85EBC7F22A5AD93200B9E891 /* HomeDiggingVC.swift */,
-				E78C39FB2A51839500A15120 /* WorryingGridView */,
 				E7BB4F362A5D4B1D0018312B /* HomeDugVC.swift */,
 				E7BB4F382A5D54A60018312B /* HomeHederView.swift */,
+				E78C39FB2A51839500A15120 /* WorryingGridView */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -458,6 +461,7 @@
 				E7AC12232A51D08300FE504C /* Temp_DataModel.swift in Sources */,
 				E78C3A102A51848400A15120 /* ArchiveViewModel.swift in Sources */,
 				E78C3A0E2A51846600A15120 /* WrtingViewModel.swift in Sources */,
+				E7BB4F3B2A5ED3610018312B /* HomeVC.swift in Sources */,
 				E79AAC342A52F2C300F3F439 /* UIViewController+.swift in Sources */,
 				E79AAC332A52F2C300F3F439 /* UITextField+.swift in Sources */,
 				E79AAC322A52F2C300F3F439 /* UIColor+.swift in Sources */,
