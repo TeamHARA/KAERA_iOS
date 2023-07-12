@@ -10,29 +10,16 @@ import SnapKit
 
 class HomeDugVC: BaseVC {
     
+    // MARK: - Properties
     let homeHeaderView = HomeHederView(type: .dug)
 
+    // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .kGray1
         self.navigationController?.isNavigationBarHidden = true
         setLayout()
-        setSwipeGesture()
     }
-
-    private func setSwipeGesture() {
-        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture(_:)))
-        swipeRight.direction = UISwipeGestureRecognizer.Direction.right
-        self.view.addGestureRecognizer(swipeRight)
-    }
-    
-    // 한 손가락 스와이프 제스쳐를 행했을 때 실행할 액션 메서드
-    @objc func respondToSwipeGesture(_ gesture: UISwipeGestureRecognizer) {
-        if (gesture.direction == .right) {
-            self.navigationController?.popToRootViewController(animated: true)
-        }
-    }
-
 }
 
 // MARK: - UI

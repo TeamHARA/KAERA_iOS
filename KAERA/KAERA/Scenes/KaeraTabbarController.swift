@@ -47,7 +47,7 @@ final class KaeraTabbarController: UITabBarController {
     
     /// TabBarItem을 지정하는 메서드
     func setTabBar() {
-        let homeTab = makeTabVC(vc: BaseNC(rootViewController: HomeDiggingVC()), tabBarImg:"icn_home_off", tabBarSelectedImg: "icn_home_on")
+        let homeTab = makeTabVC(vc: BaseNC(rootViewController: HomeVC()), tabBarImg:"icn_home_off", tabBarSelectedImg: "icn_home_on")
         homeTab.tabBarItem.tag = 0
         
         let writeTab = makeTabVC(vc: UIViewController(), tabBarImg: "icn_write", tabBarSelectedImg: "icn_write")

@@ -10,27 +10,13 @@ import SnapKit
 
 class HomeDiggingVC: BaseVC {
     
+    // MARK: - Properties
     let homeHeaderView = HomeHederView(type: .digging)
-    let dugVC = HomeDugVC()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .kGray1
         setLayout()
-        setSwipeGesture()
-    }
-    
-    private func setSwipeGesture() {
-        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture(_:)))
-        swipeLeft.direction = UISwipeGestureRecognizer.Direction.left
-        self.view.addGestureRecognizer(swipeLeft)
-    }
-    
-    // 한 손가락 스와이프 제스쳐를 행했을 때 실행할 액션 메서드
-    @objc func respondToSwipeGesture(_ gesture: UISwipeGestureRecognizer) {
-        if (gesture.direction == .left) {
-            self.navigationController?.pushViewController(dugVC, animated: true)
-        }
     }
 }
 
