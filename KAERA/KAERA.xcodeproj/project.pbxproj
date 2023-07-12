@@ -11,6 +11,7 @@
 		85887D842A5C42A700F7FB21 /* WriteModalCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85887D832A5C42A700F7FB21 /* WriteModalCVC.swift */; };
 		85887D8C2A5D084800F7FB21 /* TemplateListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85887D8B2A5D084800F7FB21 /* TemplateListModel.swift */; };
 		85887D8E2A5D086300F7FB21 /* TemplateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85887D8D2A5D086300F7FB21 /* TemplateViewModel.swift */; };
+		85887D902A5EFA2C00F7FB21 /* WritePickerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85887D8F2A5EFA2C00F7FB21 /* WritePickerVC.swift */; };
 		85EBC7F12A5AD7BC00B9E891 /* KaeraTabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EBC7F02A5AD7BC00B9E891 /* KaeraTabbarController.swift */; };
 		85EBC7F32A5AD93200B9E891 /* HomeDiggingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EBC7F22A5AD93200B9E891 /* HomeDiggingVC.swift */; };
 		85EBC7F52A5AD94100B9E891 /* WriteVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EBC7F42A5AD94100B9E891 /* WriteVC.swift */; };
@@ -70,6 +71,7 @@
 		85887D832A5C42A700F7FB21 /* WriteModalCVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteModalCVC.swift; sourceTree = "<group>"; };
 		85887D8B2A5D084800F7FB21 /* TemplateListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateListModel.swift; sourceTree = "<group>"; };
 		85887D8D2A5D086300F7FB21 /* TemplateViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateViewModel.swift; sourceTree = "<group>"; };
+		85887D8F2A5EFA2C00F7FB21 /* WritePickerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritePickerVC.swift; sourceTree = "<group>"; };
 		85EBC7F02A5AD7BC00B9E891 /* KaeraTabbarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KaeraTabbarController.swift; sourceTree = "<group>"; };
 		85EBC7F22A5AD93200B9E891 /* HomeDiggingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeDiggingVC.swift; sourceTree = "<group>"; };
 		85EBC7F42A5AD94100B9E891 /* WriteVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteVC.swift; sourceTree = "<group>"; };
@@ -406,6 +408,7 @@
 			isa = PBXGroup;
 			children = (
 				85EBC7F42A5AD94100B9E891 /* WriteVC.swift */,
+				85887D8F2A5EFA2C00F7FB21 /* WritePickerVC.swift */,
 				85887D802A5C428500F7FB21 /* WriteModal */,
 			);
 			path = View;
@@ -559,6 +562,7 @@
 				E79AAC3B2A52F2C300F3F439 /* UIButton+.swift in Sources */,
 				E79AAC452A52F36500F3F439 /* MoyaLoggingPlugin.swift in Sources */,
 				E78C3A062A51842300A15120 /* Temp_Protocols.swift in Sources */,
+				85887D902A5EFA2C00F7FB21 /* WritePickerVC.swift in Sources */,
 				E78C3A122A51848B00A15120 /* ArchiveView.swift in Sources */,
 				85887D8C2A5D084800F7FB21 /* TemplateListModel.swift in Sources */,
 				E79AAC362A52F2C300F3F439 /* UILabel+.swift in Sources */,
