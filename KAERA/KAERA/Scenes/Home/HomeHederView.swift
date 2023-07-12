@@ -25,7 +25,6 @@ class HomeHederView: UIView {
     }
     private let headerLabel = UILabel().then {
         $0.textAlignment = .center
-        $0.text = "123"
         $0.font = .kB2R16
         $0.textColor = .kGray2
     }
