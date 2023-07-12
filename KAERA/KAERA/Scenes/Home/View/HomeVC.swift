@@ -34,6 +34,7 @@ class HomeVC: BaseVC {
     // MARK: - Function
     private func setPageViewController() {
         self.addChild(pageVC)
+        pageVC.view.backgroundColor = .kGray1
         self.view.addSubview(pageVC.view)
         pageVC.didMove(toParent: self)
         pageVC.delegate = self
