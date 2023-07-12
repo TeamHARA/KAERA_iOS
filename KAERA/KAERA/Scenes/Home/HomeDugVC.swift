@@ -12,7 +12,7 @@ class HomeDugVC: BaseVC {
     
     // MARK: - Properties
     let homeHeaderView = HomeHederView(type: .dug)
-
+    
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,7 +25,7 @@ class HomeDugVC: BaseVC {
 // MARK: - UI
 extension HomeDugVC {
     private func setLayout() {
-        self.view.addSubview(homeHeaderView)
+        self.view.addSubviews([homeHeaderView])
         homeHeaderView.snp.makeConstraints {
             $0.top.equalToSuperview().inset(58)
             $0.centerX.equalToSuperview()
