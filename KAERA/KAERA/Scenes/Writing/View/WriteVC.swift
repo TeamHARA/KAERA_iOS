@@ -37,7 +37,7 @@ class WriteVC: UIViewController{
     }
     
     private let dropdownImg = UIImageView().then {
-        $0.image = UIImage(named: "icnDropDown")
+        $0.image = UIImage(named: "icn_drop_down")
         $0.contentMode = .scaleAspectFit
         $0.backgroundColor = .clear
     }
@@ -89,65 +89,7 @@ class WriteVC: UIViewController{
         $0.font = .kSb1R12
     }
     
-    // pickerView 관련 코드
-    let pickerVC = UIViewController()
-    let pickerData = Array(1...30).map { String($0) }
-    
-    private let datePickerView = UIPickerView().then {
-        $0.backgroundColor = .kGray1
-        $0.layer.cornerRadius = 8
-    }
-    
-    private let pickerViewTitle = UILabel().then {
-        $0.text = "이 고민, 언제까지 끝낼까요?"
-        $0.font = .kB2R16
-        $0.textColor = .kYellow1
-    }
-    
-    private let firstLabel = UILabel().then {
-        $0.text = "이 고민을"
-        $0.font = .kH1B20
-        $0.textColor = .white
-    }
-    
-    private let secondLabel = UILabel().then {
-        $0.text = "일 후까지 끝낼게요"
-        $0.font = .kH1B20
-        $0.textColor = .white
-    }
-    
-    private let upperCover = UIView().then {
-        $0.backgroundColor = .kGray1
-    }
-    
-    private let lowerCover = UIView().then {
-        $0.backgroundColor = .kGray1
-    }
-    
-    private let completeWritingBtn = UIButton().then {
-        $0.backgroundColor = .kGray5
-        $0.titleLabel?.font = .kB2R16
-        $0.setTitle("작성완료", for: .normal)
-        $0.setTitleColor(.black, for: .normal)
-        $0.layer.cornerRadius = 8
-    }
-    
-    private let noDeadlineBtn = UIButton().then {
-        $0.backgroundColor = .clear
-        $0.titleLabel?.font = .kB4R14
-        
-        let title = "기한 설정하지 않기"
-        let titleAttributes: [NSAttributedString.Key: Any] = [
-            .font: UIFont.kB4R14,
-            .foregroundColor: UIColor.kGray5,
-            .underlineStyle: NSUnderlineStyle.single.rawValue,
-            .underlineColor: UIColor.kGray5
-        ]
-        
-        let attributedTitle = NSAttributedString(string: title, attributes: titleAttributes)
-        $0.setAttributedTitle(attributedTitle, for: .normal)
-    }
-    
+    private let pickerVC = WritePickerVC()
     
     // MARK: - Life Cycles
     override func viewDidLoad() {
@@ -163,22 +105,27 @@ class WriteVC: UIViewController{
             dismiss(animated: true)
         }
         
+        completeBtn.press { [self] in
+            pickerVC.view.alpha = 0 /// pickerView를 초기에 보이지 않게 설정
+            ///
+            pickerVC.modalPresentationStyle = .overCurrentContext
+            present(pickerVC, animated: false, completion: { /// 애니메이션을 false로 설정
+                UIView.animate(withDuration: 0.5, animations: { [self] in /// 애니메이션 추가
+                    pickerVC.view.alpha = 1 /// pickerView가 서서히 보이게 설정
+                    pickerVC.view.layoutIfNeeded()
+                })
+            })
+        }
+        
         templateBtn.press {
             self.writeModalVC.modalPresentationStyle = .pageSheet
             
             if let sheet = self.writeModalVC.sheetPresentationController {
-                
-                /// 지원할 크기 지정
-                /// 크기 늘리고 싶으면 뒤에 ", .large()" 추가
-                /// 줄이려면 .medium()
+                /// 지원할 크기 지정(.medium(), .large())
                 sheet.detents = [.large()]
                 
                 /// 시트 상단에 그래버 표시 (기본 값은 false)
                 sheet.prefersGrabberVisible = true
-                
-                /// 뒤 배경 흐리게 제거 (기본 값은 모든 크기에서 배경 흐리게 됨)
-                /// 배경 흐리게 할 시에는 sheet가 올라왔을 때 배경 클릭해도 sheet 안 사라짐
-                //                sheet.largestUndimmedDetentIdentifier = .medium
             }
             self.present(self.writeModalVC, animated: true)
         }
