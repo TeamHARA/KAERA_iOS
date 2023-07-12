@@ -97,9 +97,22 @@ class WriteVC: UIViewController{
         writeModalVC.sendTitleDelegate = self
         setLayout()
         pressBtn()
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(self.didCompleteWritingNotification(_:)),
+            name: NSNotification.Name("CompleteWriting"),
+            object: nil
+        )
     }
     
     // MARK: - Functions
+    @objc func didCompleteWritingNotification(_ notification: Notification) {
+        DispatchQueue.main.async { [self] in
+            self.dismiss(animated: true)
+        }
+    }
+    
     private func pressBtn() {
         closeBtn.press { [self] in
             dismiss(animated: true)
