@@ -7,12 +7,13 @@
 
 import UIKit
 import SnapKit
+import Then
 
 class HomeDiggingVC: BaseVC {
     
     // MARK: - Properties
-    let homeHeaderView = HomeHederView(type: .digging)
-    
+    private let homeHeaderView = HomeHederView(type: .digging)
+  
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .kGray1
@@ -23,7 +24,8 @@ class HomeDiggingVC: BaseVC {
 // MARK: - UI
 extension HomeDiggingVC {
     private func setLayout() {
-        self.view.addSubview(homeHeaderView)
+        self.view.addSubviews([homeHeaderView])
+        
         homeHeaderView.snp.makeConstraints {
             $0.top.equalToSuperview().inset(58)
             $0.centerX.equalToSuperview()

@@ -6,11 +6,25 @@
 //
 
 import UIKit
+import SnapKit
+import Then
 
 class HomeVC: BaseVC {
     
     // MARK: - Properties
     private var currentIndex = 0
+    private let pageControlView = UIView().then {
+        $0.backgroundColor = .clear
+    }
+    private let diggingPageIcn = UIImageView().then {
+        $0.image = UIImage(named: "icn_digging_page")
+    }
+    private let dugPageIcn = UIImageView().then {
+        $0.image = UIImage(named: "icn_dug_page")
+    }
+    private let pageIcn = UIImageView().then {
+        $0.image = UIImage(named: "icn_digging_page")
+    }
     private let pageVC = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
     private let homeDiggingVC = HomeDiggingVC()
     private let homeDugVC = HomeDugVC()
@@ -20,6 +34,7 @@ class HomeVC: BaseVC {
     override func viewDidLoad() {
         super.viewDidLoad()
         setPageViewController()
+        setLayout()
     }
     
     // MARK: - Function
@@ -42,6 +57,12 @@ extension HomeVC: UIPageViewControllerDelegate {
               let index = contents.firstIndex(where: { $0 == viewController })
         else { return }
         currentIndex = index
+        if index > 0 {
+            pageIcn.image = UIImage(named: "icn_dug_page")
+        } else {
+            pageIcn.image = UIImage(named: "icn_digging_page")
+        }
+        
     }
     
 }
@@ -66,4 +87,26 @@ extension HomeVC: UIPageViewControllerDataSource {
         return contents[nextIndex]
     }
     
+}
+
+// MARK: -  UI
+extension HomeVC {
+    private func setLayout() {
+        self.view.addSubview(pageControlView)
+        
+        pageControlView.snp.makeConstraints {
+            $0.bottom.directionalHorizontalEdges.equalToSuperview()
+            $0.height.equalTo(43)
+            
+        }
+        
+        pageControlView.addSubview(pageIcn)
+        
+        pageIcn.snp.makeConstraints {
+            $0.top.centerX.equalToSuperview()
+            $0.height.equalTo(9)
+            $0.width.equalTo(29)
+        }
+        
+    }
 }
