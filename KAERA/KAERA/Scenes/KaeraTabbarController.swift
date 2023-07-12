@@ -47,13 +47,13 @@ final class KaeraTabbarController: UITabBarController {
     
     /// TabBarItem을 지정하는 메서드
     func setTabBar() {
-        let homeTab = makeTabVC(vc: BaseNC(rootViewController: HomeVC()), tabBarImg:"icnHomeOff", tabBarSelectedImg: "icnHomeOn")
+        let homeTab = makeTabVC(vc: BaseNC(rootViewController: HomeVC()), tabBarImg:"icn_home_off", tabBarSelectedImg: "icn_home_on")
         homeTab.tabBarItem.tag = 0
         
-        let writeTab = makeTabVC(vc: UIViewController(), tabBarImg: "icnWrite", tabBarSelectedImg: "icnWrite")
+        let writeTab = makeTabVC(vc: UIViewController(), tabBarImg: "icn_write", tabBarSelectedImg: "icn_write")
         writeTab.tabBarItem.tag = 1
         
-        let archiveTab = makeTabVC(vc: BaseNC(rootViewController: ArchiveVC()), tabBarImg: "icnArchiveOff", tabBarSelectedImg: "icnArchiveOn")
+        let archiveTab = makeTabVC(vc: BaseNC(rootViewController: ArchiveVC()), tabBarImg: "icn_archive_off", tabBarSelectedImg: "icn_archive_on")
         archiveTab.tabBarItem.tag = 2
         
         let insetAmount: CGFloat = 32
