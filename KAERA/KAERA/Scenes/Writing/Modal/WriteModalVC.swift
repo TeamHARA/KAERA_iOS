@@ -10,7 +10,7 @@ import SnapKit
 import Then
 import Combine
 
-protocol TemplageTitleDelegate: AnyObject {
+protocol TemplateTitleDelegate: AnyObject {
     func sendTitle(templateTitle: String)
 }
 
@@ -21,7 +21,7 @@ class WriteModalVC: UIViewController {
     var templateList: [TemplateListPublisherModel] = []
     var disposalbleBag = Set<AnyCancellable>()
     
-    weak var sendTitleDelegate: TemplageTitleDelegate?
+    weak var sendTitleDelegate: TemplateTitleDelegate?
     
     private var templateIndex: Int = 0
     
@@ -78,7 +78,7 @@ extension WriteModalVC {
 }
 
 
-// MARK: - 뷰모델 관련
+// MARK: - ViewModel
 extension WriteModalVC {
     
     /// 뷰모델의 데이터를 뷰컨의 리스트 데이터와 연동
