@@ -267,7 +267,7 @@ extension WriteVC {
 }
 
 // MARK: - TemplageTitleDelegate
-extension WriteVC: TemplageTitleDelegate {
+extension WriteVC: TemplateTitleDelegate {
     func sendTitle(templateTitle: String) {
         self.templateTitle.text = templateTitle
     }
