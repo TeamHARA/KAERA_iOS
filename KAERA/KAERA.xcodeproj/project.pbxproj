@@ -52,8 +52,8 @@
 		E7BB4F372A5D4B1D0018312B /* HomeDugVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7BB4F362A5D4B1D0018312B /* HomeDugVC.swift */; };
 		E7BB4F392A5D54A60018312B /* HomeHederView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7BB4F382A5D54A60018312B /* HomeHederView.swift */; };
 		E7BB4F3B2A5ED3610018312B /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7BB4F3A2A5ED3610018312B /* HomeVC.swift */; };
-		E7BB4F472A5EF7060018312B /* HomeDiggingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7BB4F462A5EF7060018312B /* HomeDiggingViewModel.swift */; };
-		E7BB4F492A5EF7320018312B /* HomeDiggingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7BB4F482A5EF7320018312B /* HomeDiggingModel.swift */; };
+		E7BB4F472A5EF7060018312B /* HomeGemListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7BB4F462A5EF7060018312B /* HomeGemListViewModel.swift */; };
+		E7BB4F492A5EF7320018312B /* HomeGemListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7BB4F482A5EF7320018312B /* HomeGemListModel.swift */; };
 		E7BB4F4F2A5EF81C0018312B /* ArchiveViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7BB4F4E2A5EF81C0018312B /* ArchiveViewModel.swift */; };
 		E7BB4F512A5EF8260018312B /* ArchiveModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7BB4F502A5EF8260018312B /* ArchiveModel.swift */; };
 		E7C30F612A533D08002BD782 /* NanumSquareNeoTTF-aLt.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E7C30F5E2A533D08002BD782 /* NanumSquareNeoTTF-aLt.ttf */; };
@@ -107,8 +107,8 @@
 		E7BB4F362A5D4B1D0018312B /* HomeDugVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeDugVC.swift; sourceTree = "<group>"; };
 		E7BB4F382A5D54A60018312B /* HomeHederView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeHederView.swift; sourceTree = "<group>"; };
 		E7BB4F3A2A5ED3610018312B /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
-		E7BB4F462A5EF7060018312B /* HomeDiggingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeDiggingViewModel.swift; sourceTree = "<group>"; };
-		E7BB4F482A5EF7320018312B /* HomeDiggingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeDiggingModel.swift; sourceTree = "<group>"; };
+		E7BB4F462A5EF7060018312B /* HomeGemListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeGemListViewModel.swift; sourceTree = "<group>"; };
+		E7BB4F482A5EF7320018312B /* HomeGemListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeGemListModel.swift; sourceTree = "<group>"; };
 		E7BB4F4E2A5EF81C0018312B /* ArchiveViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveViewModel.swift; sourceTree = "<group>"; };
 		E7BB4F502A5EF8260018312B /* ArchiveModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveModel.swift; sourceTree = "<group>"; };
 		E7C30F5E2A533D08002BD782 /* NanumSquareNeoTTF-aLt.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NanumSquareNeoTTF-aLt.ttf"; sourceTree = "<group>"; };
@@ -364,7 +364,7 @@
 		E7BB4F432A5EF66F0018312B /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				E7BB4F462A5EF7060018312B /* HomeDiggingViewModel.swift */,
+				E7BB4F462A5EF7060018312B /* HomeGemListViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -372,7 +372,7 @@
 		E7BB4F442A5EF6750018312B /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				E7BB4F482A5EF7320018312B /* HomeDiggingModel.swift */,
+				E7BB4F482A5EF7320018312B /* HomeGemListModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -546,7 +546,7 @@
 				E79AAC3D2A52F2C300F3F439 /* UIFont+.swift in Sources */,
 				85887D8E2A5D086300F7FB21 /* TemplateViewModel.swift in Sources */,
 				E7BB4F512A5EF8260018312B /* ArchiveModel.swift in Sources */,
-				E7BB4F492A5EF7320018312B /* HomeDiggingModel.swift in Sources */,
+				E7BB4F492A5EF7320018312B /* HomeGemListModel.swift in Sources */,
 				E79AAC392A52F2C300F3F439 /* UICollectionVIew+.swift in Sources */,
 				85EBC7F72A5AD95D00B9E891 /* ArchiveVC.swift in Sources */,
 				E79AAC432A52F36500F3F439 /* APIConstant.swift in Sources */,
@@ -568,7 +568,7 @@
 				85EBC7F32A5AD93200B9E891 /* HomeDiggingVC.swift in Sources */,
 				E7BB4F372A5D4B1D0018312B /* HomeDugVC.swift in Sources */,
 				E79AAC442A52F36500F3F439 /* BaseTargetType.swift in Sources */,
-				E7BB4F472A5EF7060018312B /* HomeDiggingViewModel.swift in Sources */,
+				E7BB4F472A5EF7060018312B /* HomeGemListViewModel.swift in Sources */,
 				E7C808E92A4D37F800F475CE /* AppDelegate.swift in Sources */,
 				85887D842A5C42A700F7FB21 /* WriteModalCVC.swift in Sources */,
 				E79AAC3C2A52F2C300F3F439 /* NSObject+.swift in Sources */,
