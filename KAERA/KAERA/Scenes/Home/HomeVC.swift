@@ -16,12 +16,6 @@ class HomeVC: BaseVC {
     private let pageControlView = UIView().then {
         $0.backgroundColor = .clear
     }
-    private let diggingPageIcn = UIImageView().then {
-        $0.image = UIImage(named: "icn_digging_page")
-    }
-    private let dugPageIcn = UIImageView().then {
-        $0.image = UIImage(named: "icn_dug_page")
-    }
     private let pageIcn = UIImageView().then {
         $0.image = UIImage(named: "icn_digging_page")
     }
