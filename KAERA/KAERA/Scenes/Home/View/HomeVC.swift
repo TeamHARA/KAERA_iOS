@@ -30,12 +30,12 @@ class HomeVC: BaseVC {
         $0.textColor = .kGray2
     }
     
-    private let pageControlView = UIView().then {
-        $0.backgroundColor = .clear
-    }
-    
     private let pageIcn = UIImageView().then {
         $0.image = UIImage(named: "icn_digging_page")
+    }
+    
+    private let pageContainerView = UIView().then {
+        $0.backgroundColor = .clear
     }
     private let pageVC = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
     private let homeDiggingVC = HomeDiggingVC()
@@ -52,8 +52,9 @@ class HomeVC: BaseVC {
     // MARK: - Function
     private func setPageViewController() {
         self.addChild(pageVC)
+        pageContainerView.frame = pageVC.view.frame
         pageVC.view.backgroundColor = .kGray1
-        self.view.addSubview(pageVC.view)
+        pageContainerView.addSubview(pageVC.view)
         pageVC.didMove(toParent: self)
         pageVC.delegate = self
         pageVC.dataSource = self
@@ -113,10 +114,11 @@ extension HomeVC: UIPageViewControllerDataSource {
 // MARK: -  UI
 extension HomeVC {
     private func setLayout() {
-        self.view.addSubviews([homeLogoImgView, headerBGView, pageControlView])
+        self.view.backgroundColor = .kGray1
+        self.view.addSubviews([homeLogoImgView, headerBGView, pageContainerView, pageIcn])
         
         homeLogoImgView.snp.makeConstraints {
-            $0.top.equalTo(self.view.safeAreaLayoutGuide).inset(8)
+            $0.top.equalToSuperview().inset(56)
             $0.centerX.equalToSuperview()
             $0.height.equalTo(38)
             $0.width.equalTo(136)
@@ -135,19 +137,16 @@ extension HomeVC {
             $0.centerX.centerY.equalToSuperview()
         }
         
-        pageControlView.snp.makeConstraints {
-            $0.bottom.directionalHorizontalEdges.equalToSuperview()
-            $0.height.equalTo(43)
-            
+        pageContainerView.snp.makeConstraints {
+            $0.directionalHorizontalEdges.equalToSuperview()
+            $0.top.equalTo(headerBGView.snp.bottom).offset(29)
+            $0.bottom.equalToSuperview()
         }
-        
-        pageControlView.addSubview(pageIcn)
         
         pageIcn.snp.makeConstraints {
-            $0.top.centerX.equalToSuperview()
+            $0.centerX.equalToSuperview()
+            $0.bottom.equalToSuperview().inset(31)
             $0.height.equalTo(9)
-            $0.width.equalTo(29)
         }
-        
     }
 }
