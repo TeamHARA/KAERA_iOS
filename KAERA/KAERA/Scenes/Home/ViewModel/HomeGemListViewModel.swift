@@ -11,7 +11,7 @@ import Combine
 protocol ViewModelType {
     associatedtype Input
     associatedtype Output
-
+    
     func transform(input: Input) -> Output
 }
 
@@ -26,11 +26,11 @@ class HomeGemListViewModel: ViewModelType {
     /// 초기값으로 인해 데이터 전달이 결국 2번이 이루어지기 때문에 초기값을 가지지 않는 PassthroughSubject사용함
     private let output: PassthroughSubject<[HomeGemListModel], Never> = .init()
     private var cancellables = Set<AnyCancellable>()
-
+    
     func transform(input: Input) -> Output {
         input.isSolved
             .sink { [weak self] isSolved in
-            self?.getGemList(isSovled: isSolved)
+                self?.getGemList(isSovled: isSolved)
             }
             .store(in: &cancellables)
         return Output(dataList: output.eraseToAnyPublisher())
@@ -66,6 +66,6 @@ class HomeGemListViewModel: ViewModelType {
             self.output.send(gemStoneList)
         }
         
-
+        
     }
 }

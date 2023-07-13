@@ -12,7 +12,6 @@ import SnapKit
 class HomeDugVC: BaseVC {
     
     // MARK: - Properties
-    let homeHeaderView = HomeHederView(type: .dug)
     private let gemListViewModel = HomeGemListViewModel()
     private var cancellables = Set<AnyCancellable>()
     private let input = PassthroughSubject<Bool, Never>.init()
@@ -21,7 +20,6 @@ class HomeDugVC: BaseVC {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .kGray1
-        setLayout()
         dataBind()
     }
     
@@ -44,19 +42,5 @@ class HomeDugVC: BaseVC {
     private func updateUI(gemList: [HomeGemListModel]) {
         print("Dug 업데이트 UI")
         print(gemList)
-    }
-}
-
-// MARK: - UI
-extension HomeDugVC {
-    private func setLayout() {
-        self.navigationController?.isNavigationBarHidden = true
-        self.view.addSubviews([homeHeaderView])
-        homeHeaderView.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(58)
-            $0.centerX.equalToSuperview()
-            $0.height.equalTo(76)
-            $0.width.equalTo(178)
-        }
     }
 }
