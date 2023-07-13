@@ -13,9 +13,27 @@ class HomeVC: BaseVC {
     
     // MARK: - Properties
     private var currentIndex = 0
+    
+    private let homeLogoImgView = UIImageView().then {
+        $0.image = UIImage(named: "logo")
+    }
+    
+    private let headerBGView = UIView().then {
+        $0.backgroundColor = .kGray4
+        $0.makeRounded(cornerRadius: 10)
+    }
+    
+    private let headerLabel = UILabel().then {
+        $0.textAlignment = .center
+        $0.text = "열심히 캐내는 중 ⛏️"
+        $0.font = .kB2R16
+        $0.textColor = .kGray2
+    }
+    
     private let pageControlView = UIView().then {
         $0.backgroundColor = .clear
     }
+    
     private let pageIcn = UIImageView().then {
         $0.image = UIImage(named: "icn_digging_page")
     }
@@ -53,9 +71,17 @@ extension HomeVC: UIPageViewControllerDelegate {
         else { return }
         currentIndex = index
         if index > 0 {
+            headerLabel.text = "그동안 캐낸 보석들 ✨"
             pageIcn.image = UIImage(named: "icn_dug_page")
+            headerBGView.snp.updateConstraints {
+                $0.width.equalTo(176)
+            }
         } else {
+            headerLabel.text = "열심히 캐내는 중 ⛏️"
             pageIcn.image = UIImage(named: "icn_digging_page")
+            headerBGView.snp.updateConstraints {
+                $0.width.equalTo(162)
+            }
         }
         
     }
@@ -87,7 +113,27 @@ extension HomeVC: UIPageViewControllerDataSource {
 // MARK: -  UI
 extension HomeVC {
     private func setLayout() {
-        self.view.addSubview(pageControlView)
+        self.view.addSubviews([homeLogoImgView, headerBGView, pageControlView])
+        
+        homeLogoImgView.snp.makeConstraints {
+            $0.top.equalTo(self.view.safeAreaLayoutGuide).inset(8)
+            $0.centerX.equalToSuperview()
+            $0.height.equalTo(38)
+            $0.width.equalTo(136)
+        }
+        
+        headerBGView.snp.makeConstraints {
+            $0.top.equalTo(homeLogoImgView.snp.bottom).offset(12)
+            $0.centerX.equalToSuperview()
+            $0.height.equalTo(26)
+            $0.width.equalTo(162)
+        }
+        
+        headerBGView.addSubview(headerLabel)
+        
+        headerLabel.snp.makeConstraints {
+            $0.centerX.centerY.equalToSuperview()
+        }
         
         pageControlView.snp.makeConstraints {
             $0.bottom.directionalHorizontalEdges.equalToSuperview()
