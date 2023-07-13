@@ -8,7 +8,7 @@
 import UIKit
 
 // 서버통신용 model(codable)
-struct WorryListModel{
+struct WorryListModel {
     let templateId: Int
     let templateTitle: String
     let title: String
@@ -16,7 +16,7 @@ struct WorryListModel{
 }
 
 // View에 뿌려주기 위한 model
-struct WorryListPublisherModel{
+struct WorryListPublisherModel {
     let templateId: Int
     let templateTitle: String
     let title: String

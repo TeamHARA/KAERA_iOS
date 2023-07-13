@@ -9,8 +9,9 @@ import UIKit
 import Combine
 
 // 뷰 모델로써 데이터의 상태를 가지고 있음
-class WorryListViewModel{
+class WorryListViewModel {
     
+    // MARK: - Properties
     var IdtoImgDict: [Int: String] = [1: "gem_pink_m", 2: "gem_orange_m", 3: "gem_blue_m", 4: "gem_green_m", 5: "gem_yellow_m", 6: "gem_red_m"]
     
     /// 서버에서 받아올 더미
@@ -31,7 +32,7 @@ class WorryListViewModel{
     
     lazy var worryListPublisher = CurrentValueSubject<[WorryListPublisherModel], Never>(worryUpdateList)
     
-    init(){
+    init() {
         print("ViewModel - init()")
         worryUpdateList = []
         convertIdtoImg()
@@ -39,8 +40,8 @@ class WorryListViewModel{
 }
 
 // MARK: - Functions
-extension WorryListViewModel{
-    private func convertIdtoImg(){
+extension WorryListViewModel {
+    private func convertIdtoImg() {
         worryListDummy.forEach {
             guard let imgName = IdtoImgDict[$0.templateId] else { return }
             worryUpdateList.append(WorryListPublisherModel(templateId: $0.templateId, templateTitle: $0.templateTitle, title: $0.title, period: $0.period, image: UIImage(named: imgName) ?? UIImage() ))
