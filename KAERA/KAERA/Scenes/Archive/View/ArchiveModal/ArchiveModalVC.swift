@@ -32,7 +32,7 @@ class ArchiveModalVC: UIViewController {
     
     private var templateIndex: Int = 0
     
-    private let flowLayout = UICollectionViewFlowLayout().then{
+    private let flowLayout = UICollectionViewFlowLayout().then {
         $0.scrollDirection = .vertical
     }
     
@@ -65,14 +65,14 @@ class ArchiveModalVC: UIViewController {
     
     // MARK: - Functions
     private func registerCV() {
-        templateListCV.register(ArchiveModalVC.self,
-                                forCellWithReuseIdentifier: ArchiveModalVC.classIdentifier)
+        templateListCV.register(ArchiveModalCVC.self,
+                                forCellWithReuseIdentifier: ArchiveModalCVC.classIdentifier)
     }
 }
 
 // MARK: - Layout
 extension ArchiveModalVC{
-    private func setLayout(){
+    private func setLayout() {
         view.backgroundColor = .kGray1
         view.addSubview(templateListCV)
         
@@ -88,7 +88,7 @@ extension ArchiveModalVC{
 extension ArchiveModalVC{
     
     /// 뷰모델의 데이터를 뷰컨의 리스트 데이터와 연동
-    fileprivate func setBindings(){
+    fileprivate func setBindings() {
         print("ViewController - setBindings()")
         self.templateVM.templateListPublisher.sink{ [weak self] (updatedList : [TemplateListPublisherModel]) in
             print("ViewController - updatedList.count: \(updatedList.count)")
@@ -98,7 +98,6 @@ extension ArchiveModalVC{
 }
 
 // MARK: - UICollectionDelegate
-
 extension ArchiveModalVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 352.adjustedW, height: 72.adjustedW)
@@ -138,8 +137,8 @@ extension ArchiveModalVC: UICollectionViewDelegateFlowLayout {
         
         else {
             /// worryList의 templateId와 같은 고민을 화면에 띄어줍니다.
-            for i in 0...worryVM.worryListPublisher.value.count-1{
-                if templateIndex == worryVM.worryListPublisher.value[i].templateId{
+            for i in 0...worryVM.worryListPublisher.value.count-1 {
+                if templateIndex == worryVM.worryListPublisher.value[i].templateId {
                     templateWithCategory.append(worryVM.worryListPublisher.value[i])
                 }
             }
@@ -156,7 +155,6 @@ extension ArchiveModalVC: UICollectionViewDelegateFlowLayout {
 }
 
 // MARK: - UICollectionViewDataSource
-
 extension ArchiveModalVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return templateList.count
