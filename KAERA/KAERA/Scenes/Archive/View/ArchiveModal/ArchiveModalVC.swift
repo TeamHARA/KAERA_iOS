@@ -72,9 +72,8 @@ class ArchiveModalVC: UIViewController {
 
 // MARK: - Layout
 extension ArchiveModalVC{
-    
     private func setLayout(){
-        view.backgroundColor = 0x1E2227.color
+        view.backgroundColor = .kGray1
         view.addSubview(templateListCV)
         
         templateListCV.snp.makeConstraints{
@@ -118,14 +117,14 @@ extension ArchiveModalVC: UICollectionViewDelegateFlowLayout {
         print("click index=\(indexPath.row)")
         
         // 기존의 선택되었던 Cell의 디자인을 초기화한다.
-        if let previousCell = collectionView.cellForItem(at: IndexPath(row: templateIndex, section: 0)) as? ArchiveModalVC {
+        if let previousCell = collectionView.cellForItem(at: IndexPath(row: templateIndex, section: 0)) as? ArchiveModalCVC {
             previousCell.templateCell.layer.borderColor = UIColor.systemGray.cgColor
             previousCell.checkIcon.isHidden = true
         }
         
         // 새롭게 선택된 Cell의 디자인을 변경한다.
-        if let currentCell = collectionView.cellForItem(at: indexPath) as? ArchiveModalVC {
-            currentCell.templateCell.layer.borderColor = 0xF6CE66.color.cgColor
+        if let currentCell = collectionView.cellForItem(at: indexPath) as? ArchiveModalCVC {
+            currentCell.templateCell.layer.borderColor = UIColor.kYellow1.cgColor
             currentCell.checkIcon.isHidden = false
         }
         
@@ -165,8 +164,8 @@ extension ArchiveModalVC: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: ArchiveModalVC.classIdentifier, for: indexPath)
-                as? ArchiveModalVC else { return UICollectionViewCell() }
+            withReuseIdentifier: ArchiveModalCVC.classIdentifier, for: indexPath)
+                as? ArchiveModalCVC else { return UICollectionViewCell() }
         cell.dataBind(model: templateList[indexPath.item], indexPath: indexPath)
         return cell
     }
