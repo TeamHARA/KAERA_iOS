@@ -17,7 +17,6 @@ final class KaeraTabbarController: UITabBarController {
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .kGray1
         setTabBarStyle()
         setTabBar()
         self.selectedIndex = 0
@@ -67,12 +66,11 @@ final class KaeraTabbarController: UITabBarController {
     
     /// TabBar의 Style을 지정하는 메서드
     private func setTabBarStyle() {
-        tabBar.backgroundColor = .kGray1
+        view.backgroundColor = .kGray1
+        tabBar.backgroundColor = .kGray2
         tabBar.isTranslucent = false /// 투명 색 -> 반투명 색으로 바꿔주기 위해 false 로 설정(truetone color)
         
         // 탭바의 테두리를 설정합니다.
-        tabBar.layer.borderWidth = 1
-        tabBar.layer.borderColor = UIColor.kGray2.cgColor
         tabBar.layer.cornerRadius = 30
     }
 }
