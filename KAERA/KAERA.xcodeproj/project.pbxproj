@@ -14,6 +14,8 @@
 		85887D902A5EFA2C00F7FB21 /* WritePickerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85887D8F2A5EFA2C00F7FB21 /* WritePickerVC.swift */; };
 		85887D922A60320A00F7FB21 /* ArchiveHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85887D912A60320A00F7FB21 /* ArchiveHeaderView.swift */; };
 		85887D942A603A9900F7FB21 /* WorryListCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85887D932A603A9900F7FB21 /* WorryListCVC.swift */; };
+		85887D972A60430600F7FB21 /* ArchiveModalCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85887D962A60430600F7FB21 /* ArchiveModalCVC.swift */; };
+		85887D992A60431000F7FB21 /* ArchiveModalVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85887D982A60431000F7FB21 /* ArchiveModalVC.swift */; };
 		85EBC7F12A5AD7BC00B9E891 /* KaeraTabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EBC7F02A5AD7BC00B9E891 /* KaeraTabbarController.swift */; };
 		85EBC7F32A5AD93200B9E891 /* HomeDiggingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EBC7F22A5AD93200B9E891 /* HomeDiggingVC.swift */; };
 		85EBC7F52A5AD94100B9E891 /* WriteVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EBC7F42A5AD94100B9E891 /* WriteVC.swift */; };
@@ -75,6 +77,8 @@
 		85887D8F2A5EFA2C00F7FB21 /* WritePickerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritePickerVC.swift; sourceTree = "<group>"; };
 		85887D912A60320A00F7FB21 /* ArchiveHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveHeaderView.swift; sourceTree = "<group>"; };
 		85887D932A603A9900F7FB21 /* WorryListCVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorryListCVC.swift; sourceTree = "<group>"; };
+		85887D962A60430600F7FB21 /* ArchiveModalCVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveModalCVC.swift; sourceTree = "<group>"; };
+		85887D982A60431000F7FB21 /* ArchiveModalVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveModalVC.swift; sourceTree = "<group>"; };
 		85EBC7F02A5AD7BC00B9E891 /* KaeraTabbarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KaeraTabbarController.swift; sourceTree = "<group>"; };
 		85EBC7F22A5AD93200B9E891 /* HomeDiggingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeDiggingVC.swift; sourceTree = "<group>"; };
 		85EBC7F42A5AD94100B9E891 /* WriteVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteVC.swift; sourceTree = "<group>"; };
@@ -166,6 +170,15 @@
 			);
 			name = ViewModel;
 			path = ../ViewModel;
+			sourceTree = "<group>";
+		};
+		85887D952A6042E400F7FB21 /* ArchiveModal */ = {
+			isa = PBXGroup;
+			children = (
+				85887D962A60430600F7FB21 /* ArchiveModalCVC.swift */,
+				85887D982A60431000F7FB21 /* ArchiveModalVC.swift */,
+			);
+			path = ArchiveModal;
 			sourceTree = "<group>";
 		};
 		E78C39F12A5138D200A15120 /* Scenes */ = {
@@ -411,6 +424,7 @@
 		E7BB4F4D2A5EF7E60018312B /* View */ = {
 			isa = PBXGroup;
 			children = (
+				85887D952A6042E400F7FB21 /* ArchiveModal */,
 				85EBC7F62A5AD95D00B9E891 /* ArchiveVC.swift */,
 				85887D912A60320A00F7FB21 /* ArchiveHeaderView.swift */,
 				85887D932A603A9900F7FB21 /* WorryListCVC.swift */,
@@ -540,6 +554,7 @@
 				E79AAC332A52F2C300F3F439 /* UITextField+.swift in Sources */,
 				E79AAC322A52F2C300F3F439 /* UIColor+.swift in Sources */,
 				E7AC12252A51D08C00FE504C /* Temp_Service.swift in Sources */,
+				85887D972A60430600F7FB21 /* ArchiveModalCVC.swift in Sources */,
 				E79AAC372A52F2C300F3F439 /* CALayer+.swift in Sources */,
 				E79AAC3D2A52F2C300F3F439 /* UIFont+.swift in Sources */,
 				85887D8E2A5D086300F7FB21 /* TemplateViewModel.swift in Sources */,
@@ -556,6 +571,7 @@
 				E79AAC4A2A52F3E000F3F439 /* BaseVC.swift in Sources */,
 				E79AAC3B2A52F2C300F3F439 /* UIButton+.swift in Sources */,
 				E79AAC452A52F36500F3F439 /* MoyaLoggingPlugin.swift in Sources */,
+				85887D992A60431000F7FB21 /* ArchiveModalVC.swift in Sources */,
 				E78C3A062A51842300A15120 /* Temp_Protocols.swift in Sources */,
 				85887D902A5EFA2C00F7FB21 /* WritePickerVC.swift in Sources */,
 				85887D8C2A5D084800F7FB21 /* TemplateListModel.swift in Sources */,
