@@ -20,7 +20,7 @@ class ArchiveVC: UIViewController {
     var worryList: [WorryListPublisherModel] = []
     var disposalbleBag = Set<AnyCancellable>()
     
-    private let flowLayout = UICollectionViewFlowLayout().then{
+    private let flowLayout = UICollectionViewFlowLayout().then {
         $0.scrollDirection = .vertical
     }
     
@@ -34,7 +34,7 @@ class ArchiveVC: UIViewController {
     }()
     
     // MARK: - Constants
-    final let worryListInset: UIEdgeInsets = UIEdgeInsets(top: 0, left: 16.adjustedW, bottom: 100, right: 16.adjustedW)
+    final let worryListInset: UIEdgeInsets = UIEdgeInsets(top: 0, left: 16.adjustedW, bottom: 20, right: 16.adjustedW)
     final let interItemSpacing: CGFloat = 12.adjustedW
     final let lineSpacing: CGFloat = 12.adjustedW
 
@@ -47,10 +47,10 @@ class ArchiveVC: UIViewController {
         setBindings()
     }
     
+    // MARK: - Functions
     private func registerCV() {
         worryListCV.register(WorryListCVC.self,
                              forCellWithReuseIdentifier: WorryListCVC.classIdentifier)
-//        worryListCV.register(ArchiveHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ArchiveHeaderView.classIdentifier)
     }
 }
 
@@ -60,12 +60,12 @@ extension ArchiveVC {
         view.backgroundColor = .kGray1
         view.addSubviews([sortHeaderView, worryListCV])
         
-        sortHeaderView.snp.makeConstraints{
+        sortHeaderView.snp.makeConstraints {
             $0.top.leading.trailing.equalTo(self.view.safeAreaLayoutGuide)
             $0.height.equalTo(152.adjustedW)
         }
         
-        worryListCV.snp.makeConstraints{
+        worryListCV.snp.makeConstraints {
             $0.top.equalTo(sortHeaderView.snp.bottom)
             $0.leading.trailing.bottom.equalTo(self.view.safeAreaLayoutGuide)
         }
@@ -75,7 +75,7 @@ extension ArchiveVC {
 // MARK: - 뷰모델 관련
 extension ArchiveVC{
     /// 뷰모델의 데이터를 뷰컨의 리스트 데이터와 연동
-    fileprivate func setBindings(){
+    fileprivate func setBindings() {
         print("ViewController - setBindings()")
         self.worryVM.worryListPublisher.sink{ [weak self] (updatedList : [WorryListPublisherModel]) in
             print("ViewController - updatedList.count: \(updatedList.count)")

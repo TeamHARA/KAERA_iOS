@@ -11,28 +11,29 @@ import Then
 
 class WorryListCVC: UICollectionViewCell {
     
-    private let worryCell = UIImageView().then{
+    // MARK: - Properties
+    private let worryCell = UIImageView().then {
         $0.image = UIImage(named: "framebg")
         $0.backgroundColor = .clear
     }
     
-    private let jewelImage = UIImageView().then{
+    private let jewelImage = UIImageView().then {
         $0.image = UIImage(named: "jewel")
         $0.backgroundColor = .clear
     }
     
-    private let worryTitle = UILabel().then{
+    private let worryTitle = UILabel().then {
         $0.text = "고민 제목입니당"
         $0.font = .kB3B14
         $0.textColor = .white
     }
     
-    private let divLine = UIImageView().then{
+    private let divLine = UIImageView().then {
         $0.image = UIImage(named: "icn_div_line")
         $0.backgroundColor = .clear
     }
 
-    private let worryDate = UILabel().then{
+    private let worryDate = UILabel().then {
         $0.text = "2023.02.10~2023.04.01"
         $0.font = .kSb1R12
         $0.textColor = .kGray4
@@ -48,44 +49,46 @@ class WorryListCVC: UICollectionViewCell {
     }
 }
 
-extension WorryListCVC{
-    
-    // MARK: - Layout
+// MARK: - Layout
+extension WorryListCVC {
     private func setLayout() {
         backgroundColor = .clear
         contentView.backgroundColor = .clear
         contentView.addSubview(worryCell)
         
-        worryCell.snp.makeConstraints{
+        worryCell.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
         
         worryCell.addSubviews([jewelImage, worryTitle, divLine, worryDate])
         
-        jewelImage.snp.makeConstraints{
+        jewelImage.snp.makeConstraints {
             $0.width.height.equalTo(80.adjustedW)
             $0.centerX.equalToSuperview()
             $0.top.equalTo(8.adjustedW)
         }
         
-        worryTitle.snp.makeConstraints{
+        worryTitle.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.top.equalTo(jewelImage.snp.bottom).offset(10.adjustedW)
         }
         
-        divLine.snp.makeConstraints{
+        divLine.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.top.equalTo(worryTitle.snp.bottom).offset(8.adjustedW)
             $0.width.equalTo(140.adjustedW)
             $0.height.equalTo(5)
         }
         
-        worryDate.snp.makeConstraints{
+        worryDate.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.top.equalTo(divLine.snp.bottom).offset(8.adjustedW)
         }
     }
-    
+}
+
+// MARK: - Function(DataBinding)
+extension WorryListCVC {
     func dataBind(model: WorryListPublisherModel) {
         jewelImage.image = model.image
         worryTitle.text = model.title

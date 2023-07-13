@@ -9,11 +9,10 @@ import UIKit
 import SnapKit
 import Then
 
-// MARK: - ArchiveHeaderView
 class ArchiveHeaderView: UIView {
     
-    // MARK: - UI Components
-    private let titleLabel = UILabel().then{
+    // MARK: - Properties
+    private let titleLabel = UILabel().then {
         $0.text = "보석고민함"
         $0.textColor = .white
         $0.font = .kH1B20
@@ -62,44 +61,45 @@ class ArchiveHeaderView: UIView {
     }
 }
 
+// MARK: - Layout
 extension ArchiveHeaderView{
-    func setLayout(){
+    func setLayout() {
         self.backgroundColor = .clear
         self.addSubViews([titleLabel, templateInfo, myPage, sortBtn, numLabel, toggleBtn])
         
-        titleLabel.snp.makeConstraints{
+        titleLabel.snp.makeConstraints {
             $0.top.equalToSuperview().offset(24.adjustedW)
             $0.centerX.equalToSuperview()
         }
         
-        templateInfo.snp.makeConstraints{
+        templateInfo.snp.makeConstraints {
             $0.top.equalToSuperview().offset(25.adjustedW)
             $0.leading.equalToSuperview().offset(16.adjustedW)
             $0.width.equalTo(28)
             $0.height.equalTo(28)
         }
         
-        myPage.snp.makeConstraints{
+        myPage.snp.makeConstraints {
             $0.centerY.equalTo(titleLabel.snp.centerY)
             $0.trailing.equalToSuperview().offset(-16.adjustedW)
             $0.width.equalTo(24)
             $0.height.equalTo(24)
         }
         
-        sortBtn.snp.makeConstraints{
+        sortBtn.snp.makeConstraints {
             $0.top.equalTo(titleLabel.snp.bottom).offset(25)
             $0.leading.equalToSuperview().offset(16.adjustedW)
             $0.trailing.equalToSuperview().offset(-16.adjustedW)
             $0.height.equalTo(32.adjustedW)
         }
         
-        numLabel.snp.makeConstraints{
+        numLabel.snp.makeConstraints {
             $0.top.equalTo(sortBtn.snp.bottom).offset(16)
             $0.leading.equalToSuperview().offset(16.adjustedW)
         }
         
-        toggleBtn.snp.makeConstraints{
-            $0.trailing.equalTo(sortBtn.snp.trailing).offset(-24.adjustedW)
+        toggleBtn.snp.makeConstraints {
+            $0.trailing.equalTo(sortBtn.snp.trailing).offset(-16.adjustedW)
             $0.centerY.equalTo(sortBtn.snp.centerY)
             $0.width.equalTo(24.adjustedW)
             $0.height.equalTo(24.adjustedW)
