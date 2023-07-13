@@ -76,24 +76,28 @@ class WritePickerVC: UIViewController {
     // MARK: - Life Cycles
     override func viewDidLoad() {
         super.viewDidLoad()
-        datePickerView.delegate = self
-        datePickerView.dataSource = self
         setLayout()
         pressBtn()
+        setDelegate()
     }
     
     // MARK: - Functions
     private func pressBtn() {
         completeWritingBtn.press {
             UIView.animate(withDuration: 0.5, animations: { [self] in
-                self.view.alpha = 0
-                self.view.layoutIfNeeded()
+                view.alpha = 0
+                view.layoutIfNeeded()
             }, completion: { _ in
                 self.dismiss(animated: false, completion: {
                     NotificationCenter.default.post(name: NSNotification.Name("CompleteWriting"), object: nil, userInfo: nil)
                 })
             })
         }
+    }
+    
+    private func setDelegate() {
+        datePickerView.delegate = self
+        datePickerView.dataSource = self
     }
 }
 
