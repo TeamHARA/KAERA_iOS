@@ -51,7 +51,6 @@ class TemplateInfoHeaderView: UIView {
 // MARK: - Layout
 extension TemplateInfoHeaderView {
     private func setLayout() {
-        
         self.addSubviews([bgImage, jewelImage, instaLabel, instaBtn])
         
         bgImage.snp.makeConstraints {
