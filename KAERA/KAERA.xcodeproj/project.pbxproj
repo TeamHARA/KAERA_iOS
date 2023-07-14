@@ -17,6 +17,8 @@
 		85887D972A60430600F7FB21 /* ArchiveModalCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85887D962A60430600F7FB21 /* ArchiveModalCVC.swift */; };
 		85887D992A60431000F7FB21 /* ArchiveModalVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85887D982A60431000F7FB21 /* ArchiveModalVC.swift */; };
 		85887D9C2A605D0B00F7FB21 /* TemplateInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85887D9B2A605D0B00F7FB21 /* TemplateInfoVC.swift */; };
+		85887D9E2A61219700F7FB21 /* TemplateInfoHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85887D9D2A61219700F7FB21 /* TemplateInfoHeaderView.swift */; };
+		85887DA02A612E1000F7FB21 /* TemplateInfoTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85887D9F2A612E1000F7FB21 /* TemplateInfoTVC.swift */; };
 		85EBC7F12A5AD7BC00B9E891 /* KaeraTabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EBC7F02A5AD7BC00B9E891 /* KaeraTabbarController.swift */; };
 		85EBC7F32A5AD93200B9E891 /* HomeDiggingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EBC7F22A5AD93200B9E891 /* HomeDiggingVC.swift */; };
 		85EBC7F52A5AD94100B9E891 /* WriteVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EBC7F42A5AD94100B9E891 /* WriteVC.swift */; };
@@ -81,6 +83,8 @@
 		85887D962A60430600F7FB21 /* ArchiveModalCVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveModalCVC.swift; sourceTree = "<group>"; };
 		85887D982A60431000F7FB21 /* ArchiveModalVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveModalVC.swift; sourceTree = "<group>"; };
 		85887D9B2A605D0B00F7FB21 /* TemplateInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateInfoVC.swift; sourceTree = "<group>"; };
+		85887D9D2A61219700F7FB21 /* TemplateInfoHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateInfoHeaderView.swift; sourceTree = "<group>"; };
+		85887D9F2A612E1000F7FB21 /* TemplateInfoTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateInfoTVC.swift; sourceTree = "<group>"; };
 		85EBC7F02A5AD7BC00B9E891 /* KaeraTabbarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KaeraTabbarController.swift; sourceTree = "<group>"; };
 		85EBC7F22A5AD93200B9E891 /* HomeDiggingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeDiggingVC.swift; sourceTree = "<group>"; };
 		85EBC7F42A5AD94100B9E891 /* WriteVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteVC.swift; sourceTree = "<group>"; };
@@ -187,6 +191,8 @@
 			isa = PBXGroup;
 			children = (
 				85887D9B2A605D0B00F7FB21 /* TemplateInfoVC.swift */,
+				85887D9D2A61219700F7FB21 /* TemplateInfoHeaderView.swift */,
+				85887D9F2A612E1000F7FB21 /* TemplateInfoTVC.swift */,
 			);
 			path = ArchiveTemplateInfo;
 			sourceTree = "<group>";
@@ -560,6 +566,7 @@
 				E79AAC472A52F36500F3F439 /* NetworkResult.swift in Sources */,
 				E79AAC212A52F19300F3F439 /* ToastMessageColorType.swift in Sources */,
 				E7AC12232A51D08300FE504C /* Temp_DataModel.swift in Sources */,
+				85887DA02A612E1000F7FB21 /* TemplateInfoTVC.swift in Sources */,
 				E7BB4F3B2A5ED3610018312B /* HomeVC.swift in Sources */,
 				E79AAC342A52F2C300F3F439 /* UIViewController+.swift in Sources */,
 				E79AAC332A52F2C300F3F439 /* UITextField+.swift in Sources */,
@@ -579,6 +586,7 @@
 				E79AAC462A52F36500F3F439 /* NetworkConstant.swift in Sources */,
 				85EBC7F52A5AD94100B9E891 /* WriteVC.swift in Sources */,
 				E7AC12272A51D09200FE504C /* Temp_API.swift in Sources */,
+				85887D9E2A61219700F7FB21 /* TemplateInfoHeaderView.swift in Sources */,
 				E79AAC4A2A52F3E000F3F439 /* BaseVC.swift in Sources */,
 				E79AAC3B2A52F2C300F3F439 /* UIButton+.swift in Sources */,
 				E79AAC452A52F36500F3F439 /* MoyaLoggingPlugin.swift in Sources */,
