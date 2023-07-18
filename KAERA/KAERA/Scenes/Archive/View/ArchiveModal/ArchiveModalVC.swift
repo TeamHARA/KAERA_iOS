@@ -17,16 +17,16 @@ protocol RefreshListDelegate: AnyObject {
 class ArchiveModalVC: UIViewController {
     
     // MARK: - Properties
-    var templateVM: TemplateViewModel = TemplateViewModel()
-    var worryVM: WorryListViewModel = WorryListViewModel()
+    private var templateVM: TemplateViewModel = TemplateViewModel()
+    private var worryVM: WorryListViewModel = WorryListViewModel()
     
-    var templateList: [TemplateListPublisherModel] = []
+    private var templateList: [TemplateListPublisherModel] = []
     /// 데이터를 전달하기 위한 클로저 선언
-    var completionHandler: (([WorryListPublisherModel]) -> [WorryListPublisherModel])?
+    private var completionHandler: (([WorryListPublisherModel]) -> [WorryListPublisherModel])?
     
     /// category에 맞는 컬렉션뷰를 화면에 보여주기 위한 배열
-    var templateWithCategory: [WorryListPublisherModel] = []
-    var disposalbleBag = Set<AnyCancellable>()
+    private var templateWithCategory: [WorryListPublisherModel] = []
+    private var disposalbleBag = Set<AnyCancellable>()
     
     weak var refreshListDelegate: RefreshListDelegate?
     
@@ -66,7 +66,7 @@ class ArchiveModalVC: UIViewController {
     // MARK: - Functions
     private func registerCV() {
         templateListCV.register(ArchiveModalCVC.self,
-                                forCellWithReuseIdentifier: ArchiveModalCVC.classIdentifier)
+                                forCellWithReuseIdentifier: ArchiveModalCVC.className)
     }
 }
 
@@ -137,7 +137,7 @@ extension ArchiveModalVC: UICollectionViewDelegateFlowLayout {
         
         else {
             /// worryList의 templateId와 같은 고민을 화면에 띄어줍니다.
-            for i in 0...worryVM.worryListPublisher.value.count-1 {
+            for i in 0..<worryVM.worryListPublisher.value.count {
                 if templateIndex == worryVM.worryListPublisher.value[i].templateId {
                     templateWithCategory.append(worryVM.worryListPublisher.value[i])
                 }
@@ -162,7 +162,7 @@ extension ArchiveModalVC: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: ArchiveModalCVC.classIdentifier, for: indexPath)
+            withReuseIdentifier: ArchiveModalCVC.className, for: indexPath)
                 as? ArchiveModalCVC else { return UICollectionViewCell() }
         cell.dataBind(model: templateList[indexPath.item], indexPath: indexPath)
         return cell
