@@ -1,8 +1,8 @@
 //
-//  WriteModalVC.swift
+//  StorageModalCVC.swift
 //  KAERA
 //
-//  Created by saint on 2023/07/10.
+//  Created by saint on 2023/07/13.
 //
 
 import UIKit
@@ -10,18 +10,25 @@ import SnapKit
 import Then
 import Combine
 
-protocol TemplateTitleDelegate: AnyObject {
-    func sendTitle(templateTitle: String)
+protocol RefreshListDelegate: AnyObject {
+    func refreshList(templateTitle: String, list: [WorryListPublisherModel])
 }
 
-class WriteModalVC: UIViewController {
+class ArchiveModalVC: UIViewController {
+    
     // MARK: - Properties
-    var templateVM: TemplateViewModel = TemplateViewModel()
+    private var templateVM: TemplateViewModel = TemplateViewModel()
+    private var worryVM: WorryListViewModel = WorryListViewModel()
     
-    var templateList: [TemplateListPublisherModel] = []
-    var disposalbleBag = Set<AnyCancellable>()
+    private var templateList: [TemplateListPublisherModel] = []
+    /// 데이터를 전달하기 위한 클로저 선언
+    private var completionHandler: (([WorryListPublisherModel]) -> [WorryListPublisherModel])?
     
-    weak var sendTitleDelegate: TemplateTitleDelegate?
+    /// category에 맞는 컬렉션뷰를 화면에 보여주기 위한 배열
+    private var templateWithCategory: [WorryListPublisherModel] = []
+    private var disposalbleBag = Set<AnyCancellable>()
+    
+    weak var refreshListDelegate: RefreshListDelegate?
     
     private var templateIndex: Int = 0
     
@@ -58,19 +65,18 @@ class WriteModalVC: UIViewController {
     
     // MARK: - Functions
     private func registerCV() {
-        templateListCV.register(WriteModalCVC.self,
-                                forCellWithReuseIdentifier: WriteModalCVC.className)
+        templateListCV.register(ArchiveModalCVC.self,
+                                forCellWithReuseIdentifier: ArchiveModalCVC.className)
     }
 }
 
 // MARK: - Layout
-extension WriteModalVC {
-    
+extension ArchiveModalVC{
     private func setLayout() {
         view.backgroundColor = .kGray1
         view.addSubview(templateListCV)
         
-        templateListCV.snp.makeConstraints {
+        templateListCV.snp.makeConstraints{
             $0.top.equalToSuperview().offset(5)
             $0.leading.trailing.bottom.equalTo(self.view.safeAreaLayoutGuide)
         }
@@ -78,21 +84,21 @@ extension WriteModalVC {
 }
 
 
-// MARK: - ViewModel
-extension WriteModalVC {
+// MARK: - 뷰모델 관련
+extension ArchiveModalVC{
     
     /// 뷰모델의 데이터를 뷰컨의 리스트 데이터와 연동
     fileprivate func setBindings() {
         print("ViewController - setBindings()")
-        self.templateVM.templateListPublisher.sink{ (updatedList : [TemplateListPublisherModel]) in
+        self.templateVM.templateListPublisher.sink{ [weak self] (updatedList : [TemplateListPublisherModel]) in
             print("ViewController - updatedList.count: \(updatedList.count)")
-            self.templateList = updatedList
+            self?.templateList = updatedList
         }.store(in: &disposalbleBag)
     }
 }
 
 // MARK: - UICollectionDelegate
-extension WriteModalVC: UICollectionViewDelegateFlowLayout {
+extension ArchiveModalVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 352.adjustedW, height: 72.adjustedW)
     }
@@ -110,42 +116,56 @@ extension WriteModalVC: UICollectionViewDelegateFlowLayout {
         print("click index=\(indexPath.row)")
         
         // 기존의 선택되었던 Cell의 디자인을 초기화한다.
-        if let previousCell = collectionView.cellForItem(at: IndexPath(row: templateIndex, section: 0)) as? WriteModalCVC {
+        if let previousCell = collectionView.cellForItem(at: IndexPath(row: templateIndex, section: 0)) as? ArchiveModalCVC {
             previousCell.templateCell.layer.borderColor = UIColor.systemGray.cgColor
             previousCell.checkIcon.isHidden = true
         }
         
         // 새롭게 선택된 Cell의 디자인을 변경한다.
-        if let currentCell = collectionView.cellForItem(at: indexPath) as? WriteModalCVC {
+        if let currentCell = collectionView.cellForItem(at: indexPath) as? ArchiveModalCVC {
             currentCell.templateCell.layer.borderColor = UIColor.kYellow1.cgColor
             currentCell.checkIcon.isHidden = false
         }
         
+        templateWithCategory = []
         templateIndex = indexPath.row
+        
+        /// 0. 전체 템플릿 보기를 클릭 시에는 모든 고민을 화면에 띄어줍니다.
+        if templateIndex == 0 {
+            templateWithCategory = worryVM.worryListPublisher.value
+        }
+        
+        else {
+            /// worryList의 templateId와 같은 고민을 화면에 띄어줍니다.
+            for i in 0..<worryVM.worryListPublisher.value.count {
+                if templateIndex == worryVM.worryListPublisher.value[i].templateId {
+                    templateWithCategory.append(worryVM.worryListPublisher.value[i])
+                }
+            }
+        }
         
         print("templateIndex=\(templateIndex)")
         
         self.dismiss(animated: true, completion: nil)
         
-        /// 선택한 카테고리의 종류를 WriteVC로 보내줌으로써 화면에 선택된 템플릿이 무엇인지를 알려줍니다.
-        /// '모든 보석 보기' cell은 포함하면 안되므로, 그 다음 셀의 제목을 첫번째 제목으로 하기 위해 +1을 해줍니다.
-        sendTitleDelegate?.sendTitle(templateTitle: templateVM.templateListPublisher.value[templateIndex + 1].templateTitle)
+        /// category에 해당하는 고민들을 담은 리스트를 worryCV로 보내주어, WorryVM의 List를 변경할 수 있게 해줍니다.
+        refreshListDelegate?.refreshList(templateTitle: templateVM.templateListPublisher.value[templateIndex].templateTitle, list: templateWithCategory)
+        print("send the array=\(templateWithCategory)")
     }
 }
 
 // MARK: - UICollectionViewDataSource
-extension WriteModalVC: UICollectionViewDataSource {
-    /// '모든 보석 보기' cell은 제외해야 하기에 -1을 해줍니다.
+extension ArchiveModalVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return templateList.count - 1
+        return templateList.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: WriteModalCVC.className, for: indexPath)
-                as? WriteModalCVC else { return UICollectionViewCell() }
-        /// '모든 보석 보기' cell은 포함하면 안되므로, 그 다음 셀의 제목을 첫번째 제목으로 하기 위해 +1을 해줍니다.
-        cell.dataBind(model: templateList[indexPath.item + 1], indexPath: indexPath)
+            withReuseIdentifier: ArchiveModalCVC.className, for: indexPath)
+                as? ArchiveModalCVC else { return UICollectionViewCell() }
+        cell.dataBind(model: templateList[indexPath.item], indexPath: indexPath)
         return cell
     }
 }
+

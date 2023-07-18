@@ -11,14 +11,16 @@ import Then
 import Combine
 
 
-class ArchiveVC: UIViewController {
+class ArchiveVC: UIViewController, RefreshListDelegate {
     
     // MARK: - Properties
     private let sortHeaderView = ArchiveHeaderView()
     
-    var worryVM: WorryListViewModel = WorryListViewModel()
-    var worryList: [WorryListPublisherModel] = []
-    var disposalbleBag = Set<AnyCancellable>()
+    private var worryVM: WorryListViewModel = WorryListViewModel()
+    private var worryList: [WorryListPublisherModel] = []
+    private var disposalbleBag = Set<AnyCancellable>()
+    
+    private var modalVC = ArchiveModalVC()
     
     private let flowLayout = UICollectionViewFlowLayout().then {
         $0.scrollDirection = .vertical
@@ -46,12 +48,75 @@ class ArchiveVC: UIViewController {
         setLayout()
         registerCV()
         setBindings()
+        pressBtn()
+        setDelgate()
+        setObserver()
     }
     
     // MARK: - Functions
     private func registerCV() {
         worryListCV.register(WorryListCVC.self,
-                             forCellWithReuseIdentifier: WorryListCVC.classIdentifier)
+                             forCellWithReuseIdentifier: WorryListCVC.className)
+    }
+    
+    private func pressBtn() {
+        sortHeaderView.sortBtn.press {
+            self.modalVC.modalPresentationStyle = .pageSheet
+            
+            if let sheet = self.modalVC.sheetPresentationController {
+                
+                /// 지원할 크기 지정 .large() 혹은 .medium()
+                sheet.detents = [.large()]
+                
+                /// 시트 상단에 그래버 표시 (기본 값은 false)
+                sheet.prefersGrabberVisible = true
+            }
+            self.present(self.modalVC, animated: true)
+        }
+    }
+    
+    private func setDelgate() {
+        modalVC.refreshListDelegate = self
+    }
+    
+    private func setObserver() {
+        /// modalVC가 dismiss되는 것을 notificationCenter를 통해 worryVC가 알 수 있게 해줍니다.
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(self.didDismissDetailNotification(_:)),
+            name: NSNotification.Name("DismissModalView"),
+            object: nil
+        )
+    }
+    
+    @objc private func didDismissDetailNotification(_ notification: Notification) {
+        DispatchQueue.main.async { [self] in
+            
+            /// modalVC가 dismiss될때 컬렉션뷰를 리로드해줍니다.
+            print(worryVM.worryListDummy)
+            worryListCV.reloadData()
+            print("reload 성공!")
+        }
+    }
+    
+    // MARK: - RefreshListDelegate
+    func refreshList(templateTitle: String, list: [WorryListPublisherModel]) {
+        worryVM.worryListPublisher.value = list
+        sortHeaderView.sortBtn.setTitle(templateTitle, for: .normal)
+        print("delegate")
+    }
+}
+
+// MARK: - 뷰모델 관련
+extension ArchiveVC{
+    /// 뷰모델의 데이터를 뷰컨의 리스트 데이터와 연동
+    private func setBindings() {
+        print("ViewController - setBindings()")
+        self.worryVM.worryListPublisher.sink{ [weak self] (updatedList : [WorryListPublisherModel]) in
+            print("ViewController - updatedList.count: \(updatedList.count)")
+            self?.worryList = updatedList
+            self?.sortHeaderView.numLabel.text = "총 \(self!.worryList.count)개"
+        }.store(in: &disposalbleBag)
     }
 }
 
@@ -113,7 +178,7 @@ extension ArchiveVC: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: WorryListCVC.classIdentifier, for: indexPath)
+            withReuseIdentifier: WorryListCVC.className, for: indexPath)
                 as? WorryListCVC else { return UICollectionViewCell() }
         cell.dataBind(model: worryList[indexPath.item])
         return cell
