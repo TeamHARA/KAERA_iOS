@@ -107,19 +107,6 @@ class ArchiveVC: UIViewController, RefreshListDelegate {
     }
 }
 
-// MARK: - 뷰모델 관련
-extension ArchiveVC{
-    /// 뷰모델의 데이터를 뷰컨의 리스트 데이터와 연동
-    private func setBindings() {
-        print("ViewController - setBindings()")
-        self.worryVM.worryListPublisher.sink{ [weak self] (updatedList : [WorryListPublisherModel]) in
-            print("ViewController - updatedList.count: \(updatedList.count)")
-            self?.worryList = updatedList
-            self?.sortHeaderView.numLabel.text = "총 \(self!.worryList.count)개"
-        }.store(in: &disposalbleBag)
-    }
-}
-
 // MARK: - Layout
 extension ArchiveVC {
     private func setLayout() {
