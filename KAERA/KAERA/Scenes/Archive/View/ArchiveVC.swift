@@ -39,6 +39,7 @@ class ArchiveVC: UIViewController, RefreshListDelegate {
     final let worryListInset: UIEdgeInsets = UIEdgeInsets(top: 0, left: 16.adjustedW, bottom: 20, right: 16.adjustedW)
     final let interItemSpacing: CGFloat = 12.adjustedW
     final let lineSpacing: CGFloat = 12.adjustedW
+    let worryCellCize = CGSize(width: 165.adjustedW, height: 165.adjustedW)
 
     // MARK: - Life Cycles
     override func viewDidLoad() {
@@ -137,10 +138,23 @@ extension ArchiveVC {
     }
 }
 
+// MARK: - 뷰모델 관련
+extension ArchiveVC{
+    /// 뷰모델의 데이터를 뷰컨의 리스트 데이터와 연동
+    private func setBindings() {
+        print("ViewController - setBindings()")
+        self.worryVM.worryListPublisher.sink{ [weak self] (updatedList : [WorryListPublisherModel]) in
+            print("ViewController - updatedList.count: \(updatedList.count)")
+            self?.worryList = updatedList
+            self?.sortHeaderView.numLabel.text = "총 \(self?.worryList.count ?? 0)개"
+        }.store(in: &disposalbleBag)
+    }
+}
+
 // MARK: - UICollectionDelegate
 extension ArchiveVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 165.adjustedW, height: 165.adjustedW)
+        return worryCellCize
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
