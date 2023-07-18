@@ -12,7 +12,7 @@ import Combine
 class WorryListViewModel {
     
     // MARK: - Properties
-    var IdtoImgDict: [Int: String] = [1: "gem_pink_m", 2: "gem_orange_m", 3: "gem_blue_m", 4: "gem_green_m", 5: "gem_yellow_m", 6: "gem_red_m"]
+    private var IdtoImgDict: [Int: String] = [1: "gem_pink_m", 2: "gem_orange_m", 3: "gem_blue_m", 4: "gem_green_m", 5: "gem_yellow_m", 6: "gem_red_m"]
     
     /// 서버에서 받아올 더미
     var worryListDummy = [
@@ -37,10 +37,8 @@ class WorryListViewModel {
         worryUpdateList = []
         convertIdtoImg()
     }
-}
-
-// MARK: - Functions
-extension WorryListViewModel {
+    
+    // MARK: - Functions
     private func convertIdtoImg() {
         worryListDummy.forEach {
             guard let imgName = IdtoImgDict[$0.templateId] else { return }
