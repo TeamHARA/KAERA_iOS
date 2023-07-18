@@ -16,11 +16,11 @@ class ArchiveVC: UIViewController, RefreshListDelegate {
     // MARK: - Properties
     private let sortHeaderView = ArchiveHeaderView()
     
-    var worryVM: WorryListViewModel = WorryListViewModel()
-    var worryList: [WorryListPublisherModel] = []
-    var disposalbleBag = Set<AnyCancellable>()
+    private var worryVM: WorryListViewModel = WorryListViewModel()
+    private var worryList: [WorryListPublisherModel] = []
+    private var disposalbleBag = Set<AnyCancellable>()
     
-    var modalVC = ArchiveModalVC()
+    private var modalVC = ArchiveModalVC()
     
     private let flowLayout = UICollectionViewFlowLayout().then {
         $0.scrollDirection = .vertical
@@ -55,7 +55,7 @@ class ArchiveVC: UIViewController, RefreshListDelegate {
     // MARK: - Functions
     private func registerCV() {
         worryListCV.register(WorryListCVC.self,
-                             forCellWithReuseIdentifier: WorryListCVC.classIdentifier)
+                             forCellWithReuseIdentifier: WorryListCVC.className)
     }
     
     private func pressBtn() {
@@ -88,7 +88,7 @@ class ArchiveVC: UIViewController, RefreshListDelegate {
         )
     }
     
-    @objc func didDismissDetailNotification(_ notification: Notification) {
+    @objc private func didDismissDetailNotification(_ notification: Notification) {
         DispatchQueue.main.async { [self] in
             
             /// modalVC가 dismiss될때 컬렉션뷰를 리로드해줍니다.
@@ -109,7 +109,7 @@ class ArchiveVC: UIViewController, RefreshListDelegate {
 // MARK: - 뷰모델 관련
 extension ArchiveVC{
     /// 뷰모델의 데이터를 뷰컨의 리스트 데이터와 연동
-    fileprivate func setBindings() {
+    private func setBindings() {
         print("ViewController - setBindings()")
         self.worryVM.worryListPublisher.sink{ [weak self] (updatedList : [WorryListPublisherModel]) in
             print("ViewController - updatedList.count: \(updatedList.count)")
@@ -164,7 +164,7 @@ extension ArchiveVC: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: WorryListCVC.classIdentifier, for: indexPath)
+            withReuseIdentifier: WorryListCVC.className, for: indexPath)
                 as? WorryListCVC else { return UICollectionViewCell() }
         cell.dataBind(model: worryList[indexPath.item])
         return cell
