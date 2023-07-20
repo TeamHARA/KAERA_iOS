@@ -46,12 +46,28 @@ class HomeGemListViewModel: ViewModelType {
         HomeGemListModel(worryId: 2, templateId: 2, title: "고민중2"),
         HomeGemListModel(worryId: 3, templateId: 3, title: "고민중3"),
         HomeGemListModel(worryId: 4, templateId: 4, title: "고민중4"),
+        HomeGemListModel(worryId: 5, templateId: 5, title: "고민중5"),
+        HomeGemListModel(worryId: 6, templateId: 6, title: "고민중6"),
+        HomeGemListModel(worryId: 7, templateId: 7, title: "고민중7"),
+        HomeGemListModel(worryId: 8, templateId: 8, title: "고민중8"),
+        HomeGemListModel(worryId: 9, templateId: 9, title: "고민중9"),
+        HomeGemListModel(worryId: 10, templateId: 10, title: "고민중10"),
+        HomeGemListModel(worryId: 11, templateId: 11, title: "고민중11"),
+        HomeGemListModel(worryId: 12, templateId: 12, title: "고민중12"),
     ]
     private var gemListDummy: [HomeGemListModel] = [
         HomeGemListModel(worryId: 1, templateId: 1, title: "고민완료1"),
         HomeGemListModel(worryId: 2, templateId: 2, title: "고민완료2"),
         HomeGemListModel(worryId: 3, templateId: 3, title: "고민완료3"),
         HomeGemListModel(worryId: 4, templateId: 4, title: "고민완료4"),
+        HomeGemListModel(worryId: 5, templateId: 5, title: "고민완료5"),
+        HomeGemListModel(worryId: 6, templateId: 6, title: "고민완료6"),
+        HomeGemListModel(worryId: 7, templateId: 7, title: "고민완료7"),
+        HomeGemListModel(worryId: 8, templateId: 8, title: "고민완료8"),
+        HomeGemListModel(worryId: 9, templateId: 9, title: "고민완료9"),
+        HomeGemListModel(worryId: 10, templateId: 10, title: "고민완료10"),
+        HomeGemListModel(worryId: 11, templateId: 11, title: "고민완료11"),
+        HomeGemListModel(worryId: 12, templateId: 12, title: "고민완료12"),
     ]
     
     // MARK: - Function
