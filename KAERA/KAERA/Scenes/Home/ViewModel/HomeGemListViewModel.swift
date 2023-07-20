@@ -22,8 +22,7 @@ class HomeGemListViewModel: ViewModelType {
     struct Output {
         let dataList: AnyPublisher<[HomeGemListModel], Never>
     }
-    /// CurrentValueSubject는 초기값을 가지는데 구조상 VC의 ViewWillApear에서 처음에 데이터 전달이 이루어지므로
-    /// 초기값으로 인해 데이터 전달이 결국 2번이 이루어지기 때문에 초기값을 가지지 않는 PassthroughSubject사용함
+    
     private let output: PassthroughSubject<[HomeGemListModel], Never> = .init()
     private var cancellables = Set<AnyCancellable>()
     
