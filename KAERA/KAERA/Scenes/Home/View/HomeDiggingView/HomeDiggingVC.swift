@@ -110,12 +110,11 @@ extension HomeDiggingVC: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let gemStoneCell = collectionView.dequeueReusableCell(withReuseIdentifier: GemStoneCVC.className, for: indexPath) as! GemStoneCVC
+        
         let title = gemList[indexPath.row].title
-        gemStoneCell.setData(title: title)
+        gemStoneCell.setData(title: title, imageName: "gemstone_blue")
         return gemStoneCell
     }
-    
-    
 }
 
 

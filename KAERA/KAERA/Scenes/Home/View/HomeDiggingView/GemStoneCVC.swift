@@ -51,7 +51,7 @@ final class GemStoneCVC: UICollectionViewCell {
         }
         
         containerView.addSubviews([gemStoneImgView, gemStoneTitle])
-
+        
         gemStoneImgView.snp.makeConstraints {
             $0.top.centerX.equalToSuperview()
         }
@@ -63,16 +63,12 @@ final class GemStoneCVC: UICollectionViewCell {
     }
     
     func startContainerAnimation() {
-            // containerView의 최초 위치 설정
-            containerView.transform = CGAffineTransform(translationX: 0, y: 0)
-            
+        // containerView의 최초 위치 설정
+        containerView.transform = CGAffineTransform(translationX: 0, y: 0)
+        containerView.isUserInteractionEnabled = false
         UIView.animate(withDuration: 0.9, delay: 0, options: [.autoreverse, .repeat], animations: {
-                // containerView를 위로 이동
-                self.containerView.transform = CGAffineTransform(translationX: 0, y: 10)
-                
-                // containerView 안의 subviews들도 함께 이동
-                self.gemStoneImgView.transform = CGAffineTransform(translationX: 0, y: 10)
-//                self.gemStoneTitle.transform = CGAffineTransform(translationX: 0, y: -10)
-            }, completion: nil)
-        }
+            self.containerView.transform = CGAffineTransform(translationX: 0, y: 10)
+            self.gemStoneImgView.transform = CGAffineTransform(translationX: 0, y: 10)
+        }, completion: nil)
+    }
 }
