@@ -60,7 +60,6 @@
 		E7BB4F492A5EF7320018312B /* HomeGemListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7BB4F482A5EF7320018312B /* HomeGemListModel.swift */; };
 		E7BB4F4F2A5EF81C0018312B /* WorryListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7BB4F4E2A5EF81C0018312B /* WorryListViewModel.swift */; };
 		E7BB4F512A5EF8260018312B /* WorryListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7BB4F502A5EF8260018312B /* WorryListModel.swift */; };
-		E7BB4F532A6032240018312B /* GemType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7BB4F522A6032240018312B /* GemType.swift */; };
 		E7BB4F552A604FC10018312B /* GemStoneCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7BB4F542A604FC10018312B /* GemStoneCVC.swift */; };
 		E7C30F612A533D08002BD782 /* NanumSquareNeoTTF-aLt.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E7C30F5E2A533D08002BD782 /* NanumSquareNeoTTF-aLt.ttf */; };
 		E7C30F622A533D08002BD782 /* NanumSquareNeoTTF-bRg.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E7C30F5F2A533D08002BD782 /* NanumSquareNeoTTF-bRg.ttf */; };
@@ -121,7 +120,6 @@
 		E7BB4F482A5EF7320018312B /* HomeGemListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeGemListModel.swift; sourceTree = "<group>"; };
 		E7BB4F4E2A5EF81C0018312B /* WorryListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorryListViewModel.swift; sourceTree = "<group>"; };
 		E7BB4F502A5EF8260018312B /* WorryListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorryListModel.swift; sourceTree = "<group>"; };
-		E7BB4F522A6032240018312B /* GemType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GemType.swift; sourceTree = "<group>"; };
 		E7BB4F542A604FC10018312B /* GemStoneCVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GemStoneCVC.swift; sourceTree = "<group>"; };
 		E7C30F5E2A533D08002BD782 /* NanumSquareNeoTTF-aLt.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NanumSquareNeoTTF-aLt.ttf"; sourceTree = "<group>"; };
 		E7C30F5F2A533D08002BD782 /* NanumSquareNeoTTF-bRg.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NanumSquareNeoTTF-bRg.ttf"; sourceTree = "<group>"; };
@@ -385,7 +383,6 @@
 			isa = PBXGroup;
 			children = (
 				E7BB4F482A5EF7320018312B /* HomeGemListModel.swift */,
-				E7BB4F522A6032240018312B /* GemType.swift */,
 				E73CA3D92A69300F00BAC9D6 /* HomePublisherModel.swift */,
 			);
 			path = Model;
@@ -569,7 +566,6 @@
 				E79AAC392A52F2C300F3F439 /* UICollectionVIew+.swift in Sources */,
 				85EBC7F72A5AD95D00B9E891 /* ArchiveVC.swift in Sources */,
 				E79AAC432A52F36500F3F439 /* APIConstant.swift in Sources */,
-				E7BB4F532A6032240018312B /* GemType.swift in Sources */,
 				E79AAC302A52F2C300F3F439 /* String+.swift in Sources */,
 				E79AAC4B2A52F3E000F3F439 /* BaseNC.swift in Sources */,
 				E79AAC462A52F36500F3F439 /* NetworkConstant.swift in Sources */,
