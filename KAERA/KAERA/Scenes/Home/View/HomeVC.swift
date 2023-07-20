@@ -75,13 +75,13 @@ extension HomeVC: UIPageViewControllerDelegate {
             headerLabel.text = "그동안 캐낸 보석들 ✨"
             pageIcn.image = UIImage(named: "icn_dug_page")
             headerBGView.snp.updateConstraints {
-                $0.width.equalTo(176)
+                $0.width.equalTo(176.adjustedW)
             }
         } else {
             headerLabel.text = "열심히 캐내는 중 ⛏️"
             pageIcn.image = UIImage(named: "icn_digging_page")
             headerBGView.snp.updateConstraints {
-                $0.width.equalTo(162)
+                $0.width.equalTo(162.adjustedW)
             }
         }
         

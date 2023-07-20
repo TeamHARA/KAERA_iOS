@@ -52,6 +52,10 @@ final class HomeDiggingVC: BaseVC {
 
     private var pageType: PageType = .digging
     
+    private let stoneEmptyView = GemStoneEmptyView(mainTitle: "아직 고민 원석이 없네요!", subTitle: "+ 버튼을 터치해 고민을 작성해보세요")
+    
+    private let gemStoneEmptyView = GemStoneEmptyView(mainTitle: "아직 고민 보석이 없네요!", subTitle: "원석을 터치해 고민 보석을 캐내보세요")
+    
     // MARK: - Initialization
     init(type: PageType = .digging) {
         super.init(nibName: nil, bundle: nil)
@@ -70,7 +74,6 @@ final class HomeDiggingVC: BaseVC {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        print("send in DiggingView")
         if pageType == .digging {
             input.send(false)
         }else if pageType == .dug {
@@ -102,6 +105,20 @@ final class HomeDiggingVC: BaseVC {
     
     private func updateUI(gemList: [HomePublisherModel]) {
         print(gemList)
+        if gemList.isEmpty {
+            gemStoneCV.isHidden = true
+            if pageType == .digging {
+                stoneEmptyView.isHidden = false
+                gemStoneEmptyView.isHidden = true
+            } else if pageType == .dug {
+                gemStoneEmptyView.isHidden = false
+                stoneEmptyView.isHidden = true
+            }
+        } else {
+            stoneEmptyView.isHidden = true
+            gemStoneEmptyView.isHidden = true
+            gemStoneCV.isHidden = false
+        }
         self.gemStoneList = gemList
         self.gemStoneCV.reloadData()
     }
@@ -134,11 +151,21 @@ extension HomeDiggingVC: UICollectionViewDataSource {
 extension HomeDiggingVC {
     private func setLayout() {
         self.view.backgroundColor = .kGray1
-        self.view.addSubview(gemStoneCV)
+        self.view.addSubviews([stoneEmptyView, gemStoneEmptyView, gemStoneCV])
         
         gemStoneCV.snp.makeConstraints {
             $0.directionalHorizontalEdges.top.equalToSuperview()
             $0.bottom.equalToSuperview().inset(49)
+        }
+        
+        stoneEmptyView.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(115)
+            $0.directionalHorizontalEdges.equalToSuperview()
+        }
+        
+        gemStoneEmptyView.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(115)
+            $0.directionalHorizontalEdges.equalToSuperview()
         }
     }
 }
