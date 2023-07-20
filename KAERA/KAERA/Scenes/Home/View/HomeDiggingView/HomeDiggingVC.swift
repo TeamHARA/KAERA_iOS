@@ -54,7 +54,7 @@ final class HomeDiggingVC: BaseVC {
     
     private let stoneEmptyView = GemStoneEmptyView(mainTitle: "아직 고민 원석이 없네요!", subTitle: "+ 버튼을 터치해 고민을 작성해보세요")
     
-    private let gemStoneEmptyView = GemStoneEmptyView(mainTitle: "아직 고민 보석이 없네요!", subTitle: "원석을 터치해 고민 보석을 캐내보세요")
+    private let gemStoneEmptyView = GemStoneEmptyView(mainTitle: "아직 고민 보석이 없네요!", subTitle: "작성된 고민 원석을\n빛나는 보석으로 만들어주세요.")
     
     // MARK: - Initialization
     init(type: PageType = .digging) {
@@ -159,13 +159,15 @@ extension HomeDiggingVC {
         }
         
         stoneEmptyView.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(115)
+            $0.top.equalToSuperview().offset(115.adjustedH)
             $0.directionalHorizontalEdges.equalToSuperview()
+            $0.height.equalTo(185.adjustedH) /// GUI 상 높이로 설정
         }
         
         gemStoneEmptyView.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(115)
+            $0.top.equalToSuperview().offset(115.adjustedH)
             $0.directionalHorizontalEdges.equalToSuperview()
+            $0.height.equalTo(185.adjustedH)
         }
     }
 }
