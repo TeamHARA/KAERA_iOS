@@ -12,6 +12,12 @@ import Then
 
 final class HomeDiggingVC: BaseVC {
     
+    // MARK: - Enum
+    enum PageType {
+        case digging
+        case dug
+    }
+    
     // MARK: - Properties
     private let gemListViewModel = HomeGemListViewModel()
     private var cancellables = Set<AnyCancellable>()
@@ -47,6 +53,15 @@ final class HomeDiggingVC: BaseVC {
     
     
     // MARK: - Initialization
+    init(type: PageType = .digging) {
+        super.init(nibName: nil, bundle: nil)
+        self.pageType = type
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         dataBind()
@@ -56,7 +71,11 @@ final class HomeDiggingVC: BaseVC {
     
     override func viewWillAppear(_ animated: Bool) {
         print("send in DiggingView")
-        input.send(false)
+        if pageType == .digging {
+            input.send(false)
+        }else if pageType == .dug {
+            input.send(true)
+        }
     }
     
     // MARK: - Function
