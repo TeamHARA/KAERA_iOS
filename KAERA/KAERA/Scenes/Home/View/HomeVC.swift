@@ -38,8 +38,8 @@ class HomeVC: BaseVC {
         $0.backgroundColor = .clear
     }
     private let pageVC = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
-    private let homeDiggingVC = HomeDiggingVC()
-    private let homeDugVC = HomeDugVC()
+    private let homeDiggingVC = HomeDiggingVC(type: .digging)
+    private let homeDugVC = HomeDiggingVC(type: .dug)
     private lazy var contents: [UIViewController] = [ homeDiggingVC, homeDugVC ]
     
     // MARK: - View Life Cycle
