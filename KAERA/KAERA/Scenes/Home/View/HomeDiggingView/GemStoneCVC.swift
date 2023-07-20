@@ -11,12 +11,9 @@ import Then
 
 final class GemStoneCVC: UICollectionViewCell {
     
-    private let gemStoneImgView = UIImageView().then {
-        $0.image = UIImage(named: "gemstone_green")
-    }
+    private let gemStoneImgView = UIImageView()
     
     private let gemStoneTitle = UILabel().then {
-        $0.text = "고민제목"
         $0.textColor = .kGray5
         $0.font = .kB2R16
         $0.textAlignment = .center
@@ -39,8 +36,10 @@ final class GemStoneCVC: UICollectionViewCell {
     }
     
     // MARK: - Function
-    func setData(title: String) {
+    func setData(title: String, imageName: String) {
         gemStoneTitle.text = title
+        gemStoneImgView.image = UIImage(named: imageName)
+        startContainerAnimation()
     }
     
     private func setLayout() {
@@ -62,4 +61,18 @@ final class GemStoneCVC: UICollectionViewCell {
             $0.centerX.equalToSuperview()
         }
     }
+    
+    func startContainerAnimation() {
+            // containerView의 최초 위치 설정
+            containerView.transform = CGAffineTransform(translationX: 0, y: 0)
+            
+        UIView.animate(withDuration: 0.9, delay: 0, options: [.autoreverse, .repeat], animations: {
+                // containerView를 위로 이동
+                self.containerView.transform = CGAffineTransform(translationX: 0, y: 10)
+                
+                // containerView 안의 subviews들도 함께 이동
+                self.gemStoneImgView.transform = CGAffineTransform(translationX: 0, y: 10)
+//                self.gemStoneTitle.transform = CGAffineTransform(translationX: 0, y: -10)
+            }, completion: nil)
+        }
 }
