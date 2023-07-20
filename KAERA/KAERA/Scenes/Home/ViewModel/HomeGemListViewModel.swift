@@ -15,7 +15,7 @@ protocol ViewModelType {
     func transform(input: Input) -> Output
 }
 
-class HomeGemListViewModel: ViewModelType {
+final class HomeGemListViewModel: ViewModelType {
     struct Input {
         let isSolved: AnyPublisher<Bool, Never>
     }
@@ -42,7 +42,7 @@ class HomeGemListViewModel: ViewModelType {
         let isSolved: Bool
     }
     
-    var gemStoneDictionary: [TemplateKey: String] = [
+    private var gemStoneDictionary: [TemplateKey: String] = [
         TemplateKey(id: 1, isSolved: false): "gemstone_pink",
         TemplateKey(id: 1, isSolved: true): "gem_pink_l",
         TemplateKey(id: 2, isSolved: false): "gemstone_orange",
