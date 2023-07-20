@@ -19,6 +19,7 @@ final class GemStoneEmptyView: UIView {
     private let mainTitleLabel = UILabel().then {
         $0.font = .kH3B18
         $0.textColor = .kWhite
+        $0.textAlignment = .center
     }
     
     private let subTitleLabel = UILabel().then {
@@ -43,7 +44,18 @@ final class GemStoneEmptyView: UIView {
     private func setLabelText(mainTitle: String, subTtitle: String) {
         mainTitleLabel.text = mainTitle
         subTitleLabel.text = subTtitle
-        subTitleLabel.addLabelSpacing(kernValue: -0.5, lineSpacing: 15)
+        
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = subTitleLabel.font.lineHeight * 0.5 // 폰트 높이의 150%인 줄 간격을 설정합니다.
+        paragraphStyle.alignment = .center
+        let attributedText = NSAttributedString(
+            string: subTtitle,
+            attributes: [
+                .paragraphStyle: paragraphStyle,
+            ]
+        )
+        
+        subTitleLabel.attributedText = attributedText
     }
     
     func setEmptyImage(name: String) {
