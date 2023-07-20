@@ -22,7 +22,7 @@ final class HomeDiggingVC: BaseVC {
     private let gemListViewModel = HomeGemListViewModel()
     private var cancellables = Set<AnyCancellable>()
     private let input = PassthroughSubject<Bool, Never>.init()
-    private var gemList: [HomeGemListModel] = []
+    private var gemStoneList: [HomePublisherModel] = []
     
     private let gemStoneCV = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     private let compositionalLayout: UICollectionViewCompositionalLayout = {
@@ -50,7 +50,7 @@ final class HomeDiggingVC: BaseVC {
       return UICollectionViewCompositionalLayout(section: section)
     }()
 
-    
+    private var pageType: PageType = .digging
     
     // MARK: - Initialization
     init(type: PageType = .digging) {
@@ -100,9 +100,9 @@ final class HomeDiggingVC: BaseVC {
             }.store(in: &cancellables)
     }
     
-    private func updateUI(gemList: [HomeGemListModel]) {
+    private func updateUI(gemList: [HomePublisherModel]) {
         print(gemList)
-        self.gemList = gemList
+        self.gemStoneList = gemList
         self.gemStoneCV.reloadData()
     }
 }
@@ -116,14 +116,15 @@ extension HomeDiggingVC: UICollectionViewDelegate {
 
 extension HomeDiggingVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return gemList.count
+        return gemStoneList.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let gemStoneCell = collectionView.dequeueReusableCell(withReuseIdentifier: GemStoneCVC.className, for: indexPath) as! GemStoneCVC
         
-        let title = gemList[indexPath.row].title
-        gemStoneCell.setData(title: title, imageName: "gemstone_blue")
+        let title = gemStoneList[indexPath.row].title
+        let imageName = gemStoneList[indexPath.row].imageName
+        gemStoneCell.setData(title: title, imageName: imageName)
         return gemStoneCell
     }
 }
