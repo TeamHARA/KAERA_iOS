@@ -19,15 +19,12 @@ final class GemStoneCVC: UICollectionViewCell {
         $0.textAlignment = .center
     }
     
-    private let containerView = UIView().then {
-        $0.backgroundColor = .yellow
-    }
+    private let containerView = UIView()
     
     // MARK: - Initialization
     override init(frame: CGRect) {
         super.init(frame: frame)
         setLayout()
-        self.backgroundColor = .blue
     }
     
     

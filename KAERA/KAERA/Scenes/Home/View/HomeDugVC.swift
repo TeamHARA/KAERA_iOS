@@ -9,7 +9,7 @@ import UIKit
 import Combine
 import SnapKit
 
-class HomeDugVC: BaseVC {
+final class HomeDugVC: BaseVC {
     
     // MARK: - Properties
     private let gemListViewModel = HomeGemListViewModel()

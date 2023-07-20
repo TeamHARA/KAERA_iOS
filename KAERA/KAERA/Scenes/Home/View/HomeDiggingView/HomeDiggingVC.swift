@@ -10,7 +10,7 @@ import Combine
 import SnapKit
 import Then
 
-class HomeDiggingVC: BaseVC {
+final class HomeDiggingVC: BaseVC {
     
     // MARK: - Properties
     private let gemListViewModel = HomeGemListViewModel()
@@ -18,12 +18,6 @@ class HomeDiggingVC: BaseVC {
     private let input = PassthroughSubject<Bool, Never>.init()
     private var gemList: [HomeGemListModel] = []
     
-
-    /// 뷰에 들어갈 데이터가 초기화된 12개의 커스텀 뷰배열을 만들고
-    /// 서버에서 받은 데이터 만큼만 해당 뷰 배열에 업데이트하고
-    /// 로직은 그대로 12개를 위치에 뷰 업데이트 ( 겉으로는 안보이지만 빈뷰가 있는 구조)
-    ///
-    /// 컬렉션뷰 셀(원석)이 움직여야 하므로 셀 안에 컨테이너 뷰를 넣고 그 뷰가 셀 안에서 움직이도록 해야할듯
     private let gemStoneCV = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     private let compositionalLayout: UICollectionViewCompositionalLayout = {
       let itemFractionalWidthFraction = 1.0 / 3.0 // horizontal 3개의 셀
@@ -35,7 +29,6 @@ class HomeDiggingVC: BaseVC {
         heightDimension: .fractionalHeight(1)
       )
       let item = NSCollectionLayoutItem(layoutSize: itemSize)
-//        item.contentInsets = .zero
         
       // Group
       let groupSize = NSCollectionLayoutSize(
@@ -43,7 +36,7 @@ class HomeDiggingVC: BaseVC {
         heightDimension: .fractionalHeight(groupFractionalHeightFraction)
       )
       let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-//        group.contentInsets = NSDirectionalEdgeInsets(top: .zero, leading: .zero, bottom: 25, trailing: .zero)
+
       // Section
       let section = NSCollectionLayoutSection(group: group)
       section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 22, bottom: 0, trailing: 22)
@@ -74,7 +67,7 @@ class HomeDiggingVC: BaseVC {
         gemStoneCV.showsVerticalScrollIndicator = false
         gemStoneCV.isScrollEnabled = false
         gemStoneCV.collectionViewLayout = compositionalLayout
-        gemStoneCV.backgroundColor = .white
+        gemStoneCV.backgroundColor = .clear
     }
     
     private func dataBind() {
@@ -89,7 +82,6 @@ class HomeDiggingVC: BaseVC {
     }
     
     private func updateUI(gemList: [HomeGemListModel]) {
-        print("Digging 업데이트 UI")
         print(gemList)
         self.gemList = gemList
         self.gemStoneCV.reloadData()
@@ -121,7 +113,7 @@ extension HomeDiggingVC: UICollectionViewDataSource {
 // MARK: - UI
 extension HomeDiggingVC {
     private func setLayout() {
-        view.backgroundColor = .kRed1
+        self.view.backgroundColor = .kGray1
         self.view.addSubview(gemStoneCV)
         
         gemStoneCV.snp.makeConstraints {
