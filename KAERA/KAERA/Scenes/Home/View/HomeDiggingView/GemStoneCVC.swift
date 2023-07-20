@@ -63,7 +63,7 @@ final class GemStoneCVC: UICollectionViewCell {
         // containerView의 최초 위치 설정
         containerView.transform = CGAffineTransform(translationX: 0, y: 0)
         containerView.isUserInteractionEnabled = false
-        UIView.animate(withDuration: 0.9, delay: 0, options: [.autoreverse, .repeat], animations: {
+        UIView.animate(withDuration: 1, delay: Double.random(in: 0...1), options: [.autoreverse, .repeat], animations: {
             self.containerView.transform = CGAffineTransform(translationX: 0, y: 10)
             self.gemStoneImgView.transform = CGAffineTransform(translationX: 0, y: 10)
         }, completion: nil)
