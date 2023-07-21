@@ -18,9 +18,19 @@ final class HomeWorryDetailVC: UIViewController {
         $0.image = UIImage(named: "framebg")
     }
     private let worryDetailTV = UITableView().then {
-        $0.estimatedRowHeight = 93
+        $0.estimatedRowHeight = 300
         $0.rowHeight = UITableView.automaticDimension
         $0.backgroundColor = .clear
+    }
+    
+    private let bottmContainerView = UIView().then {
+        $0.backgroundColor = .kGray1
+    }
+    
+    private let digWorryButton = UIButton().then {
+        $0.setTitleWithCustom("⚒️ 고민 보석 캐기", font: .kB1B16, color: .kWhite, for: .normal)
+        $0.backgroundColor = .kGray3
+        $0.layer.cornerRadius = 8
     }
     
     // MARK: - Initialization
@@ -59,7 +69,7 @@ extension HomeWorryDetailVC: UITableViewDelegate {
 
 extension HomeWorryDetailVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return 20
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -74,7 +84,7 @@ extension HomeWorryDetailVC: UITableViewDataSource {
 // MARK: - UI
 extension HomeWorryDetailVC {
     private func setLayout() {
-        self.view.addSubviews([navigationBarView, worryDetailTV])
+        self.view.addSubviews([navigationBarView, bottmContainerView, worryDetailTV])
         
         navigationBarView.snp.makeConstraints {
             $0.left.right.equalToSuperview().inset(16)
@@ -82,10 +92,23 @@ extension HomeWorryDetailVC {
             $0.height.equalTo(50)
         }
         
+        bottmContainerView.snp.makeConstraints {
+            $0.directionalHorizontalEdges.bottom.equalToSuperview()
+            $0.height.equalTo(126.adjustedH)
+        }
+        
+        bottmContainerView.addSubview(digWorryButton)
+        
+        digWorryButton.snp.makeConstraints {
+            $0.directionalHorizontalEdges.equalToSuperview().inset(16)
+            $0.top.equalToSuperview().inset(20)
+            $0.height.equalTo(52.adjustedH)
+        }
+        
         worryDetailTV.snp.makeConstraints {
             $0.directionalHorizontalEdges.equalToSuperview().inset(16)
             $0.top.equalTo(navigationBarView.snp.bottom)
-            $0.bottom.equalToSuperview()
+            $0.bottom.equalTo(bottmContainerView.snp.top)
         }
     }
 }
