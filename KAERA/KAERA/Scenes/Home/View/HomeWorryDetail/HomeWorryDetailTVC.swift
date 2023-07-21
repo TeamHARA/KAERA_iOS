@@ -12,6 +12,7 @@ class HomeWorryDetailTVC: UITableViewCell {
     // MARK: - Initialization
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        self.backgroundColor = .kBlue
     }
     
     required init?(coder: NSCoder) {
