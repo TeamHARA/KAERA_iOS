@@ -23,6 +23,7 @@
 		E721EABD2A51D5D900A04AA0 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = E721EABC2A51D5D900A04AA0 /* Then */; };
 		E73CA3DA2A69300F00BAC9D6 /* HomePublisherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73CA3D92A69300F00BAC9D6 /* HomePublisherModel.swift */; };
 		E73CA3DC2A693C9D00BAC9D6 /* GemStoneEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73CA3DB2A693C9D00BAC9D6 /* GemStoneEmptyView.swift */; };
+		E73CA3DF2A6A62F700BAC9D6 /* HomeWorryDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73CA3DE2A6A62F700BAC9D6 /* HomeWorryDetailVC.swift */; };
 		E73CA3E22A6A688A00BAC9D6 /* CustomNavigationBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73CA3E12A6A688A00BAC9D6 /* CustomNavigationBarView.swift */; };
 		E78C3A062A51842300A15120 /* Temp_Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = E78C3A052A51842300A15120 /* Temp_Protocols.swift */; };
 		E79AAC1F2A52F16300F3F439 /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79AAC1E2A52F16300F3F439 /* ImageCacheManager.swift */; };
@@ -88,6 +89,7 @@
 		85EBC7F62A5AD95D00B9E891 /* ArchiveVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveVC.swift; sourceTree = "<group>"; };
 		E73CA3D92A69300F00BAC9D6 /* HomePublisherModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePublisherModel.swift; sourceTree = "<group>"; };
 		E73CA3DB2A693C9D00BAC9D6 /* GemStoneEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GemStoneEmptyView.swift; sourceTree = "<group>"; };
+		E73CA3DE2A6A62F700BAC9D6 /* HomeWorryDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeWorryDetailVC.swift; sourceTree = "<group>"; };
 		E73CA3E12A6A688A00BAC9D6 /* CustomNavigationBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationBarView.swift; sourceTree = "<group>"; };
 		E78C3A052A51842300A15120 /* Temp_Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Temp_Protocols.swift; sourceTree = "<group>"; };
 		E79AAC1E2A52F16300F3F439 /* ImageCacheManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
@@ -185,6 +187,14 @@
 				85887D982A60431000F7FB21 /* ArchiveModalVC.swift */,
 			);
 			path = ArchiveModal;
+			sourceTree = "<group>";
+		};
+		E73CA3DD2A6A62D000BAC9D6 /* HomeWorryDetail */ = {
+			isa = PBXGroup;
+			children = (
+				E73CA3DE2A6A62F700BAC9D6 /* HomeWorryDetailVC.swift */,
+			);
+			path = HomeWorryDetail;
 			sourceTree = "<group>";
 		};
 		E73CA3E02A6A685900BAC9D6 /* Components */ = {
@@ -380,6 +390,7 @@
 				E7BB4F3A2A5ED3610018312B /* HomeVC.swift */,
 				E7BB4F382A5D54A60018312B /* HomeHederView.swift */,
 				E73CA3DB2A693C9D00BAC9D6 /* GemStoneEmptyView.swift */,
+				E73CA3DD2A6A62D000BAC9D6 /* HomeWorryDetail */,
 				E7BB4F452A5EF6C60018312B /* HomeDiggingView */,
 			);
 			path = View;
@@ -564,6 +575,7 @@
 			files = (
 				E79AAC1F2A52F16300F3F439 /* ImageCacheManager.swift in Sources */,
 				E79AAC472A52F36500F3F439 /* NetworkResult.swift in Sources */,
+				E73CA3DF2A6A62F700BAC9D6 /* HomeWorryDetailVC.swift in Sources */,
 				E79AAC212A52F19300F3F439 /* ToastMessageColorType.swift in Sources */,
 				E7AC12232A51D08300FE504C /* Temp_DataModel.swift in Sources */,
 				E7BB4F3B2A5ED3610018312B /* HomeVC.swift in Sources */,

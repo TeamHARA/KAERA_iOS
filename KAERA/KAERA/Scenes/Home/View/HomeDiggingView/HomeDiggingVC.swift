@@ -128,6 +128,10 @@ final class HomeDiggingVC: BaseVC {
 extension HomeDiggingVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("didSelect")
+        let vc = HomeWorryDetailVC()
+        vc.modalPresentationStyle = .fullScreen
+        vc.modalTransitionStyle = .coverVertical
+        self.present(vc, animated: true, completion: nil)
     }
 }
 
