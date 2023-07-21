@@ -23,6 +23,7 @@
 		E721EABD2A51D5D900A04AA0 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = E721EABC2A51D5D900A04AA0 /* Then */; };
 		E73CA3DA2A69300F00BAC9D6 /* HomePublisherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73CA3D92A69300F00BAC9D6 /* HomePublisherModel.swift */; };
 		E73CA3DC2A693C9D00BAC9D6 /* GemStoneEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73CA3DB2A693C9D00BAC9D6 /* GemStoneEmptyView.swift */; };
+		E73CA3E22A6A688A00BAC9D6 /* CustomNavigationBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73CA3E12A6A688A00BAC9D6 /* CustomNavigationBarView.swift */; };
 		E78C3A062A51842300A15120 /* Temp_Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = E78C3A052A51842300A15120 /* Temp_Protocols.swift */; };
 		E79AAC1F2A52F16300F3F439 /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79AAC1E2A52F16300F3F439 /* ImageCacheManager.swift */; };
 		E79AAC212A52F19300F3F439 /* ToastMessageColorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79AAC202A52F19300F3F439 /* ToastMessageColorType.swift */; };
@@ -87,6 +88,7 @@
 		85EBC7F62A5AD95D00B9E891 /* ArchiveVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveVC.swift; sourceTree = "<group>"; };
 		E73CA3D92A69300F00BAC9D6 /* HomePublisherModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePublisherModel.swift; sourceTree = "<group>"; };
 		E73CA3DB2A693C9D00BAC9D6 /* GemStoneEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GemStoneEmptyView.swift; sourceTree = "<group>"; };
+		E73CA3E12A6A688A00BAC9D6 /* CustomNavigationBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationBarView.swift; sourceTree = "<group>"; };
 		E78C3A052A51842300A15120 /* Temp_Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Temp_Protocols.swift; sourceTree = "<group>"; };
 		E79AAC1E2A52F16300F3F439 /* ImageCacheManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
 		E79AAC202A52F19300F3F439 /* ToastMessageColorType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastMessageColorType.swift; sourceTree = "<group>"; };
@@ -185,10 +187,19 @@
 			path = ArchiveModal;
 			sourceTree = "<group>";
 		};
+		E73CA3E02A6A685900BAC9D6 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				E73CA3E12A6A688A00BAC9D6 /* CustomNavigationBarView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
 		E78C39F12A5138D200A15120 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
 				85EBC7F02A5AD7BC00B9E891 /* KaeraTabbarController.swift */,
+				E73CA3E02A6A685900BAC9D6 /* Components */,
 				E78C39F62A5182AA00A15120 /* Home */,
 				E78C39F72A5182B100A15120 /* Writing */,
 				E78C39F82A5182BC00A15120 /* Archive */,
@@ -560,6 +571,7 @@
 				E79AAC332A52F2C300F3F439 /* UITextField+.swift in Sources */,
 				E79AAC322A52F2C300F3F439 /* UIColor+.swift in Sources */,
 				E7AC12252A51D08C00FE504C /* Temp_Service.swift in Sources */,
+				E73CA3E22A6A688A00BAC9D6 /* CustomNavigationBarView.swift in Sources */,
 				85887D972A60430600F7FB21 /* ArchiveModalCVC.swift in Sources */,
 				E79AAC372A52F2C300F3F439 /* CALayer+.swift in Sources */,
 				E79AAC3D2A52F2C300F3F439 /* UIFont+.swift in Sources */,
