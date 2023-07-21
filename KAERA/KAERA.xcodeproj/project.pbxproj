@@ -25,6 +25,7 @@
 		E73CA3DC2A693C9D00BAC9D6 /* GemStoneEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73CA3DB2A693C9D00BAC9D6 /* GemStoneEmptyView.swift */; };
 		E73CA3DF2A6A62F700BAC9D6 /* HomeWorryDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73CA3DE2A6A62F700BAC9D6 /* HomeWorryDetailVC.swift */; };
 		E73CA3E22A6A688A00BAC9D6 /* CustomNavigationBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73CA3E12A6A688A00BAC9D6 /* CustomNavigationBarView.swift */; };
+		E73CA3E42A6AB09100BAC9D6 /* HomeWorryDetailTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73CA3E32A6AB09100BAC9D6 /* HomeWorryDetailTVC.swift */; };
 		E78C3A062A51842300A15120 /* Temp_Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = E78C3A052A51842300A15120 /* Temp_Protocols.swift */; };
 		E79AAC1F2A52F16300F3F439 /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79AAC1E2A52F16300F3F439 /* ImageCacheManager.swift */; };
 		E79AAC212A52F19300F3F439 /* ToastMessageColorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79AAC202A52F19300F3F439 /* ToastMessageColorType.swift */; };
@@ -91,6 +92,7 @@
 		E73CA3DB2A693C9D00BAC9D6 /* GemStoneEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GemStoneEmptyView.swift; sourceTree = "<group>"; };
 		E73CA3DE2A6A62F700BAC9D6 /* HomeWorryDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeWorryDetailVC.swift; sourceTree = "<group>"; };
 		E73CA3E12A6A688A00BAC9D6 /* CustomNavigationBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationBarView.swift; sourceTree = "<group>"; };
+		E73CA3E32A6AB09100BAC9D6 /* HomeWorryDetailTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeWorryDetailTVC.swift; sourceTree = "<group>"; };
 		E78C3A052A51842300A15120 /* Temp_Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Temp_Protocols.swift; sourceTree = "<group>"; };
 		E79AAC1E2A52F16300F3F439 /* ImageCacheManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
 		E79AAC202A52F19300F3F439 /* ToastMessageColorType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastMessageColorType.swift; sourceTree = "<group>"; };
@@ -193,6 +195,7 @@
 			isa = PBXGroup;
 			children = (
 				E73CA3DE2A6A62F700BAC9D6 /* HomeWorryDetailVC.swift */,
+				E73CA3E32A6AB09100BAC9D6 /* HomeWorryDetailTVC.swift */,
 			);
 			path = HomeWorryDetail;
 			sourceTree = "<group>";
@@ -576,6 +579,7 @@
 				E79AAC1F2A52F16300F3F439 /* ImageCacheManager.swift in Sources */,
 				E79AAC472A52F36500F3F439 /* NetworkResult.swift in Sources */,
 				E73CA3DF2A6A62F700BAC9D6 /* HomeWorryDetailVC.swift in Sources */,
+				E73CA3E42A6AB09100BAC9D6 /* HomeWorryDetailTVC.swift in Sources */,
 				E79AAC212A52F19300F3F439 /* ToastMessageColorType.swift in Sources */,
 				E7AC12232A51D08300FE504C /* Temp_DataModel.swift in Sources */,
 				E7BB4F3B2A5ED3610018312B /* HomeVC.swift in Sources */,
