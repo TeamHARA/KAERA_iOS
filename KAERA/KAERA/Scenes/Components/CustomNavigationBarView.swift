@@ -122,16 +122,16 @@ extension CustomNavigationBarView {
     private func setLayout() {
         self.addSubviews([leftButton, rightButton, titleLabel])
         titleLabel.snp.makeConstraints {
-            $0.center.equalToSuperview()
+            $0.centerX.top.equalToSuperview()
         }
         
         leftButton.snp.makeConstraints {
-            $0.top.bottom.left.equalToSuperview()
+            $0.top.left.equalToSuperview()
             $0.width.height.equalTo(24)
         }
         
         rightButton.snp.makeConstraints {
-            $0.top.bottom.right.equalToSuperview()
+            $0.top.right.equalToSuperview()
             $0.width.height.equalTo(24)
         }
     }
