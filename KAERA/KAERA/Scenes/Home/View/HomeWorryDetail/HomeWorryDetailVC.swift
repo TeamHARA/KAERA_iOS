@@ -14,13 +14,27 @@ final class HomeWorryDetailVC: UIViewController {
     // MARK: - Properties
     private let navigationBarView = CustomNavigationBarView(leftType: .close, rightType: .edit, title: "고민캐기")
     private var deadLineDays = 1
-    private let backGroundImageView = UIImageView().then {
-        $0.image = UIImage(named: "framebg")
-    }
+    
     private let worryDetailTV = UITableView().then {
         $0.estimatedRowHeight = 300
         $0.rowHeight = UITableView.automaticDimension
         $0.backgroundColor = .clear
+    }
+    
+    private let worryDetailScrollView = UIScrollView().then {
+        $0.showsVerticalScrollIndicator = false
+    }
+    
+    private let worryDetailContentView = UIView().then {
+        $0.backgroundColor = .kYellow1
+//        let bgImg = UIImageView()
+//        bgImg.image = UIImage(named: "framebg")
+//        $0.addSubview(bgImg)
+//        bgImg.frame = $0.bounds
+    }
+    
+    private let backGroundImageView = UIImageView().then {
+        $0.image = UIImage(named: "framebg")
     }
     
     private let bottmContainerView = UIView().then {
@@ -84,7 +98,7 @@ extension HomeWorryDetailVC: UITableViewDataSource {
 // MARK: - UI
 extension HomeWorryDetailVC {
     private func setLayout() {
-        self.view.addSubviews([navigationBarView, bottmContainerView, worryDetailTV])
+        self.view.addSubviews([navigationBarView, worryDetailScrollView, bottmContainerView])
         
         navigationBarView.snp.makeConstraints {
             $0.left.right.equalToSuperview().inset(16)
@@ -105,10 +119,24 @@ extension HomeWorryDetailVC {
             $0.height.equalTo(52.adjustedH)
         }
         
-        worryDetailTV.snp.makeConstraints {
-            $0.directionalHorizontalEdges.equalToSuperview().inset(16)
+        worryDetailScrollView.snp.makeConstraints {
             $0.top.equalTo(navigationBarView.snp.bottom)
-            $0.bottom.equalTo(bottmContainerView.snp.top)
+            $0.directionalHorizontalEdges.equalToSuperview().inset(16)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide)
+        }
+        
+        worryDetailScrollView.addSubview(worryDetailContentView)
+
+        worryDetailContentView.snp.makeConstraints {
+            $0.height.equalTo(770.adjustedH)
+            $0.edges.equalTo(worryDetailScrollView.contentLayoutGuide)
+            $0.width.equalTo(worryDetailScrollView.frameLayoutGuide)
+        }
+
+        worryDetailContentView.addSubview(backGroundImageView)
+        
+        backGroundImageView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
     }
 }
