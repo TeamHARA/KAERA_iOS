@@ -16,9 +16,12 @@ final class HomeWorryDetailVC: UIViewController {
     private var deadLineDays = 1
     
     private let worryDetailTV = UITableView().then {
-        $0.estimatedRowHeight = 300
-        $0.rowHeight = UITableView.automaticDimension
+//        $0.estimatedRowHeight = 100
+//        $0.rowHeight = UITableView.automaticDimension
         $0.backgroundColor = .clear
+        $0.isScrollEnabled = false
+        $0.showsVerticalScrollIndicator = false
+        $0.showsHorizontalScrollIndicator = false
     }
     
     private let worryDetailScrollView = UIScrollView().then {
@@ -51,7 +54,16 @@ final class HomeWorryDetailVC: UIViewController {
         setNaviButtonAction()
         //TODO: 서버에서 넘어오는 데드라인 값을 넣어 실행
         navigationBarView.setTitleText(text: "고민캐기 D-\(deadLineDays)")
-//        setupTableView()
+        setupTableView()
+    }
+    
+    override func viewWillLayoutSubviews() {
+        print(worryDetailScrollView.contentSize.height)
+        print(worryDetailTV.contentSize.height)
+        worryDetailScrollView.contentSize.height = worryDetailTV.contentSize.height + 50
+        worryDetailContentView.snp.updateConstraints {
+            $0.height.equalTo(worryDetailTV.contentSize.height + 30)
+        }
     }
     
     // MARK: - Function
@@ -69,22 +81,37 @@ final class HomeWorryDetailVC: UIViewController {
         worryDetailTV.dataSource = self
         worryDetailTV.delegate = self
         worryDetailTV.register(HomeWorryDetailTVC.self, forCellReuseIdentifier: HomeWorryDetailTVC.className)
+        worryDetailTV.register(HomeWorryDetailHeaderView.self, forHeaderFooterViewReuseIdentifier: HomeWorryDetailHeaderView.className)
     }
 }
 
+// MARK: - UITableView
 extension HomeWorryDetailVC: UITableViewDelegate {
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 100
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        /// 헤더의 높이 + 헤더와 첫번째 셀간의 간격
+        return 139.adjustedH + 36.adjustedH
+    }
 }
 
 extension HomeWorryDetailVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 20
+        return 5
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: HomeWorryDetailTVC.className) as? HomeWorryDetailTVC else { return UITableViewCell() }
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        guard let headerCell = tableView.dequeueReusableHeaderFooterView(withIdentifier: HomeWorryDetailHeaderView.className) as? HomeWorryDetailHeaderView else { return nil }
+        return headerCell
     }
 }
 
@@ -122,16 +149,22 @@ extension HomeWorryDetailVC {
         
         /// contentLayoutGuide, frameLayoutGutide에 constraint를 잡아줘야함
         worryDetailContentView.snp.makeConstraints {
-            $0.height.equalTo(770.adjustedH)
+            //TODO: 동적으로 변경
+            $0.height.equalTo(1000.adjustedH)
             $0.edges.equalTo(worryDetailScrollView.contentLayoutGuide)
             $0.width.equalTo(worryDetailScrollView.frameLayoutGuide)
         }
 
-        worryDetailContentView.addSubviews([backgroundImageView])
+        worryDetailContentView.addSubviews([backgroundImageView, worryDetailTV])
 
         backgroundImageView.snp.makeConstraints {
             $0.directionalHorizontalEdges.top.equalToSuperview()
-            $0.bottom.equalToSuperview().inset(5)
+            $0.bottom.equalToSuperview().inset(5) /// 배경이미지 하단이 안짤리도록 inset 추가
+        }
+        
+        worryDetailTV.snp.makeConstraints {
+            $0.directionalHorizontalEdges.equalToSuperview().inset(14)
+            $0.verticalEdges.equalToSuperview()
         }
     }
 }
