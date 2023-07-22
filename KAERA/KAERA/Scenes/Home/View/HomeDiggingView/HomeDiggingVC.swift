@@ -104,7 +104,6 @@ final class HomeDiggingVC: BaseVC {
     }
     
     private func updateUI(gemList: [HomePublisherModel]) {
-        print(gemList)
         if gemList.isEmpty {
             gemStoneCV.isHidden = true
             if pageType == .digging {
