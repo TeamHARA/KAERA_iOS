@@ -15,9 +15,9 @@ class ArchiveVC: UIViewController, RefreshListDelegate {
     // MARK: - Properties
     private let archiveHeaderView = ArchiveHeaderView()
     
-    var worryVM: WorryListViewModel = WorryListViewModel()
-    var worryList: [WorryListPublisherModel] = []
-    var disposalbleBag = Set<AnyCancellable>()
+    private var worryVM: WorryListViewModel = WorryListViewModel()
+    private var worryList: [WorryListPublisherModel] = []
+    private var disposalbleBag = Set<AnyCancellable>()
     
     let modalVC = ArchiveModalVC()
     let templateInfoVC = TemplateInfoVC()
@@ -39,6 +39,7 @@ class ArchiveVC: UIViewController, RefreshListDelegate {
     final let worryListInset: UIEdgeInsets = UIEdgeInsets(top: 0, left: 16.adjustedW, bottom: 20, right: 16.adjustedW)
     final let interItemSpacing: CGFloat = 12.adjustedW
     final let lineSpacing: CGFloat = 12.adjustedW
+    let worryCellCize = CGSize(width: 165.adjustedW, height: 165.adjustedW)
 
     // MARK: - Life Cycles
     override func viewDidLoad() {
@@ -55,7 +56,7 @@ class ArchiveVC: UIViewController, RefreshListDelegate {
     // MARK: - Functions
     private func registerCV() {
         worryListCV.register(WorryListCVC.self,
-                             forCellWithReuseIdentifier: WorryListCVC.classIdentifier)
+                             forCellWithReuseIdentifier: WorryListCVC.className)
     }
     
     private func pressBtn() {
@@ -92,7 +93,7 @@ class ArchiveVC: UIViewController, RefreshListDelegate {
         )
     }
     
-    @objc func didDismissDetailNotification(_ notification: Notification) {
+    @objc private func didDismissDetailNotification(_ notification: Notification) {
         DispatchQueue.main.async { [self] in
             
             /// modalVC가 dismiss될때 컬렉션뷰를 리로드해줍니다.
@@ -144,7 +145,7 @@ extension ArchiveVC {
 // MARK: - UICollectionDelegate
 extension ArchiveVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 165.adjustedW, height: 165.adjustedW)
+        return worryCellCize
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -168,7 +169,7 @@ extension ArchiveVC: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: WorryListCVC.classIdentifier, for: indexPath)
+            withReuseIdentifier: WorryListCVC.className, for: indexPath)
                 as? WorryListCVC else { return UICollectionViewCell() }
         cell.dataBind(model: worryList[indexPath.item])
         return cell
