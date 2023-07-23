@@ -16,6 +16,7 @@ class TemplateInfoTVC: UITableViewCell {
     private let bgView = UIImageView().then {
         $0.image = UIImage(named: "frame_template_cell")
         $0.backgroundColor = .clear
+        $0.isUserInteractionEnabled = true
     }
     
     private let jewelImage = UIImageView().then {
@@ -32,6 +33,11 @@ class TemplateInfoTVC: UITableViewCell {
     private let dropDownImage = UIImageView().then {
         $0.image = UIImage(named: "icn_drop_down")
         $0.backgroundColor = .clear
+    }
+    
+    private let touchArea = UIView().then {
+        $0.backgroundColor = .clear
+        $0.isUserInteractionEnabled = true
     }
     
     private let templateDetail = UILabel().then {
@@ -60,19 +66,45 @@ class TemplateInfoTVC: UITableViewCell {
         $0.isHidden = true
     }
     
+    var indexPath: IndexPath?
+
     // MARK: - View Life Cycle
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setLayout()
+        setTapGesture()
+        pressBtn()
     }
+
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     // MARK: - Functions
+    private func pressBtn() {
+        writingBtn.press {
+            print(self.indexPath)
+        }
+    }
+    
+    func setTapGesture() {
+        // touchArea 제스처 제스처를 설정.
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(cellTap(_:)))
+        touchArea.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc
+    func cellTap(_ gesture: UITapGestureRecognizer) {
+        print("partnerProfileTap")
+        NotificationCenter.default.post(
+                name: NSNotification.Name("CellTouched"),
+                object: nil,
+                userInfo: ["indexPath": indexPath] // indexpath의 정보를 넘겨줌. 
+            )
+    }
+    
     func settingData(isExpanded : Bool) {
-        
         if isExpanded
         {
             dropDownImage.image = UIImage(named: "icn_drop_up")
@@ -131,6 +163,7 @@ extension TemplateInfoTVC {
     private func setLayout() {
         contentView.backgroundColor = .kGray1
         contentView.addSubview(bgView)
+        contentView.addSubview(touchArea)
         bgView.addSubviews([jewelImage, titleLabel, dropDownImage, templateDetail, writingBtn])
         
         bgView.snp.makeConstraints {
@@ -154,6 +187,12 @@ extension TemplateInfoTVC {
             $0.trailing.equalToSuperview().offset(-16.adjustedW)
             $0.top.equalToSuperview().offset(22.adjustedW)
             $0.width.height.equalTo(24.adjustedW)
+        }
+        
+        touchArea.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(8)
+            $0.height.equalTo(68.adjustedW)
+            $0.leading.trailing.equalToSuperview()
         }
         
         templateDetail.snp.makeConstraints {
