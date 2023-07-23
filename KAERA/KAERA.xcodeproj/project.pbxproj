@@ -73,6 +73,7 @@
 		E7C808EB2A4D37F800F475CE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C808EA2A4D37F800F475CE /* SceneDelegate.swift */; };
 		E7C808F22A4D37FA00F475CE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E7C808F12A4D37FA00F475CE /* Assets.xcassets */; };
 		E7C808F52A4D37FA00F475CE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E7C808F32A4D37FA00F475CE /* LaunchScreen.storyboard */; };
+		E7FEC0962A6CFD12006F36BF /* HomeWorryDetailFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7FEC0952A6CFD12006F36BF /* HomeWorryDetailFooterView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -140,6 +141,7 @@
 		E7C808F12A4D37FA00F475CE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E7C808F42A4D37FA00F475CE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E7C808F62A4D37FA00F475CE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E7FEC0952A6CFD12006F36BF /* HomeWorryDetailFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeWorryDetailFooterView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -199,6 +201,7 @@
 				E73CA3DE2A6A62F700BAC9D6 /* HomeWorryDetailVC.swift */,
 				E73CA3E32A6AB09100BAC9D6 /* HomeWorryDetailTVC.swift */,
 				E73CA3E62A6B5D2500BAC9D6 /* HomeWorryDetailHeaderView.swift */,
+				E7FEC0952A6CFD12006F36BF /* HomeWorryDetailFooterView.swift */,
 			);
 			path = HomeWorryDetail;
 			sourceTree = "<group>";
@@ -619,6 +622,7 @@
 				E79AAC3A2A52F2C300F3F439 /* Adjusted+.swift in Sources */,
 				E79AAC312A52F2C300F3F439 /* UIView+.swift in Sources */,
 				E7BB4F392A5D54A60018312B /* HomeHederView.swift in Sources */,
+				E7FEC0962A6CFD12006F36BF /* HomeWorryDetailFooterView.swift in Sources */,
 				85EBC7F32A5AD93200B9E891 /* HomeDiggingVC.swift in Sources */,
 				E79AAC442A52F36500F3F439 /* BaseTargetType.swift in Sources */,
 				E7BB4F472A5EF7060018312B /* HomeGemListViewModel.swift in Sources */,

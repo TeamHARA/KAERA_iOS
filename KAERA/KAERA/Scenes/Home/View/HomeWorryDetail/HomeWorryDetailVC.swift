@@ -56,11 +56,10 @@ final class HomeWorryDetailVC: UIViewController {
     }
     
     override func viewWillLayoutSubviews() {
-        print(worryDetailScrollView.contentSize.height)
-        print(worryDetailTV.contentSize.height)
-        worryDetailScrollView.contentSize.height = worryDetailTV.contentSize.height + 30 /// 스크롤 가능 높이
-        worryDetailContentView.snp.makeConstraints {
-            $0.height.equalTo(worryDetailTV.contentSize.height)
+        worryDetailScrollView.contentSize.height = worryDetailTV.contentSize.height
+        worryDetailContentView.snp.updateConstraints {
+            /// 테이블 뷰보다 높이가 1이상 커야지 footer뷰가 제대로 나옴
+            $0.height.equalTo(worryDetailTV.contentSize.height + 1)
         }
     }
     
@@ -80,9 +79,11 @@ final class HomeWorryDetailVC: UIViewController {
         worryDetailTV.delegate = self
         worryDetailTV.register(HomeWorryDetailTVC.self, forCellReuseIdentifier: HomeWorryDetailTVC.className)
         worryDetailTV.register(HomeWorryDetailHeaderView.self, forHeaderFooterViewReuseIdentifier: HomeWorryDetailHeaderView.className)
+        worryDetailTV.register(HomeWorryDetailFooterView.self, forHeaderFooterViewReuseIdentifier: HomeWorryDetailFooterView.className)
         /// estimated 높이를 설정해줘야 contentSize에 반영이 됨
-        worryDetailTV.estimatedSectionHeaderHeight = 175
-        worryDetailTV.estimatedRowHeight = 128
+        worryDetailTV.estimatedSectionHeaderHeight = 200
+        worryDetailTV.estimatedRowHeight = 200
+        worryDetailTV.estimatedSectionFooterHeight = 200
     }
 }
 
@@ -98,6 +99,10 @@ extension HomeWorryDetailVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         /// 헤더의 높이 + 헤더와 첫번째 셀간의 간격
         return 139.adjustedH + 36.adjustedH
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 14 + 72.adjustedH
     }
 }
 
@@ -115,6 +120,11 @@ extension HomeWorryDetailVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard let headerCell = tableView.dequeueReusableHeaderFooterView(withIdentifier: HomeWorryDetailHeaderView.className) as? HomeWorryDetailHeaderView else { return nil }
         return headerCell
+    }
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        guard let footerCell = tableView.dequeueReusableHeaderFooterView(withIdentifier: HomeWorryDetailFooterView.className) as? HomeWorryDetailFooterView else { return nil }
+        return footerCell
     }
 }
 
@@ -154,13 +164,15 @@ extension HomeWorryDetailVC {
         worryDetailContentView.snp.makeConstraints {
             $0.edges.equalTo(worryDetailScrollView.contentLayoutGuide)
             $0.width.equalTo(worryDetailScrollView.frameLayoutGuide)
+            $0.height.equalTo(100)
         }
         
         worryDetailContentView.addSubviews([backgroundImageView, worryDetailTV])
         
         backgroundImageView.snp.makeConstraints {
             $0.directionalHorizontalEdges.top.equalToSuperview()
-            $0.bottom.equalToSuperview().inset(5) /// 배경이미지 하단이 안짤리도록 inset 추가
+            /// 바닥이 하단 뷰에 잘리지 않도록 이미지에 inset 추가
+            $0.bottom.equalToSuperview().inset(5)
         }
         
         worryDetailTV.snp.makeConstraints {
