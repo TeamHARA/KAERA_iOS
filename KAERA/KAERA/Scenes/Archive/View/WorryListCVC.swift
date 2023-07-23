@@ -87,7 +87,7 @@ extension WorryListCVC {
     }
 }
 
-// MARK: - Function(DataBinding)
+// MARK: - Functions
 extension WorryListCVC {
     func dataBind(model: WorryListPublisherModel) {
         jewelImage.image = model.image
