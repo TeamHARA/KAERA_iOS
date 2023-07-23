@@ -16,8 +16,6 @@ final class HomeWorryDetailViewModel: ViewModelType {
     
     private let output: PassthroughSubject<WorryDetailModel, Never> = .init()
     private var cancellables = Set<AnyCancellable>()
-    
-//    private var worryDetail: WorryDetailModel?
     private var worryId = 1
     
     func transform(input: AnyPublisher<Int, Never>) -> AnyPublisher<WorryDetailModel, Never> {
@@ -33,7 +31,7 @@ final class HomeWorryDetailViewModel: ViewModelType {
     // MARK: - Function
     private func getWorryDetail(worryId: Int) {
         /// 서버 통신으로 worryId 값 주고 데이터 받아옴
-        let result = WorryDetailModel(title: "고민 제목", templateId: 1, deadline: 1, questions: ["질문1", "질문2", "질문3", "질문4"], answers: ["대답1", "대답2", "대답3", "대답4"], period: "2023.07.23 ~ 2023.07.24", updatedAt: "2023.07.23", finalAnswer: "마지막 대답", review: Review(content: "리뷰", updatedAt: "2023.09.23"))
+        let result = WorryDetailModel(title: "고민 제목", templateId: 1, deadline: 1, questions: ["지금 나의 고민1", "지금 나의 고민2", "지금 나의 고민3", "지금 나의 고민4"], answers: ["걱정하고 있는 걸 사실대로 써봅시다.걱정하고 있는 걸 사실대로 써봅시다.걱정하고 있는 걸 사실대로 써봅시다.걱정하고 있는 걸 사실대로 써봅시다.", "걱정하고 있는 걸 사실대로 써봅시다.걱정하고 있는 걸 사실대로 써봅시다.걱정하고 있는 걸 사실대로 써봅시다.걱정하고 있는 걸 사실대로 써봅시다.", "걱정하고 있는 걸 사실대로 써봅시다.걱정하고 있는 걸 사실대로 써봅시다.걱정하고 있는 걸 사실대로 써봅시다.걱정하고 있는 걸 사실대로 써봅시다.", "걱정하고 있는 걸 사실대로 써봅시다.걱정하고 있는 걸 사실대로 써봅시다.걱정하고 있는 걸 사실대로 써봅시다.걱정하고 있는 걸 사실대로 써봅시다."], period: "2023.07.23 ~ 2023.07.24", updatedAt: "작성일 2023.07.23", finalAnswer: "마지막 대답", review: Review(content: "리뷰", updatedAt: "2023.09.23"))
         
         output.send(result)
     }
