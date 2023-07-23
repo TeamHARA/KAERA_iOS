@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Then
 
-class HomeHederView: UIView {
+final class HomeHederView: UIView {
     
     enum HomeType {
         case digging, dug
