@@ -12,11 +12,17 @@ import Then
 
 final class HomeDiggingVC: BaseVC {
     
+    // MARK: - Enum
+    enum PageType {
+        case digging
+        case dug
+    }
+    
     // MARK: - Properties
     private let gemListViewModel = HomeGemListViewModel()
     private var cancellables = Set<AnyCancellable>()
     private let input = PassthroughSubject<Bool, Never>.init()
-    private var gemList: [HomeGemListModel] = []
+    private var gemStoneList: [HomePublisherModel] = []
     
     private let gemStoneCV = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     private let compositionalLayout: UICollectionViewCompositionalLayout = {
@@ -44,9 +50,22 @@ final class HomeDiggingVC: BaseVC {
       return UICollectionViewCompositionalLayout(section: section)
     }()
 
+    private var pageType: PageType = .digging
     
+    private let stoneEmptyView = GemStoneEmptyView(mainTitle: "아직 고민 원석이 없네요!", subTitle: "+ 버튼을 터치해 고민을 작성해보세요")
+    
+    private let gemStoneEmptyView = GemStoneEmptyView(mainTitle: "아직 고민 보석이 없네요!", subTitle: "작성된 고민 원석을\n빛나는 보석으로 만들어주세요.")
     
     // MARK: - Initialization
+    init(type: PageType = .digging) {
+        super.init(nibName: nil, bundle: nil)
+        self.pageType = type
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         dataBind()
@@ -55,8 +74,11 @@ final class HomeDiggingVC: BaseVC {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        print("send in DiggingView")
-        input.send(false)
+        if pageType == .digging {
+            input.send(false)
+        }else if pageType == .dug {
+            input.send(true)
+        }
     }
     
     // MARK: - Function
@@ -81,9 +103,23 @@ final class HomeDiggingVC: BaseVC {
             }.store(in: &cancellables)
     }
     
-    private func updateUI(gemList: [HomeGemListModel]) {
+    private func updateUI(gemList: [HomePublisherModel]) {
         print(gemList)
-        self.gemList = gemList
+        if gemList.isEmpty {
+            gemStoneCV.isHidden = true
+            if pageType == .digging {
+                stoneEmptyView.isHidden = false
+                gemStoneEmptyView.isHidden = true
+            } else if pageType == .dug {
+                gemStoneEmptyView.isHidden = false
+                stoneEmptyView.isHidden = true
+            }
+        } else {
+            stoneEmptyView.isHidden = true
+            gemStoneEmptyView.isHidden = true
+            gemStoneCV.isHidden = false
+        }
+        self.gemStoneList = gemList
         self.gemStoneCV.reloadData()
     }
 }
@@ -97,14 +133,15 @@ extension HomeDiggingVC: UICollectionViewDelegate {
 
 extension HomeDiggingVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return gemList.count
+        return gemStoneList.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let gemStoneCell = collectionView.dequeueReusableCell(withReuseIdentifier: GemStoneCVC.className, for: indexPath) as! GemStoneCVC
         
-        let title = gemList[indexPath.row].title
-        gemStoneCell.setData(title: title, imageName: "gemstone_blue")
+        let title = gemStoneList[indexPath.row].title
+        let imageName = gemStoneList[indexPath.row].imageName
+        gemStoneCell.setData(title: title, imageName: imageName)
         return gemStoneCell
     }
 }
@@ -114,11 +151,23 @@ extension HomeDiggingVC: UICollectionViewDataSource {
 extension HomeDiggingVC {
     private func setLayout() {
         self.view.backgroundColor = .kGray1
-        self.view.addSubview(gemStoneCV)
+        self.view.addSubviews([stoneEmptyView, gemStoneEmptyView, gemStoneCV])
         
         gemStoneCV.snp.makeConstraints {
             $0.directionalHorizontalEdges.top.equalToSuperview()
             $0.bottom.equalToSuperview().inset(49)
+        }
+        
+        stoneEmptyView.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(115.adjustedH)
+            $0.directionalHorizontalEdges.equalToSuperview()
+            $0.height.equalTo(185.adjustedH) /// GUI 상 높이로 설정
+        }
+        
+        gemStoneEmptyView.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(115.adjustedH)
+            $0.directionalHorizontalEdges.equalToSuperview()
+            $0.height.equalTo(185.adjustedH)
         }
     }
 }

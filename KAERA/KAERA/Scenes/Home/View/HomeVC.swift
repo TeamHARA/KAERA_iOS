@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Then
 
-class HomeVC: BaseVC {
+final class HomeVC: BaseVC {
     
     // MARK: - Properties
     private var currentIndex = 0
@@ -38,8 +38,8 @@ class HomeVC: BaseVC {
         $0.backgroundColor = .clear
     }
     private let pageVC = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
-    private let homeDiggingVC = HomeDiggingVC()
-    private let homeDugVC = HomeDugVC()
+    private let homeDiggingVC = HomeDiggingVC(type: .digging)
+    private let homeDugVC = HomeDiggingVC(type: .dug)
     private lazy var contents: [UIViewController] = [ homeDiggingVC, homeDugVC ]
     
     // MARK: - View Life Cycle
@@ -75,13 +75,13 @@ extension HomeVC: UIPageViewControllerDelegate {
             headerLabel.text = "그동안 캐낸 보석들 ✨"
             pageIcn.image = UIImage(named: "icn_dug_page")
             headerBGView.snp.updateConstraints {
-                $0.width.equalTo(176)
+                $0.width.equalTo(176.adjustedW)
             }
         } else {
             headerLabel.text = "열심히 캐내는 중 ⛏️"
             pageIcn.image = UIImage(named: "icn_digging_page")
             headerBGView.snp.updateConstraints {
-                $0.width.equalTo(162)
+                $0.width.equalTo(162.adjustedW)
             }
         }
         
