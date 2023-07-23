@@ -28,8 +28,8 @@ final class HomeWorryDetailFooterView: UITableViewHeaderFooterView {
     }
     
     // MARK: - Function
-    func setData(updataAt: String) {
-        writtenDateLabel.text = updataAt
+    func setData(updateAt: String) {
+        writtenDateLabel.text = updateAt
     }
     
     private func setLayout() {
