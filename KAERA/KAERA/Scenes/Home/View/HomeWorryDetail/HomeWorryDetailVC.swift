@@ -18,7 +18,6 @@ final class HomeWorryDetailVC: BaseVC {
     private let input = PassthroughSubject<Int, Never>.init()
     
     private let navigationBarView = CustomNavigationBarView(leftType: .close, rightType: .edit, title: "고민캐기")
-    private var deadLineDays = 1
     
     private let worryDetailTV = UITableView().then {
         $0.backgroundColor = .clear
@@ -48,6 +47,14 @@ final class HomeWorryDetailVC: BaseVC {
         $0.backgroundColor = .kGray3
         $0.layer.cornerRadius = 8
     }
+    
+    private var worryId = 1
+    private var questions = [String]()
+    private var answers = [String]()
+    private var updateDate = ""
+    private var worryTitle = ""
+    private var templateId = 1
+    private var deadline = ""
     
     // MARK: - Initialization
     init(worryId: Int) {
@@ -111,15 +118,7 @@ final class HomeWorryDetailVC: BaseVC {
         /// input 전달
         input.send(worryId)
     }
-    
-    private var worryId = 1
-    private var questions = [String]()
-    private var answers = [String]()
-    private var updateDate = ""
-    private var worryTitle = ""
-    private var templateId = 1
-    private var deadline = ""
-    
+
     private func updateUI(worryDetail: WorryDetailModel) {
         print("worryDetail",worryDetail)
         questions = worryDetail.questions
