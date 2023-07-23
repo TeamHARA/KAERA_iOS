@@ -44,6 +44,7 @@ class TemplateInfoVC: UIViewController {
         pressBtn()
         registerTV()
         resetCellStatus()
+        setObserver()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -67,6 +68,24 @@ class TemplateInfoVC: UIViewController {
     
     private func resetCellStatus() {
         expandedCells = Array(repeating: false, count: 6) /// cell들의 속성을 모두 false로 초기화
+    }
+    
+    private func setObserver() {
+        /// modalVC가 dismiss되는 것을 notificationCenter를 통해 worryVC가 알 수 있게 해줍니다.
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(self.didExpandTVC(_:)),
+            name: NSNotification.Name("CellTouched"),
+            object: nil
+        )
+    }
+    
+    @objc func didExpandTVC(_ notification: Notification) {
+        if let indexPath = notification.userInfo?["indexPath"] as? IndexPath {
+            expandedCells[indexPath.row] = !expandedCells[indexPath.row]
+            templateInfoTV.reloadRows(at: [indexPath], with: .automatic)
+            print(expandedCells)
+        }
     }
 }
 
@@ -120,11 +139,9 @@ extension TemplateInfoVC: UITableViewDelegate {
         return UITableView.automaticDimension
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        expandedCells[indexPath.row] = !expandedCells[indexPath.row]
-        tableView.reloadRows(at: [indexPath], with: .automatic)
-        print(expandedCells)
-    }
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        print(1)
+//    }
 }
 
 // MARK: - UITableViewDataSource
@@ -139,7 +156,9 @@ extension TemplateInfoVC : UITableViewDataSource
         guard let cell = tableView.dequeueReusableCell(withIdentifier: TemplateInfoTVC.classIdentifier, for: indexPath) as? TemplateInfoTVC else {return UITableViewCell()}
         
         cell.settingData(isExpanded: expandedCells[indexPath.row])
+        cell.indexPath = indexPath
         cell.layoutIfNeeded()
+        
         return cell
     }
 }
