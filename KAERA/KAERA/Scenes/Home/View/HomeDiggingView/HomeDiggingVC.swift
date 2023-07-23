@@ -126,7 +126,8 @@ final class HomeDiggingVC: BaseVC {
 // MARK: - CollectionView
 extension HomeDiggingVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let vc = HomeWorryDetailVC()
+        let worryId = gemStoneList[indexPath.row].worryId
+        let vc = HomeWorryDetailVC(worryId: worryId)
         vc.modalPresentationStyle = .fullScreen
         vc.modalTransitionStyle = .coverVertical
         self.present(vc, animated: true, completion: nil)

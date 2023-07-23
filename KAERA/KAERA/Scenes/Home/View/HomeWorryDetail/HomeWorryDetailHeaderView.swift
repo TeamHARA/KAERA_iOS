@@ -23,6 +23,15 @@ final class HomeWorryDetailHeaderView: UITableViewHeaderFooterView {
         $0.textAlignment = .center
     }
     
+    private var gemStoneDictionary: [Int: String] = [
+        1: "gemstone_pink",
+        2: "gemstone_orange",
+        3: "gemstone_blue",
+        4: "gemstone_green",
+        5: "gemstone_yellow",
+        6: "gemstone_red",
+    ]
+    
     // MARK: - Initialization
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
@@ -34,6 +43,13 @@ final class HomeWorryDetailHeaderView: UITableViewHeaderFooterView {
     }
     
     // MARK: - Function
+    func setData(templateId: Int, title: String) {
+        if let imgName = gemStoneDictionary[templateId] {
+            gemStoneImageView.image = UIImage(named: imgName)
+        }
+        worryTitle.text = title
+    }
+    
     private func setLayout() {
         self.contentView.addSubviews([gemStoneImageView, worryTitle])
         
