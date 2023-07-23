@@ -13,11 +13,29 @@ class HomeVC: BaseVC {
     
     // MARK: - Properties
     private var currentIndex = 0
-    private let pageControlView = UIView().then {
-        $0.backgroundColor = .clear
+    
+    private let homeLogoImgView = UIImageView().then {
+        $0.image = UIImage(named: "logo")
     }
+    
+    private let headerBGView = UIView().then {
+        $0.backgroundColor = .kGray4
+        $0.makeRounded(cornerRadius: 10)
+    }
+    
+    private let headerLabel = UILabel().then {
+        $0.textAlignment = .center
+        $0.text = "열심히 캐내는 중 ⛏️"
+        $0.font = .kB2R16
+        $0.textColor = .kGray2
+    }
+    
     private let pageIcn = UIImageView().then {
         $0.image = UIImage(named: "icn_digging_page")
+    }
+    
+    private let pageContainerView = UIView().then {
+        $0.backgroundColor = .clear
     }
     private let pageVC = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
     private let homeDiggingVC = HomeDiggingVC()
@@ -34,7 +52,9 @@ class HomeVC: BaseVC {
     // MARK: - Function
     private func setPageViewController() {
         self.addChild(pageVC)
-        self.view.addSubview(pageVC.view)
+        pageContainerView.frame = pageVC.view.frame
+        pageVC.view.backgroundColor = .kGray1
+        pageContainerView.addSubview(pageVC.view)
         pageVC.didMove(toParent: self)
         pageVC.delegate = self
         pageVC.dataSource = self
@@ -52,9 +72,17 @@ extension HomeVC: UIPageViewControllerDelegate {
         else { return }
         currentIndex = index
         if index > 0 {
+            headerLabel.text = "그동안 캐낸 보석들 ✨"
             pageIcn.image = UIImage(named: "icn_dug_page")
+            headerBGView.snp.updateConstraints {
+                $0.width.equalTo(176)
+            }
         } else {
+            headerLabel.text = "열심히 캐내는 중 ⛏️"
             pageIcn.image = UIImage(named: "icn_digging_page")
+            headerBGView.snp.updateConstraints {
+                $0.width.equalTo(162)
+            }
         }
         
     }
@@ -86,21 +114,39 @@ extension HomeVC: UIPageViewControllerDataSource {
 // MARK: -  UI
 extension HomeVC {
     private func setLayout() {
-        self.view.addSubview(pageControlView)
+        self.view.backgroundColor = .kGray1
+        self.view.addSubviews([homeLogoImgView, headerBGView, pageContainerView, pageIcn])
         
-        pageControlView.snp.makeConstraints {
-            $0.bottom.directionalHorizontalEdges.equalToSuperview()
-            $0.height.equalTo(43)
-            
+        homeLogoImgView.snp.makeConstraints {
+            $0.top.equalToSuperview().inset(56)
+            $0.centerX.equalToSuperview()
+            $0.height.equalTo(38)
+            $0.width.equalTo(136)
         }
         
-        pageControlView.addSubview(pageIcn)
+        headerBGView.snp.makeConstraints {
+            $0.top.equalTo(homeLogoImgView.snp.bottom).offset(12)
+            $0.centerX.equalToSuperview()
+            $0.height.equalTo(26)
+            $0.width.equalTo(162)
+        }
+        
+        headerBGView.addSubview(headerLabel)
+        
+        headerLabel.snp.makeConstraints {
+            $0.centerX.centerY.equalToSuperview()
+        }
+        
+        pageContainerView.snp.makeConstraints {
+            $0.directionalHorizontalEdges.equalToSuperview()
+            $0.top.equalTo(headerBGView.snp.bottom).offset(29)
+            $0.bottom.equalToSuperview()
+        }
         
         pageIcn.snp.makeConstraints {
-            $0.top.centerX.equalToSuperview()
+            $0.centerX.equalToSuperview()
+            $0.bottom.equalToSuperview().inset(31)
             $0.height.equalTo(9)
-            $0.width.equalTo(29)
         }
-        
     }
 }
