@@ -35,7 +35,7 @@ final class HomeWorryDetailHeaderView: UITableViewHeaderFooterView {
     
     // MARK: - Function
     private func setLayout() {
-        self.addSubviews([gemStoneImageView, worryTitle])
+        self.contentView.addSubviews([gemStoneImageView, worryTitle])
         
         gemStoneImageView.snp.makeConstraints {
             $0.centerX.equalToSuperview()
