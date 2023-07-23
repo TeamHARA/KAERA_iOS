@@ -74,6 +74,7 @@
 		E7C808F22A4D37FA00F475CE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E7C808F12A4D37FA00F475CE /* Assets.xcassets */; };
 		E7C808F52A4D37FA00F475CE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E7C808F32A4D37FA00F475CE /* LaunchScreen.storyboard */; };
 		E7FEC0962A6CFD12006F36BF /* HomeWorryDetailFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7FEC0952A6CFD12006F36BF /* HomeWorryDetailFooterView.swift */; };
+		E7FEC0982A6D1274006F36BF /* HomeWorryDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7FEC0972A6D1274006F36BF /* HomeWorryDetailViewModel.swift */; };
 		E7FEC09A2A6D1725006F36BF /* WorryDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7FEC0992A6D1725006F36BF /* WorryDetailModel.swift */; };
 /* End PBXBuildFile section */
 
@@ -143,6 +144,7 @@
 		E7C808F42A4D37FA00F475CE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E7C808F62A4D37FA00F475CE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E7FEC0952A6CFD12006F36BF /* HomeWorryDetailFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeWorryDetailFooterView.swift; sourceTree = "<group>"; };
+		E7FEC0972A6D1274006F36BF /* HomeWorryDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeWorryDetailViewModel.swift; sourceTree = "<group>"; };
 		E7FEC0992A6D1725006F36BF /* WorryDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorryDetailModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -411,6 +413,7 @@
 			isa = PBXGroup;
 			children = (
 				E7BB4F462A5EF7060018312B /* HomeGemListViewModel.swift */,
+				E7FEC0972A6D1274006F36BF /* HomeWorryDetailViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -632,6 +635,7 @@
 				E7BB4F472A5EF7060018312B /* HomeGemListViewModel.swift in Sources */,
 				E7C808E92A4D37F800F475CE /* AppDelegate.swift in Sources */,
 				E73CA3DC2A693C9D00BAC9D6 /* GemStoneEmptyView.swift in Sources */,
+				E7FEC0982A6D1274006F36BF /* HomeWorryDetailViewModel.swift in Sources */,
 				85887D842A5C42A700F7FB21 /* WriteModalCVC.swift in Sources */,
 				E79AAC3C2A52F2C300F3F439 /* NSObject+.swift in Sources */,
 				85887D922A60320A00F7FB21 /* ArchiveHeaderView.swift in Sources */,
