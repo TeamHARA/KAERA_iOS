@@ -16,8 +16,6 @@ final class HomeWorryDetailVC: UIViewController {
     private var deadLineDays = 1
     
     private let worryDetailTV = UITableView().then {
-//        $0.estimatedRowHeight = 100
-//        $0.rowHeight = UITableView.automaticDimension
         $0.backgroundColor = .clear
         $0.isScrollEnabled = false
         $0.showsVerticalScrollIndicator = false
@@ -60,9 +58,9 @@ final class HomeWorryDetailVC: UIViewController {
     override func viewWillLayoutSubviews() {
         print(worryDetailScrollView.contentSize.height)
         print(worryDetailTV.contentSize.height)
-        worryDetailScrollView.contentSize.height = worryDetailTV.contentSize.height + 50
-        worryDetailContentView.snp.updateConstraints {
-            $0.height.equalTo(worryDetailTV.contentSize.height + 30)
+        worryDetailScrollView.contentSize.height = worryDetailTV.contentSize.height + 30 /// 스크롤 가능 높이
+        worryDetailContentView.snp.makeConstraints {
+            $0.height.equalTo(worryDetailTV.contentSize.height)
         }
     }
     
@@ -82,6 +80,9 @@ final class HomeWorryDetailVC: UIViewController {
         worryDetailTV.delegate = self
         worryDetailTV.register(HomeWorryDetailTVC.self, forCellReuseIdentifier: HomeWorryDetailTVC.className)
         worryDetailTV.register(HomeWorryDetailHeaderView.self, forHeaderFooterViewReuseIdentifier: HomeWorryDetailHeaderView.className)
+        /// estimated 높이를 설정해줘야 contentSize에 반영이 됨
+        worryDetailTV.estimatedSectionHeaderHeight = 175
+        worryDetailTV.estimatedRowHeight = 128
     }
 }
 
@@ -89,22 +90,20 @@ final class HomeWorryDetailVC: UIViewController {
 extension HomeWorryDetailVC: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100 + 28
+        //TODO: 하드 코딩 수정 필요 - 데이터의 텍스트를 반영한 높이에 따라 달라지도록
+        /// 셀 높이 + 여백
+        return 100 + 28.adjustedH
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         /// 헤더의 높이 + 헤더와 첫번째 셀간의 간격
         return 139.adjustedH + 36.adjustedH
     }
-    
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        print(tableView.contentSize)
-    }
 }
 
 extension HomeWorryDetailVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return 4
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -153,14 +152,12 @@ extension HomeWorryDetailVC {
         
         /// contentLayoutGuide, frameLayoutGutide에 constraint를 잡아줘야함
         worryDetailContentView.snp.makeConstraints {
-            //TODO: 동적으로 변경
-            $0.height.equalTo(1000.adjustedH)
             $0.edges.equalTo(worryDetailScrollView.contentLayoutGuide)
             $0.width.equalTo(worryDetailScrollView.frameLayoutGuide)
         }
-
+        
         worryDetailContentView.addSubviews([backgroundImageView, worryDetailTV])
-
+        
         backgroundImageView.snp.makeConstraints {
             $0.directionalHorizontalEdges.top.equalToSuperview()
             $0.bottom.equalToSuperview().inset(5) /// 배경이미지 하단이 안짤리도록 inset 추가
