@@ -18,14 +18,14 @@ class ArchiveHeaderView: UIView {
         $0.font = .kH1B20
     }
     
-    private let templateInfo = UIImageView().then {
-        $0.image = UIImage(named: "icn_template_info")
+    let templateInfoBtn = UIButton().then {
+        $0.setBackgroundImage(UIImage(named: "icn_template_info"), for: .normal)
         $0.contentMode = .scaleToFill
         $0.backgroundColor = .clear
     }
     
-    private let myPage = UIImageView().then {
-        $0.image = UIImage(named: "icn_mypage")
+    private let myPage = UIButton().then {
+        $0.setBackgroundImage(UIImage(named: "icn_mypage"), for: .normal)
         $0.contentMode = .scaleToFill
         $0.backgroundColor = .clear
     }
@@ -65,14 +65,14 @@ class ArchiveHeaderView: UIView {
 extension ArchiveHeaderView{
     func setLayout() {
         self.backgroundColor = .clear
-        self.addSubViews([titleLabel, templateInfo, myPage, sortBtn, numLabel, toggleBtn])
+        self.addSubViews([titleLabel, templateInfoBtn, myPage, sortBtn, numLabel, toggleBtn])
         
         titleLabel.snp.makeConstraints {
             $0.top.equalToSuperview().offset(24.adjustedW)
             $0.centerX.equalToSuperview()
         }
         
-        templateInfo.snp.makeConstraints {
+        templateInfoBtn.snp.makeConstraints {
             $0.top.equalToSuperview().offset(25.adjustedW)
             $0.leading.equalToSuperview().offset(16.adjustedW)
             $0.width.equalTo(28)

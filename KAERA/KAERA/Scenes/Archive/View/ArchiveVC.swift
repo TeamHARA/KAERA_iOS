@@ -10,17 +10,17 @@ import SnapKit
 import Then
 import Combine
 
-
 class ArchiveVC: UIViewController, RefreshListDelegate {
     
     // MARK: - Properties
-    private let sortHeaderView = ArchiveHeaderView()
+    private let archiveHeaderView = ArchiveHeaderView()
     
     private var worryVM: WorryListViewModel = WorryListViewModel()
     private var worryList: [WorryListPublisherModel] = []
     private var disposalbleBag = Set<AnyCancellable>()
     
-    private var modalVC = ArchiveModalVC()
+    let modalVC = ArchiveModalVC()
+    let templateInfoVC = TemplateInfoVC()
     
     private let flowLayout = UICollectionViewFlowLayout().then {
         $0.scrollDirection = .vertical
@@ -60,7 +60,7 @@ class ArchiveVC: UIViewController, RefreshListDelegate {
     }
     
     private func pressBtn() {
-        sortHeaderView.sortBtn.press {
+        archiveHeaderView.sortBtn.press {
             self.modalVC.modalPresentationStyle = .pageSheet
             
             if let sheet = self.modalVC.sheetPresentationController {
@@ -72,6 +72,10 @@ class ArchiveVC: UIViewController, RefreshListDelegate {
                 sheet.prefersGrabberVisible = true
             }
             self.present(self.modalVC, animated: true)
+        }
+        
+        archiveHeaderView.templateInfoBtn.press {
+            self.navigationController?.pushViewController(self.templateInfoVC, animated: true)
         }
     }
     
@@ -102,8 +106,21 @@ class ArchiveVC: UIViewController, RefreshListDelegate {
     // MARK: - RefreshListDelegate
     func refreshList(templateTitle: String, list: [WorryListPublisherModel]) {
         worryVM.worryListPublisher.value = list
-        sortHeaderView.sortBtn.setTitle(templateTitle, for: .normal)
+        archiveHeaderView.sortBtn.setTitle(templateTitle, for: .normal)
         print("delegate")
+    }
+}
+
+// MARK: - 뷰모델 관련
+extension ArchiveVC{
+    /// 뷰모델의 데이터를 뷰컨의 리스트 데이터와 연동
+    fileprivate func setBindings() {
+        print("ViewController - setBindings()")
+        self.worryVM.worryListPublisher.sink{ [weak self] (updatedList : [WorryListPublisherModel]) in
+            print("ViewController - updatedList.count: \(updatedList.count)")
+            self?.worryList = updatedList
+            self?.archiveHeaderView.numLabel.text = "총 \(self!.worryList.count)개"
+        }.store(in: &disposalbleBag)
     }
 }
 
@@ -111,30 +128,17 @@ class ArchiveVC: UIViewController, RefreshListDelegate {
 extension ArchiveVC {
     private func setLayout() {
         view.backgroundColor = .kGray1
-        view.addSubviews([sortHeaderView, worryListCV])
+        view.addSubviews([archiveHeaderView, worryListCV])
         
-        sortHeaderView.snp.makeConstraints {
+        archiveHeaderView.snp.makeConstraints {
             $0.top.leading.trailing.equalTo(self.view.safeAreaLayoutGuide)
             $0.height.equalTo(152.adjustedW)
         }
         
         worryListCV.snp.makeConstraints {
-            $0.top.equalTo(sortHeaderView.snp.bottom)
+            $0.top.equalTo(archiveHeaderView.snp.bottom)
             $0.leading.trailing.bottom.equalTo(self.view.safeAreaLayoutGuide)
         }
-    }
-}
-
-// MARK: - 뷰모델 관련
-extension ArchiveVC{
-    /// 뷰모델의 데이터를 뷰컨의 리스트 데이터와 연동
-    private func setBindings() {
-        print("ViewController - setBindings()")
-        self.worryVM.worryListPublisher.sink{ [weak self] (updatedList : [WorryListPublisherModel]) in
-            print("ViewController - updatedList.count: \(updatedList.count)")
-            self?.worryList = updatedList
-            self?.sortHeaderView.numLabel.text = "총 \(self?.worryList.count ?? 0)개"
-        }.store(in: &disposalbleBag)
     }
 }
 
