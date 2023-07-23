@@ -10,13 +10,13 @@ import Foundation
 // MARK: - WorryDetailModel
 struct WorryDetailModel: Codable {
     let title: String
-    let templateId: Int
+    let templateId, deadline: Int
     let questions, answers: [String]
-    let createdAt, period, updatedAt, deadline, finalAnswer: String
+    let period, updatedAt, finalAnswer: String
     let review: Review
 }
 
 // MARK: - Review
 struct Review: Codable {
-    let content, createdAt, updatedAt: String
+    let content, updatedAt: String
 }
