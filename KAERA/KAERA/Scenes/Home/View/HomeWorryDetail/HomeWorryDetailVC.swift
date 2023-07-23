@@ -6,12 +6,17 @@
 //
 
 import UIKit
+import Combine
 import SnapKit
 import Then
 
 final class HomeWorryDetailVC: BaseVC {
     
     // MARK: - Properties
+    private let worryDetailViewModel = HomeWorryDetailViewModel()
+    private var cancellables = Set<AnyCancellable>()
+    private let input = PassthroughSubject<Int, Never>.init()
+    
     private let navigationBarView = CustomNavigationBarView(leftType: .close, rightType: .edit, title: "고민캐기")
     private var deadLineDays = 1
     
@@ -45,14 +50,23 @@ final class HomeWorryDetailVC: BaseVC {
     }
     
     // MARK: - Initialization
+    init(worryId: Int) {
+        super.init(nibName: nil, bundle: nil)
+        self.worryId = worryId
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .kGray1
         setLayout()
         setNaviButtonAction()
-        //TODO: 서버에서 넘어오는 데드라인 값을 넣어 실행
-        navigationBarView.setTitleText(text: "고민캐기 D-\(deadLineDays)")
         setupTableView()
+        dataBind()
     }
     
     override func viewWillLayoutSubviews() {
@@ -85,6 +99,39 @@ final class HomeWorryDetailVC: BaseVC {
         worryDetailTV.estimatedRowHeight = 200
         worryDetailTV.estimatedSectionFooterHeight = 200
     }
+    
+    private func dataBind() {
+        let output = worryDetailViewModel.transform(
+            input: HomeWorryDetailViewModel.Input(input)
+        )
+        output.receive(on: DispatchQueue.main)
+            .sink { [weak self] worryDetail in
+                self?.updateUI(worryDetail: worryDetail)
+            }.store(in: &cancellables)
+        /// input 전달
+        input.send(worryId)
+    }
+    
+    private var worryId = 1
+    private var questions = [String]()
+    private var answers = [String]()
+    private var updateDate = ""
+    private var worryTitle = ""
+    private var templateId = 1
+    private var deadline = ""
+    
+    private func updateUI(worryDetail: WorryDetailModel) {
+        print("worryDetail",worryDetail)
+        questions = worryDetail.questions
+        answers = worryDetail.answers
+        updateDate = worryDetail.updatedAt
+        worryTitle = worryDetail.title
+        templateId = worryDetail.templateId
+        /// 넘어오는 값이 -1일 경우 String 값으로 표현
+        deadline = worryDetail.deadline < 0 ? "∞" : "\(worryDetail.deadline)"
+        navigationBarView.setTitleText(text: "고민캐기 D-\(deadline)")
+        worryDetailTV.reloadData()
+    }
 }
 
 // MARK: - UITableView
@@ -108,22 +155,31 @@ extension HomeWorryDetailVC: UITableViewDelegate {
 
 extension HomeWorryDetailVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
+        return questions.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: HomeWorryDetailTVC.className) as? HomeWorryDetailTVC else { return UITableViewCell() }
+        if questions.count > indexPath.row && answers.count > indexPath.row {
+            cell.setData(question: questions[indexPath.row], answer: answers[indexPath.row])
+        } else {
+            cell.setData(question: "No Data", answer: "No Data")
+        }
+        
         return cell
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard let headerCell = tableView.dequeueReusableHeaderFooterView(withIdentifier: HomeWorryDetailHeaderView.className) as? HomeWorryDetailHeaderView else { return nil }
+        headerCell.setData(templateId: self.templateId, title: self.worryTitle)
+        
         return headerCell
     }
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         guard let footerCell = tableView.dequeueReusableHeaderFooterView(withIdentifier: HomeWorryDetailFooterView.className) as? HomeWorryDetailFooterView else { return nil }
+        footerCell.setData(updataAt: updateDate)
         return footerCell
     }
 }
