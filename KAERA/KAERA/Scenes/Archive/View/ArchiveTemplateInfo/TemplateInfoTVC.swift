@@ -118,7 +118,6 @@ class TemplateInfoTVC: UITableViewCell {
                 $0.trailing.equalToSuperview().offset(-16.adjustedW)
                 $0.height.equalTo(54.adjustedW)
             }
-            templateDetail.alpha = 1
             templateDetail.isHidden = false
             
             // 작성하러가기 버튼이 화면에 보여지게
@@ -128,7 +127,6 @@ class TemplateInfoTVC: UITableViewCell {
                 $0.width.equalTo(106.adjustedW)
                 $0.height.equalTo(26.adjustedW)
             }
-            writingBtn.alpha = 1
             writingBtn.isHidden = false
             contentView.snp.updateConstraints{
                 $0.width.equalTo(344.adjustedW)
@@ -142,14 +140,12 @@ class TemplateInfoTVC: UITableViewCell {
             templateDetail.snp.updateConstraints {
                 $0.height.equalTo(0.adjustedW)
             }
-            templateDetail.alpha = 0
             templateDetail.isHidden = true
             
             // 작성하러가기 버튼이 화면에서 사라지게끔
             writingBtn.snp.updateConstraints {
                 $0.height.equalTo(0.adjustedW)
             }
-            writingBtn.alpha = 0
             writingBtn.isHidden = true
             contentView.snp.updateConstraints{
                 $0.width.equalTo(344.adjustedW)
@@ -163,10 +159,9 @@ class TemplateInfoTVC: UITableViewCell {
 extension TemplateInfoTVC {
     
     private func setLayout() {
-        contentView.backgroundColor = .kGray1
-        contentView.addSubview(bgView)
+        contentView.backgroundColor = .kGray1        
+        contentView.addSubviews([bgView, jewelImage, titleLabel, dropDownImage, templateDetail, writingBtn])
         contentView.addSubview(touchArea)
-        bgView.addSubviews([jewelImage, titleLabel, dropDownImage, templateDetail, writingBtn])
         
         bgView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(8)
@@ -176,18 +171,18 @@ extension TemplateInfoTVC {
         
         jewelImage.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(16.adjustedW)
-            $0.top.equalToSuperview().offset(11.adjustedW)
+            $0.top.equalToSuperview().offset(19.adjustedW)
             $0.width.height.equalTo(46.adjustedW)
         }
         
         titleLabel.snp.makeConstraints {
             $0.leading.equalTo(jewelImage.snp.trailing).offset(14.adjustedW)
-            $0.top.equalToSuperview().offset(25.adjustedW)
+            $0.top.equalToSuperview().offset(34.adjustedW)
         }
         
         dropDownImage.snp.makeConstraints {
             $0.trailing.equalToSuperview().offset(-16.adjustedW)
-            $0.top.equalToSuperview().offset(22.adjustedW)
+            $0.top.equalToSuperview().offset(30.adjustedW)
             $0.width.height.equalTo(24.adjustedW)
         }
         
