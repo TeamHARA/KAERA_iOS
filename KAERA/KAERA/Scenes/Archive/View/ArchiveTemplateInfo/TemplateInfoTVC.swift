@@ -66,6 +66,7 @@ class TemplateInfoTVC: UITableViewCell {
         $0.isHidden = true
     }
     
+    /// cell의 indexPath를 담을 변수를 선언
     var indexPath: IndexPath?
 
     // MARK: - View Life Cycle
@@ -84,23 +85,24 @@ class TemplateInfoTVC: UITableViewCell {
     // MARK: - Functions
     private func pressBtn() {
         writingBtn.press {
-            print(self.indexPath)
+            /// indexPath[1] : 값의 row data를 담고 있음. 
+            print(self.indexPath?[1] ?? 0,"번째 TVC의 버튼이 눌렸습니다.")
         }
     }
     
     func setTapGesture() {
-        // touchArea 제스처 제스처를 설정.
+        // touchArea 제스처를 설정.
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(cellTap(_:)))
         touchArea.addGestureRecognizer(tapGesture)
     }
     
     @objc
     func cellTap(_ gesture: UITapGestureRecognizer) {
-        print("partnerProfileTap")
+        print("CellTouched")
         NotificationCenter.default.post(
                 name: NSNotification.Name("CellTouched"),
                 object: nil,
-                userInfo: ["indexPath": indexPath] // indexpath의 정보를 넘겨줌. 
+                userInfo: ["indexPath": indexPath ?? 0] // indexpath의 정보를 넘겨줌.
             )
     }
     
