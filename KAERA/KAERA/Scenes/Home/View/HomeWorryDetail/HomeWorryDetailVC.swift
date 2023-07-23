@@ -120,7 +120,6 @@ final class HomeWorryDetailVC: BaseVC {
     }
 
     private func updateUI(worryDetail: WorryDetailModel) {
-        print("worryDetail",worryDetail)
         questions = worryDetail.questions
         answers = worryDetail.answers
         updateDate = worryDetail.updatedAt
@@ -178,7 +177,7 @@ extension HomeWorryDetailVC: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         guard let footerCell = tableView.dequeueReusableHeaderFooterView(withIdentifier: HomeWorryDetailFooterView.className) as? HomeWorryDetailFooterView else { return nil }
-        footerCell.setData(updataAt: updateDate)
+        footerCell.setData(updateAt: updateDate)
         return footerCell
     }
 }
