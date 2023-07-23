@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Then
 
-final class HomeWorryDetailVC: UIViewController {
+final class HomeWorryDetailVC: BaseVC {
     
     // MARK: - Properties
     private let navigationBarView = CustomNavigationBarView(leftType: .close, rightType: .edit, title: "고민캐기")
