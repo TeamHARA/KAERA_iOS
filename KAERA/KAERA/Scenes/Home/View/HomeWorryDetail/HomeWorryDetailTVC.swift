@@ -38,12 +38,6 @@ final class HomeWorryDetailTVC: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 0, left: 0, bottom: 28, right: 0))
-        
-    }
-    
     func setContentText(text: String) {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = worryContent.font.lineHeight * 0.5 // 폰트 높이의 150%인 줄 간격을 설정합니다.
@@ -62,7 +56,7 @@ final class HomeWorryDetailTVC: UITableViewCell {
 // MARK: - UI
 extension HomeWorryDetailTVC {
     private func setLayout() {
-        self.addSubviews([worryTitle, worryContent])
+        contentView.addSubviews([worryTitle, worryContent])
         
         worryTitle.snp.makeConstraints {
             $0.top.directionalHorizontalEdges.equalToSuperview()
