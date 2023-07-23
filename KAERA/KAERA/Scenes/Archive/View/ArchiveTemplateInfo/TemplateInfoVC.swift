@@ -71,7 +71,7 @@ class TemplateInfoVC: UIViewController {
     }
     
     private func setObserver() {
-        /// modalVC가 dismiss되는 것을 notificationCenter를 통해 worryVC가 알 수 있게 해줍니다.
+        /// 각 cell이 클릭될때 indexpath를 전달해주기 위해 notificationCenter 사용
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(self.didExpandTVC(_:)),
@@ -82,6 +82,7 @@ class TemplateInfoVC: UIViewController {
     
     @objc func didExpandTVC(_ notification: Notification) {
         if let indexPath = notification.userInfo?["indexPath"] as? IndexPath {
+            /// Cell의 상태를 담고 있는 Bool 배열에서 click된 cell의 상태를 변경 (true <-> false)
             expandedCells[indexPath.row] = !expandedCells[indexPath.row]
             templateInfoTV.reloadRows(at: [indexPath], with: .automatic)
             print(expandedCells)
@@ -136,12 +137,9 @@ extension TemplateInfoVC: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        /// expand 된 cell의 높이에 맞게 자동으로 변경해주기 위함
         return UITableView.automaticDimension
     }
-    
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        print(1)
-//    }
 }
 
 // MARK: - UITableViewDataSource
@@ -156,8 +154,8 @@ extension TemplateInfoVC : UITableViewDataSource
         guard let cell = tableView.dequeueReusableCell(withIdentifier: TemplateInfoTVC.classIdentifier, for: indexPath) as? TemplateInfoTVC else {return UITableViewCell()}
         
         cell.settingData(isExpanded: expandedCells[indexPath.row])
+        /// 각 cell 클릭 시 해당하는 cell의 indexPath를 TVC의 indexPath로 전달
         cell.indexPath = indexPath
-        cell.layoutIfNeeded()
         
         return cell
     }
