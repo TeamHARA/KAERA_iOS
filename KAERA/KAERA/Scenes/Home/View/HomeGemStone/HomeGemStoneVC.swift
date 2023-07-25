@@ -10,7 +10,7 @@ import Combine
 import SnapKit
 import Then
 
-final class HomeDiggingVC: BaseVC {
+final class HomeGemStoneVC: BaseVC {
     
     // MARK: - Enum
     enum PageType {
@@ -124,7 +124,7 @@ final class HomeDiggingVC: BaseVC {
 }
 
 // MARK: - CollectionView
-extension HomeDiggingVC: UICollectionViewDelegate {
+extension HomeGemStoneVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let worryId = gemStoneList[indexPath.row].worryId
         let vc = HomeWorryDetailVC(worryId: worryId)
@@ -134,7 +134,7 @@ extension HomeDiggingVC: UICollectionViewDelegate {
     }
 }
 
-extension HomeDiggingVC: UICollectionViewDataSource {
+extension HomeGemStoneVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return gemStoneList.count
     }
@@ -151,7 +151,7 @@ extension HomeDiggingVC: UICollectionViewDataSource {
 
 
 // MARK: - UI
-extension HomeDiggingVC {
+extension HomeGemStoneVC {
     private func setLayout() {
         self.view.backgroundColor = .kGray1
         self.view.addSubviews([stoneEmptyView, gemStoneEmptyView, gemStoneCV])
