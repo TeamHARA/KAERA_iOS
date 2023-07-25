@@ -104,7 +104,6 @@ final class HomeDiggingVC: BaseVC {
     }
     
     private func updateUI(gemList: [HomePublisherModel]) {
-        print(gemList)
         if gemList.isEmpty {
             gemStoneCV.isHidden = true
             if pageType == .digging {
@@ -127,7 +126,11 @@ final class HomeDiggingVC: BaseVC {
 // MARK: - CollectionView
 extension HomeDiggingVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("didSelect")
+        let worryId = gemStoneList[indexPath.row].worryId
+        let vc = HomeWorryDetailVC(worryId: worryId)
+        vc.modalPresentationStyle = .fullScreen
+        vc.modalTransitionStyle = .coverVertical
+        self.present(vc, animated: true, completion: nil)
     }
 }
 
