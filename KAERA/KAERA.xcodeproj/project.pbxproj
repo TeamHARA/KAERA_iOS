@@ -230,6 +230,7 @@
 			isa = PBXGroup;
 			children = (
 				E73CA3E12A6A688A00BAC9D6 /* CustomNavigationBarView.swift */,
+				E73CA3DB2A693C9D00BAC9D6 /* GemStoneEmptyView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -418,7 +419,6 @@
 			children = (
 				E7BB4F3A2A5ED3610018312B /* HomeVC.swift */,
 				E7BB4F382A5D54A60018312B /* HomeHederView.swift */,
-				E73CA3DB2A693C9D00BAC9D6 /* GemStoneEmptyView.swift */,
 				E73CA3DD2A6A62D000BAC9D6 /* HomeWorryDetail */,
 				E7BB4F452A5EF6C60018312B /* HomeDiggingView */,
 			);
