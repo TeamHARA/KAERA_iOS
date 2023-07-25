@@ -26,6 +26,10 @@
 		E721EABD2A51D5D900A04AA0 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = E721EABC2A51D5D900A04AA0 /* Then */; };
 		E73CA3DA2A69300F00BAC9D6 /* HomePublisherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73CA3D92A69300F00BAC9D6 /* HomePublisherModel.swift */; };
 		E73CA3DC2A693C9D00BAC9D6 /* GemStoneEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73CA3DB2A693C9D00BAC9D6 /* GemStoneEmptyView.swift */; };
+		E73CA3DF2A6A62F700BAC9D6 /* HomeWorryDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73CA3DE2A6A62F700BAC9D6 /* HomeWorryDetailVC.swift */; };
+		E73CA3E22A6A688A00BAC9D6 /* CustomNavigationBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73CA3E12A6A688A00BAC9D6 /* CustomNavigationBarView.swift */; };
+		E73CA3E42A6AB09100BAC9D6 /* HomeWorryDetailTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73CA3E32A6AB09100BAC9D6 /* HomeWorryDetailTVC.swift */; };
+		E73CA3E72A6B5D2500BAC9D6 /* HomeWorryDetailHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73CA3E62A6B5D2500BAC9D6 /* HomeWorryDetailHeaderView.swift */; };
 		E78C3A062A51842300A15120 /* Temp_Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = E78C3A052A51842300A15120 /* Temp_Protocols.swift */; };
 		E79AAC1F2A52F16300F3F439 /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79AAC1E2A52F16300F3F439 /* ImageCacheManager.swift */; };
 		E79AAC212A52F19300F3F439 /* ToastMessageColorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79AAC202A52F19300F3F439 /* ToastMessageColorType.swift */; };
@@ -72,6 +76,9 @@
 		E7C808EB2A4D37F800F475CE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C808EA2A4D37F800F475CE /* SceneDelegate.swift */; };
 		E7C808F22A4D37FA00F475CE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E7C808F12A4D37FA00F475CE /* Assets.xcassets */; };
 		E7C808F52A4D37FA00F475CE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E7C808F32A4D37FA00F475CE /* LaunchScreen.storyboard */; };
+		E7FEC0962A6CFD12006F36BF /* HomeWorryDetailFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7FEC0952A6CFD12006F36BF /* HomeWorryDetailFooterView.swift */; };
+		E7FEC0982A6D1274006F36BF /* HomeWorryDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7FEC0972A6D1274006F36BF /* HomeWorryDetailViewModel.swift */; };
+		E7FEC09A2A6D1725006F36BF /* WorryDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7FEC0992A6D1725006F36BF /* WorryDetailModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -93,6 +100,10 @@
 		85EBC7F62A5AD95D00B9E891 /* ArchiveVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveVC.swift; sourceTree = "<group>"; };
 		E73CA3D92A69300F00BAC9D6 /* HomePublisherModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePublisherModel.swift; sourceTree = "<group>"; };
 		E73CA3DB2A693C9D00BAC9D6 /* GemStoneEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GemStoneEmptyView.swift; sourceTree = "<group>"; };
+		E73CA3DE2A6A62F700BAC9D6 /* HomeWorryDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeWorryDetailVC.swift; sourceTree = "<group>"; };
+		E73CA3E12A6A688A00BAC9D6 /* CustomNavigationBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationBarView.swift; sourceTree = "<group>"; };
+		E73CA3E32A6AB09100BAC9D6 /* HomeWorryDetailTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeWorryDetailTVC.swift; sourceTree = "<group>"; };
+		E73CA3E62A6B5D2500BAC9D6 /* HomeWorryDetailHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeWorryDetailHeaderView.swift; sourceTree = "<group>"; };
 		E78C3A052A51842300A15120 /* Temp_Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Temp_Protocols.swift; sourceTree = "<group>"; };
 		E79AAC1E2A52F16300F3F439 /* ImageCacheManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
 		E79AAC202A52F19300F3F439 /* ToastMessageColorType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastMessageColorType.swift; sourceTree = "<group>"; };
@@ -138,6 +149,9 @@
 		E7C808F12A4D37FA00F475CE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E7C808F42A4D37FA00F475CE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E7C808F62A4D37FA00F475CE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E7FEC0952A6CFD12006F36BF /* HomeWorryDetailFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeWorryDetailFooterView.swift; sourceTree = "<group>"; };
+		E7FEC0972A6D1274006F36BF /* HomeWorryDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeWorryDetailViewModel.swift; sourceTree = "<group>"; };
+		E7FEC0992A6D1725006F36BF /* WorryDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorryDetailModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -201,10 +215,30 @@
 			path = ArchiveTemplateInfo;
 			sourceTree = "<group>";
 		};
+		E73CA3DD2A6A62D000BAC9D6 /* HomeWorryDetail */ = {
+			isa = PBXGroup;
+			children = (
+				E73CA3DE2A6A62F700BAC9D6 /* HomeWorryDetailVC.swift */,
+				E73CA3E32A6AB09100BAC9D6 /* HomeWorryDetailTVC.swift */,
+				E73CA3E62A6B5D2500BAC9D6 /* HomeWorryDetailHeaderView.swift */,
+				E7FEC0952A6CFD12006F36BF /* HomeWorryDetailFooterView.swift */,
+			);
+			path = HomeWorryDetail;
+			sourceTree = "<group>";
+		};
+		E73CA3E02A6A685900BAC9D6 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				E73CA3E12A6A688A00BAC9D6 /* CustomNavigationBarView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
 		E78C39F12A5138D200A15120 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
 				85EBC7F02A5AD7BC00B9E891 /* KaeraTabbarController.swift */,
+				E73CA3E02A6A685900BAC9D6 /* Components */,
 				E78C39F62A5182AA00A15120 /* Home */,
 				E78C39F72A5182B100A15120 /* Writing */,
 				E78C39F82A5182BC00A15120 /* Archive */,
@@ -385,6 +419,7 @@
 				E7BB4F3A2A5ED3610018312B /* HomeVC.swift */,
 				E7BB4F382A5D54A60018312B /* HomeHederView.swift */,
 				E73CA3DB2A693C9D00BAC9D6 /* GemStoneEmptyView.swift */,
+				E73CA3DD2A6A62D000BAC9D6 /* HomeWorryDetail */,
 				E7BB4F452A5EF6C60018312B /* HomeDiggingView */,
 			);
 			path = View;
@@ -394,6 +429,7 @@
 			isa = PBXGroup;
 			children = (
 				E7BB4F462A5EF7060018312B /* HomeGemListViewModel.swift */,
+				E7FEC0972A6D1274006F36BF /* HomeWorryDetailViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -403,6 +439,7 @@
 			children = (
 				E7BB4F482A5EF7320018312B /* HomeGemListModel.swift */,
 				E73CA3D92A69300F00BAC9D6 /* HomePublisherModel.swift */,
+				E7FEC0992A6D1725006F36BF /* WorryDetailModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -570,7 +607,10 @@
 			files = (
 				E79AAC1F2A52F16300F3F439 /* ImageCacheManager.swift in Sources */,
 				E79AAC472A52F36500F3F439 /* NetworkResult.swift in Sources */,
+				E73CA3DF2A6A62F700BAC9D6 /* HomeWorryDetailVC.swift in Sources */,
+				E73CA3E42A6AB09100BAC9D6 /* HomeWorryDetailTVC.swift in Sources */,
 				E79AAC212A52F19300F3F439 /* ToastMessageColorType.swift in Sources */,
+				E73CA3E72A6B5D2500BAC9D6 /* HomeWorryDetailHeaderView.swift in Sources */,
 				E7AC12232A51D08300FE504C /* Temp_DataModel.swift in Sources */,
 				85887DA02A612E1000F7FB21 /* TemplateInfoTVC.swift in Sources */,
 				E7BB4F3B2A5ED3610018312B /* HomeVC.swift in Sources */,
@@ -578,6 +618,7 @@
 				E79AAC332A52F2C300F3F439 /* UITextField+.swift in Sources */,
 				E79AAC322A52F2C300F3F439 /* UIColor+.swift in Sources */,
 				E7AC12252A51D08C00FE504C /* Temp_Service.swift in Sources */,
+				E73CA3E22A6A688A00BAC9D6 /* CustomNavigationBarView.swift in Sources */,
 				85887D972A60430600F7FB21 /* ArchiveModalCVC.swift in Sources */,
 				E79AAC372A52F2C300F3F439 /* CALayer+.swift in Sources */,
 				E79AAC3D2A52F2C300F3F439 /* UIFont+.swift in Sources */,
@@ -587,6 +628,7 @@
 				E79AAC392A52F2C300F3F439 /* UICollectionVIew+.swift in Sources */,
 				85EBC7F72A5AD95D00B9E891 /* ArchiveVC.swift in Sources */,
 				E79AAC432A52F36500F3F439 /* APIConstant.swift in Sources */,
+				E7FEC09A2A6D1725006F36BF /* WorryDetailModel.swift in Sources */,
 				E79AAC302A52F2C300F3F439 /* String+.swift in Sources */,
 				E79AAC4B2A52F3E000F3F439 /* BaseNC.swift in Sources */,
 				E79AAC462A52F36500F3F439 /* NetworkConstant.swift in Sources */,
@@ -606,11 +648,13 @@
 				E79AAC3A2A52F2C300F3F439 /* Adjusted+.swift in Sources */,
 				E79AAC312A52F2C300F3F439 /* UIView+.swift in Sources */,
 				E7BB4F392A5D54A60018312B /* HomeHederView.swift in Sources */,
+				E7FEC0962A6CFD12006F36BF /* HomeWorryDetailFooterView.swift in Sources */,
 				85EBC7F32A5AD93200B9E891 /* HomeDiggingVC.swift in Sources */,
 				E79AAC442A52F36500F3F439 /* BaseTargetType.swift in Sources */,
 				E7BB4F472A5EF7060018312B /* HomeGemListViewModel.swift in Sources */,
 				E7C808E92A4D37F800F475CE /* AppDelegate.swift in Sources */,
 				E73CA3DC2A693C9D00BAC9D6 /* GemStoneEmptyView.swift in Sources */,
+				E7FEC0982A6D1274006F36BF /* HomeWorryDetailViewModel.swift in Sources */,
 				85887D842A5C42A700F7FB21 /* WriteModalCVC.swift in Sources */,
 				E79AAC3C2A52F2C300F3F439 /* NSObject+.swift in Sources */,
 				85887D922A60320A00F7FB21 /* ArchiveHeaderView.swift in Sources */,
