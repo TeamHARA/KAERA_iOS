@@ -8,13 +8,6 @@
 import Foundation
 import Combine
 
-protocol ViewModelType {
-    associatedtype Input
-    associatedtype Output
-    
-    func transform(input: Input) -> Output
-}
-
 final class HomeGemListViewModel: ViewModelType {
     struct Input {
         let isSolved: AnyPublisher<Bool, Never>
