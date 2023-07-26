@@ -55,11 +55,13 @@ final class HomeWorryDetailVC: BaseVC {
     private var worryTitle = ""
     private var templateId = 1
     private var deadline = ""
+    private var pageType: PageType = .digging
     
     // MARK: - Initialization
-    init(worryId: Int) {
+    init(worryId: Int, type: PageType) {
         super.init(nibName: nil, bundle: nil)
         self.worryId = worryId
+        self.pageType = type
     }
     
     required init?(coder: NSCoder) {

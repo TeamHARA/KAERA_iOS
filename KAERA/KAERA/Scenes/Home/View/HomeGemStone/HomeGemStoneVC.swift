@@ -10,13 +10,13 @@ import Combine
 import SnapKit
 import Then
 
+// MARK: - Enum
+enum PageType {
+    case digging
+    case dug
+}
+
 final class HomeGemStoneVC: BaseVC {
-    
-    // MARK: - Enum
-    enum PageType {
-        case digging
-        case dug
-    }
     
     // MARK: - Properties
     private let gemListViewModel = HomeGemListViewModel()
@@ -127,7 +127,7 @@ final class HomeGemStoneVC: BaseVC {
 extension HomeGemStoneVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let worryId = gemStoneList[indexPath.row].worryId
-        let vc = HomeWorryDetailVC(worryId: worryId)
+        let vc = HomeWorryDetailVC(worryId: worryId, type: pageType)
         vc.modalPresentationStyle = .fullScreen
         vc.modalTransitionStyle = .coverVertical
         self.present(vc, animated: true, completion: nil)
