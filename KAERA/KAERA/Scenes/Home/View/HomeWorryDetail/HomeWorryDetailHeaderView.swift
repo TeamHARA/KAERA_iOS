@@ -62,6 +62,7 @@ final class HomeWorryDetailHeaderView: UITableViewHeaderFooterView {
         worryTitle.snp.makeConstraints {
             $0.top.equalTo(gemStoneImageView.snp.bottom).offset(24)
             $0.centerX.equalToSuperview()
+            $0.bottom.equalToSuperview().inset(36)
         }
     }
     

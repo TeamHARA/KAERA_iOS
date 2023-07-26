@@ -37,6 +37,7 @@ final class HomeWorryDetailFooterView: UITableViewHeaderFooterView {
         
         writtenDateLabel.snp.makeConstraints {
             $0.top.trailing.equalToSuperview()
+            $0.bottom.equalToSuperview().inset(72.adjustedH)
         }
     }
     

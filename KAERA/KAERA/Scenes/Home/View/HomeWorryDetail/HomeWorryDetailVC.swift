@@ -105,6 +105,9 @@ final class HomeWorryDetailVC: BaseVC {
         worryDetailTV.estimatedSectionHeaderHeight = 200
         worryDetailTV.estimatedRowHeight = 200
         worryDetailTV.estimatedSectionFooterHeight = 200
+        worryDetailTV.rowHeight = UITableView.automaticDimension
+        worryDetailTV.sectionHeaderHeight = UITableView.automaticDimension
+        worryDetailTV.sectionFooterHeight = UITableView.automaticDimension
     }
     
     private func dataBind() {
@@ -135,20 +138,6 @@ final class HomeWorryDetailVC: BaseVC {
 // MARK: - UITableView
 extension HomeWorryDetailVC: UITableViewDelegate {
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        //TODO: 하드 코딩 수정 필요 - 데이터의 텍스트를 반영한 높이에 따라 달라지도록
-        /// 셀 높이 + 여백
-        return 100 + 28.adjustedH
-    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        /// 헤더의 높이 + 헤더와 첫번째 셀간의 간격
-        return 139.adjustedH + 36.adjustedH
-    }
-    
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 14 + 72.adjustedH
-    }
 }
 
 extension HomeWorryDetailVC: UITableViewDataSource {
