@@ -68,6 +68,7 @@ extension HomeWorryDetailTVC {
         worryAnswer.snp.makeConstraints {
             $0.top.equalTo(worryQuestion.snp.bottom).offset(12)
             $0.directionalHorizontalEdges.equalToSuperview()
+            $0.bottom.equalToSuperview().inset(28.adjustedH)
         }
     }
 }
