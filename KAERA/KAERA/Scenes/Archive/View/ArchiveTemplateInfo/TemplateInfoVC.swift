@@ -38,6 +38,13 @@ class TemplateInfoVC: UIViewController {
     
     var expandedCells = [Bool]()
     
+    // MARK: - ViewModel
+    private var templateVM: TemplateViewModel = TemplateViewModel()
+    
+    private var templateInfoList: [TemplateInfoPublisherModel] = []
+    private var disposalbleBag = Set<AnyCancellable>()
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setLayout()
@@ -45,6 +52,7 @@ class TemplateInfoVC: UIViewController {
         registerTV()
         resetCellStatus()
         setObserver()
+        setBindings()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -146,7 +154,7 @@ extension TemplateInfoVC: UITableViewDelegate {
 extension TemplateInfoVC : UITableViewDataSource
 {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 6
+        return templateInfoList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -157,6 +165,22 @@ extension TemplateInfoVC : UITableViewDataSource
         /// 각 cell 클릭 시 해당하는 cell의 indexPath를 TVC의 indexPath로 전달
         cell.indexPath = indexPath
         
+        /// 서버로부터 받아온 데이터를 viewModel을 통해 넣어준다.
+        cell.dataBind(model: templateInfoList[indexPath.item], indexPath: indexPath)
+        
         return cell
     }
 }
+
+// MARK: - 뷰모델 관련
+extension TemplateInfoVC{
+    /// 뷰모델의 데이터를 뷰컨의 리스트 데이터와 연동
+    private func setBindings() {
+        print("ViewController - setBindings()")
+        self.templateVM.templateInfoPublisher.sink{ [weak self] (updatedList : [TemplateInfoPublisherModel]) in
+            print("ViewController - updatedList.count: \(updatedList.count)")
+            self?.templateInfoList = updatedList
+        }.store(in: &disposalbleBag)
+    }
+}
+
