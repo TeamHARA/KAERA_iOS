@@ -17,10 +17,27 @@ final class HomeWorryDetailFooterView: UITableViewHeaderFooterView {
         $0.text = "작성일 2019.09.01"
     }
     
+    private let seperateLeft = UIImageView().then {
+        $0.image = UIImage(named: "seperate_left")
+    }
+    private let seperateRight = UIImageView().then {
+        $0.image = UIImage(named: "seperate_right")
+    }
+    private let answerHeader = UILabel().then {
+        $0.text = "내가 내린 답은"
+        $0.font = .kB2R16
+        $0.textColor = .kYellow2
+    }
+    
+    private let headerView = UIView()
+//    private lazy var answerStackView = UIStackView().then {
+//        $0.axis = .horizontal
+//        $0.addArrangedSubviews([seperateLeft, answerHeader,seperateRight])
+//    }
+    
     // MARK: - Initialization
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
-        setLayout()
     }
     
     required init?(coder: NSCoder) {
@@ -32,12 +49,34 @@ final class HomeWorryDetailFooterView: UITableViewHeaderFooterView {
         writtenDateLabel.text = updateAt
     }
     
-    private func setLayout() {
+    func setDiggingLayout() {
         self.contentView.addSubview(writtenDateLabel)
         
         writtenDateLabel.snp.makeConstraints {
             $0.top.trailing.equalToSuperview()
             $0.bottom.equalToSuperview().inset(72.adjustedH)
+        }
+    }
+    
+    func setDugLayout() {
+        headerView.addSubviews([seperateLeft, answerHeader, seperateRight])
+        seperateLeft.snp.makeConstraints {
+            $0.leading.centerY.equalToSuperview()
+            $0.width.equalTo(98.adjustedW)
+        }
+        answerHeader.snp.makeConstraints {
+            $0.center.equalToSuperview()
+        }
+        seperateRight.snp.makeConstraints {
+            $0.trailing.centerY.equalToSuperview()
+            $0.width.equalTo(98.adjustedW)
+        }
+        
+        self.contentView.addSubviews([headerView])
+        
+        headerView.snp.makeConstraints {
+            $0.top.directionalHorizontalEdges.equalToSuperview()
+            $0.bottom.equalToSuperview().inset(72)
         }
     }
     
