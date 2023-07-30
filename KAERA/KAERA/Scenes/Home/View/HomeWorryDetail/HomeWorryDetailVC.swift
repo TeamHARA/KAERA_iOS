@@ -68,16 +68,21 @@ final class HomeWorryDetailVC: BaseVC {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
+    // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .kGray1
         setLayout()
+        switch pageType {
+        case .digging:
+            setDiggingLayout()
+        case .dug:
+            setDugLayout()
+        }
         setNaviButtonAction()
         setupTableView()
         dataBind()
     }
-    
     override func viewWillLayoutSubviews() {
         worryDetailScrollView.contentSize.height = worryDetailTV.contentSize.height
         worryDetailContentView.snp.updateConstraints {
@@ -182,7 +187,41 @@ extension HomeWorryDetailVC: UITableViewDataSource {
 // MARK: - UI
 extension HomeWorryDetailVC {
     private func setLayout() {
-        self.view.addSubviews([navigationBarView, worryDetailScrollView, bottmContainerView])
+        self.view.addSubviews([navigationBarView, worryDetailScrollView])
+        
+        navigationBarView.snp.makeConstraints {
+            $0.left.right.equalToSuperview().inset(16)
+            $0.top.equalTo(view.safeAreaLayoutGuide).inset(20)
+            $0.height.equalTo(50)
+        }
+        
+        worryDetailScrollView.snp.makeConstraints {
+            $0.top.equalTo(navigationBarView.snp.bottom)
+            $0.directionalHorizontalEdges.equalToSuperview().inset(16)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide)
+        }
+        
+        worryDetailScrollView.addSubview(worryDetailContentView)
+        
+        /// contentLayoutGuide, frameLayoutGutide에 constraint를 잡아줘야함
+        worryDetailContentView.snp.makeConstraints {
+            $0.edges.equalTo(worryDetailScrollView.contentLayoutGuide)
+            $0.width.equalTo(worryDetailScrollView.frameLayoutGuide)
+            $0.height.equalTo(100)
+        }
+        
+        worryDetailContentView.addSubview(worryDetailTV)
+        
+        worryDetailTV.snp.makeConstraints {
+            $0.directionalHorizontalEdges.equalToSuperview()
+            $0.top.equalToSuperview()
+            $0.height.equalTo(worryDetailTV.contentSize.height)
+        }
+        
+    }
+    
+    private func setDiggingLayout() {
+        self.view.addSubviews([bottmContainerView])
         
         navigationBarView.snp.makeConstraints {
             $0.left.right.equalToSuperview().inset(16)
@@ -203,33 +242,15 @@ extension HomeWorryDetailVC {
             $0.top.equalToSuperview().inset(20)
             $0.height.equalTo(52.adjustedH)
         }
+    }
+    
+    private func setDugLayout() {
+        worryDetailContentView.addSubview(reviewView)
         
-        worryDetailScrollView.snp.makeConstraints {
-            $0.top.equalTo(navigationBarView.snp.bottom)
-            $0.directionalHorizontalEdges.equalToSuperview().inset(16)
-            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(89.adjustedH)
-        }
-        
-        worryDetailScrollView.addSubview(worryDetailContentView)
-        
-        /// contentLayoutGuide, frameLayoutGutide에 constraint를 잡아줘야함
-        worryDetailContentView.snp.makeConstraints {
-            $0.edges.equalTo(worryDetailScrollView.contentLayoutGuide)
-            $0.width.equalTo(worryDetailScrollView.frameLayoutGuide)
-            $0.height.equalTo(100)
-        }
-        
-        worryDetailContentView.addSubviews([backgroundImageView, worryDetailTV])
-        
-        backgroundImageView.snp.makeConstraints {
-            $0.directionalHorizontalEdges.top.equalToSuperview()
-            /// 바닥이 하단 뷰에 잘리지 않도록 이미지에 inset 추가
-            $0.bottom.equalToSuperview().inset(5)
-        }
-        
-        worryDetailTV.snp.makeConstraints {
-            $0.directionalHorizontalEdges.equalToSuperview().inset(14)
-            $0.verticalEdges.equalToSuperview()
+        reviewView.snp.makeConstraints {
+            $0.directionalHorizontalEdges.equalToSuperview()
+            $0.bottom.equalToSuperview().inset(16)
+            $0.height.equalTo(restReviewViewHeight + defaultTextViewHeight)
         }
     }
 }
