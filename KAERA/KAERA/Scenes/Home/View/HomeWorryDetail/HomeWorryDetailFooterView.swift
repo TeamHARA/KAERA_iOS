@@ -30,11 +30,14 @@ final class HomeWorryDetailFooterView: UITableViewHeaderFooterView {
     }
     
     private let headerView = UIView()
-//    private lazy var answerStackView = UIStackView().then {
-//        $0.axis = .horizontal
-//        $0.addArrangedSubviews([seperateLeft, answerHeader,seperateRight])
-//    }
     
+    private let answerLabel = UILabel().then {
+        $0.font = .kB2R16
+        $0.textColor = .kWhite
+        $0.textAlignment = .center
+        $0.text = "내가 내린 답은 이거임"
+    }
+        
     // MARK: - Initialization
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
@@ -53,7 +56,8 @@ final class HomeWorryDetailFooterView: UITableViewHeaderFooterView {
         self.contentView.addSubview(writtenDateLabel)
         
         writtenDateLabel.snp.makeConstraints {
-            $0.top.trailing.equalToSuperview()
+            $0.top.equalToSuperview()
+            $0.trailing.equalToSuperview().inset(14)
             $0.bottom.equalToSuperview().inset(72.adjustedH)
         }
     }
@@ -72,13 +76,18 @@ final class HomeWorryDetailFooterView: UITableViewHeaderFooterView {
             $0.width.equalTo(98.adjustedW)
         }
         
-        self.contentView.addSubviews([headerView])
+        self.contentView.addSubviews([headerView, answerLabel])
         
         headerView.snp.makeConstraints {
-            $0.top.directionalHorizontalEdges.equalToSuperview()
-            $0.bottom.equalToSuperview().inset(72)
+            $0.top.equalToSuperview()
+            $0.directionalHorizontalEdges.equalToSuperview().inset(14)
+            $0.height.equalTo(18)
+        }
+        
+        answerLabel.snp.makeConstraints {
+            $0.top.equalTo(headerView.snp.bottom).offset(21)
+            $0.directionalHorizontalEdges.equalToSuperview().inset(14)
+            $0.bottom.equalToSuperview().inset(40)
         }
     }
-    
-    
 }
