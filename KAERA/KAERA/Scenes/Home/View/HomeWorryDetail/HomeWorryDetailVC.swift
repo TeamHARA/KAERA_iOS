@@ -57,6 +57,13 @@ final class HomeWorryDetailVC: BaseVC {
     private var deadline = ""
     private var pageType: PageType = .digging
     
+    private let reviewView = WorryDetailReviewView()
+    private let restReviewViewHeight: CGFloat = 67
+    private var defaultTextViewHeight: CGFloat = 53
+    private let reviewSpacing: CGFloat = 32
+    private let placeholderText = "이 고민을 통해 배운점 또는 생각을 자유롭게 적어보세요"
+    private var reviewTextViewHeight: CGFloat = 0
+
     // MARK: - Initialization
     init(worryId: Int, type: PageType) {
         super.init(nibName: nil, bundle: nil)
@@ -81,14 +88,45 @@ final class HomeWorryDetailVC: BaseVC {
         }
         setNaviButtonAction()
         setupTableView()
+        setReviewTextView()
         dataBind()
     }
     override func viewWillLayoutSubviews() {
-        worryDetailScrollView.contentSize.height = worryDetailTV.contentSize.height
-        worryDetailContentView.snp.updateConstraints {
-            /// 테이블 뷰보다 높이가 1이상 커야지 footer뷰가 제대로 나옴
-            $0.height.equalTo(worryDetailTV.contentSize.height + 1)
+        /// 테이블 뷰 contentSize.height 보다 1이상 커야지 footer뷰가 제대로 나옴
+        let tableContentHeight = worryDetailTV.contentSize.height + 1
+        worryDetailTV.snp.updateConstraints {
+            $0.height.equalTo(tableContentHeight)
         }
+        switch pageType {
+        case .digging:
+            worryDetailScrollView.snp.updateConstraints {
+                $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(89.adjustedH)
+            }
+            worryDetailContentView.snp.updateConstraints {
+                $0.height.equalTo(tableContentHeight)
+            }
+        case .dug:
+            if reviewTextViewHeight > defaultTextViewHeight {
+                worryDetailContentView.snp.updateConstraints {
+                    $0.height.equalTo(tableContentHeight + reviewSpacing + restReviewViewHeight + reviewTextViewHeight)
+                }
+                reviewView.snp.updateConstraints {
+                    $0.height.equalTo(restReviewViewHeight + reviewTextViewHeight
+                    + 10)
+                }
+                
+            }else {
+                worryDetailContentView.snp.updateConstraints {
+                    $0.height.equalTo(tableContentHeight + reviewSpacing + restReviewViewHeight + defaultTextViewHeight)
+                }
+               
+                reviewView.snp.updateConstraints {
+                    $0.height.equalTo(restReviewViewHeight + defaultTextViewHeight)
+                }
+            }
+            
+        }
+    }
     }
     
     // MARK: - Function
@@ -115,6 +153,11 @@ final class HomeWorryDetailVC: BaseVC {
         worryDetailTV.rowHeight = UITableView.automaticDimension
         worryDetailTV.sectionHeaderHeight = UITableView.automaticDimension
         worryDetailTV.sectionFooterHeight = UITableView.automaticDimension
+        worryDetailTV.backgroundView = backgroundImageView
+    }
+    
+    private func setReviewTextView() {
+        reviewView.reviewTextView.delegate = self
     }
     
     private func dataBind() {
@@ -128,7 +171,7 @@ final class HomeWorryDetailVC: BaseVC {
         /// input 전달
         input.send(worryId)
     }
-
+    
     private func updateUI(worryDetail: WorryDetailModel) {
         questions = worryDetail.questions
         answers = worryDetail.answers
@@ -140,14 +183,47 @@ final class HomeWorryDetailVC: BaseVC {
         navigationBarView.setTitleText(text: "고민캐기 D-\(deadline)")
         worryDetailTV.reloadData()
     }
+    
 }
-
-// MARK: - UITableView
-extension HomeWorryDetailVC: UITableViewDelegate {
+// MARK: - TextView
+extension HomeWorryDetailVC: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        var inputText = ""
+        inputText = textView.text == placeholderText ? "  " : textView.text
+        /// 행간 간격 150% 설정
+        let style = NSMutableParagraphStyle()
+        style.lineSpacing = UIFont.kB4R14.lineHeight * 0.5
+        let attributedText = NSAttributedString(
+            string: inputText,
+            attributes: [
+                .paragraphStyle: style,
+                .foregroundColor: UIColor.kWhite,
+                .font: UIFont.kB4R14
+            ]
+        )
+        
+        textView.attributedText = attributedText
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.isEmpty {
+            textView.text = placeholderText
+            textView.textColor = .kGray5
+            textView.font = .kSb1R12
+        }
+    }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        let fixedWidth = textView.frame.size.width
+        let newSize = textView.sizeThatFits(CGSize(width: fixedWidth, height: CGFloat.greatestFiniteMagnitude))
+        self.reviewTextViewHeight = newSize.height
+    }
     
 }
 
-extension HomeWorryDetailVC: UITableViewDataSource {
+
+// MARK: - UITableView
+extension HomeWorryDetailVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return questions.count
     }
