@@ -90,6 +90,7 @@ final class HomeWorryDetailVC: BaseVC {
         setupTableView()
         setReviewTextView()
         dataBind()
+        hideKeyboardWhenTappedAround()
     }
     override func viewWillLayoutSubviews() {
         /// 테이블 뷰 contentSize.height 보다 1이상 커야지 footer뷰가 제대로 나옴
@@ -127,6 +128,56 @@ final class HomeWorryDetailVC: BaseVC {
             
         }
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.addKeyboardObserver()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        self.removeKeyboardObserver()
+    }
+    
+    
+    private func addKeyboardObserver() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(self.keyboardWillAppear(_:)),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+        
+        NotificationCenter.default.addObserver(
+            self, selector: #selector(keyboardWillDisappear),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil)
+
+    }
+    
+    
+    private func removeKeyboardObserver() {
+        NotificationCenter.default.removeObserver(
+            self,
+            name: UIResponder.keyboardWillShowNotification,
+            object: nibName
+        )
+        
+        NotificationCenter.default.removeObserver(
+            self,
+            name: UIResponder.keyboardWillHideNotification,
+            object: nibName
+        )
+    }
+    @objc
+    func keyboardWillAppear(_ notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+                UIView.animate(withDuration: 0.1, animations: {
+                    self.worryDetailScrollView.contentInset.bottom = keyboardSize.height + 50
+                })
+        }
+    }
+    @objc
+    func keyboardWillDisappear(_ notification: NSNotification) {
+        worryDetailScrollView.contentInset.bottom = .zero
     }
     
     // MARK: - Function
