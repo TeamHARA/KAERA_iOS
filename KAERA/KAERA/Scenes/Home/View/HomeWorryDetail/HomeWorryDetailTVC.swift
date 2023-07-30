@@ -62,12 +62,13 @@ extension HomeWorryDetailTVC {
         contentView.addSubviews([worryQuestion, worryAnswer])
         
         worryQuestion.snp.makeConstraints {
-            $0.top.directionalHorizontalEdges.equalToSuperview()
+            $0.top.equalToSuperview()
+            $0.directionalHorizontalEdges.equalToSuperview().inset(14)
         }
         
         worryAnswer.snp.makeConstraints {
             $0.top.equalTo(worryQuestion.snp.bottom).offset(12)
-            $0.directionalHorizontalEdges.equalToSuperview()
+            $0.directionalHorizontalEdges.equalToSuperview().inset(14)
             $0.bottom.equalToSuperview().inset(28.adjustedH)
         }
     }
