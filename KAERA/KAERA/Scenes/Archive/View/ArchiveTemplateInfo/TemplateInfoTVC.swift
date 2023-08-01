@@ -207,12 +207,3 @@ extension TemplateInfoTVC {
         }
     }
 }
-
-extension TemplateInfoTVC {
-    // MARK: - DataBind
-    func dataBind(model: TemplateInfoPublisherModel, indexPath: IndexPath) {
-        jewelImage.image = model.image
-        titleLabel.text = model.templateTitle
-        templateDetail.text = model.info
-    }
-}
