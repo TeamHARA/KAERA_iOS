@@ -23,14 +23,31 @@ final class HomeWorryDetailHeaderView: UITableViewHeaderFooterView {
         $0.textAlignment = .center
     }
     
-    private var gemStoneDictionary: [Int: String] = [
-        1: "gemstone_pink",
-        2: "gemstone_orange",
-        3: "gemstone_blue",
-        4: "gemstone_green",
-        5: "gemstone_yellow",
-        6: "gemstone_red",
+    private let worryPeriod = UILabel().then {
+        $0.font = .kSb1R12
+        $0.textColor = .kGray4
+    }
+    
+    struct DictionaryKey: Hashable {
+        let templateId: Int
+        let type: PageType
+    }
+    
+    private let gemStoneDictionary: [DictionaryKey : String] = [
+        DictionaryKey(templateId: 1, type: .digging) : "gemstone_pink",
+        DictionaryKey(templateId: 2, type: .digging) : "gemstone_orange",
+        DictionaryKey(templateId: 3, type: .digging) : "gemstone_blue",
+        DictionaryKey(templateId: 4, type: .digging) : "gemstone_green",
+        DictionaryKey(templateId: 5, type: .digging) : "gemstone_yellow",
+        DictionaryKey(templateId: 6, type: .digging) : "gemstone_red",
+        DictionaryKey(templateId: 1, type: .dug) : "gem_pink_l",
+        DictionaryKey(templateId: 2, type: .dug) : "gem_orange_l",
+        DictionaryKey(templateId: 3, type: .dug) : "gem_blue_l",
+        DictionaryKey(templateId: 4, type: .dug) : "gem_green_l",
+        DictionaryKey(templateId: 5, type: .dug) : "gem_yellow_l",
+        DictionaryKey(templateId: 6, type: .dug) : "gem_red_l"
     ]
+    
     
     // MARK: - Initialization
     override init(reuseIdentifier: String?) {
@@ -43,25 +60,52 @@ final class HomeWorryDetailHeaderView: UITableViewHeaderFooterView {
     }
     
     // MARK: - Function
-    func setData(templateId: Int, title: String) {
-        if let imgName = gemStoneDictionary[templateId] {
+    func setData(templateId: Int, title: String, type: PageType, period: String) {
+        worryTitle.text = title
+        if let imgName = gemStoneDictionary[DictionaryKey(templateId: templateId, type: type)] {
             gemStoneImageView.image = UIImage(named: imgName)
         }
-        worryTitle.text = title
+        switch type {
+        case .digging:
+            setDiggingLayout()
+        case .dug:
+            setDugLayout()
+            worryPeriod.text = period
+        }
     }
     
     private func setLayout() {
-        self.contentView.addSubviews([gemStoneImageView, worryTitle])
+        self.contentView.addSubview(gemStoneImageView)
         
         gemStoneImageView.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalToSuperview().inset(15)
+            $0.top.equalToSuperview().inset(26)
             $0.height.width.equalTo(80.adjustedH)
         }
+    }
+    
+    private func setDiggingLayout() {
+        self.contentView.addSubview(worryTitle)
         
         worryTitle.snp.makeConstraints {
-            $0.top.equalTo(gemStoneImageView.snp.bottom).offset(24)
+            $0.top.equalTo(gemStoneImageView.snp.bottom).offset(27)
             $0.centerX.equalToSuperview()
+            $0.bottom.equalToSuperview().inset(22)
+        }
+    }
+    
+    private func setDugLayout() {
+        self.contentView.addSubviews([worryTitle, worryPeriod])
+        
+        worryTitle.snp.makeConstraints {
+            $0.top.equalTo(gemStoneImageView.snp.bottom).offset(27)
+            $0.centerX.equalToSuperview()
+            $0.height.equalTo(20)
+        }
+        
+        worryPeriod.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.top.equalTo(worryTitle.snp.bottom).offset(9)
             $0.bottom.equalToSuperview().inset(36)
         }
     }
