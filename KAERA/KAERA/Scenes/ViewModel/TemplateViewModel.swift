@@ -32,53 +32,40 @@ class TemplateViewModel {
     ]
     
     var templateListDummy = [
-        TemplateListModel(templateId: 0, templateTitle: "모든 보석 보기", shortInfo: "그동안 캐낸 모든 보석을 볼 수 있어요", info: "", hasUsed: true),
-        TemplateListModel(templateId: 1, templateTitle: "Free Flow", shortInfo: "빈 공간을 자유롭게 채우기", info: "어떤 질문도 던지지 않아요. 캐라 도화지에서 머릿 속 얽혀있는 고민 실타래들을 마음껏 풀어내세요!", hasUsed: true),
-        TemplateListModel(templateId: 2, templateTitle: "장단점 생각하기", shortInfo: "할까? 말까? 최고의 선택을 돕는 해결사", info: "문제의 근본적인 이유를 찾아주는 5why 기법이에요. 왜?, 그래서 왜?, 그리고 왜? 숨어있는 원인을 캐내 문제를 해결할 수 있어요", hasUsed: true),
-        TemplateListModel(templateId: 3, templateTitle: "다섯번의 왜?", shortInfo: "5why 기법을 활용한 물음표 곱씹기", info: "무언가 걱정되는 일이 있으신가요? 데일카네기가 제시한 글쓰기 가이드라인에 맞춰 무엇이 고민인지 쓰고, 이를 해결하기 위한 방법을 논리적으로 찾으며 차분히 생각해봅시다", hasUsed: true),
-        TemplateListModel(templateId: 4, templateTitle: "자기관리론", shortInfo: "데일카네기가 제시한 걱정 극복 글쓰기", info: "집중해야 할 단 한 가지 목표를 정해보세요. 삶의 우선순위를 설계하고, 지금 집중해야 할 일은 무엇인지 찾아낼 수 있어요.", hasUsed: false),
-        TemplateListModel(templateId: 5, templateTitle: "단 하나의 목표", shortInfo: "One thing, 우선순위 정하기", info: "집중해야 할 단 한 가지 목표를 정해보세요. 삶의 우선순위를 설계하고, 지금 집중해야 할 일은 무엇인지 찾아낼 수 있어요.", hasUsed: false),
-        TemplateListModel(templateId: 6, templateTitle: "땡스투 새겨보기", shortInfo: "긍정적인 힘을 만드는 감사 일기", info: "집중해야 할 단 한 가지 목표를 정해보세요. 삶의 우선순위를 설계하고, 지금 집중해야 할 일은 무엇인지 찾아낼 수 있어요.", hasUsed: false),
-        TemplateListModel(templateId: 7, templateTitle: "10-10-10", shortInfo: "수지 웰치의 좋은 결정을 내리는 간단한 방법", info: "집중해야 할 단 한 가지 목표를 정해보세요. 삶의 우선순위를 설계하고, 지금 집중해야 할 일은 무엇인지 찾아낼 수 있어요.", hasUsed: false),
-        TemplateListModel(templateId: 8, templateTitle: "실행력 키우기", shortInfo: "move! move! 일단 움직여, 실행론", info: "집중해야 할 단 한 가지 목표를 정해보세요. 삶의 우선순위를 설계하고, 지금 집중해야 할 일은 무엇인지 찾아낼 수 있어요.", hasUsed: false)
+        TemplateListModel(templateId: 0, templateTitle: "모든 보석 보기", templateDetail: "그동안 캐낸 모든 보석을 볼 수 있어요", hasUsed: true),
+        TemplateListModel(templateId: 1, templateTitle: "Free Flow", templateDetail: "빈 공간을 자유롭게 채우기", hasUsed: true),
+        TemplateListModel(templateId: 2, templateTitle: "장단점 생각하기", templateDetail: "할까? 말까? 최고의 선택을 돕는 해결사", hasUsed: true),
+        TemplateListModel(templateId: 3, templateTitle: "다섯번의 왜?", templateDetail: "5why 기법을 활용한 물음표 곱씹기", hasUsed: true),
+        TemplateListModel(templateId: 4, templateTitle: "자기관리론", templateDetail: "데일카네기가 제시한 걱정 극복 글쓰기", hasUsed: false),
+        TemplateListModel(templateId: 5, templateTitle: "단 하나의 목표", templateDetail: "One thing, 우선순위 정하기", hasUsed: false),
+        TemplateListModel(templateId: 6, templateTitle: "땡스투 새겨보기", templateDetail: "긍정적인 힘을 만드는 감사 일기", hasUsed: false),
+        TemplateListModel(templateId: 7, templateTitle: "10-10-10", templateDetail: "수지 웰치의 좋은 결정을 내리는 간단한 방법", hasUsed: false),
+        TemplateListModel(templateId: 8, templateTitle: "실행력 키우기", templateDetail: "move! move! 일단 움직여, 실행론", hasUsed: false)
     ]
     
     var templateUpdateList: [TemplateListPublisherModel] = []
     
     lazy var templateListPublisher = CurrentValueSubject<[TemplateListPublisherModel], Never>(templateUpdateList)
     
-    /// 고민 작성지에 들어갈 내용을 담을 currentValueSubject 생성
-    var templateInfoList: [TemplateInfoPublisherModel] = []
-    
-    lazy var templateInfoPublisher = CurrentValueSubject<[TemplateInfoPublisherModel], Never>(templateInfoList)
-    
     init() {
         templateUpdateList = []
-        templateInfoList = []
-        convertListIdtoImg()
-        convertInfoIdtoImg()
+        convertIdtoImg()
     }
 }
 
 // MARK: - Functions
 extension TemplateViewModel {
-    private func convertListIdtoImg() {
+    private func convertIdtoImg() {
         templateListDummy.forEach {
             if $0.hasUsed == true {
                 guard let imgName = idToImgTuple[customKey(index: $0.templateId, hasUsed: true)] else { return }
-                templateUpdateList.append(TemplateListPublisherModel(templateId: $0.templateId, templateTitle: $0.templateTitle, templateDetail: $0.shortInfo, image: UIImage(named: imgName) ?? UIImage() ))
+                templateUpdateList.append(TemplateListPublisherModel(templateId: $0.templateId, templateTitle: $0.templateTitle, templateDetail: $0.templateDetail, image: UIImage(named: imgName) ?? UIImage() ))
             }
             else {
                 guard let imgName = idToImgTuple[customKey(index: $0.templateId, hasUsed: false)] else { return }
-                templateUpdateList.append(TemplateListPublisherModel(templateId: $0.templateId, templateTitle: $0.templateTitle, templateDetail: $0.shortInfo, image: UIImage(named: imgName) ?? UIImage() ))
+                templateUpdateList.append(TemplateListPublisherModel(templateId: $0.templateId, templateTitle: $0.templateTitle, templateDetail: $0.templateDetail, image: UIImage(named: imgName) ?? UIImage() ))
             }
-        }
-    }
-    
-    private func convertInfoIdtoImg() {
-        templateListDummy.forEach {
-                guard let imgName = idToImgTuple[customKey(index: $0.templateId, hasUsed: true)] else { return }
-            templateInfoList.append(TemplateInfoPublisherModel(templateId: $0.templateId, templateTitle: $0.templateTitle, info: $0.info, image: UIImage(named: imgName) ?? UIImage() ))
+            
         }
     }
 }
