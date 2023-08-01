@@ -55,6 +55,7 @@ final class HomeWorryDetailVC: BaseVC {
     private var worryTitle = ""
     private var templateId = 1
     private var deadline = ""
+    private var period = ""
     private var pageType: PageType = .digging
     
     private let reviewView = WorryDetailReviewView()
@@ -232,6 +233,7 @@ final class HomeWorryDetailVC: BaseVC {
         /// 넘어오는 값이 -1일 경우 String 값으로 표현
         deadline = worryDetail.deadline < 0 ? "∞" : "\(worryDetail.deadline)"
         navigationBarView.setTitleText(text: "고민캐기 D-\(deadline)")
+        period = worryDetail.period
         worryDetailTV.reloadData()
     }
     
@@ -293,7 +295,7 @@ extension HomeWorryDetailVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard let headerCell = tableView.dequeueReusableHeaderFooterView(withIdentifier: HomeWorryDetailHeaderView.className) as? HomeWorryDetailHeaderView else { return nil }
-        headerCell.setData(templateId: self.templateId, title: self.worryTitle)
+        headerCell.setData(templateId: self.templateId, title: self.worryTitle, type: pageType, period: period)
         
         return headerCell
     }
