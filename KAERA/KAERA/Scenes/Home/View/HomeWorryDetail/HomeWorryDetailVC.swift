@@ -48,7 +48,6 @@ final class HomeWorryDetailVC: BaseVC {
         $0.layer.cornerRadius = 8
     }
     
-    private var worryId = 1
     private var questions = [String]()
     private var answers = [String]()
     private var updateDate = ""
@@ -68,8 +67,10 @@ final class HomeWorryDetailVC: BaseVC {
     // MARK: - Initialization
     init(worryId: Int, type: PageType) {
         super.init(nibName: nil, bundle: nil)
-        self.worryId = worryId
         self.pageType = type
+        dataBind()
+        /// input 전달
+        input.send(worryId)
     }
     
     required init?(coder: NSCoder) {
@@ -220,8 +221,6 @@ final class HomeWorryDetailVC: BaseVC {
             .sink { [weak self] worryDetail in
                 self?.updateUI(worryDetail: worryDetail)
             }.store(in: &cancellables)
-        /// input 전달
-        input.send(worryId)
     }
     
     private func updateUI(worryDetail: WorryDetailModel) {
