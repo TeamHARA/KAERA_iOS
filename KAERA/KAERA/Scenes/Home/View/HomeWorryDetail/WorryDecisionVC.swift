@@ -39,8 +39,7 @@ final class WorryDecisionVC: BaseVC {
         $0.font = .kB4R14
         $0.textColor = .kGray3
         $0.isScrollEnabled = false
-        
-        $0.textContainerInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
+        $0.textContainerInset = UIEdgeInsets(top: 12, left: 5, bottom: 0, right: 0)
     }
     
     private let doneButton = UIButton().then {
@@ -52,9 +51,13 @@ final class WorryDecisionVC: BaseVC {
         $0.layer.cornerRadius = 8
     }
     
-    private let topInset: CGFloat = 303
+    private let topInset: CGFloat = 303.adjustedH
     private var hasKeyboard: Bool = false
     private let placeholderText = "40자 이내로 적어주세요."
+    /// TextView의 content 기본 높이 27을 뺀 뷰의 높이
+    private var defaultTextHeight: CGFloat = 27.7
+    private lazy var defaultTextViewHeight: CGFloat = (40 - defaultTextHeight).adjustedH
+    private lazy var defaultMainViewHeight: CGFloat = (282 - defaultTextHeight).adjustedH
     
     // MARK: - View Life Cycle
     override func viewDidLoad() {
@@ -63,6 +66,7 @@ final class WorryDecisionVC: BaseVC {
         setLayout()
         hideKeyboardWhenTappedAround()
         setTextView()
+        setPressAction()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -175,6 +179,10 @@ extension WorryDecisionVC: UITextViewDelegate {
         )
         
         textView.attributedText = attributedText
+        
+        let fixedWidth = textView.frame.size.width
+        let newSize = textView.sizeThatFits(CGSize(width: fixedWidth, height: CGFloat.greatestFiniteMagnitude))
+        print("일",newSize.height)
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
@@ -185,12 +193,30 @@ extension WorryDecisionVC: UITextViewDelegate {
             textView.font = .kB4R14
             textView.textColor = .kGray3
         }
+        
+        let fixedWidth = textView.frame.size.width
+        let newSize = textView.sizeThatFits(CGSize(width: fixedWidth, height: CGFloat.greatestFiniteMagnitude))
+        print("이",newSize.height)
     }
     
     func textViewDidChange(_ textView: UITextView) {
+        
+        guard !textView.text.isEmpty else { return }
+        
         if textView.text.count > 40 {
             textView.deleteBackward()
         }
+       
+        let fixedWidth = textView.frame.size.width
+        let newSize = textView.sizeThatFits(CGSize(width: fixedWidth, height: CGFloat.greatestFiniteMagnitude))
+        worryTextView.snp.updateConstraints {
+            $0.height.equalTo(newSize.height + defaultTextViewHeight)
+        }
+
+        mainView.snp.updateConstraints {
+            $0.height.equalTo(newSize.height + defaultMainViewHeight)
+        }
+        print("삼", newSize.height)
     }
 }
 
@@ -204,7 +230,7 @@ extension WorryDecisionVC {
         mainView.snp.makeConstraints {
             $0.directionalHorizontalEdges.equalToSuperview().inset(19)
             $0.top.equalTo(view.safeAreaLayoutGuide).inset(topInset.adjustedH)
-            $0.height.equalTo(282.adjustedH)
+            $0.height.equalTo(defaultMainViewHeight + defaultTextHeight)
         }
         
         pickaxeImageView.snp.makeConstraints {
@@ -226,7 +252,7 @@ extension WorryDecisionVC {
         worryTextView.snp.makeConstraints {
             $0.directionalHorizontalEdges.equalToSuperview().inset(18)
             $0.top.equalTo(subTitle.snp.bottom).offset(16)
-            $0.height.equalTo(40)
+            $0.height.equalTo(defaultTextViewHeight + defaultTextHeight)
         }
         
         doneButton.snp.makeConstraints {
