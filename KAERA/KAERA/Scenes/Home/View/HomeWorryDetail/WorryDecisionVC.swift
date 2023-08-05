@@ -78,6 +78,12 @@ final class WorryDecisionVC: BaseVC {
         worryTextView.delegate = self
     }
     
+    private func setPressAction() {
+        self.doneButton.press {
+            print("완료 버튼 액션")
+        }
+    }
+   
 
 }
 // MARK: - Keyboard Setting
@@ -148,6 +154,43 @@ extension WorryDecisionVC {
         
         ///  키보드가 내려가 있었을 때와 키보드가 올라왔있다가 내려가고 호출되어 false 고정
         hasKeyboard = false
+    }
+}
+
+// MARK: - TextView Delegate
+extension WorryDecisionVC: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        var inputText = ""
+        inputText = textView.text == placeholderText ? " " : textView.text
+        /// 행간 간격 150% 설정
+        let style = NSMutableParagraphStyle()
+        style.lineSpacing = UIFont.kB4R14.lineHeight * 0.5
+        let attributedText = NSAttributedString(
+            string: inputText,
+            attributes: [
+                .paragraphStyle: style,
+                .foregroundColor: UIColor.kGray1,
+                .font: UIFont.kB4R14
+            ]
+        )
+        
+        textView.attributedText = attributedText
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        let trimmedText = textView.text.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        if trimmedText.isEmpty {
+            textView.text = placeholderText
+            textView.font = .kB4R14
+            textView.textColor = .kGray3
+        }
+    }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        if textView.text.count > 40 {
+            textView.deleteBackward()
+        }
     }
 }
 
