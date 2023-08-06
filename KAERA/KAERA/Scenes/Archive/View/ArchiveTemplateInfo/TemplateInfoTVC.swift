@@ -206,4 +206,10 @@ extension TemplateInfoTVC {
             $0.height.equalTo(26.adjustedW)
         }
     }
+    
+    func dataBind(model: TemplateInfoPublisherModel) {
+        jewelImage.image = model.image
+        titleLabel.text = model.templateTitle
+        templateDetail.text = model.info
+    }
 }

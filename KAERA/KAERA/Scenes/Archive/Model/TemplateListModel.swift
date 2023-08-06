@@ -13,6 +13,7 @@ struct TemplateListModel {
     let templateId: Int
     let templateTitle: String
     let templateDetail: String
+    let info: String
     let hasUsed: Bool
 }
 
@@ -21,5 +22,13 @@ struct TemplateListPublisherModel {
     let templateId: Int
     let templateTitle: String
     let templateDetail: String
+    let image: UIImage
+}
+
+/// View에 뿌려주기 위한 model
+struct TemplateInfoPublisherModel {
+    let templateId: Int
+    let templateTitle: String
+    let info: String
     let image: UIImage
 }
