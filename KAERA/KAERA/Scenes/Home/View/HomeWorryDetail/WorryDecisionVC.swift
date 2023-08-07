@@ -32,14 +32,14 @@ final class WorryDecisionVC: BaseVC {
         $0.textColor = .kGray5
     }
     
-    private lazy var worryTextView = UITextView().then {
+    private let worryTextView = UITextView().then {
         $0.backgroundColor = .kGray4
         $0.layer.cornerRadius = 8
         $0.text = "40자 이내로 적어주세요."
         $0.font = .kB4R14
         $0.textColor = .kGray3
-        $0.isScrollEnabled = false
-        $0.textContainerInset = UIEdgeInsets(top: 12, left: 5, bottom: 0, right: 0)
+        $0.isScrollEnabled = true
+        $0.textContainerInset = UIEdgeInsets(top: 12, left: 5, bottom: 12, right: 5)
     }
     
     private let doneButton = UIButton().then {
@@ -54,9 +54,8 @@ final class WorryDecisionVC: BaseVC {
     private let topInset: CGFloat = 303.adjustedH
     private var hasKeyboard: Bool = false
     private let placeholderText = "40자 이내로 적어주세요."
-    /// TextView의 content 기본 높이 27을 뺀 뷰의 높이
-    private var defaultTextHeight: CGFloat = 27.7
-    private lazy var defaultTextViewHeight: CGFloat = (40 - defaultTextHeight).adjustedH
+
+    private var defaultTextHeight: CGFloat = 40
     private lazy var defaultMainViewHeight: CGFloat = (282 - defaultTextHeight).adjustedH
     
     // MARK: - View Life Cycle
@@ -169,6 +168,7 @@ extension WorryDecisionVC: UITextViewDelegate {
         /// 행간 간격 150% 설정
         let style = NSMutableParagraphStyle()
         style.lineSpacing = UIFont.kB4R14.lineHeight * 0.5
+        style.alignment = .justified
         let attributedText = NSAttributedString(
             string: inputText,
             attributes: [
@@ -179,10 +179,6 @@ extension WorryDecisionVC: UITextViewDelegate {
         )
         
         textView.attributedText = attributedText
-        
-        let fixedWidth = textView.frame.size.width
-        let newSize = textView.sizeThatFits(CGSize(width: fixedWidth, height: CGFloat.greatestFiniteMagnitude))
-        print("일",newSize.height)
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
@@ -193,10 +189,6 @@ extension WorryDecisionVC: UITextViewDelegate {
             textView.font = .kB4R14
             textView.textColor = .kGray3
         }
-        
-        let fixedWidth = textView.frame.size.width
-        let newSize = textView.sizeThatFits(CGSize(width: fixedWidth, height: CGFloat.greatestFiniteMagnitude))
-        print("이",newSize.height)
     }
     
     func textViewDidChange(_ textView: UITextView) {
@@ -206,17 +198,16 @@ extension WorryDecisionVC: UITextViewDelegate {
         if textView.text.count > 40 {
             textView.deleteBackward()
         }
-       
-        let fixedWidth = textView.frame.size.width
-        let newSize = textView.sizeThatFits(CGSize(width: fixedWidth, height: CGFloat.greatestFiniteMagnitude))
-        worryTextView.snp.updateConstraints {
-            $0.height.equalTo(newSize.height + defaultTextViewHeight)
-        }
+        if textView.contentSize.height < defaultTextHeight * 2 - textView.textContainerInset.top {
+            
+            worryTextView.snp.updateConstraints {
+                $0.height.equalTo(textView.contentSize.height)
+            }
 
-        mainView.snp.updateConstraints {
-            $0.height.equalTo(newSize.height + defaultMainViewHeight)
+            mainView.snp.updateConstraints {
+                $0.height.equalTo(textView.contentSize.height + defaultMainViewHeight)
+            }
         }
-        print("삼", newSize.height)
     }
 }
 
@@ -252,7 +243,7 @@ extension WorryDecisionVC {
         worryTextView.snp.makeConstraints {
             $0.directionalHorizontalEdges.equalToSuperview().inset(18)
             $0.top.equalTo(subTitle.snp.bottom).offset(16)
-            $0.height.equalTo(defaultTextViewHeight + defaultTextHeight)
+            $0.height.equalTo(defaultTextHeight)
         }
         
         doneButton.snp.makeConstraints {
