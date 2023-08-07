@@ -12,7 +12,7 @@ import Then
 final class WorryDecisionVC: BaseVC {
     
     private let mainView = UIView().then {
-        $0.backgroundColor = .kGray3
+        $0.backgroundColor = .kGray2
         $0.layer.cornerRadius = 20
     }
     
@@ -50,13 +50,20 @@ final class WorryDecisionVC: BaseVC {
         $0.titleLabel?.textAlignment = .center
         $0.layer.cornerRadius = 8
     }
-    
+    private let quoteView = WorryQuoteView().then {
+        $0.backgroundColor = .kGray2
+        $0.layer.cornerRadius = 20
+        $0.alpha = 0.0
+    }
+
     private let topInset: CGFloat = 303.adjustedH
     private var hasKeyboard: Bool = false
     private let placeholderText = "40자 이내로 적어주세요."
 
     private var defaultTextHeight: CGFloat = 40
     private lazy var defaultMainViewHeight: CGFloat = (282 - defaultTextHeight).adjustedH
+    
+    private var templateId: Int = 0
     
     // MARK: - View Life Cycle
     override func viewDidLoad() {
@@ -83,10 +90,31 @@ final class WorryDecisionVC: BaseVC {
     
     private func setPressAction() {
         self.doneButton.press {
-            print("완료 버튼 액션")
+            // 고민 완료 Post
+            self.showWorryQuote()
         }
     }
-   
+    
+    private func showWorryQuote() {
+        self.mainView.isHidden = true
+
+        UIView.animate(withDuration: 0.7, animations: {
+            self.quoteView.alpha = 1.0
+        })
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.3) {
+            UIView.animate(withDuration: 0.5, animations: {
+                self.quoteView.alpha = 0.0
+            })
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.8) {
+            self.dismiss(animated: false, completion: nil)
+        }
+    }
+    
+    func setTemplateId(id: Int) {
+        self.templateId = id
+    }
 
 }
 // MARK: - Keyboard Setting
@@ -214,7 +242,7 @@ extension WorryDecisionVC: UITextViewDelegate {
 // MARK: - UI
 extension WorryDecisionVC {
     private func setLayout() {
-        self.view.addSubview(mainView)
+        self.view.addSubviews([quoteView,mainView])
         
         mainView.addSubviews([pickaxeImageView, mainTitle, subTitle, worryTextView, doneButton])
         
@@ -251,6 +279,12 @@ extension WorryDecisionVC {
             $0.bottom.equalToSuperview().inset(38)
             $0.height.equalTo(30)
             $0.width.equalTo(78)
+        }
+
+        quoteView.snp.makeConstraints {
+            $0.directionalHorizontalEdges.equalToSuperview()
+            $0.top.equalTo(view.safeAreaLayoutGuide).inset(284.adjustedH)
+            $0.height.equalTo(244.adjustedH)
         }
     }
 }
