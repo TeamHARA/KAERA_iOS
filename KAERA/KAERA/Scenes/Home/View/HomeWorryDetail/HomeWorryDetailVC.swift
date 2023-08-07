@@ -217,6 +217,7 @@ final class HomeWorryDetailVC: BaseVC {
     private func setPressAction() {
         digWorryButton.press {
             let vc = WorryDecisionVC()
+            vc.setTemplateId(id: self.templateId)
             vc.modalPresentationStyle = .overCurrentContext
             vc.modalTransitionStyle = .coverVertical
             self.present(vc, animated: true, completion: nil)
