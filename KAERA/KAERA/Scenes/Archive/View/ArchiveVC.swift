@@ -66,7 +66,7 @@ class ArchiveVC: UIViewController, RefreshListDelegate {
             if let sheet = self.modalVC.sheetPresentationController {
                 
                 /// 지원할 크기 지정 .large() 혹은 .medium()
-                sheet.detents = [.large()]
+                sheet.detents = [.medium()]
                 
                 /// 시트 상단에 그래버 표시 (기본 값은 false)
                 sheet.prefersGrabberVisible = true
