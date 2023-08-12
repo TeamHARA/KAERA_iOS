@@ -70,8 +70,6 @@ class TemplateContentTVC: UITableViewCell {
     }
 }
 
-
-
 extension TemplateContentTVC: UITextViewDelegate {
     // MARK: textview 높이 자동조절
     func textViewDidChange(_ textView: UITextView) {

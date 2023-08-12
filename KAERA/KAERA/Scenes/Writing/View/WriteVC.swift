@@ -217,7 +217,7 @@ extension WriteVC: TemplateTitleDelegate {
     }
     
     private func setTemplateContentTV(_ templateId: Int) {
-        let tvc = TemplateContentTV(templateId:  templateId)
+        let tvc = TemplateContentTV(templateId: templateId)
         self.view.addSubview(tvc)
         tvc.snp.makeConstraints{
             $0.top.equalTo(self.dividingLine.snp.bottom)
