@@ -38,8 +38,14 @@ class TemplateInfoVC: UIViewController {
     
     var expandedCells = [Bool]()
     
+    private let templateInfoViewModel = TemplateViewModel()
+    private var cancellables = Set<AnyCancellable>()
+    private var templateInfoList: [TemplateInfoPublisherModel] = []
+    private let input = PassthroughSubject<Void, Never> ()
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        dataBind()
         setLayout()
         pressBtn()
         registerTV()
@@ -87,6 +93,21 @@ class TemplateInfoVC: UIViewController {
             templateInfoTV.reloadRows(at: [indexPath], with: .automatic)
             print(expandedCells)
         }
+    }
+    
+    private func dataBind() {
+        let output = templateInfoViewModel.transform(input: input.eraseToAnyPublisher())
+        output.receive(on: DispatchQueue.main)
+            .sink { [weak self] list in
+                self?.updateTV(list)
+            }
+            .store(in: &cancellables)
+        input.send() /// 구독 후 ViewModel과 데이터를 연동
+    }
+    
+    private func updateTV(_ list: [ TemplateInfoPublisherModel]) {
+        templateInfoList = list
+        templateInfoTV.reloadData()
     }
 }
 
@@ -146,7 +167,7 @@ extension TemplateInfoVC: UITableViewDelegate {
 extension TemplateInfoVC : UITableViewDataSource
 {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 6
+        return templateInfoList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -156,6 +177,8 @@ extension TemplateInfoVC : UITableViewDataSource
         cell.settingData(isExpanded: expandedCells[indexPath.row])
         /// 각 cell 클릭 시 해당하는 cell의 indexPath를 TVC의 indexPath로 전달
         cell.indexPath = indexPath
+        
+        cell.dataBind(model: templateInfoList[indexPath.row])
         
         return cell
     }
