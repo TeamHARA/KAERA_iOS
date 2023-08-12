@@ -97,7 +97,7 @@ extension TemplateContentTV: UITableViewDelegate {
 extension TemplateContentTV : UITableViewDataSource
 {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
+        return questions.count
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -109,13 +109,9 @@ extension TemplateContentTV : UITableViewDataSource
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: TemplateContentTVC.classIdentifier, for: indexPath) as? TemplateContentTVC else {return UITableViewCell()}
-//
-//        cell.settingData(isExpanded: expandedCells[indexPath.row])
-//        /// 각 cell 클릭 시 해당하는 cell의 indexPath를 TVC의 indexPath로 전달
-//        cell.indexPath = indexPath
-//
-//        cell.dataBind(model: templateInfoList[indexPath.row])
         
+        cell.dataBind(question: questions[indexPath.row], hint: hints[indexPath.row])
+
         return cell
     }
 }
