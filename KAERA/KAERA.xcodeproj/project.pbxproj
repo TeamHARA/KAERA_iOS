@@ -19,6 +19,11 @@
 		85887D9C2A605D0B00F7FB21 /* TemplateInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85887D9B2A605D0B00F7FB21 /* TemplateInfoVC.swift */; };
 		85887D9E2A61219700F7FB21 /* TemplateInfoHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85887D9D2A61219700F7FB21 /* TemplateInfoHeaderView.swift */; };
 		85887DA02A612E1000F7FB21 /* TemplateInfoTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85887D9F2A612E1000F7FB21 /* TemplateInfoTVC.swift */; };
+		85A8492B2A87A13B009F1468 /* TemplateContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A8492A2A87A13B009F1468 /* TemplateContentViewModel.swift */; };
+		85A8492D2A87A3FF009F1468 /* TemplateContentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A8492C2A87A3FF009F1468 /* TemplateContentModel.swift */; };
+		85A8492F2A87A9EC009F1468 /* TemplateContentTV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A8492E2A87A9EC009F1468 /* TemplateContentTV.swift */; };
+		85A849312A87A9F7009F1468 /* TemplateContentTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A849302A87A9F7009F1468 /* TemplateContentTVC.swift */; };
+		85A849332A87DA36009F1468 /* TemplateContentHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A849322A87DA36009F1468 /* TemplateContentHeaderView.swift */; };
 		85EBC7F12A5AD7BC00B9E891 /* KaeraTabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EBC7F02A5AD7BC00B9E891 /* KaeraTabbarController.swift */; };
 		85EBC7F32A5AD93200B9E891 /* HomeGemStoneVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EBC7F22A5AD93200B9E891 /* HomeGemStoneVC.swift */; };
 		85EBC7F52A5AD94100B9E891 /* WriteVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EBC7F42A5AD94100B9E891 /* WriteVC.swift */; };
@@ -93,6 +98,11 @@
 		85887D9B2A605D0B00F7FB21 /* TemplateInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateInfoVC.swift; sourceTree = "<group>"; };
 		85887D9D2A61219700F7FB21 /* TemplateInfoHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateInfoHeaderView.swift; sourceTree = "<group>"; };
 		85887D9F2A612E1000F7FB21 /* TemplateInfoTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateInfoTVC.swift; sourceTree = "<group>"; };
+		85A8492A2A87A13B009F1468 /* TemplateContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateContentViewModel.swift; sourceTree = "<group>"; };
+		85A8492C2A87A3FF009F1468 /* TemplateContentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateContentModel.swift; sourceTree = "<group>"; };
+		85A8492E2A87A9EC009F1468 /* TemplateContentTV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateContentTV.swift; sourceTree = "<group>"; };
+		85A849302A87A9F7009F1468 /* TemplateContentTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateContentTVC.swift; sourceTree = "<group>"; };
+		85A849322A87DA36009F1468 /* TemplateContentHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateContentHeaderView.swift; sourceTree = "<group>"; };
 		85EBC7F02A5AD7BC00B9E891 /* KaeraTabbarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KaeraTabbarController.swift; sourceTree = "<group>"; };
 		85EBC7F22A5AD93200B9E891 /* HomeGemStoneVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeGemStoneVC.swift; sourceTree = "<group>"; };
 		85EBC7F42A5AD94100B9E891 /* WriteVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteVC.swift; sourceTree = "<group>"; };
@@ -180,6 +190,7 @@
 			isa = PBXGroup;
 			children = (
 				85887D8B2A5D084800F7FB21 /* TemplateListModel.swift */,
+				85A8492C2A87A3FF009F1468 /* TemplateContentModel.swift */,
 			);
 			name = Model;
 			path = ../Archive/Model;
@@ -189,6 +200,7 @@
 			isa = PBXGroup;
 			children = (
 				85887D8D2A5D086300F7FB21 /* TemplateViewModel.swift */,
+				85A8492A2A87A13B009F1468 /* TemplateContentViewModel.swift */,
 			);
 			name = ViewModel;
 			path = ../ViewModel;
@@ -470,6 +482,9 @@
 		E7BB4F4C2A5EF7520018312B /* View */ = {
 			isa = PBXGroup;
 			children = (
+				85A849322A87DA36009F1468 /* TemplateContentHeaderView.swift */,
+				85A849302A87A9F7009F1468 /* TemplateContentTVC.swift */,
+				85A8492E2A87A9EC009F1468 /* TemplateContentTV.swift */,
 				85EBC7F42A5AD94100B9E891 /* WriteVC.swift */,
 				85887D8F2A5EFA2C00F7FB21 /* WritePickerVC.swift */,
 				85887D802A5C428500F7FB21 /* WriteModal */,
@@ -605,6 +620,7 @@
 				E79AAC1F2A52F16300F3F439 /* ImageCacheManager.swift in Sources */,
 				E79AAC472A52F36500F3F439 /* NetworkResult.swift in Sources */,
 				E73CA3DF2A6A62F700BAC9D6 /* HomeWorryDetailVC.swift in Sources */,
+				85A8492B2A87A13B009F1468 /* TemplateContentViewModel.swift in Sources */,
 				E73CA3E42A6AB09100BAC9D6 /* HomeWorryDetailTVC.swift in Sources */,
 				E79AAC212A52F19300F3F439 /* ToastMessageColorType.swift in Sources */,
 				E73CA3E72A6B5D2500BAC9D6 /* HomeWorryDetailHeaderView.swift in Sources */,
@@ -627,6 +643,7 @@
 				E79AAC432A52F36500F3F439 /* APIConstant.swift in Sources */,
 				E7FEC09A2A6D1725006F36BF /* WorryDetailModel.swift in Sources */,
 				E79AAC302A52F2C300F3F439 /* String+.swift in Sources */,
+				85A849312A87A9F7009F1468 /* TemplateContentTVC.swift in Sources */,
 				E79AAC4B2A52F3E000F3F439 /* BaseNC.swift in Sources */,
 				E79AAC462A52F36500F3F439 /* NetworkConstant.swift in Sources */,
 				85EBC7F52A5AD94100B9E891 /* WriteVC.swift in Sources */,
@@ -634,8 +651,10 @@
 				E73CA3DA2A69300F00BAC9D6 /* HomePublisherModel.swift in Sources */,
 				85887D9E2A61219700F7FB21 /* TemplateInfoHeaderView.swift in Sources */,
 				E79AAC4A2A52F3E000F3F439 /* BaseVC.swift in Sources */,
+				85A8492D2A87A3FF009F1468 /* TemplateContentModel.swift in Sources */,
 				E79AAC3B2A52F2C300F3F439 /* UIButton+.swift in Sources */,
 				E79AAC452A52F36500F3F439 /* MoyaLoggingPlugin.swift in Sources */,
+				85A849332A87DA36009F1468 /* TemplateContentHeaderView.swift in Sources */,
 				E7BB4F552A604FC10018312B /* GemStoneCVC.swift in Sources */,
 				85887D992A60431000F7FB21 /* ArchiveModalVC.swift in Sources */,
 				85887D902A5EFA2C00F7FB21 /* WritePickerVC.swift in Sources */,
@@ -651,6 +670,7 @@
 				E73CA3DC2A693C9D00BAC9D6 /* GemStoneEmptyView.swift in Sources */,
 				E7FEC0982A6D1274006F36BF /* HomeWorryDetailViewModel.swift in Sources */,
 				85887D842A5C42A700F7FB21 /* WriteModalCVC.swift in Sources */,
+				85A8492F2A87A9EC009F1468 /* TemplateContentTV.swift in Sources */,
 				E79AAC3C2A52F2C300F3F439 /* NSObject+.swift in Sources */,
 				85887D922A60320A00F7FB21 /* ArchiveHeaderView.swift in Sources */,
 				85887D942A603A9900F7FB21 /* WorryListCVC.swift in Sources */,
