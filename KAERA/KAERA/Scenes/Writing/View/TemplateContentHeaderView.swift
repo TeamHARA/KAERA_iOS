@@ -15,7 +15,7 @@ final class TemplateContentHeaderView: UITableViewHeaderFooterView {
     private let worryTitleTextField = UITextField().then{
         $0.layer.cornerRadius = 8
         $0.backgroundColor = .clear
-        $0.textColor = .kGray4
+        $0.textColor = .kWhite
         $0.font = .kB2R16
         $0.addLeftPadding(16)
         

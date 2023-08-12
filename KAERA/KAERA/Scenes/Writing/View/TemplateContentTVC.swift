@@ -22,6 +22,7 @@ class TemplateContentTVC: UITableViewCell {
     
     lazy var textView = UITextView().then {
         $0.isScrollEnabled = false
+        $0.delegate = self
         $0.textContainer.lineBreakMode = .byWordWrapping
         $0.textContainerInset = UIEdgeInsets(top: 18, left: 17, bottom: 18, right: 17)
         $0.backgroundColor = .kGray2
@@ -63,7 +64,9 @@ class TemplateContentTVC: UITableViewCell {
     
     func dataBind(question: String, hint: String) {
         questionLabel.text = question
+        /// 아래의 textViewDelegate에서 update된 placeholder를 써주기 위해 placeholder에도 hint를 담아준다.
         placeHolder = hint
+        textView.text = placeHolder
     }
 }
 
@@ -94,4 +97,19 @@ extension TemplateContentTVC: UITextViewDelegate {
             tableView.endUpdates()
         }
     }
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.textColor == .kGray4 {
+            textView.text = nil
+            textView.textColor = .kWhite
+        }
+    }
+
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.isEmpty == true {
+            textView.text = placeHolder
+            textView.textColor = .kGray4
+        }
+    }
 }
+

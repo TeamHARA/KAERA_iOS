@@ -115,4 +115,3 @@ extension TemplateContentTV : UITableViewDataSource
         return cell
     }
 }
-
