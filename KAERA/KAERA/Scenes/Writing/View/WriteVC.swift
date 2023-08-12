@@ -6,10 +6,12 @@
 //
 
 import UIKit
+import Combine
 import SnapKit
 import Then
 
-class WriteVC: UIViewController{
+class WriteVC: UIViewController {
+    
     // MARK: - Properties
     private let writeModalVC = WriteModalVC()
     
@@ -26,6 +28,8 @@ class WriteVC: UIViewController{
         $0.layer.cornerRadius = 12
     }
     
+    private let navigationBarView = CustomNavigationBarView(leftType: .close, rightType: .done, title: "")
+    
     private let templateBtn = UIButton().then {
         $0.backgroundColor = .clear
     }
@@ -36,33 +40,36 @@ class WriteVC: UIViewController{
         $0.font = .kB2R16
     }
     
+    private let templateInfo = UILabel().then {
+        $0.textColor = .kGray5
+        $0.font = .kSb1R12
+    }
+    
     private let dropdownImg = UIImageView().then {
         $0.image = UIImage(named: "icn_drop_down")
         $0.contentMode = .scaleAspectFit
         $0.backgroundColor = .clear
     }
     
-    private let underLine = UIView().then {
-        $0.backgroundColor = .kGray3
+    private let topDividingLine = UIView().then {
+        $0.backgroundColor = .kGray2
     }
-    
-    private let worryTitleLabel = UILabel().then {
-        $0.text = "고민에 이름을 붙여주세요"
-        $0.textColor = .kWhite
-        $0.font = .kB2R16
-    }
-    
+
     private let worryTitleTextField = UITextField().then{
         $0.layer.cornerRadius = 8
-        $0.backgroundColor = .kGray3
-        $0.textColor = .kWhite
-        $0.font = .kSb1R12
-        $0.addLeftPadding(10)
+        $0.backgroundColor = .clear
+        $0.textColor = .kGray4
+        $0.font = .kB2R16
+        $0.addLeftPadding(16)
         
         // Placeholder 색상 설정
-        let placeholderText = "이 고민에 이름을 붙이자면..."
+        let placeholderText = "고민에 이름을 붙여주세요"
         let placeholderColor = UIColor.kGray4
         $0.attributedPlaceholder = NSAttributedString(string: placeholderText, attributes: [NSAttributedString.Key.foregroundColor: placeholderColor])
+    }
+    
+    private let bottomDividingLine = UIView().then {
+        $0.backgroundColor = .kGray3
     }
     
     private let worryContentLabel = UILabel().then {
@@ -95,6 +102,7 @@ class WriteVC: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         writeModalVC.sendTitleDelegate = self
+        setNaviButtonAction()
         setLayout()
         pressBtn()
         setObserver()
@@ -116,12 +124,12 @@ class WriteVC: UIViewController{
         )
     }
     
-    private func pressBtn() {
-        closeBtn.press { [self] in
-            dismiss(animated: true)
+    private func setNaviButtonAction() {
+        navigationBarView.setLeftButtonAction {
+            self.dismiss(animated: true, completion: nil)
         }
         
-        completeBtn.press { [self] in
+        navigationBarView.setRightButtonAction  { [self] in
             pickerVC.view.alpha = 0 /// pickerView를 초기에 보이지 않게 설정
             ///
             pickerVC.modalPresentationStyle = .overCurrentContext
@@ -132,6 +140,9 @@ class WriteVC: UIViewController{
                 })
             })
         }
+    }
+    
+    private func pressBtn() {
         
         templateBtn.press {
             self.writeModalVC.modalPresentationStyle = .pageSheet
@@ -152,66 +163,60 @@ class WriteVC: UIViewController{
 extension WriteVC {
     private func setLayout() {
         view.backgroundColor = .kGray1
-        view.addSubviews([closeBtn, completeBtn, templateBtn, templateTitle])
-        templateBtn.addSubviews([templateTitle, dropdownImg, underLine])
-        view.addSubviews([worryTitleLabel, worryTitleTextField, worryContentLabel])
+        view.addSubviews([navigationBarView, templateBtn])
+        templateBtn.addSubviews([templateTitle, templateInfo, dropdownImg])
+        view.addSubviews([topDividingLine, worryTitleTextField, bottomDividingLine])
         view.addSubviews([baseImage, introTitle, introDetail])
         
-        closeBtn.snp.makeConstraints {
-            $0.top.equalTo(self.view.safeAreaLayoutGuide).offset(20.adjustedW)
-            $0.leading.equalTo(self.view.safeAreaLayoutGuide).offset(16.adjustedW)
-            $0.height.width.equalTo(24.adjustedW)
-        }
-        
-        completeBtn.snp.makeConstraints {
-            $0.top.equalTo(self.view.safeAreaLayoutGuide).offset(20.adjustedW)
-            $0.trailing.equalTo(self.view.safeAreaLayoutGuide).offset(-16.adjustedW)
-            $0.width.equalTo(50.adjustedW)
-            $0.height.equalTo(26.adjustedW)
+        navigationBarView.snp.makeConstraints {
+            $0.left.right.equalToSuperview().inset(16)
+            $0.top.equalToSuperview().inset(70)
+            $0.height.equalTo(43)
         }
         
         templateBtn.snp.makeConstraints {
-            $0.top.equalTo(completeBtn.snp.bottom).offset(16)
-            $0.height.equalTo(60.adjustedW)
+            $0.top.equalTo(navigationBarView.snp.bottom)
+            $0.height.equalTo(69.adjustedW)
             $0.leading.trailing.equalToSuperview()
         }
         
         templateTitle.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(12.adjustedW)
-            $0.centerY.equalToSuperview()
+            $0.top.equalToSuperview().offset(12.adjustedW)
+            $0.leading.equalToSuperview().offset(16.adjustedW)
+        }
+        
+        templateInfo.snp.makeConstraints {
+            $0.top.equalTo(templateTitle.snp.bottom).offset(9.adjustedW)
+            $0.leading.equalToSuperview().offset(16.adjustedW)
         }
         
         dropdownImg.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(9.adjustedW)
             $0.trailing.equalToSuperview().offset(-16.adjustedW)
-            $0.centerY.equalToSuperview()
             $0.height.width.equalTo(24.adjustedW)
         }
         
-        underLine.snp.makeConstraints {
-            $0.bottom.equalTo(templateBtn.snp.bottom)
+        topDividingLine.snp.makeConstraints {
+            $0.top.equalTo(templateBtn.snp.bottom)
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(1)
-        }
-        
-        worryTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(underLine.snp.bottom).offset(20.adjustedW)
-            $0.leading.equalToSuperview().offset(12.adjustedW)
+            $0.height.equalTo(12)
         }
         
         worryTitleTextField.snp.makeConstraints {
-            $0.top.equalTo(worryTitleLabel.snp.bottom).offset(12.adjustedW)
-            $0.leading.equalToSuperview().offset(12)
-            $0.trailing.equalToSuperview().offset(-12)
-            $0.height.equalTo(44.adjustedW)
+            $0.top.equalTo(topDividingLine.snp.bottom)
+            $0.leading.equalToSuperview()
+            $0.width.equalTo(200.adjustedW)
+            $0.height.equalTo(73.adjustedW)
         }
         
-        worryContentLabel.snp.makeConstraints {
-            $0.top.equalTo(worryTitleTextField.snp.bottom).offset(26.adjustedW)
-            $0.leading.equalToSuperview().offset(12.adjustedW)
+        bottomDividingLine.snp.makeConstraints {
+            $0.top.equalTo(worryTitleTextField.snp.bottom)
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(1.adjustedW)
         }
         
         baseImage.snp.makeConstraints {
-            $0.top.equalTo(worryContentLabel.snp.bottom).offset(120.adjustedW)
+            $0.top.equalTo(bottomDividingLine.snp.bottom).offset(163.adjustedW)
             $0.centerX.equalToSuperview()
             $0.width.equalTo(120.adjustedW)
             $0.height.equalTo(95.adjustedW)
@@ -231,8 +236,20 @@ extension WriteVC {
 
 // MARK: - TemplageTitleDelegate
 extension WriteVC: TemplateTitleDelegate {
-    func sendTitle(templateTitle: String) {
+    func templateReload(templateId: Int, templateTitle: String, templateInfo: String) {
         self.templateTitle.text = templateTitle
+        self.templateInfo.text = templateInfo
+        setTemplateContentTV(templateId)
+    }
+    
+    private func setTemplateContentTV(_ templateId: Int) {
+        let tvc = TemplateContentTV(templateId:  templateId)
+        self.view.addSubview(tvc)
+        tvc.snp.makeConstraints{
+            $0.top.equalTo(self.bottomDividingLine.snp.bottom).offset(36.adjustedW)
+            $0.horizontalEdges.equalToSuperview().inset(16)
+            $0.height.equalTo(200)
+        }
     }
 }
 
