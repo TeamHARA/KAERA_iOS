@@ -55,6 +55,10 @@ class WriteVC: UIViewController {
         $0.backgroundColor = .kGray2
     }
     
+    private let bottomDividingLine = UIView().then {
+        $0.backgroundColor = .kGray3
+    }
+    
     private let worryContentLabel = UILabel().then {
         $0.text = "고민 내용 작성하기"
         $0.textColor = .kWhite
