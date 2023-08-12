@@ -51,25 +51,8 @@ class WriteVC: UIViewController {
         $0.backgroundColor = .clear
     }
     
-    private let topDividingLine = UIView().then {
+    private let dividingLine = UIView().then {
         $0.backgroundColor = .kGray2
-    }
-
-    private let worryTitleTextField = UITextField().then{
-        $0.layer.cornerRadius = 8
-        $0.backgroundColor = .clear
-        $0.textColor = .kGray4
-        $0.font = .kB2R16
-        $0.addLeftPadding(16)
-        
-        // Placeholder 색상 설정
-        let placeholderText = "고민에 이름을 붙여주세요"
-        let placeholderColor = UIColor.kGray4
-        $0.attributedPlaceholder = NSAttributedString(string: placeholderText, attributes: [NSAttributedString.Key.foregroundColor: placeholderColor])
-    }
-    
-    private let bottomDividingLine = UIView().then {
-        $0.backgroundColor = .kGray3
     }
     
     private let worryContentLabel = UILabel().then {
@@ -149,7 +132,7 @@ class WriteVC: UIViewController {
             
             if let sheet = self.writeModalVC.sheetPresentationController {
                 /// 지원할 크기 지정(.medium(), .large())
-                sheet.detents = [.large()]
+                sheet.detents = [.medium()]
                 
                 /// 시트 상단에 그래버 표시 (기본 값은 false)
                 sheet.prefersGrabberVisible = true
@@ -165,7 +148,7 @@ extension WriteVC {
         view.backgroundColor = .kGray1
         view.addSubviews([navigationBarView, templateBtn])
         templateBtn.addSubviews([templateTitle, templateInfo, dropdownImg])
-        view.addSubviews([topDividingLine, worryTitleTextField, bottomDividingLine])
+        view.addSubviews([dividingLine])
         view.addSubviews([baseImage, introTitle, introDetail])
         
         navigationBarView.snp.makeConstraints {
@@ -196,27 +179,14 @@ extension WriteVC {
             $0.height.width.equalTo(24.adjustedW)
         }
         
-        topDividingLine.snp.makeConstraints {
+        dividingLine.snp.makeConstraints {
             $0.top.equalTo(templateBtn.snp.bottom)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(12)
         }
         
-        worryTitleTextField.snp.makeConstraints {
-            $0.top.equalTo(topDividingLine.snp.bottom)
-            $0.leading.equalToSuperview()
-            $0.width.equalTo(200.adjustedW)
-            $0.height.equalTo(73.adjustedW)
-        }
-        
-        bottomDividingLine.snp.makeConstraints {
-            $0.top.equalTo(worryTitleTextField.snp.bottom)
-            $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(1.adjustedW)
-        }
-        
         baseImage.snp.makeConstraints {
-            $0.top.equalTo(bottomDividingLine.snp.bottom).offset(163.adjustedW)
+            $0.top.equalTo(dividingLine.snp.bottom).offset(200.adjustedW)
             $0.centerX.equalToSuperview()
             $0.width.equalTo(120.adjustedW)
             $0.height.equalTo(95.adjustedW)
@@ -246,9 +216,9 @@ extension WriteVC: TemplateTitleDelegate {
         let tvc = TemplateContentTV(templateId:  templateId)
         self.view.addSubview(tvc)
         tvc.snp.makeConstraints{
-            $0.top.equalTo(self.bottomDividingLine.snp.bottom).offset(36.adjustedW)
-            $0.horizontalEdges.equalToSuperview().inset(16)
-            $0.height.equalTo(200)
+            $0.top.equalTo(self.dividingLine.snp.bottom)
+            $0.horizontalEdges.equalToSuperview()
+            $0.bottom.equalToSuperview()
         }
     }
 }

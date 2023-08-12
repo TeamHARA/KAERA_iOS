@@ -23,7 +23,7 @@ class TemplateContentTV: UIView {
     private var hints: [String] = []
     
     private lazy var templateContentTV = UITableView(frame: .zero, style: .grouped).then {
-        $0.backgroundColor = .clear
+        $0.backgroundColor = .kGray1
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.separatorStyle = .none
         $0.showsVerticalScrollIndicator = false
@@ -37,6 +37,7 @@ class TemplateContentTV: UIView {
         super.init(frame: .zero)
         setLayout()
         dataBind()
+        registerTV()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -64,20 +65,26 @@ class TemplateContentTV: UIView {
     }
     
     private func setLayout() {
-        
+        self.addSubview(templateContentTV)
+        templateContentTV.snp.makeConstraints{
+            $0.edges.equalToSuperview()
+        }
+    }
+    
+    private func registerTV() {
+        templateContentTV.register(TemplateContentTVC.self,
+                                forCellReuseIdentifier: TemplateContentTVC.classIdentifier)
+        templateContentTV.register(TemplateContentHeaderView.self, forHeaderFooterViewReuseIdentifier: TemplateContentHeaderView.className)
+        templateContentTV.estimatedSectionHeaderHeight = 110.adjustedH
     }
 }
 
 // MARK: - UITableViewDelegate
 extension TemplateContentTV: UITableViewDelegate {
     
-    /// tableView와 Header 사이에 생기는 공백을 제거해주기 위해 빈뷰를 추가
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return UIView()
-    }
-    
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 0
+        /// 헤더의 높이 + 헤더와 첫번째 셀간의 간격
+        return 74.adjustedH + 36.adjustedH
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -93,9 +100,15 @@ extension TemplateContentTV : UITableViewDataSource
         return 4
     }
     
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        guard let headerCell = tableView.dequeueReusableHeaderFooterView(withIdentifier: TemplateContentHeaderView.className) as? TemplateContentHeaderView else { return nil }
+        
+        return headerCell
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: TemplateInfoTVC.classIdentifier, for: indexPath) as? TemplateInfoTVC else {return UITableViewCell()}
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: TemplateContentTVC.classIdentifier, for: indexPath) as? TemplateContentTVC else {return UITableViewCell()}
 //
 //        cell.settingData(isExpanded: expandedCells[indexPath.row])
 //        /// 각 cell 클릭 시 해당하는 cell의 indexPath를 TVC의 indexPath로 전달
