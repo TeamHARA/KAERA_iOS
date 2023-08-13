@@ -30,6 +30,7 @@
 		E73CA3E22A6A688A00BAC9D6 /* CustomNavigationBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73CA3E12A6A688A00BAC9D6 /* CustomNavigationBarView.swift */; };
 		E73CA3E42A6AB09100BAC9D6 /* HomeWorryDetailTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73CA3E32A6AB09100BAC9D6 /* HomeWorryDetailTVC.swift */; };
 		E73CA3E72A6B5D2500BAC9D6 /* HomeWorryDetailHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73CA3E62A6B5D2500BAC9D6 /* HomeWorryDetailHeaderView.swift */; };
+		E74968D62A74B84100C3C0CF /* WorryDetailReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E74968D52A74B84100C3C0CF /* WorryDetailReviewView.swift */; };
 		E79AAC1F2A52F16300F3F439 /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79AAC1E2A52F16300F3F439 /* ImageCacheManager.swift */; };
 		E79AAC212A52F19300F3F439 /* ToastMessageColorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79AAC202A52F19300F3F439 /* ToastMessageColorType.swift */; };
 		E79AAC302A52F2C300F3F439 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79AAC222A52F2C200F3F439 /* String+.swift */; };
@@ -103,6 +104,7 @@
 		E73CA3E12A6A688A00BAC9D6 /* CustomNavigationBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationBarView.swift; sourceTree = "<group>"; };
 		E73CA3E32A6AB09100BAC9D6 /* HomeWorryDetailTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeWorryDetailTVC.swift; sourceTree = "<group>"; };
 		E73CA3E62A6B5D2500BAC9D6 /* HomeWorryDetailHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeWorryDetailHeaderView.swift; sourceTree = "<group>"; };
+		E74968D52A74B84100C3C0CF /* WorryDetailReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorryDetailReviewView.swift; sourceTree = "<group>"; };
 		E79AAC1E2A52F16300F3F439 /* ImageCacheManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
 		E79AAC202A52F19300F3F439 /* ToastMessageColorType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastMessageColorType.swift; sourceTree = "<group>"; };
 		E79AAC222A52F2C200F3F439 /* String+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
@@ -220,6 +222,7 @@
 				E73CA3E32A6AB09100BAC9D6 /* HomeWorryDetailTVC.swift */,
 				E73CA3E62A6B5D2500BAC9D6 /* HomeWorryDetailHeaderView.swift */,
 				E7FEC0952A6CFD12006F36BF /* HomeWorryDetailFooterView.swift */,
+				E74968D52A74B84100C3C0CF /* WorryDetailReviewView.swift */,
 			);
 			path = HomeWorryDetail;
 			sourceTree = "<group>";
@@ -653,6 +656,7 @@
 				85887D842A5C42A700F7FB21 /* WriteModalCVC.swift in Sources */,
 				E79AAC3C2A52F2C300F3F439 /* NSObject+.swift in Sources */,
 				85887D922A60320A00F7FB21 /* ArchiveHeaderView.swift in Sources */,
+				E74968D62A74B84100C3C0CF /* WorryDetailReviewView.swift in Sources */,
 				85887D942A603A9900F7FB21 /* WorryListCVC.swift in Sources */,
 				85EBC7F12A5AD7BC00B9E891 /* KaeraTabbarController.swift in Sources */,
 				E7AC12212A51CFFD00FE504C /* GeneralResponse.swift in Sources */,
