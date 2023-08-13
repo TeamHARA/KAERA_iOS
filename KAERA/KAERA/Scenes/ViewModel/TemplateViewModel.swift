@@ -53,7 +53,6 @@ class TemplateViewModel: ViewModelType {
     private var cancellables = Set<AnyCancellable>()
     
     typealias Input = AnyPublisher<Void, Never>
-    
     typealias Output = AnyPublisher<[TemplateInfoPublisherModel], Never>
     
     private let output = PassthroughSubject<[TemplateInfoPublisherModel], Never> ()

@@ -11,7 +11,7 @@ import Then
 import Combine
 
 protocol TemplateTitleDelegate: AnyObject {
-    func sendTitle(templateTitle: String)
+    func templateReload(templateId: Int, templateTitle: String, templateInfo: String)
 }
 
 class WriteModalVC: UIViewController {
@@ -107,15 +107,15 @@ extension WriteModalVC: UICollectionViewDelegateFlowLayout {
     
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("click index=\(indexPath.row)")
         
-        // 기존의 선택되었던 Cell의 디자인을 초기화한다.
+        // templatetitle과 templateInfo delegate 해주는 부분
+        /// 기존의 선택되었던 Cell의 디자인을 초기화한다.
         if let previousCell = collectionView.cellForItem(at: IndexPath(row: templateIndex, section: 0)) as? WriteModalCVC {
             previousCell.templateCell.layer.borderColor = UIColor.systemGray.cgColor
             previousCell.checkIcon.isHidden = true
         }
         
-        // 새롭게 선택된 Cell의 디자인을 변경한다.
+        /// 새롭게 선택된 Cell의 디자인을 변경한다.
         if let currentCell = collectionView.cellForItem(at: indexPath) as? WriteModalCVC {
             currentCell.templateCell.layer.borderColor = UIColor.kYellow1.cgColor
             currentCell.checkIcon.isHidden = false
@@ -123,13 +123,12 @@ extension WriteModalVC: UICollectionViewDelegateFlowLayout {
         
         templateIndex = indexPath.row
         
-        print("templateIndex=\(templateIndex)")
-        
-        self.dismiss(animated: true, completion: nil)
-        
         /// 선택한 카테고리의 종류를 WriteVC로 보내줌으로써 화면에 선택된 템플릿이 무엇인지를 알려줍니다.
         /// '모든 보석 보기' cell은 포함하면 안되므로, 그 다음 셀의 제목을 첫번째 제목으로 하기 위해 +1을 해줍니다.
-        sendTitleDelegate?.sendTitle(templateTitle: templateVM.templateListPublisher.value[templateIndex + 1].templateTitle)
+        sendTitleDelegate?.templateReload(templateId: templateIndex, templateTitle: templateVM.templateListPublisher.value[templateIndex + 1].templateTitle, templateInfo: templateVM.templateListPublisher.value[templateIndex + 1].templateDetail)
+        
+        // notification for tableView reload
+        self.dismiss(animated: true, completion: nil)
     }
 }
 
