@@ -93,6 +93,7 @@ final class HomeWorryDetailVC: BaseVC {
         setReviewTextView()
         dataBind()
         hideKeyboardWhenTappedAround()
+        setPressAction()
     }
     override func viewWillLayoutSubviews() {
         /// 테이블 뷰 contentSize.height 보다 1이상 커야지 footer뷰가 제대로 나옴
@@ -211,6 +212,16 @@ final class HomeWorryDetailVC: BaseVC {
     
     private func setReviewTextView() {
         reviewView.reviewTextView.delegate = self
+    }
+    
+    private func setPressAction() {
+        digWorryButton.press {
+            let vc = WorryDecisionVC()
+            vc.setTemplateId(id: self.templateId)
+            vc.modalPresentationStyle = .overCurrentContext
+            vc.modalTransitionStyle = .coverVertical
+            self.present(vc, animated: true, completion: nil)
+        }
     }
     
     private func dataBind() {

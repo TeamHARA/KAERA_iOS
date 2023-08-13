@@ -36,6 +36,8 @@
 		E73CA3E42A6AB09100BAC9D6 /* HomeWorryDetailTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73CA3E32A6AB09100BAC9D6 /* HomeWorryDetailTVC.swift */; };
 		E73CA3E72A6B5D2500BAC9D6 /* HomeWorryDetailHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73CA3E62A6B5D2500BAC9D6 /* HomeWorryDetailHeaderView.swift */; };
 		E74968D62A74B84100C3C0CF /* WorryDetailReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E74968D52A74B84100C3C0CF /* WorryDetailReviewView.swift */; };
+		E74969302A7B2DF000C3C0CF /* WorryDecisionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E749692F2A7B2DF000C3C0CF /* WorryDecisionVC.swift */; };
+		E74969342A80AE2100C3C0CF /* WorryQuoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E74969332A80AE2100C3C0CF /* WorryQuoteView.swift */; };
 		E79AAC1F2A52F16300F3F439 /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79AAC1E2A52F16300F3F439 /* ImageCacheManager.swift */; };
 		E79AAC212A52F19300F3F439 /* ToastMessageColorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79AAC202A52F19300F3F439 /* ToastMessageColorType.swift */; };
 		E79AAC302A52F2C300F3F439 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79AAC222A52F2C200F3F439 /* String+.swift */; };
@@ -115,6 +117,8 @@
 		E73CA3E32A6AB09100BAC9D6 /* HomeWorryDetailTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeWorryDetailTVC.swift; sourceTree = "<group>"; };
 		E73CA3E62A6B5D2500BAC9D6 /* HomeWorryDetailHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeWorryDetailHeaderView.swift; sourceTree = "<group>"; };
 		E74968D52A74B84100C3C0CF /* WorryDetailReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorryDetailReviewView.swift; sourceTree = "<group>"; };
+		E749692F2A7B2DF000C3C0CF /* WorryDecisionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorryDecisionVC.swift; sourceTree = "<group>"; };
+		E74969332A80AE2100C3C0CF /* WorryQuoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorryQuoteView.swift; sourceTree = "<group>"; };
 		E79AAC1E2A52F16300F3F439 /* ImageCacheManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
 		E79AAC202A52F19300F3F439 /* ToastMessageColorType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastMessageColorType.swift; sourceTree = "<group>"; };
 		E79AAC222A52F2C200F3F439 /* String+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
@@ -235,6 +239,8 @@
 				E73CA3E62A6B5D2500BAC9D6 /* HomeWorryDetailHeaderView.swift */,
 				E7FEC0952A6CFD12006F36BF /* HomeWorryDetailFooterView.swift */,
 				E74968D52A74B84100C3C0CF /* WorryDetailReviewView.swift */,
+				E749692F2A7B2DF000C3C0CF /* WorryDecisionVC.swift */,
+				E74969332A80AE2100C3C0CF /* WorryQuoteView.swift */,
 			);
 			path = HomeWorryDetail;
 			sourceTree = "<group>";
@@ -637,6 +643,7 @@
 				E73CA3E22A6A688A00BAC9D6 /* CustomNavigationBarView.swift in Sources */,
 				85887D972A60430600F7FB21 /* ArchiveModalCVC.swift in Sources */,
 				E79AAC372A52F2C300F3F439 /* CALayer+.swift in Sources */,
+				E74969302A7B2DF000C3C0CF /* WorryDecisionVC.swift in Sources */,
 				E79AAC3D2A52F2C300F3F439 /* UIFont+.swift in Sources */,
 				85887D8E2A5D086300F7FB21 /* TemplateViewModel.swift in Sources */,
 				E7BB4F492A5EF7320018312B /* HomeGemListModel.swift in Sources */,
@@ -683,6 +690,7 @@
 				E79AAC382A52F2C300F3F439 /* UIStackView+.swift in Sources */,
 				E7C808EB2A4D37F800F475CE /* SceneDelegate.swift in Sources */,
 				85887D822A5C429F00F7FB21 /* WriteModalVC.swift in Sources */,
+				E74969342A80AE2100C3C0CF /* WorryQuoteView.swift in Sources */,
 				E79AAC352A52F2C300F3F439 /* UIImageView+.swift in Sources */,
 				85887D9C2A605D0B00F7FB21 /* TemplateInfoVC.swift in Sources */,
 				E7BB4F4F2A5EF81C0018312B /* WorryListViewModel.swift in Sources */,
