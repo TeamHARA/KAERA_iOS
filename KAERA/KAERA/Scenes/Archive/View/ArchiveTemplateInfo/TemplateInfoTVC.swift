@@ -55,7 +55,6 @@ class TemplateInfoTVC: UITableViewCell {
         $0.backgroundColor = .clear
         $0.isHidden = true
     }
-
     
     private let writingBtn = UIButton().then {
         $0.backgroundColor = .kGray3
