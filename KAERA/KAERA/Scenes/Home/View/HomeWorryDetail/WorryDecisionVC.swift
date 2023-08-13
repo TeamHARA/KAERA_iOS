@@ -285,7 +285,7 @@ extension WorryDecisionVC {
         }
 
         quoteView.snp.makeConstraints {
-            $0.directionalHorizontalEdges.equalToSuperview()
+            $0.directionalHorizontalEdges.equalToSuperview().inset(16)
             $0.top.equalTo(view.safeAreaLayoutGuide).inset(284.adjustedH)
             $0.height.equalTo(244.adjustedH)
         }
