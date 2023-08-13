@@ -140,7 +140,7 @@ final class HomeWorryDetailVC: BaseVC {
         self.removeKeyboardObserver()
     }
     
-    
+    // MARK: - Function
     private func addKeyboardObserver() {
         NotificationCenter.default.addObserver(
             self,
