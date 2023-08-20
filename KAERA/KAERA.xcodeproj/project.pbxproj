@@ -28,6 +28,8 @@
 		85EBC7F32A5AD93200B9E891 /* HomeGemStoneVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EBC7F22A5AD93200B9E891 /* HomeGemStoneVC.swift */; };
 		85EBC7F52A5AD94100B9E891 /* WriteVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EBC7F42A5AD94100B9E891 /* WriteVC.swift */; };
 		85EBC7F72A5AD95D00B9E891 /* ArchiveVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EBC7F62A5AD95D00B9E891 /* ArchiveVC.swift */; };
+		E70C7CA12A90959A006B2E74 /* HomeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E70C7CA02A90959A006B2E74 /* HomeService.swift */; };
+		E70C7CA32A909829006B2E74 /* HomeAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E70C7CA22A909829006B2E74 /* HomeAPI.swift */; };
 		E721EABD2A51D5D900A04AA0 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = E721EABC2A51D5D900A04AA0 /* Then */; };
 		E73CA3DA2A69300F00BAC9D6 /* HomePublisherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73CA3D92A69300F00BAC9D6 /* HomePublisherModel.swift */; };
 		E73CA3DC2A693C9D00BAC9D6 /* GemStoneEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73CA3DB2A693C9D00BAC9D6 /* GemStoneEmptyView.swift */; };
@@ -109,6 +111,8 @@
 		85EBC7F42A5AD94100B9E891 /* WriteVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteVC.swift; sourceTree = "<group>"; };
 		85EBC7F62A5AD95D00B9E891 /* ArchiveVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveVC.swift; sourceTree = "<group>"; };
 		E70C7C9E2A908574006B2E74 /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
+		E70C7CA02A90959A006B2E74 /* HomeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeService.swift; sourceTree = "<group>"; };
+		E70C7CA22A909829006B2E74 /* HomeAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeAPI.swift; sourceTree = "<group>"; };
 		E73CA3D92A69300F00BAC9D6 /* HomePublisherModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePublisherModel.swift; sourceTree = "<group>"; };
 		E73CA3DB2A693C9D00BAC9D6 /* GemStoneEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GemStoneEmptyView.swift; sourceTree = "<group>"; };
 		E73CA3DE2A6A62F700BAC9D6 /* HomeWorryDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeWorryDetailVC.swift; sourceTree = "<group>"; };
@@ -396,6 +400,7 @@
 		E7AC121C2A51CF8E00FE504C /* APIs */ = {
 			isa = PBXGroup;
 			children = (
+				E70C7CA22A909829006B2E74 /* HomeAPI.swift */,
 			);
 			path = APIs;
 			sourceTree = "<group>";
@@ -403,6 +408,7 @@
 		E7AC121D2A51CF9600FE504C /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				E70C7CA02A90959A006B2E74 /* HomeService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -635,6 +641,7 @@
 				E79AAC342A52F2C300F3F439 /* UIViewController+.swift in Sources */,
 				E79AAC332A52F2C300F3F439 /* UITextField+.swift in Sources */,
 				E79AAC322A52F2C300F3F439 /* UIColor+.swift in Sources */,
+				E70C7CA12A90959A006B2E74 /* HomeService.swift in Sources */,
 				E73CA3E22A6A688A00BAC9D6 /* CustomNavigationBarView.swift in Sources */,
 				85887D972A60430600F7FB21 /* ArchiveModalCVC.swift in Sources */,
 				E79AAC372A52F2C300F3F439 /* CALayer+.swift in Sources */,
@@ -657,6 +664,7 @@
 				E79AAC4A2A52F3E000F3F439 /* BaseVC.swift in Sources */,
 				85A8492D2A87A3FF009F1468 /* TemplateContentModel.swift in Sources */,
 				E79AAC3B2A52F2C300F3F439 /* UIButton+.swift in Sources */,
+				E70C7CA32A909829006B2E74 /* HomeAPI.swift in Sources */,
 				E79AAC452A52F36500F3F439 /* MoyaLoggingPlugin.swift in Sources */,
 				85A849332A87DA36009F1468 /* TemplateContentHeaderView.swift in Sources */,
 				E7BB4F552A604FC10018312B /* GemStoneCVC.swift in Sources */,
