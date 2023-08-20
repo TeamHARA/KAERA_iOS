@@ -9,35 +9,35 @@ import Foundation
 import Moya
 
 enum HomeService {
-    case homeWorryList(isSolved: Int)
+    case homeGemList(isSolved: Int)
 }
 
 extension HomeService: BaseTargetType {
     
     var path: String {
         switch self {
-        case .homeWorryList(let isSolved):
+        case .homeGemList(let isSolved):
             return APIConstant.homeWorryList + "/\(isSolved)"
         }
     }
     
     var method: Moya.Method {
         switch self {
-        case .homeWorryList:
+        case .homeGemList:
             return .get
         }
     }
     
     var task: Task {
         switch self {
-        case .homeWorryList:
+        case .homeGemList:
             return .requestPlain
         }
     }
 
     var headers: [String : String]? {
         switch self {
-        case .homeWorryList:
+        case .homeGemList:
             return NetworkConstant.hasTokenHeader
         }
     }
