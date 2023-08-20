@@ -57,7 +57,7 @@ class TemplateContentTVC: UITableViewCell {
         textView.snp.makeConstraints {
             $0.top.equalTo(questionLabel.snp.bottom).offset(16)
             $0.horizontalEdges.equalToSuperview().inset(16)
-            $0.height.equalTo(111)
+            $0.height.equalTo(111.adjustedH)
             $0.bottom.equalToSuperview().offset(-54)
         }
     }
@@ -77,16 +77,11 @@ extension TemplateContentTVC: UITextViewDelegate {
         let size = CGSize(width: self.frame.width, height: .infinity)
         let estimatedSize = textView.sizeThatFits(size)
         
+        /// 높이가 111보다 커지면 아래의 코드 실행, 넘지 않으면 return 으로 함수 통과
+        guard estimatedSize.height > 111.adjustedH else { return }
         textView.constraints.forEach { (constraint) in
-            
-            /// 111 이하일때는 더 이상 줄어들지 않게하기
-            if estimatedSize.height <= 111 {
-                
-            }
-            else {
-                if constraint.firstAttribute == .height {
-                    constraint.constant = estimatedSize.height
-                }
+            if constraint.firstAttribute == .height {
+                constraint.constant = estimatedSize.height
             }
         }
         
@@ -102,7 +97,7 @@ extension TemplateContentTVC: UITextViewDelegate {
             textView.textColor = .kWhite
         }
     }
-
+    
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.isEmpty == true {
             textView.text = placeHolder

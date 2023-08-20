@@ -10,7 +10,7 @@ import Combine
 import SnapKit
 import Then
 
-class WriteVC: UIViewController {
+class WriteVC: BaseVC {
     
     // MARK: - Properties
     private let writeModalVC = WriteModalVC()
@@ -92,7 +92,8 @@ class WriteVC: UIViewController {
         setNaviButtonAction()
         setLayout()
         pressBtn()
-        setObserver()
+        hideKeyboardWhenTappedAround()
+        addKeyboardObserver()
     }
     
     // MARK: - Functions
@@ -100,15 +101,6 @@ class WriteVC: UIViewController {
         DispatchQueue.main.async { [self] in
             self.dismiss(animated: true)
         }
-    }
-    
-    private func setObserver() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(self.didCompleteWritingNotification(_:)),
-            name: NSNotification.Name("CompleteWriting"),
-            object: nil
-        )
     }
     
     private func setNaviButtonAction() {
@@ -223,8 +215,61 @@ extension WriteVC: TemplateTitleDelegate {
             $0.top.equalTo(self.dividingLine.snp.bottom)
             $0.horizontalEdges.equalToSuperview()
             $0.bottom.equalToSuperview()
+// MARK: - Keyboard
+extension WriteVC {
+    
+    private func addKeyboardObserver() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(self.keyboardWillAppear(_:)),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+        
+        NotificationCenter.default.addObserver(
+            self, selector: #selector(keyboardWillDisappear),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil)
+    }
+    
+    private func removeKeyboardObserver() {
+        NotificationCenter.default.removeObserver(
+            self,
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+        
+        NotificationCenter.default.removeObserver(
+            self,
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
+    }
+    
+    @objc
+    func keyboardWillAppear(_ notification: NSNotification) {
+        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardHeight = keyboardFrame.cgRectValue.height
+            // 키보드 높이만큼 tableView가 위로 올라감.
+//            UIView.animate(withDuration: 0.3) {
+//                self.transform = CGAffineTransform(translationX: 0, y: -keyboardHeight)
+//            }
+            templateContentTV.setContentOffset(CGPoint(x: 0, y: keyboardHeight), animated: true)
+
+        }
+    }
+    @objc
+    func keyboardWillDisappear(_ notification: NSNotification) {
+        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardHeight = keyboardFrame.cgRectValue.height
+            // 키보드 높이만큼 tableView가 아래로 다시 내려감
+//            UIView.animate(withDuration: 0.3) {
+//                self.transform = CGAffineTransform.identity
+//            }
+            templateContentTV.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
         }
     }
 }
+
 
 
