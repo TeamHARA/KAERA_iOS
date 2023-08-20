@@ -74,7 +74,8 @@ extension TemplateContentTVC: UITextViewDelegate {
     // MARK: textview 높이 자동조절
     func textViewDidChange(_ textView: UITextView) {
         
-        let size = CGSize(width: self.frame.width, height: .infinity)
+        /// width를 self.frame.width로 지정하였더니, 텍스트뷰가 바로바로 업데이트되지 않는 문제 발생
+        let size = CGSize(width: textView.bounds.width, height: .infinity)
         let estimatedSize = textView.sizeThatFits(size)
         
         /// 높이가 111보다 커지면 아래의 코드 실행, 넘지 않으면 return 으로 함수 통과
