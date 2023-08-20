@@ -12,8 +12,15 @@ import Then
 
 class WriteVC: BaseVC {
     
+    // MARK: - View Model
+    private let templateContentVM = TemplateContentViewModel()
+    private var cancellables = Set<AnyCancellable>()
+    private let input = PassthroughSubject<Int, Never>.init()
+    
     // MARK: - Properties
     private let writeModalVC = WriteModalVC()
+    private let templateContentTV = TemplateContentTV()
+    private let templateHeaderView = TemplateContentHeaderView()
     
     private let closeBtn = UIButton().then {
         $0.setBackgroundImage(UIImage(named: "icn_close"), for: .normal)
@@ -94,9 +101,34 @@ class WriteVC: BaseVC {
         pressBtn()
         hideKeyboardWhenTappedAround()
         addKeyboardObserver()
+        dataBind()
     }
     
     // MARK: - Functions
+    private func dataBind() {
+        let output = templateContentVM.transform(
+            input: TemplateContentViewModel.Input(input)
+        )
+        output.receive(on: DispatchQueue.main)
+            .sink { [weak self] templateContents in
+                self?.updateUI(templateContents)
+            }.store(in: &cancellables)
+    }
+    
+    private func updateUI(_ templateContents: TemplateContentModel) {
+        templateContentTV.questions = templateContents.questions
+        templateContentTV.hints = templateContents.hints
+        print(templateContentTV.questions)
+        
+        view.addSubview(templateContentTV)
+        templateContentTV.snp.updateConstraints {
+            $0.top.equalTo(self.dividingLine.snp.bottom)
+            $0.horizontalEdges.equalToSuperview()
+            $0.bottom.equalToSuperview()
+        }
+        templateContentTV.reloadData()
+    }
+    
     @objc func didCompleteWritingNotification(_ notification: Notification) {
         DispatchQueue.main.async { [self] in
             self.dismiss(animated: true)
@@ -122,7 +154,6 @@ class WriteVC: BaseVC {
     }
     
     private func pressBtn() {
-        
         templateBtn.press {
             self.writeModalVC.modalPresentationStyle = .pageSheet
             
@@ -144,8 +175,8 @@ extension WriteVC {
         view.backgroundColor = .kGray1
         view.addSubviews([navigationBarView, templateBtn])
         templateBtn.addSubviews([templateTitle, templateInfo, dropdownImg])
-        view.addSubviews([dividingLine])
         view.addSubviews([baseImage, introTitle, introDetail])
+        view.addSubviews([dividingLine])
         
         navigationBarView.snp.makeConstraints {
             $0.left.right.equalToSuperview().inset(16)
@@ -209,12 +240,11 @@ extension WriteVC: TemplateTitleDelegate {
     }
     
     private func setTemplateContentTV(_ templateId: Int) {
-        let tvc = TemplateContentTV(templateId: templateId)
-        self.view.addSubview(tvc)
-        tvc.snp.makeConstraints{
-            $0.top.equalTo(self.dividingLine.snp.bottom)
-            $0.horizontalEdges.equalToSuperview()
-            $0.bottom.equalToSuperview()
+        templateContentTV.templateId = templateId
+        input.send(templateContentTV.templateId)
+    }
+}
+
 // MARK: - Keyboard
 extension WriteVC {
     
@@ -246,30 +276,21 @@ extension WriteVC {
         )
     }
     
-    @objc
-    func keyboardWillAppear(_ notification: NSNotification) {
+    @objc func keyboardWillAppear(_ notification: NSNotification) {
         if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
             let keyboardHeight = keyboardFrame.cgRectValue.height
-            // 키보드 높이만큼 tableView가 위로 올라감.
-//            UIView.animate(withDuration: 0.3) {
-//                self.transform = CGAffineTransform(translationX: 0, y: -keyboardHeight)
-//            }
-            templateContentTV.setContentOffset(CGPoint(x: 0, y: keyboardHeight), animated: true)
-
+            
+            let contentInsets = UIEdgeInsets(top: 80, left: 0.0, bottom: keyboardHeight , right: 0.0)
+            templateContentTV.contentInset = contentInsets
+//            templateContentTV.scrollIndicatorInsets = contentInsets
+            }
+        }
+        
+        @objc func keyboardWillDisappear(_ notification: NSNotification) {
+            let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0)
+            
+            // reset back the content inset to zero after keyboard is gone
+            templateContentTV.contentInset = contentInsets
+            templateContentTV.scrollIndicatorInsets = contentInsets
         }
     }
-    @objc
-    func keyboardWillDisappear(_ notification: NSNotification) {
-        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
-            let keyboardHeight = keyboardFrame.cgRectValue.height
-            // 키보드 높이만큼 tableView가 아래로 다시 내려감
-//            UIView.animate(withDuration: 0.3) {
-//                self.transform = CGAffineTransform.identity
-//            }
-            templateContentTV.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
-        }
-    }
-}
-
-
-
