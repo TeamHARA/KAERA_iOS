@@ -72,10 +72,11 @@ extension TemplateContentTV : UITableViewDataSource
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard let headerCell = tableView.dequeueReusableHeaderFooterView(withIdentifier: TemplateContentHeaderView.className) as? TemplateContentHeaderView else { return nil }
-        /// headerCell을 tableView가 reload될 때 같이 될 수 있게끔 해줌.
+        /// dispatchqueue로 해결해보려 했지만, 가려진 테이블 뷰가 불러올 때 계속 이게 실행되서 텍스트 필드로 커서가 올라가는 문제 발생
 //        DispatchQueue.main.async {
 //            headerCell.worryTitleTextField.becomeFirstResponder()
 //        }
+        headerCell.worryTitleTextField.becomeFirstResponder()
         return headerCell
     }
     
