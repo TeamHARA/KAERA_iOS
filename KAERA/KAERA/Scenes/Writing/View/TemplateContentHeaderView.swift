@@ -12,7 +12,7 @@ import Then
 final class TemplateContentHeaderView: UITableViewHeaderFooterView {
     
     // MARK: - Properties
-    private let worryTitleTextField = UITextField().then{
+    let worryTitleTextField = UITextField().then{
         $0.layer.cornerRadius = 8
         $0.backgroundColor = .clear
         $0.textColor = .kWhite
@@ -39,7 +39,6 @@ final class TemplateContentHeaderView: UITableViewHeaderFooterView {
     // MARK: - Initialization
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
-        worryTitleTextField.becomeFirstResponder()
         setLayout()
         worryTitleTextField.delegate = self
     }
@@ -69,6 +68,11 @@ final class TemplateContentHeaderView: UITableViewHeaderFooterView {
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(1.adjustedW)
         }
+    }
+    
+    func resignTextField() {
+//        worryTitleTextField.resignFirstResponder()
+        worryTitleTextField.becomeFirstResponder()
     }
 }
 
