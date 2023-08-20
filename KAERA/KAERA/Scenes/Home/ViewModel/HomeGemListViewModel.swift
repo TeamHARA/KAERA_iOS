@@ -9,45 +9,43 @@ import Foundation
 import Combine
 
 final class HomeGemListViewModel: ViewModelType {
-    struct Input {
-        let isSolved: AnyPublisher<Bool, Never>
-    }
-    struct Output {
-        let dataList: AnyPublisher<[HomePublisherModel], Never>
-    }
+
+    typealias Input = AnyPublisher<Int, Never>
+    typealias Output = AnyPublisher<[HomePublisherModel], Never>
     
     private let output: PassthroughSubject<[HomePublisherModel], Never> = .init()
     private var cancellables = Set<AnyCancellable>()
     
     func transform(input: Input) -> Output {
-        input.isSolved
+        input
             .sink { [weak self] isSolved in
-                self?.getGemList(isSovled: isSolved)
+//                self?.getGemList(isSovled: isSolved)
+                self?.getHomeGemList(isSolved: isSolved)
             }
             .store(in: &cancellables)
-        return Output(dataList: output.eraseToAnyPublisher())
+        return output.eraseToAnyPublisher()
     }
     
     
     // MARK: - Properties
     struct TemplateKey: Hashable {
         let id: Int
-        let isSolved: Bool
+        let isSolved: Int
     }
     
     private var gemStoneDictionary: [TemplateKey: String] = [
-        TemplateKey(id: 1, isSolved: false): "gemstone_pink",
-        TemplateKey(id: 1, isSolved: true): "gem_pink_l",
-        TemplateKey(id: 2, isSolved: false): "gemstone_orange",
-        TemplateKey(id: 2, isSolved: true): "gem_orange_l",
-        TemplateKey(id: 3, isSolved: false): "gemstone_blue",
-        TemplateKey(id: 3, isSolved: true): "gem_blue_l",
-        TemplateKey(id: 4, isSolved: false): "gemstone_green",
-        TemplateKey(id: 4, isSolved: true): "gem_green_l",
-        TemplateKey(id: 5, isSolved: false): "gemstone_yellow",
-        TemplateKey(id: 5, isSolved: true): "gem_yellow_l",
-        TemplateKey(id: 6, isSolved: false): "gemstone_red",
-        TemplateKey(id: 6, isSolved: true): "gem_red_l",
+        TemplateKey(id: 1, isSolved: 0): "gemstone_pink",
+        TemplateKey(id: 1, isSolved: 1): "gem_pink_l",
+        TemplateKey(id: 2, isSolved: 0): "gemstone_orange",
+        TemplateKey(id: 2, isSolved: 1): "gem_orange_l",
+        TemplateKey(id: 3, isSolved: 0): "gemstone_blue",
+        TemplateKey(id: 3, isSolved: 1): "gem_blue_l",
+        TemplateKey(id: 4, isSolved: 0): "gemstone_green",
+        TemplateKey(id: 4, isSolved: 1): "gem_green_l",
+        TemplateKey(id: 5, isSolved: 0): "gemstone_yellow",
+        TemplateKey(id: 5, isSolved: 1): "gem_yellow_l",
+        TemplateKey(id: 6, isSolved: 0): "gemstone_red",
+        TemplateKey(id: 6, isSolved: 1): "gem_red_l",
     ]
     
     private var gemStoneList: [HomePublisherModel] = []
@@ -82,11 +80,11 @@ final class HomeGemListViewModel: ViewModelType {
     ]
     
     // MARK: - Function
-    private func getGemList(isSovled: Bool) {
+    private func getGemList(isSovled: Int) {
         /// 서버 통신을 통해 getStoneList를 업데이트
         /// 여기서는 더미로 업데이트
         ///  서버 연결시 if 문 필요 없이 gemStoneList만 사용
-        if isSovled {
+        if isSovled > 0 {
             gemStoneList = []
             gemListDummy.forEach {
                 let image = gemStoneDictionary[TemplateKey(id: $0.templateId, isSolved: isSovled)] ?? "gemstone_pink"

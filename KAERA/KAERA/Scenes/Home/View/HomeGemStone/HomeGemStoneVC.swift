@@ -21,7 +21,7 @@ final class HomeGemStoneVC: BaseVC {
     // MARK: - Properties
     private let gemListViewModel = HomeGemListViewModel()
     private var cancellables = Set<AnyCancellable>()
-    private let input = PassthroughSubject<Bool, Never>.init()
+    private let input = PassthroughSubject<Int, Never>.init()
     private var gemStoneList: [HomePublisherModel] = []
     
     private let gemStoneCV = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
@@ -78,9 +78,9 @@ final class HomeGemStoneVC: BaseVC {
     
     override func viewWillAppear(_ animated: Bool) {
         if pageType == .digging {
-            input.send(false)
+            input.send(0)
         }else if pageType == .dug {
-            input.send(true)
+            input.send(1)
         }
     }
     
@@ -98,9 +98,9 @@ final class HomeGemStoneVC: BaseVC {
     private func dataBind() {
         let output = gemListViewModel.transform(
             input: HomeGemListViewModel
-                .Input(isSolved: input.eraseToAnyPublisher())
+                .Input(input)
         )
-        output.dataList.receive(on: DispatchQueue.main)
+        output.receive(on: DispatchQueue.main)
             .sink { [weak self] list in
                 self?.updateUI(gemList: list)
             }.store(in: &cancellables)
