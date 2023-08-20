@@ -10,7 +10,7 @@ import Combine
 import SnapKit
 import Then
 
-class TemplateContentTV: UIView {
+class TemplateContentTV: UITableView {
     
     // MARK: - View Model
     private let templateContentVM = TemplateContentViewModel()
@@ -18,28 +18,19 @@ class TemplateContentTV: UIView {
     private let input = PassthroughSubject<Int, Never>.init()
     
     // MARK: - Properties
-    private let templateId: Int
+    private var templateId: Int = 0
     private var questions: [String] = []
     private var hints: [String] = []
+    private var topConstraint: Constraint?
     
-    private lazy var templateContentTV = UITableView(frame: .zero, style: .grouped).then {
-        $0.backgroundColor = .kGray1
-        $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.separatorStyle = .none
-        $0.showsVerticalScrollIndicator = false
-        $0.delegate = self
-        $0.dataSource = self
-    }
-
     // MARK: - Life Cycle
-    init(templateId: Int) {
-        self.templateId = templateId
-        super.init(frame: .zero)
-        setLayout()
-        dataBind()
+    init() {
+        super.init(frame: .zero, style: .grouped)
         registerTV()
+        setTV()
+        setUI()
     }
-
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -64,18 +55,22 @@ class TemplateContentTV: UIView {
         print(hints)
     }
     
-    private func setLayout() {
-        self.addSubview(templateContentTV)
-        templateContentTV.snp.makeConstraints{
-            $0.edges.equalToSuperview()
-        }
+    private func registerTV() {
+        self.register(TemplateContentTVC.self,
+                      forCellReuseIdentifier: TemplateContentTVC.classIdentifier)
+        self.register(TemplateContentHeaderView.self, forHeaderFooterViewReuseIdentifier: TemplateContentHeaderView.className)
+        self.estimatedSectionHeaderHeight = 110.adjustedH
     }
     
-    private func registerTV() {
-        templateContentTV.register(TemplateContentTVC.self,
-                                forCellReuseIdentifier: TemplateContentTVC.classIdentifier)
-        templateContentTV.register(TemplateContentHeaderView.self, forHeaderFooterViewReuseIdentifier: TemplateContentHeaderView.className)
-        templateContentTV.estimatedSectionHeaderHeight = 110.adjustedH
+    private func setUI() {
+        self.backgroundColor = .kGray1
+        self.separatorStyle = .none
+        self.showsVerticalScrollIndicator = false
+    }
+    
+    private func setTV() {
+        self.delegate = self
+        self.dataSource = self
     }
 }
 

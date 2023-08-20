@@ -39,6 +39,7 @@ final class TemplateContentHeaderView: UITableViewHeaderFooterView {
     // MARK: - Initialization
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
+        worryTitleTextField.becomeFirstResponder()
         setLayout()
         worryTitleTextField.delegate = self
     }
@@ -75,7 +76,7 @@ final class TemplateContentHeaderView: UITableViewHeaderFooterView {
 extension TemplateContentHeaderView: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.becomeFirstResponder()
+        textField.resignFirstResponder()
         return true
     }
     
