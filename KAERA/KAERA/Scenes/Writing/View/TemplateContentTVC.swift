@@ -11,6 +11,8 @@ import Then
 
 class TemplateContentTVC: UITableViewCell {
     
+    private var keyboardHeight: CGFloat = 336.adjustedH
+    
     private var questionLabel = UILabel().then {
         $0.text = "질문지 제목"
         $0.font = .kB1B16
@@ -85,11 +87,27 @@ extension TemplateContentTVC: UITextViewDelegate {
                 constraint.constant = estimatedSize.height
             }
         }
-        
+                
+        /// 좀더 자연스로운 애니메이션 효과? 를 위해 필요
+        self.layoutIfNeeded()
+
         if let tableView = superview as? UITableView {
             tableView.beginUpdates()
             tableView.endUpdates()
         }
+        scrollToCursorPositionIfBelowKeyboard()
+    }
+    
+    /// textViewDidChange에서 textViewCell의 높이에 맞게 커서 위치를 자동으로 조절해주기
+    private func scrollToCursorPositionIfBelowKeyboard() {
+        print("텍스트뷰 높이", textView.bounds.size.height, "키보드 높이", keyboardHeight)
+        
+        /// 키보드에 커서가 가리지 않게끔 커서 위치 조정해주기
+        let textViewFrame = CGRect(x: 0, y: textView.bounds.size.height - keyboardHeight, width: textView.bounds.size.width, height: keyboardHeight)
+        print("텍스트 뷰 프레임", textViewFrame)
+        textView.inputView?.frame = textViewFrame
+        /// 좀더 자연스로운 애니메이션 효과? 를 위해 필요(즉각 업데이트 위함인듯)
+        textView.reloadInputViews()
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
