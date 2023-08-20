@@ -276,21 +276,22 @@ extension WriteVC {
         )
     }
     
+    /// 키보드 높이가 올라올 때, contentInset을 키보드 높이만큼 조정해줌.
     @objc func keyboardWillAppear(_ notification: NSNotification) {
         if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
             let keyboardHeight = keyboardFrame.cgRectValue.height
             
-            let contentInsets = UIEdgeInsets(top: 80, left: 0.0, bottom: keyboardHeight , right: 0.0)
-            templateContentTV.contentInset = contentInsets
-//            templateContentTV.scrollIndicatorInsets = contentInsets
-            }
-        }
-        
-        @objc func keyboardWillDisappear(_ notification: NSNotification) {
-            let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0)
-            
-            // reset back the content inset to zero after keyboard is gone
+            let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: keyboardHeight , right: 0.0)
             templateContentTV.contentInset = contentInsets
             templateContentTV.scrollIndicatorInsets = contentInsets
         }
     }
+    
+    /// 키보드 내려갈 떄, 다시 원래대로 복귀
+    @objc func keyboardWillDisappear(_ notification: NSNotification) {
+        let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0)
+        
+        templateContentTV.contentInset = contentInsets
+        templateContentTV.scrollIndicatorInsets = contentInsets
+    }
+}
