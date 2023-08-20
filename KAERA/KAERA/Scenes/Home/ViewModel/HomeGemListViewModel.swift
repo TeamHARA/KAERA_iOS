@@ -108,7 +108,7 @@ final class HomeGemListViewModel: ViewModelType {
 // MARK: - Network
 extension HomeGemListViewModel {
     private func getHomeGemList(isSolved: Int) {
-        HomeAPI.shared.getHomeWorryList(param: isSolved) { res in
+        HomeAPI.shared.getHomeGemList(param: isSolved) { res in
             guard let res = res, let data = res.data else { return }
             /// 뿌려줄 리스트 초기화
             self.gemStoneList = []

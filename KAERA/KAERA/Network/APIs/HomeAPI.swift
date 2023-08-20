@@ -15,22 +15,22 @@ final class HomeAPI {
     
     private init() { }
     
-    public private(set) var homeWorryListResponse: GeneralArrayResponse<HomeGemListModel>?
+    public private(set) var homeGemListResponse: GeneralArrayResponse<HomeGemListModel>?
     
    
-    // MARK: - WorryAlone
-    func getHomeWorryList(param: Int, completion: @escaping (GeneralArrayResponse<HomeGemListModel>?) -> () ) {
-        homeProvider.request(.homeWorryList(isSolved: param)) { [weak self] response in
+    // MARK: - HomeGemList
+    func getHomeGemList(param: Int, completion: @escaping (GeneralArrayResponse<HomeGemListModel>?) -> () ) {
+        homeProvider.request(.homeGemList(isSolved: param)) { [weak self] response in
             switch response {
             case .success(let result):
                 do {
-                    self?.homeWorryListResponse = try
+                    self?.homeGemListResponse = try
                     result.map(GeneralArrayResponse<HomeGemListModel>?.self)
                     print("성공")
                     print(result)
-                    guard let worryList = self?.homeWorryListResponse else { return }
-                    print(worryList)
-                    completion(worryList)
+                    guard let gemList = self?.homeGemListResponse else { return }
+                    print(gemList)
+                    completion(gemList)
                 } catch(let err) {
                     print(err.localizedDescription)
                     completion(nil)
