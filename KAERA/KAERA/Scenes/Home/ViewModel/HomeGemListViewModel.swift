@@ -105,3 +105,22 @@ final class HomeGemListViewModel: ViewModelType {
         
     }
 }
+// MARK: - Network
+extension HomeGemListViewModel {
+    private func getHomeGemList(isSolved: Int) {
+        HomeAPI.shared.getHomeWorryList(param: isSolved) { res in
+            guard let res = res, let data = res.data else { return }
+            /// 뿌려줄 리스트 초기화
+            self.gemStoneList = []
+            
+            data.forEach {
+                let image = self.gemStoneDictionary[TemplateKey(id: $0.templateId, isSolved: isSolved)] ?? "gemstone_pink"
+                let publisherModel = HomePublisherModel(worryId: $0.worryId, templateId: $0.templateId, imageName: image, title: $0.title)
+                self.gemStoneList.append(publisherModel)
+            }
+            
+            self.output.send(self.gemStoneList)
+        }
+
+    }
+}
