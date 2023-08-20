@@ -69,16 +69,12 @@ final class TemplateContentHeaderView: UITableViewHeaderFooterView {
             $0.height.equalTo(1.adjustedW)
         }
     }
-    
-    func resignTextField() {
-//        worryTitleTextField.resignFirstResponder()
-        worryTitleTextField.becomeFirstResponder()
-    }
 }
 
 // MARK: - UITextFieldDelegate
 extension TemplateContentHeaderView: UITextFieldDelegate {
     
+    /// return 눌렸을 때 키보드 자동으로 내려가게끔 해줌.
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true

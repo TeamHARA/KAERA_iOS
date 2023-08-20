@@ -11,6 +11,7 @@ import Then
 
 class TemplateContentTVC: UITableViewCell {
     
+    // MARK: - Properties
     private var keyboardHeight: CGFloat = 336.adjustedH
     
     private var questionLabel = UILabel().then {
