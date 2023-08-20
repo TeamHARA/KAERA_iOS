@@ -33,7 +33,6 @@ class WorryListViewModel {
     lazy var worryListPublisher = CurrentValueSubject<[WorryListPublisherModel], Never>(worryUpdateList)
     
     init() {
-        print("ViewModel - init()")
         worryUpdateList = []
         convertIdtoImg()
     }

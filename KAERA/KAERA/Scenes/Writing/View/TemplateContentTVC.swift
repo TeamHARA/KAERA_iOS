@@ -80,18 +80,24 @@ extension TemplateContentTVC: UITextViewDelegate {
         /// width를 self.frame.width로 지정하였더니, 텍스트뷰가 바로바로 업데이트되지 않는 문제 발생
         let size = CGSize(width: textView.bounds.width, height: .infinity)
         let estimatedSize = textView.sizeThatFits(size)
+        print("textView 높이: ", estimatedSize.height)
         
-        /// 높이가 111보다 커지면 아래의 코드 실행, 넘지 않으면 return 으로 함수 통과
-        guard estimatedSize.height > 111.adjustedH else { return }
+        
+        /// 높이가 111보다 커지면 아래의 코드 실행, 넘지 않으면 고정 높이 반영
         textView.constraints.forEach { (constraint) in
             if constraint.firstAttribute == .height {
-                constraint.constant = estimatedSize.height
+                if estimatedSize.height > 111.adjustedH {
+                    constraint.constant = estimatedSize.height
+                }
+                else {
+                    constraint.constant = 111.adjustedH
+                }
             }
         }
-                
+        
         /// 좀더 자연스로운 애니메이션 효과? 를 위해 필요
         self.layoutIfNeeded()
-
+        
         if let tableView = superview as? UITableView {
             tableView.beginUpdates()
             tableView.endUpdates()
@@ -104,7 +110,7 @@ extension TemplateContentTVC: UITextViewDelegate {
         print("텍스트뷰 높이", textView.bounds.size.height, "키보드 높이", keyboardHeight)
         
         /// 키보드에 커서가 가리지 않게끔 커서 위치 조정해주기
-        let textViewFrame = CGRect(x: 0, y: textView.bounds.size.height - keyboardHeight, width: textView.bounds.size.width, height: keyboardHeight)
+        let textViewFrame = CGRect(x: 0, y: textView.bounds.size.height, width: textView.bounds.size.width, height: 0)
         print("텍스트 뷰 프레임", textViewFrame)
         textView.inputView?.frame = textViewFrame
         /// 좀더 자연스로운 애니메이션 효과? 를 위해 필요(즉각 업데이트 위함인듯)
@@ -119,10 +125,31 @@ extension TemplateContentTVC: UITextViewDelegate {
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
-        if textView.text.isEmpty == true {
+        let trimmedText = textView.text.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        if trimmedText.isEmpty == true {
             textView.text = placeHolder
             textView.textColor = .kGray4
         }
+        
+        let size = CGSize(width: textView.bounds.width, height: .infinity)
+        let estimatedSize = textView.sizeThatFits(size)
+        
+        /// 높이가 111보다 커지면 아래의 코드 실행, 넘지 않으면 고정 높이 반영
+        textView.constraints.forEach { (constraint) in
+            if constraint.firstAttribute == .height {
+                if estimatedSize.height > 111.adjustedH {
+                    constraint.constant = estimatedSize.height
+                }
+                else {
+                    constraint.constant = 111.adjustedH
+                }
+            }
+        }
+
+        if let tableView = superview as? UITableView {
+            tableView.beginUpdates()
+            tableView.endUpdates()
+        }
     }
 }
-
