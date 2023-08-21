@@ -21,7 +21,7 @@ final class HomeGemStoneVC: BaseVC {
     // MARK: - Properties
     private let gemListViewModel = HomeGemListViewModel()
     private var cancellables = Set<AnyCancellable>()
-    private let input = PassthroughSubject<Bool, Never>.init()
+    private let input = PassthroughSubject<Int, Never>.init()
     private var gemStoneList: [HomePublisherModel] = []
     
     private let gemStoneCV = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
@@ -56,6 +56,9 @@ final class HomeGemStoneVC: BaseVC {
     
     private let gemStoneEmptyView = GemStoneEmptyView(mainTitle: "아직 고민 보석이 없네요!", subTitle: "작성된 고민 원석을\n빛나는 보석으로 만들어주세요.")
     
+    private let gemIndexDict: [Int:Int] = [0:0, 1:3, 2:9, 3:6, 4:1, 5:8, 6:11, 7:7, 8:4, 9:2, 10:10, 11:5]
+    private let totalGemStoneNum = 12
+    
     // MARK: - Initialization
     init(type: PageType = .digging) {
         super.init(nibName: nil, bundle: nil)
@@ -75,9 +78,9 @@ final class HomeGemStoneVC: BaseVC {
     
     override func viewWillAppear(_ animated: Bool) {
         if pageType == .digging {
-            input.send(false)
+            input.send(0)
         }else if pageType == .dug {
-            input.send(true)
+            input.send(1)
         }
     }
     
@@ -95,9 +98,9 @@ final class HomeGemStoneVC: BaseVC {
     private func dataBind() {
         let output = gemListViewModel.transform(
             input: HomeGemListViewModel
-                .Input(isSolved: input.eraseToAnyPublisher())
+                .Input(input)
         )
-        output.dataList.receive(on: DispatchQueue.main)
+        output.receive(on: DispatchQueue.main)
             .sink { [weak self] list in
                 self?.updateUI(gemList: list)
             }.store(in: &cancellables)
@@ -126,7 +129,8 @@ final class HomeGemStoneVC: BaseVC {
 // MARK: - CollectionView
 extension HomeGemStoneVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let worryId = gemStoneList[indexPath.row].worryId
+        guard let idx = gemIndexDict[indexPath.item], idx < gemStoneList.count else { return }
+        let worryId = gemStoneList[idx].worryId
         let vc = HomeWorryDetailVC(worryId: worryId, type: pageType)
         vc.modalPresentationStyle = .fullScreen
         vc.modalTransitionStyle = .coverVertical
@@ -136,15 +140,33 @@ extension HomeGemStoneVC: UICollectionViewDelegate {
 
 extension HomeGemStoneVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return gemStoneList.count
+        switch pageType {
+        case .digging:
+            return totalGemStoneNum
+        case .dug:
+            return gemStoneList.count
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let gemStoneCell = collectionView.dequeueReusableCell(withReuseIdentifier: GemStoneCVC.className, for: indexPath) as! GemStoneCVC
-        
-        let title = gemStoneList[indexPath.row].title
-        let imageName = gemStoneList[indexPath.row].imageName
-        gemStoneCell.setData(title: title, imageName: imageName)
+        switch pageType {
+        case .digging:
+            if let idx = gemIndexDict[indexPath.item], idx < gemStoneList.count {
+                gemStoneCell.isHidden = false
+                let title = gemStoneList[idx].title
+                let imageName = gemStoneList[idx].imageName
+                gemStoneCell.setData(title: title, imageName: imageName)
+            }else {
+                gemStoneCell.isHidden = true
+            }
+        case .dug:
+            let title = gemStoneList[indexPath.item].title
+            let imageName = gemStoneList[indexPath.item].imageName
+            gemStoneCell.setData(title: title, imageName: imageName)
+        }
+     
+       
         return gemStoneCell
     }
 }
