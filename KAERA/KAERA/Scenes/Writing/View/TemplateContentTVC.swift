@@ -11,12 +11,17 @@ import Then
 
 class TemplateContentTVC: UITableViewCell {
     
+    // MARK: - Properties
+    private var keyboardHeight: CGFloat = 336.adjustedH
+    
     private var questionLabel = UILabel().then {
         $0.text = "질문지 제목"
         $0.font = .kB1B16
         $0.textColor = .white
         $0.backgroundColor = .clear
     }
+    
+    private let textViewConstant: CGFloat = 111.adjustedH
     
     var placeHolder: String = ""
     
@@ -57,7 +62,7 @@ class TemplateContentTVC: UITableViewCell {
         textView.snp.makeConstraints {
             $0.top.equalTo(questionLabel.snp.bottom).offset(16)
             $0.horizontalEdges.equalToSuperview().inset(16)
-            $0.height.equalTo(111)
+            $0.height.equalTo(111.adjustedH)
             $0.bottom.equalToSuperview().offset(-54)
         }
     }
@@ -74,27 +79,43 @@ extension TemplateContentTVC: UITextViewDelegate {
     // MARK: textview 높이 자동조절
     func textViewDidChange(_ textView: UITextView) {
         
-        let size = CGSize(width: self.frame.width, height: .infinity)
-        let estimatedSize = textView.sizeThatFits(size)
+        /// width를 self.frame.width로 지정하였더니, 텍스트뷰가 바로바로 업데이트되지 않는 문제 발생
+        let size = CGSize(width: textView.bounds.width, height: .infinity)
+        let estimatedSize = textView.sizeThatFits(size)        
         
+        /// 높이가 111보다 커지면 아래의 코드 실행, 넘지 않으면 고정 높이 반영
         textView.constraints.forEach { (constraint) in
-            
-            /// 111 이하일때는 더 이상 줄어들지 않게하기
-            if estimatedSize.height <= 111 {
-                
-            }
-            else {
-                if constraint.firstAttribute == .height {
+            if constraint.firstAttribute == .height {
+                if estimatedSize.height > textViewConstant {
                     constraint.constant = estimatedSize.height
+                }
+                else {
+                    constraint.constant = textViewConstant
                 }
             }
         }
+        
+        /// 좀더 자연스로운 애니메이션 효과? 를 위해 필요
+        self.layoutIfNeeded()
         
         if let tableView = superview as? UITableView {
             tableView.beginUpdates()
             tableView.endUpdates()
         }
+//        scrollToCursorPositionIfBelowKeyboard()
     }
+    
+    /// textViewDidChange에서 textViewCell의 높이에 맞게 커서 위치를 자동으로 조절해주기
+//    private func scrollToCursorPositionIfBelowKeyboard() {
+//        print("텍스트뷰 높이", textView.bounds.size.height, "키보드 높이", keyboardHeight)
+//
+//        /// 키보드에 커서가 가리지 않게끔 커서 위치 조정해주기
+//        let textViewFrame = CGRect(x: 0, y: textView.bounds.size.height - 50, width: textView.bounds.size.width, height: 0)
+//        print("텍스트 뷰 프레임", textViewFrame)
+//        textView.inputView?.frame = textViewFrame
+//        /// 좀더 자연스로운 애니메이션 효과? 를 위해 필요(즉각 업데이트 위함인듯)
+//        textView.reloadInputViews()
+//    }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.textColor == .kGray4 {
@@ -102,12 +123,33 @@ extension TemplateContentTVC: UITextViewDelegate {
             textView.textColor = .kWhite
         }
     }
-
+    
     func textViewDidEndEditing(_ textView: UITextView) {
-        if textView.text.isEmpty == true {
+        let trimmedText = textView.text.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        if trimmedText.isEmpty == true {
             textView.text = placeHolder
             textView.textColor = .kGray4
         }
+        
+        let size = CGSize(width: textView.bounds.width, height: .infinity)
+        let estimatedSize = textView.sizeThatFits(size)
+        
+        /// 높이가 111보다 커지면 아래의 코드 실행, 넘지 않으면 고정 높이 반영
+        textView.constraints.forEach { (constraint) in
+            if constraint.firstAttribute == .height {
+                if estimatedSize.height > textViewConstant {
+                    constraint.constant = estimatedSize.height
+                }
+                else {
+                    constraint.constant = textViewConstant
+                }
+            }
+        }
+
+        if let tableView = superview as? UITableView {
+            tableView.beginUpdates()
+            tableView.endUpdates()
+        }
     }
 }
-

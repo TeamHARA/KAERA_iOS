@@ -10,10 +10,17 @@ import Combine
 import SnapKit
 import Then
 
-class WriteVC: UIViewController {
+class WriteVC: BaseVC {
+    
+    // MARK: - View Model
+    private let templateContentVM = TemplateContentViewModel()
+    private var cancellables = Set<AnyCancellable>()
+    private let input = PassthroughSubject<Int, Never>.init()
     
     // MARK: - Properties
     private let writeModalVC = WriteModalVC()
+    private let templateContentTV = TemplateContentTV()
+    private let templateHeaderView = TemplateContentHeaderView()
     
     private let closeBtn = UIButton().then {
         $0.setBackgroundImage(UIImage(named: "icn_close"), for: .normal)
@@ -92,23 +99,39 @@ class WriteVC: UIViewController {
         setNaviButtonAction()
         setLayout()
         pressBtn()
-        setObserver()
+        hideKeyboardWhenTappedAround()
+        addKeyboardObserver()
+        dataBind()
     }
     
     // MARK: - Functions
+    private func dataBind() {
+        let output = templateContentVM.transform(
+            input: TemplateContentViewModel.Input(input)
+        )
+        output.receive(on: DispatchQueue.main)
+            .sink { [weak self] templateContents in
+                self?.updateUI(templateContents)
+            }.store(in: &cancellables)
+    }
+    
+    private func updateUI(_ templateContents: TemplateContentModel) {
+        templateContentTV.questions = templateContents.questions
+        templateContentTV.hints = templateContents.hints
+        
+        view.addSubview(templateContentTV)
+        templateContentTV.snp.updateConstraints {
+            $0.top.equalTo(self.dividingLine.snp.bottom)
+            $0.horizontalEdges.equalToSuperview()
+            $0.bottom.equalToSuperview()
+        }
+        templateContentTV.reloadData()
+    }
+    
     @objc func didCompleteWritingNotification(_ notification: Notification) {
         DispatchQueue.main.async { [self] in
             self.dismiss(animated: true)
         }
-    }
-    
-    private func setObserver() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(self.didCompleteWritingNotification(_:)),
-            name: NSNotification.Name("CompleteWriting"),
-            object: nil
-        )
     }
     
     private func setNaviButtonAction() {
@@ -130,7 +153,6 @@ class WriteVC: UIViewController {
     }
     
     private func pressBtn() {
-        
         templateBtn.press {
             self.writeModalVC.modalPresentationStyle = .pageSheet
             
@@ -152,8 +174,8 @@ extension WriteVC {
         view.backgroundColor = .kGray1
         view.addSubviews([navigationBarView, templateBtn])
         templateBtn.addSubviews([templateTitle, templateInfo, dropdownImg])
-        view.addSubviews([dividingLine])
         view.addSubviews([baseImage, introTitle, introDetail])
+        view.addSubviews([dividingLine])
         
         navigationBarView.snp.makeConstraints {
             $0.left.right.equalToSuperview().inset(16)
@@ -217,14 +239,56 @@ extension WriteVC: TemplateTitleDelegate {
     }
     
     private func setTemplateContentTV(_ templateId: Int) {
-        let tvc = TemplateContentTV(templateId: templateId)
-        self.view.addSubview(tvc)
-        tvc.snp.makeConstraints{
-            $0.top.equalTo(self.dividingLine.snp.bottom)
-            $0.horizontalEdges.equalToSuperview()
-            $0.bottom.equalToSuperview()
-        }
+        templateContentTV.templateId = templateId
+        input.send(templateContentTV.templateId)
     }
 }
 
-
+// MARK: - Keyboard
+extension WriteVC {
+    
+    private func addKeyboardObserver() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(self.keyboardWillAppear(_:)),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+        
+        NotificationCenter.default.addObserver(
+            self, selector: #selector(keyboardWillDisappear),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil)
+    }
+    
+    private func removeKeyboardObserver() {
+        NotificationCenter.default.removeObserver(
+            self,
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+        
+        NotificationCenter.default.removeObserver(
+            self,
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
+    }
+    
+    /// 키보드 높이가 올라올 때, contentInset을 키보드 높이만큼 조정해줌.
+    @objc func keyboardWillAppear(_ notification: NSNotification) {
+        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardHeight = keyboardFrame.cgRectValue.height
+            
+            let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: keyboardHeight + 50, right: 0.0)
+            templateContentTV.contentInset = contentInsets
+        }
+    }
+    
+    /// 키보드 내려갈 떄, 다시 원래대로 복귀
+    @objc func keyboardWillDisappear(_ notification: NSNotification) {
+        let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0)
+        
+        templateContentTV.contentInset = contentInsets
+    }
+}

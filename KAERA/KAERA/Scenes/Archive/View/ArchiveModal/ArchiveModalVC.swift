@@ -89,9 +89,7 @@ extension ArchiveModalVC{
     
     /// 뷰모델의 데이터를 뷰컨의 리스트 데이터와 연동
     fileprivate func setBindings() {
-        print("ViewController - setBindings()")
         self.templateVM.templateListPublisher.sink{ [weak self] (updatedList : [TemplateListPublisherModel]) in
-            print("ViewController - updatedList.count: \(updatedList.count)")
             self?.templateList = updatedList
         }.store(in: &disposalbleBag)
     }
