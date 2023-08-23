@@ -14,11 +14,3 @@ struct TemplateContentModel {
     let questions: [String]
     let hints: [String]
 }
-
-/// View에 뿌려주기 위한 model
-//struct TemplateContentPublisherModel {
-//    let templateId: Int
-//    let templateTitle: String
-//    let templateDetail: String
-//    let image: UIImage
-//}

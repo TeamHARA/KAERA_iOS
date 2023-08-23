@@ -12,7 +12,7 @@ import Then
 final class TemplateContentHeaderView: UITableViewHeaderFooterView {
     
     // MARK: - Properties
-    private let worryTitleTextField = UITextField().then{
+    let worryTitleTextField = UITextField().then{
         $0.layer.cornerRadius = 8
         $0.backgroundColor = .clear
         $0.textColor = .kWhite
@@ -74,8 +74,9 @@ final class TemplateContentHeaderView: UITableViewHeaderFooterView {
 // MARK: - UITextFieldDelegate
 extension TemplateContentHeaderView: UITextFieldDelegate {
     
+    /// return 눌렸을 때 키보드 자동으로 내려가게끔 해줌.
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.becomeFirstResponder()
+        textField.resignFirstResponder()
         return true
     }
     
