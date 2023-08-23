@@ -118,7 +118,6 @@ class WriteVC: BaseVC {
     private func updateUI(_ templateContents: TemplateContentModel) {
         templateContentTV.questions = templateContents.questions
         templateContentTV.hints = templateContents.hints
-        print(templateContentTV.questions)
         
         view.addSubview(templateContentTV)
         templateContentTV.snp.updateConstraints {
