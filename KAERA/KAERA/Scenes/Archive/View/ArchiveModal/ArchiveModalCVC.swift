@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 import Then
 
+
 class ArchiveModalCVC: UICollectionViewCell {
     
     let templateCell = UIView().then {
