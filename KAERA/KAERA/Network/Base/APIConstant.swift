@@ -20,4 +20,5 @@ struct APIConstant {
     
     static let homeWorryList = "/worry/list"
     static let archiveWorryList = "/worry"
+    static let templateList = "/template"
 }

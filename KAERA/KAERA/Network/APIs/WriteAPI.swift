@@ -16,22 +16,22 @@ final class WriteAPI {
     
     private init() { }
     
-    public private(set) var archiveWorryListResponse: GeneralResponse<WorryListModel>?
+    public private(set) var templateListResponse: GeneralArrayResponse<TemplateListModel>?
     
     
     // MARK: - HomeGemList
-    func getArchiveWorryList(param: Int, completion: @escaping (GeneralResponse<WorryListModel>?) -> () ) {
-        archiveProvider.request(.archiveWorryList(templateId: param)) { [weak self] response in
+    func getTemplateList(completion: @escaping (GeneralArrayResponse<TemplateListModel>?) -> () ) {
+        archiveProvider.request(.getTemplateList) { [weak self] response in
             switch response {
             case .success(let result):
                 do {
-                    self?.archiveWorryListResponse = try
-                    result.map(GeneralResponse<WorryListModel>?.self)
+                    self?.templateListResponse = try
+                    result.map(GeneralArrayResponse<TemplateListModel>?.self)
                     print("성공")
                     print(result)
-                    guard let worryList = self?.archiveWorryListResponse else { return }
-                    print(worryList)
-                    completion(worryList)
+                    guard let templateList = self?.templateListResponse else { return }
+                    print(templateList)
+                    completion(templateList)
                 } catch(let err) {
                     print(err.localizedDescription)
                     completion(nil)
