@@ -9,10 +9,10 @@ import UIKit
 import Foundation
 
 /// 서버통신용 모델
-struct TemplateListModel {
+struct TemplateListModel: Codable {
     let templateId: Int
-    let templateTitle: String
-    let templateDetail: String
+    let title: String
+    let shortInfo: String
     let info: String
     let hasUsed: Bool
 }
