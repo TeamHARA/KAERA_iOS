@@ -69,7 +69,6 @@ extension TemplateViewModel {
     private func convertIdtoImg() {
         WriteAPI.shared.getTemplateList { result in
             guard let result = result, let data = result.data else { return }
-            print("템플릿 리스트입니다", data)
 
             data.forEach {
                 guard let imgName = self.idToImgTuple[customKey(index: $0.templateId, hasUsed: $0.hasUsed)] else { return }
