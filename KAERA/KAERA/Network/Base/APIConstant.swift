@@ -18,5 +18,10 @@ struct APIConstant {
         return url
     }()
     
-    static let homeWorryList = "/worry/list"
+    static let worryList = "/worry/list"
+    static let worry = "/worry"
+    static let deadline = "/worrry/deadline"
+    static let myAnswer = "/worry/myanswer"
+    static let template = "/template"
+    static let review = "/review"
 }
