@@ -51,6 +51,7 @@ class TemplateInfoVC: UIViewController {
         registerTV()
         resetCellStatus()
         setObserver()
+        input.send() /// 구독 후 ViewModel과 데이터를 연동
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -102,7 +103,6 @@ class TemplateInfoVC: UIViewController {
                 self?.updateTV(list)
             }
             .store(in: &cancellables)
-        input.send() /// 구독 후 ViewModel과 데이터를 연동
     }
     
     private func updateTV(_ list: [ TemplateInfoPublisherModel]) {

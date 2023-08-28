@@ -76,13 +76,18 @@ extension TemplateViewModel {
             }
         }
     }
+
     private func convertTemplateInfo() {
-        templateInfoList = []
-        templateListDummy.forEach {
-            guard let imgName = idToImgTuple[customKey(index: $0.templateId, hasUsed: true)] else { return }
-            self.templateInfoList.append(TemplateInfoPublisherModel(templateId: $0.templateId, templateTitle: $0.title, info: $0.info, image: UIImage(named: imgName) ?? UIImage() ))
+        WriteAPI.shared.getTemplateList { result in
+            guard let result = result, let data = result.data else { return }
+
+            self.templateInfoList = data.compactMap { templateData in
+                guard let imgName = self.idToImgTuple[customKey(index: templateData.templateId, hasUsed: true)] else { return nil }
+                return TemplateInfoPublisherModel(templateId: templateData.templateId, templateTitle: templateData.title, info: templateData.info, image: UIImage(named: imgName) ?? UIImage())
+            }
+
+            self.output.send(self.templateInfoList)
         }
-        self.output.send(templateInfoList)
     }
 }
 
