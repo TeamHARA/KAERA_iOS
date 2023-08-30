@@ -10,7 +10,6 @@ import SnapKit
 import Then
 import Combine
 
-class TemplateInfoVC: UIViewController {
 class TemplateInfoVC: UIViewController, TemplateInfoTVCDelegate {
     
     // MARK: - Properties
@@ -60,6 +59,7 @@ class TemplateInfoVC: UIViewController, TemplateInfoTVCDelegate {
         registerTV()
         resetCellStatus()
         setObserver()
+        sendTitleInfo()
         input.send() /// 구독 후 ViewModel과 데이터를 연동
     }
     
@@ -106,7 +106,7 @@ class TemplateInfoVC: UIViewController, TemplateInfoTVCDelegate {
     }
     
     private func dataBind() {
-        let output = templateInfoViewModel.transform(input: input.eraseToAnyPublisher())
+        let output = templateVM.transform(input: input.eraseToAnyPublisher())
         output.receive(on: DispatchQueue.main)
             .sink { [weak self] list in
                 self?.updateTV(list)
@@ -114,10 +114,19 @@ class TemplateInfoVC: UIViewController, TemplateInfoTVCDelegate {
             .store(in: &cancellables)
     }
     
-    private func updateTV(_ list: [ TemplateInfoPublisherModel]) {
+    private func updateTV(_ list: [TemplateInfoPublisherModel]) {
         templateInfoList = list
         templateInfoTV.reloadData()
     }
+    
+    // writeVC Modal시에 화면에 띄어줄 title 및 shortInfo를 보내주기 위한 함수
+    private func sendTitleInfo() {
+        self.templateVM.templateListPublisher.sink{ [weak self] (updatedList : [TemplateListPublisherModel]) in
+            self?.templateTitleShortInfoList = updatedList
+        }
+            .store(in: &cancellables)
+    }
+    
     
     
     // MARK: - TemplateInfoTVCDelegate
@@ -177,7 +186,7 @@ extension TemplateInfoVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 0
     }
-
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         /// expand 된 cell의 높이에 맞게 자동으로 변경해주기 위함
         return UITableView.automaticDimension
