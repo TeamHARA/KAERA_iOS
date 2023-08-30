@@ -11,6 +11,7 @@ import Then
 import Combine
 
 class TemplateInfoVC: UIViewController {
+class TemplateInfoVC: UIViewController, TemplateInfoTVCDelegate {
     
     // MARK: - Properties
     private let titleLabel = UILabel().then {
@@ -38,11 +39,19 @@ class TemplateInfoVC: UIViewController {
     
     var expandedCells = [Bool]()
     
-    private let templateInfoViewModel = TemplateViewModel()
+    private let templateVM = TemplateViewModel()
     private var cancellables = Set<AnyCancellable>()
     private var templateInfoList: [TemplateInfoPublisherModel] = []
     private let input = PassthroughSubject<Void, Never> ()
-
+    
+    // writeVC Modal시에 화면에 띄어줄 제목을 담아서 보내줌
+    private var templateTitleShortInfoList:
+    [TemplateListPublisherModel] = []
+    
+    private let writeModalVC = WriteModalVC()
+    
+    private var templateId: Int = 1
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         dataBind()
@@ -108,6 +117,18 @@ class TemplateInfoVC: UIViewController {
     private func updateTV(_ list: [ TemplateInfoPublisherModel]) {
         templateInfoList = list
         templateInfoTV.reloadData()
+    }
+    
+    
+    // MARK: - TemplateInfoTVCDelegate
+    func didPressWritingButton(templateId: Int) {
+        let writeVC = WriteVC()
+        writeVC.modalPresentationStyle = .fullScreen
+        self.present(writeVC, animated: true, completion: nil)
+        writeVC.dataBind()
+        self.templateId = templateId
+        writeVC.input.send(templateId)
+        writeVC.templateReload(templateId: templateId, templateTitle: self.templateTitleShortInfoList[templateId].templateTitle, templateInfo: self.templateTitleShortInfoList[templateId].templateDetail)
     }
 }
 
@@ -177,6 +198,7 @@ extension TemplateInfoVC : UITableViewDataSource
         cell.settingData(isExpanded: expandedCells[indexPath.row])
         /// 각 cell 클릭 시 해당하는 cell의 indexPath를 TVC의 indexPath로 전달
         cell.indexPath = indexPath
+        cell.delegate = self
         
         cell.dataBind(model: templateInfoList[indexPath.row])
         
