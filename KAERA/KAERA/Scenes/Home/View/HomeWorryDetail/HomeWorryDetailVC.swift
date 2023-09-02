@@ -17,7 +17,14 @@ final class HomeWorryDetailVC: BaseVC {
     private var cancellables = Set<AnyCancellable>()
     private let input = PassthroughSubject<Int, Never>.init()
     
-    private let navigationBarView = CustomNavigationBarView(leftType: .close, rightType: .edit, title: "고민캐기")
+    private lazy var navigationBarView: CustomNavigationBarView = {
+        switch self.pageType {
+        case .digging:
+            return CustomNavigationBarView(leftType: .close, rightType: .edit, title: "고민캐기")
+        case .dug:
+            return CustomNavigationBarView(leftType: .close, rightType: .delete, title: "고민캐기")
+        }
+    }()
     
     private let worryDetailTV = UITableView().then {
         $0.backgroundColor = .clear
