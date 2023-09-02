@@ -11,26 +11,25 @@ import Then
 import Combine
 
 protocol RefreshListDelegate: AnyObject {
-    func refreshList(templateTitle: String, list: [WorryListPublisherModel])
+    func refreshList(templateTitle: String, templateId: Int)
 }
 
 class ArchiveModalVC: UIViewController {
     
     // MARK: - Properties
     private var templateVM: TemplateViewModel = TemplateViewModel()
-    private var worryVM: WorryListViewModel = WorryListViewModel()
     
     private var templateList: [TemplateListPublisherModel] = []
     /// 데이터를 전달하기 위한 클로저 선언
     private var completionHandler: (([WorryListPublisherModel]) -> [WorryListPublisherModel])?
     
     /// category에 맞는 컬렉션뷰를 화면에 보여주기 위한 배열
-    private var templateWithCategory: [WorryListPublisherModel] = []
+    private var worryListWithTemplate: [WorryListPublisherModel] = []
     private var disposalbleBag = Set<AnyCancellable>()
     
     weak var refreshListDelegate: RefreshListDelegate?
     
-    private var templateIndex: Int = 0
+    var templateIndex: Int = 0
     
     private let flowLayout = UICollectionViewFlowLayout().then {
         $0.scrollDirection = .vertical
@@ -52,10 +51,9 @@ class ArchiveModalVC: UIViewController {
     // MARK: - Life Cycles
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.setBindings()
-        self.registerCV()
-        self.setLayout()
+        setBindings()
+        registerCV()
+        setLayout()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -85,9 +83,7 @@ extension ArchiveModalVC{
 
 
 // MARK: - 뷰모델 관련
-extension ArchiveModalVC{
-    
-    /// 뷰모델의 데이터를 뷰컨의 리스트 데이터와 연동
+extension ArchiveModalVC {
     fileprivate func setBindings() {
         self.templateVM.templateListPublisher.sink{ [weak self] (updatedList : [TemplateListPublisherModel]) in
             self?.templateList = updatedList
@@ -125,30 +121,10 @@ extension ArchiveModalVC: UICollectionViewDelegateFlowLayout {
             currentCell.checkIcon.isHidden = false
         }
         
-        templateWithCategory = []
         templateIndex = indexPath.row
-        
-        /// 0. 전체 템플릿 보기를 클릭 시에는 모든 고민을 화면에 띄어줍니다.
-        if templateIndex == 0 {
-            templateWithCategory = worryVM.worryListPublisher.value
-        }
-        
-        else {
-            /// worryList의 templateId와 같은 고민을 화면에 띄어줍니다.
-            for i in 0..<worryVM.worryListPublisher.value.count {
-                if templateIndex == worryVM.worryListPublisher.value[i].templateId {
-                    templateWithCategory.append(worryVM.worryListPublisher.value[i])
-                }
-            }
-        }
-        
-        print("templateIndex=\(templateIndex)")
-        
+        self.refreshListDelegate?.refreshList(templateTitle: templateList[indexPath.item].templateTitle, templateId: templateIndex)
+            
         self.dismiss(animated: true, completion: nil)
-        
-        /// category에 해당하는 고민들을 담은 리스트를 worryCV로 보내주어, WorryVM의 List를 변경할 수 있게 해줍니다.
-        refreshListDelegate?.refreshList(templateTitle: templateVM.templateListPublisher.value[templateIndex].templateTitle, list: templateWithCategory)
-        print("send the array=\(templateWithCategory)")
     }
 }
 
