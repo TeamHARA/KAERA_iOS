@@ -48,8 +48,9 @@ final class HomeWorryDetailFooterView: UITableViewHeaderFooterView {
     }
     
     // MARK: - Function
-    func setData(updateAt: String) {
+    func setData(updateAt: String, finalAnswer: String = "") {
         writtenDateLabel.text = updateAt
+        answerLabel.text = finalAnswer
     }
     
     func setDiggingLayout() {
