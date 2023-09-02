@@ -64,6 +64,7 @@ extension HomeWorryDetailTVC {
         worryQuestion.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.directionalHorizontalEdges.equalToSuperview().inset(14)
+            $0.height.equalTo(18)
         }
         
         worryAnswer.snp.makeConstraints {
