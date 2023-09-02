@@ -48,6 +48,11 @@ final class WorryDetailReviewView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Function
+    func setData(content: String, updatedAt: String) {
+        reviewTextView.text = content
+        reviewDateLabel.text = updatedAt
+    }
 }
 
 // MARK: - UI
