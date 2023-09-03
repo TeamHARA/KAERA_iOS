@@ -26,10 +26,7 @@ final class HomeAPI {
                 do {
                     self?.homeGemListResponse = try
                     result.map(GeneralArrayResponse<HomeGemListModel>?.self)
-                    print("성공")
-                    print(result)
                     guard let gemList = self?.homeGemListResponse else { return }
-                    print(gemList)
                     completion(gemList)
                 } catch(let err) {
                     print(err.localizedDescription)
