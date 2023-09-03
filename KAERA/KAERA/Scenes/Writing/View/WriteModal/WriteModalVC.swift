@@ -17,9 +17,10 @@ protocol TemplateTitleDelegate: AnyObject {
 class WriteModalVC: UIViewController {
     // MARK: - Properties
     var templateVM: TemplateViewModel = TemplateViewModel()
+    private var cancellables = Set<AnyCancellable>()
+    private let input = PassthroughSubject<Void, Never> ()
     
-    var templateList: [TemplateListPublisherModel] = []
-    var cancellable = Set<AnyCancellable>()
+    var templateList: [TemplateInfoPublisherModel] = []
     
     weak var sendTitleDelegate: TemplateTitleDelegate?
     
@@ -45,10 +46,10 @@ class WriteModalVC: UIViewController {
     // MARK: - Life Cycles
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.setBindings()
-        self.registerCV()
-        self.setLayout()
+        setBindings()
+        registerCV()
+        setLayout()
+        input.send()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -80,12 +81,17 @@ extension WriteModalVC {
 
 // MARK: - ViewModel
 extension WriteModalVC {
-    
+
     /// 뷰모델의 데이터를 뷰컨의 리스트 데이터와 연동
-    fileprivate func setBindings() {
-        self.templateVM.templateListPublisher.sink{ (updatedList : [TemplateListPublisherModel]) in
-            self.templateList = updatedList
-        }.store(in: &cancellable)
+    private func setBindings() {
+        let output = templateVM.transformModal(input: input.eraseToAnyPublisher())
+        output.receive(on: DispatchQueue.main)
+            .sink { [weak self] list in
+                self?.templateList = list
+                print("템플릿 리스트입니다", self?.templateList)
+                self?.templateListCV.reloadData()
+            }
+            .store(in: &cancellables)
     }
 }
 
