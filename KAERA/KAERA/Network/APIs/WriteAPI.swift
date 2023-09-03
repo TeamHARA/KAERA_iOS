@@ -28,10 +28,7 @@ final class WriteAPI {
                 do {
                     self?.templateListResponse = try
                     result.map(GeneralArrayResponse<TemplateListModel>?.self)
-                    print("성공")
-                    print(result)
                     guard let templateList = self?.templateListResponse else { return }
-                    print(templateList)
                     completion(templateList)
                 } catch(let err) {
                     print(err.localizedDescription)
@@ -51,10 +48,7 @@ final class WriteAPI {
                 do {
                     self?.templateContentResponse = try
                     result.map(GeneralResponse<TemplateContentModel>?.self)
-                    print("성공")
-                    print(result)
                     guard let contentList = self?.templateContentResponse else { return }
-                    print(contentList)
                     completion(contentList)
                 } catch(let err) {
                     print(err.localizedDescription)
