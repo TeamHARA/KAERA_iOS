@@ -320,11 +320,13 @@ extension HomeWorryDetailVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         guard let footerCell = tableView.dequeueReusableHeaderFooterView(withIdentifier: HomeWorryDetailFooterView.className) as? HomeWorryDetailFooterView else { return nil }
-        footerCell.setData(updateAt: updateDate)
+
         switch pageType {
         case .digging:
+            footerCell.setData(updateAt: updateDate)
             footerCell.setDiggingLayout()
         case .dug:
+            footerCell.setData(updateAt: updateDate, finalAnswer: finalAnswer)
             footerCell.setDugLayout()
         }
         return footerCell
@@ -337,7 +339,7 @@ extension HomeWorryDetailVC {
         self.view.addSubviews([navigationBarView, worryDetailScrollView])
         
         navigationBarView.snp.makeConstraints {
-            $0.left.right.equalToSuperview().inset(16)
+            $0.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(16)
             $0.top.equalTo(view.safeAreaLayoutGuide).inset(20)
             $0.height.equalTo(50)
         }
