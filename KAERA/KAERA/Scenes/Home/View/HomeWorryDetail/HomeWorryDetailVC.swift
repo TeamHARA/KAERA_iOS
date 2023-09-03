@@ -98,7 +98,6 @@ final class HomeWorryDetailVC: BaseVC {
         setNaviButtonAction()
         setupTableView()
         setReviewTextView()
-        dataBind()
         hideKeyboardWhenTappedAround()
         setPressAction()
     }
