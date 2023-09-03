@@ -18,17 +18,10 @@ struct TemplateListModel: Codable {
 }
 
 /// View에 뿌려주기 위한 model
-struct TemplateListPublisherModel {
-    let templateId: Int
-    let templateTitle: String
-    let templateDetail: String
-    let image: UIImage
-}
-
-/// View에 뿌려주기 위한 model
 struct TemplateInfoPublisherModel {
     let templateId: Int
     let templateTitle: String
     let info: String
+    let templateDetail: String
     let image: UIImage
 }
