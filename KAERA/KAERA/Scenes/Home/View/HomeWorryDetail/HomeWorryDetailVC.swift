@@ -102,7 +102,21 @@ final class HomeWorryDetailVC: BaseVC {
         hideKeyboardWhenTappedAround()
         setPressAction()
     }
+
     override func viewWillLayoutSubviews() {
+        setDynamicLayout()
+    }
+      
+    override func viewWillAppear(_ animated: Bool) {
+        self.addKeyboardObserver()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        self.removeKeyboardObserver()
+    }
+
+    // MARK: - Function
+    private func setDynamicLayout() {
         /// 테이블 뷰 contentSize.height 보다 1이상 커야지 footer뷰가 제대로 나옴
         let tableContentHeight = worryDetailTV.contentSize.height + 1
         worryDetailTV.snp.updateConstraints {
@@ -113,6 +127,7 @@ final class HomeWorryDetailVC: BaseVC {
             worryDetailScrollView.snp.updateConstraints {
                 $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(89.adjustedH)
             }
+            
             worryDetailContentView.snp.updateConstraints {
                 $0.height.equalTo(tableContentHeight)
             }
@@ -130,67 +145,14 @@ final class HomeWorryDetailVC: BaseVC {
                 worryDetailContentView.snp.updateConstraints {
                     $0.height.equalTo(tableContentHeight + reviewSpacing + restReviewViewHeight + defaultTextViewHeight)
                 }
-               
+
                 reviewView.snp.updateConstraints {
                     $0.height.equalTo(restReviewViewHeight + defaultTextViewHeight)
                 }
             }
-            
         }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        self.addKeyboardObserver()
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        self.removeKeyboardObserver()
-    }
-    
-    // MARK: - Function
-    private func addKeyboardObserver() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(self.keyboardWillAppear(_:)),
-            name: UIResponder.keyboardWillShowNotification,
-            object: nil
-        )
-        
-        NotificationCenter.default.addObserver(
-            self, selector: #selector(keyboardWillDisappear),
-            name: UIResponder.keyboardWillHideNotification,
-            object: nil)
-
-    }
-    
-    
-    private func removeKeyboardObserver() {
-        NotificationCenter.default.removeObserver(
-            self,
-            name: UIResponder.keyboardWillShowNotification,
-            object: nibName
-        )
-        
-        NotificationCenter.default.removeObserver(
-            self,
-            name: UIResponder.keyboardWillHideNotification,
-            object: nibName
-        )
-    }
-    @objc
-    func keyboardWillAppear(_ notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-                UIView.animate(withDuration: 0.1, animations: {
-                    self.worryDetailScrollView.contentInset.bottom = keyboardSize.height + 50
-                })
-        }
-    }
-    @objc
-    func keyboardWillDisappear(_ notification: NSNotification) {
-        worryDetailScrollView.contentInset.bottom = .zero
-    }
-    
-    // MARK: - Function
     private func setNaviButtonAction() {
         navigationBarView.setLeftButtonAction {
             self.dismiss(animated: true, completion: nil)
@@ -252,9 +214,50 @@ final class HomeWorryDetailVC: BaseVC {
         navigationBarView.setTitleText(text: "고민캐기 D-\(deadline)")
         period = worryDetail.period
         worryDetailTV.reloadData()
+// MARK: - KeyBoard
+extension HomeWorryDetailVC {
+    private func addKeyboardObserver() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillAppear),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+        
+        NotificationCenter.default.addObserver(
+            self, selector: #selector(keyboardWillDisappear),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil)
     }
     
+    
+    private func removeKeyboardObserver() {
+        NotificationCenter.default.removeObserver(
+            self,
+            name: UIResponder.keyboardWillShowNotification,
+            object: nibName
+        )
+        
+        NotificationCenter.default.removeObserver(
+            self,
+            name: UIResponder.keyboardWillHideNotification,
+            object: nibName
+        )
+    }
+    @objc
+    func keyboardWillAppear(_ notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+                UIView.animate(withDuration: 0.1, animations: {
+                    self.worryDetailScrollView.contentInset.bottom = keyboardSize.height + 50
+                })
+        }
+    }
+    @objc
+    func keyboardWillDisappear(_ notification: NSNotification) {
+        worryDetailScrollView.contentInset.bottom = .zero
+    }
 }
+
 // MARK: - TextView
 extension HomeWorryDetailVC: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
@@ -288,7 +291,6 @@ extension HomeWorryDetailVC: UITextViewDelegate {
         let newSize = textView.sizeThatFits(CGSize(width: fixedWidth, height: CGFloat.greatestFiniteMagnitude))
         self.reviewTextViewHeight = newSize.height
     }
-    
 }
 
 
@@ -297,7 +299,7 @@ extension HomeWorryDetailVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return questions.count
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: HomeWorryDetailTVC.className) as? HomeWorryDetailTVC else { return UITableViewCell() }
@@ -313,7 +315,6 @@ extension HomeWorryDetailVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard let headerCell = tableView.dequeueReusableHeaderFooterView(withIdentifier: HomeWorryDetailHeaderView.className) as? HomeWorryDetailHeaderView else { return nil }
         headerCell.setData(templateId: self.templateId, title: self.worryTitle, type: pageType, period: period)
-        
         return headerCell
     }
     
