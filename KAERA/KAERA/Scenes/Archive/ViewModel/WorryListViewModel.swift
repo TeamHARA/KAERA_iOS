@@ -25,10 +25,7 @@ class WorryListViewModel: ViewModelType {
     
     func transform(input: Input) -> AnyPublisher<[WorryListPublisherModel], Never> {
         input.sink{[weak self] templateId in
-            ArchiveAPI.shared.getArchiveWorryList(param: templateId) { result in
-                guard let result = result, let data = result.data else { return }
-                self?.convertIdtoWorryList(data.worry)
-            }
+            self?.getNetworkResponse(templateId)
         }
         .store(in: &cancellables)
         
@@ -43,5 +40,12 @@ class WorryListViewModel: ViewModelType {
             worryUpdateList.append(WorryListPublisherModel(templateId: $0.templateId, title: $0.title, period: $0.period, image: UIImage(named: imgName) ?? UIImage() ))
         }
         self.output.send(worryUpdateList)
+    }
+    
+    private func getNetworkResponse(_ templateId: Int) {
+        ArchiveAPI.shared.getArchiveWorryList(param: templateId) { result in
+            guard let result = result, let data = result.data else { return }
+            self.convertIdtoWorryList(data.worry)
+        }
     }
 }
