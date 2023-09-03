@@ -129,8 +129,15 @@ final class HomeGemStoneVC: BaseVC {
 // MARK: - CollectionView
 extension HomeGemStoneVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let idx = gemIndexDict[indexPath.item], idx < gemStoneList.count else { return }
-        let worryId = gemStoneList[idx].worryId
+        var worryId = 0
+        switch pageType {
+        case .digging:
+            guard let idx = gemIndexDict[indexPath.item], idx < gemStoneList.count else { return }
+            worryId = gemStoneList[idx].worryId
+        case .dug:
+            worryId = gemStoneList[indexPath.row].worryId
+        }
+       
         let vc = HomeWorryDetailVC(worryId: worryId, type: pageType)
         vc.modalPresentationStyle = .fullScreen
         vc.modalTransitionStyle = .coverVertical
