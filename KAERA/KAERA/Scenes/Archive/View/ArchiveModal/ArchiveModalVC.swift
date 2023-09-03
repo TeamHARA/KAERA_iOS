@@ -19,13 +19,15 @@ class ArchiveModalVC: UIViewController {
     // MARK: - Properties
     private var templateVM: TemplateViewModel = TemplateViewModel()
     
-    private var templateList: [TemplateListPublisherModel] = []
+    private var templateList: [TemplateInfoPublisherModel] = []
     /// 데이터를 전달하기 위한 클로저 선언
     private var completionHandler: (([WorryListPublisherModel]) -> [WorryListPublisherModel])?
     
     /// category에 맞는 컬렉션뷰를 화면에 보여주기 위한 배열
     private var worryListWithTemplate: [WorryListPublisherModel] = []
-    private var disposalbleBag = Set<AnyCancellable>()
+    
+    private var cancellables = Set<AnyCancellable>()
+    private let input = PassthroughSubject<Void, Never> ()
     
     weak var refreshListDelegate: RefreshListDelegate?
     
@@ -54,6 +56,7 @@ class ArchiveModalVC: UIViewController {
         setBindings()
         registerCV()
         setLayout()
+        input.send()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -84,12 +87,17 @@ extension ArchiveModalVC{
 
 // MARK: - 뷰모델 관련
 extension ArchiveModalVC {
-    fileprivate func setBindings() {
-        self.templateVM.templateListPublisher.sink{ [weak self] (updatedList : [TemplateListPublisherModel]) in
-            self?.templateList = updatedList
-            let showEveryJewels = TemplateListPublisherModel(templateId: 0, templateTitle: "모든 보석 보기", templateDetail: "그동안 캐낸 모든 보석을 볼 수 있어요", image: UIImage())
-            self?.templateList.insert(showEveryJewels, at:0)
-        }.store(in: &disposalbleBag)
+    private func setBindings() {
+        let output = templateVM.transformModal(input: input.eraseToAnyPublisher())
+        output.receive(on: DispatchQueue.main)
+            .sink { [weak self] list in
+                self?.templateList = list
+                let showEveryJewels = TemplateInfoPublisherModel(templateId: 0, templateTitle: "모든 보석 보기", info: "", templateDetail: "그동안 캐낸 모든 보석을 볼 수 있어요", image: UIImage())
+                self?.templateList.insert(showEveryJewels, at:0)
+                print("templateList입니다", self?.templateList ?? [])
+                self?.templateListCV.reloadData()
+            }
+            .store(in: &cancellables)
     }
 }
 
