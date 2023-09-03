@@ -8,7 +8,7 @@
 import Foundation
 
 /// 서버통신용 모델
-struct TemplateContentModel {
+struct TemplateContentModel: Codable {
     let title: String
     let guideline: String
     let questions: [String]

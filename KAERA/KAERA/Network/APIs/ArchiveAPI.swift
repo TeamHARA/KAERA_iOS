@@ -26,10 +26,7 @@ final class ArchiveAPI {
                 do {
                     self?.archiveWorryListResponse = try
                     result.map(GeneralResponse<WorryListModel>?.self)
-                    print("성공")
-                    print(result)
                     guard let worryList = self?.archiveWorryListResponse else { return }
-                    print(worryList)
                     completion(worryList)
                 } catch(let err) {
                     print(err.localizedDescription)
