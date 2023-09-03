@@ -103,12 +103,12 @@ final class HomeWorryDetailVC: BaseVC {
         setPressAction()
     }
 
-    override func viewWillLayoutSubviews() {
-        setDynamicLayout()
-    }
-      
     override func viewWillAppear(_ animated: Bool) {
         self.addKeyboardObserver()
+    }
+    
+    override func viewWillLayoutSubviews() {
+        setDynamicLayout()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
