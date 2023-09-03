@@ -87,6 +87,8 @@ extension ArchiveModalVC {
     fileprivate func setBindings() {
         self.templateVM.templateListPublisher.sink{ [weak self] (updatedList : [TemplateListPublisherModel]) in
             self?.templateList = updatedList
+            let showEveryJewels = TemplateListPublisherModel(templateId: 0, templateTitle: "모든 보석 보기", templateDetail: "그동안 캐낸 모든 보석을 볼 수 있어요", image: UIImage())
+            self?.templateList.insert(showEveryJewels, at:0)
         }.store(in: &disposalbleBag)
     }
 }
@@ -107,7 +109,6 @@ extension ArchiveModalVC: UICollectionViewDelegateFlowLayout {
     
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("click index=\(indexPath.row)")
         
         // 기존의 선택되었던 Cell의 디자인을 초기화한다.
         if let previousCell = collectionView.cellForItem(at: IndexPath(row: templateIndex, section: 0)) as? ArchiveModalCVC {
@@ -139,6 +140,12 @@ extension ArchiveModalVC: UICollectionViewDataSource {
             withReuseIdentifier: ArchiveModalCVC.className, for: indexPath)
                 as? ArchiveModalCVC else { return UICollectionViewCell() }
         cell.dataBind(model: templateList[indexPath.item], indexPath: indexPath)
+        
+        if let cell = collectionView.cellForItem(at: IndexPath(row: templateIndex, section: 0)) as? ArchiveModalCVC {
+            cell.templateCell.layer.borderColor = UIColor.kYellow1.cgColor
+            cell.checkIcon.isHidden = false
+        }
+        
         return cell
     }
 }

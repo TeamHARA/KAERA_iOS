@@ -19,7 +19,7 @@ class WriteModalVC: UIViewController {
     var templateVM: TemplateViewModel = TemplateViewModel()
     
     var templateList: [TemplateListPublisherModel] = []
-    var disposalbleBag = Set<AnyCancellable>()
+    var cancellable = Set<AnyCancellable>()
     
     weak var sendTitleDelegate: TemplateTitleDelegate?
     
@@ -85,7 +85,7 @@ extension WriteModalVC {
     fileprivate func setBindings() {
         self.templateVM.templateListPublisher.sink{ (updatedList : [TemplateListPublisherModel]) in
             self.templateList = updatedList
-        }.store(in: &disposalbleBag)
+        }.store(in: &cancellable)
     }
 }
 
@@ -123,7 +123,7 @@ extension WriteModalVC: UICollectionViewDelegateFlowLayout {
         
         /// 선택한 카테고리의 종류를 WriteVC로 보내줌으로써 화면에 선택된 템플릿이 무엇인지를 알려줍니다.
         /// '모든 보석 보기' cell은 포함하면 안되므로, 그 다음 셀의 제목을 첫번째 제목으로 하기 위해 +1을 해줍니다.
-        sendTitleDelegate?.templateReload(templateId: templateIndex, templateTitle: templateVM.templateListPublisher.value[templateIndex + 1].templateTitle, templateInfo: templateVM.templateListPublisher.value[templateIndex + 1].templateDetail)
+        sendTitleDelegate?.templateReload(templateId: templateIndex, templateTitle: templateList[templateIndex].templateTitle, templateInfo: templateList[templateIndex].templateDetail)
         
         // notification for tableView reload
         self.dismiss(animated: true, completion: nil)
@@ -134,7 +134,7 @@ extension WriteModalVC: UICollectionViewDelegateFlowLayout {
 extension WriteModalVC: UICollectionViewDataSource {
     /// '모든 보석 보기' cell은 제외해야 하기에 -1을 해줍니다.
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return templateList.count - 1
+        return templateList.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -142,7 +142,7 @@ extension WriteModalVC: UICollectionViewDataSource {
             withReuseIdentifier: WriteModalCVC.className, for: indexPath)
                 as? WriteModalCVC else { return UICollectionViewCell() }
         /// '모든 보석 보기' cell은 포함하면 안되므로, 그 다음 셀의 제목을 첫번째 제목으로 하기 위해 +1을 해줍니다.
-        cell.dataBind(model: templateList[indexPath.item + 1], indexPath: indexPath)
+        cell.dataBind(model: templateList[indexPath.item], indexPath: indexPath)
         return cell
     }
 }
