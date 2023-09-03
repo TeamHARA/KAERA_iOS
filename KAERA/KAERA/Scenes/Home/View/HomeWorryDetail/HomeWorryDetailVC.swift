@@ -54,23 +54,24 @@ final class HomeWorryDetailVC: BaseVC {
         $0.backgroundColor = .kGray3
         $0.layer.cornerRadius = 8
     }
-    
+    private let reviewView = WorryDetailReviewView()
     private var questions = [String]()
     private var answers = [String]()
     private var updateDate = ""
     private var worryTitle = ""
     private var templateId = 1
-    private var deadline = ""
+    private var dDay = ""
     private var period = ""
     private var pageType: PageType = .digging
     
-    private let reviewView = WorryDetailReviewView()
     private let restReviewViewHeight: CGFloat = 67
     private var defaultTextViewHeight: CGFloat = 53
     private let reviewSpacing: CGFloat = 32
     private let placeholderText = "이 고민을 통해 배운점 또는 생각을 자유롭게 적어보세요"
     private var reviewTextViewHeight: CGFloat = 0
-
+    private var finalAnswer = ""
+    private var reivew: Review = Review(content: "", updatedAt: "")
+    
     // MARK: - Initialization
     init(worryId: Int, type: PageType) {
         super.init(nibName: nil, bundle: nil)
