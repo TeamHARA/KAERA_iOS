@@ -30,6 +30,8 @@
 		85EBC7F72A5AD95D00B9E891 /* ArchiveVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EBC7F62A5AD95D00B9E891 /* ArchiveVC.swift */; };
 		85ECEE472A9A117E00A624AE /* ArchiveAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85ECEE462A9A117E00A624AE /* ArchiveAPI.swift */; };
 		85ECEE492A9A406B00A624AE /* ArchiveService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85ECEE482A9A406B00A624AE /* ArchiveService.swift */; };
+		85ECEE4B2A9B815E00A624AE /* WriteService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85ECEE4A2A9B815E00A624AE /* WriteService.swift */; };
+		85ECEE4D2A9B821500A624AE /* WriteAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85ECEE4C2A9B821500A624AE /* WriteAPI.swift */; };
 		E70C7CA12A90959A006B2E74 /* HomeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E70C7CA02A90959A006B2E74 /* HomeService.swift */; };
 		E70C7CA32A909829006B2E74 /* HomeAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E70C7CA22A909829006B2E74 /* HomeAPI.swift */; };
 		E721EABD2A51D5D900A04AA0 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = E721EABC2A51D5D900A04AA0 /* Then */; };
@@ -114,6 +116,8 @@
 		85EBC7F62A5AD95D00B9E891 /* ArchiveVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveVC.swift; sourceTree = "<group>"; };
 		85ECEE462A9A117E00A624AE /* ArchiveAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveAPI.swift; sourceTree = "<group>"; };
 		85ECEE482A9A406B00A624AE /* ArchiveService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveService.swift; sourceTree = "<group>"; };
+		85ECEE4A2A9B815E00A624AE /* WriteService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteService.swift; sourceTree = "<group>"; };
+		85ECEE4C2A9B821500A624AE /* WriteAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteAPI.swift; sourceTree = "<group>"; };
 		E70C7C9E2A908574006B2E74 /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 		E70C7CA02A90959A006B2E74 /* HomeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeService.swift; sourceTree = "<group>"; };
 		E70C7CA22A909829006B2E74 /* HomeAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeAPI.swift; sourceTree = "<group>"; };
@@ -406,6 +410,7 @@
 			children = (
 				E70C7CA22A909829006B2E74 /* HomeAPI.swift */,
 				85ECEE462A9A117E00A624AE /* ArchiveAPI.swift */,
+				85ECEE4C2A9B821500A624AE /* WriteAPI.swift */,
 			);
 			path = APIs;
 			sourceTree = "<group>";
@@ -415,6 +420,7 @@
 			children = (
 				E70C7CA02A90959A006B2E74 /* HomeService.swift */,
 				85ECEE482A9A406B00A624AE /* ArchiveService.swift */,
+				85ECEE4A2A9B815E00A624AE /* WriteService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -654,6 +660,7 @@
 				E74969302A7B2DF000C3C0CF /* WorryDecisionVC.swift in Sources */,
 				E79AAC3D2A52F2C300F3F439 /* UIFont+.swift in Sources */,
 				85887D8E2A5D086300F7FB21 /* TemplateViewModel.swift in Sources */,
+				85ECEE4D2A9B821500A624AE /* WriteAPI.swift in Sources */,
 				E7BB4F492A5EF7320018312B /* HomeGemListModel.swift in Sources */,
 				E7BB4F512A5EF8260018312B /* WorryListModel.swift in Sources */,
 				E79AAC392A52F2C300F3F439 /* UICollectionVIew+.swift in Sources */,
@@ -687,6 +694,7 @@
 				E7BB4F472A5EF7060018312B /* HomeGemListViewModel.swift in Sources */,
 				E7C808E92A4D37F800F475CE /* AppDelegate.swift in Sources */,
 				E73CA3DC2A693C9D00BAC9D6 /* GemStoneEmptyView.swift in Sources */,
+				85ECEE4B2A9B815E00A624AE /* WriteService.swift in Sources */,
 				E7FEC0982A6D1274006F36BF /* HomeWorryDetailViewModel.swift in Sources */,
 				85887D842A5C42A700F7FB21 /* WriteModalCVC.swift in Sources */,
 				85A8492F2A87A9EC009F1468 /* TemplateContentTV.swift in Sources */,
