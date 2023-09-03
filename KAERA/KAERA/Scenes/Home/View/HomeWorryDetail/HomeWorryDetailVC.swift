@@ -173,9 +173,6 @@ final class HomeWorryDetailVC: BaseVC {
         worryDetailTV.estimatedSectionHeaderHeight = 200
         worryDetailTV.estimatedRowHeight = 200
         worryDetailTV.estimatedSectionFooterHeight = 200
-        worryDetailTV.rowHeight = UITableView.automaticDimension
-        worryDetailTV.sectionHeaderHeight = UITableView.automaticDimension
-        worryDetailTV.sectionFooterHeight = UITableView.automaticDimension
         worryDetailTV.backgroundView = backgroundImageView
     }
     
@@ -213,7 +210,18 @@ final class HomeWorryDetailVC: BaseVC {
         deadline = worryDetail.deadline < 0 ? "∞" : "\(worryDetail.deadline)"
         navigationBarView.setTitleText(text: "고민캐기 D-\(deadline)")
         period = worryDetail.period
+        
+        /// 갱신된 데이터로 테이블뷰 정보를 갱신
+        /// -> 갱신된 데이터를 적용한 콘텐트 크기를 아직 모르니 contentSize는 각 셀,헤더,푸터의 estimatedSize 합으로 일단 지정됨
         worryDetailTV.reloadData()
+        /// worryDetailTV 높이를 contentSize.height으로 업데이트
+        worryDetailTV.frame.size.height = worryDetailTV.contentSize.height
+        /// layout을 업데이트 시키면서 worryDetailTV의 콘텐트 사이즈 값이 실제 크기에 맞게 조정
+        /// -> layoutSubView 메서드가 호출되면서 setDynamicLayout호출
+        worryDetailTV.layoutIfNeeded()
+    }
+    
+}
 // MARK: - KeyBoard
 extension HomeWorryDetailVC {
     private func addKeyboardObserver() {
