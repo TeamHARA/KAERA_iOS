@@ -35,7 +35,6 @@ extension TemplateContentViewModel {
         /// 서버 통신으로 template Id request 후에 데이터 가져오기
         WriteAPI.shared.getTemplateQuestion(param: templateId) { result in
             guard let result = result, let data = result.data else { return }
-            print("템플릿에 맞는 질문 목록입니다.", data)
             self.output.send(data)
         }
     }
