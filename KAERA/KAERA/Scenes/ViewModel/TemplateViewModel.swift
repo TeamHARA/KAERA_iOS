@@ -31,25 +31,21 @@ class TemplateViewModel: ViewModelType {
         customKey(index: 6, hasUsed: true): "gem_yellow_s_on",
         customKey(index: 6, hasUsed: false): "gem_yellow_s_off"
     ]
-    
-    var templateUpdateList: [TemplateListPublisherModel] = []
-    
-    var templateListDummy = [
-           TemplateListModel(templateId: 0, title: "모든 보석 보기", shortInfo: "그동안 캐낸 모든 보석을 볼 수 있어요", info: "어떤 질문도 던지지 않아요. 캐라 도화지에서 머릿 속 얽혀있는 고민 실타래들을 마음껏 풀어내세요!", hasUsed: true),
-           TemplateListModel(templateId: 1, title: "Free Flow", shortInfo: "빈 공간을 자유롭게 채우기", info: "내가 할 수 있는 선택지를 나열해보세요. 각각 어떤 장점과 단점을 가지고 있나요? 당신의 가능성을 펼쳐 비교해 더 나은 선택을 할 수 있도록 도와줄게요.", hasUsed: true)
-       ]
-    
-    lazy var templateListPublisher = CurrentValueSubject<[TemplateListPublisherModel], Never>(templateUpdateList)
-    
-    // templateinfo
+
+    /// 고민보관함뷰의 고민 작성지 뷰에서 사용
     private var templateInfoList: [TemplateInfoPublisherModel] = []
-    private var cancellables = Set<AnyCancellable>()
     
+    /// 고민작성뷰와 고민보관함뷰의 modalVC에서 사용
+    var templateUpdateList: [TemplateInfoPublisherModel] = []
+        
     typealias Input = AnyPublisher<Void, Never>
     typealias Output = AnyPublisher<[TemplateInfoPublisherModel], Never>
     
     private let output = PassthroughSubject<[TemplateInfoPublisherModel], Never> ()
-
+    
+    private var cancellables = Set<AnyCancellable>()
+    
+    /// 고민보관함뷰의 고민 작성지 뷰에서 사용
     func transform(input: Input) -> AnyPublisher<[TemplateInfoPublisherModel], Never> {
         input.sink{[weak self] _ in
             self?.convertTemplateInfo()
@@ -58,9 +54,13 @@ class TemplateViewModel: ViewModelType {
         return output.eraseToAnyPublisher()
     }
     
-    init() {
-        templateUpdateList = []
-        convertIdtoImg()
+    /// 고민작성뷰와 고민보관함뷰의 modalVC에서 사용
+    func transformModal(input: Input) -> AnyPublisher<[TemplateInfoPublisherModel], Never> {
+        input.sink{[weak self] _ in
+            self?.convertIdtoImg()
+        }
+        .store(in: &cancellables)
+        return output.eraseToAnyPublisher()
     }
 }
 
@@ -70,10 +70,11 @@ extension TemplateViewModel {
         WriteAPI.shared.getTemplateList { result in
             guard let result = result, let data = result.data else { return }
 
-            data.forEach {
-                guard let imgName = self.idToImgTuple[customKey(index: $0.templateId, hasUsed: $0.hasUsed)] else { return }
-                self.templateUpdateList.append(TemplateListPublisherModel(templateId: $0.templateId, templateTitle: $0.title, templateDetail: $0.shortInfo, image: UIImage(named: imgName) ?? UIImage() ))
+            self.templateUpdateList = data.compactMap {
+                guard let imgName = self.idToImgTuple[customKey(index: $0.templateId, hasUsed: $0.hasUsed)] else { return nil }
+                return TemplateInfoPublisherModel(templateId: $0.templateId, templateTitle: $0.title, info: $0.info, templateDetail: $0.shortInfo, image: UIImage(named: imgName) ?? UIImage())
             }
+            self.output.send(self.templateUpdateList)
         }
     }
 
@@ -81,9 +82,9 @@ extension TemplateViewModel {
         WriteAPI.shared.getTemplateList { result in
             guard let result = result, let data = result.data else { return }
 
-            self.templateInfoList = data.compactMap { templateData in
-                guard let imgName = self.idToImgTuple[customKey(index: templateData.templateId, hasUsed: true)] else { return nil }
-                return TemplateInfoPublisherModel(templateId: templateData.templateId, templateTitle: templateData.title, info: templateData.info, image: UIImage(named: imgName) ?? UIImage())
+            self.templateInfoList = data.compactMap {
+                guard let imgName = self.idToImgTuple[customKey(index: $0.templateId, hasUsed: true)] else { return nil }
+                return TemplateInfoPublisherModel(templateId: $0.templateId, templateTitle: $0.title, info: $0.info, templateDetail: $0.shortInfo, image: UIImage(named: imgName) ?? UIImage())
             }
 
             self.output.send(self.templateInfoList)
