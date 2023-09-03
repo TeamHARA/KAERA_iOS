@@ -201,15 +201,34 @@ final class HomeWorryDetailVC: BaseVC {
     }
     
     private func updateUI(worryDetail: WorryDetailModel) {
-        questions = worryDetail.questions
+        questions = worryDetail.subtitles
         answers = worryDetail.answers
         updateDate = worryDetail.updatedAt
         worryTitle = worryDetail.title
         templateId = worryDetail.templateId
-        /// 넘어오는 값이 -1일 경우 String 값으로 표현
-        deadline = worryDetail.deadline < 0 ? "∞" : "\(worryDetail.deadline)"
-        navigationBarView.setTitleText(text: "고민캐기 D-\(deadline)")
         period = worryDetail.period
+
+        switch pageType {
+        case .digging:
+            if worryDetail.dDay > 0 {
+                dDay = "-\(worryDetail.dDay)"
+            } else if worryDetail.dDay < 0 {
+                dDay = "+\(worryDetail.dDay)"
+            } else if worryDetail.dDay == 0 {
+                dDay = "day"
+            } else {
+                dDay = "-∞"
+            }
+            navigationBarView.setTitleText(text: "고민캐기 D\(dDay)")
+        case .dug:
+            if let finalAnswer = worryDetail.finalAnswer {
+                self.finalAnswer = finalAnswer
+                if let review = worryDetail.review {
+                    self.reviewView.setData(content: review.content, updatedAt: review.updatedAt)
+                }
+            }
+            navigationBarView.setTitleText(text: "나의 고민")
+        }
         
         /// 갱신된 데이터로 테이블뷰 정보를 갱신
         /// -> 갱신된 데이터를 적용한 콘텐트 크기를 아직 모르니 contentSize는 각 셀,헤더,푸터의 estimatedSize 합으로 일단 지정됨
