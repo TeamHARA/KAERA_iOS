@@ -31,8 +31,8 @@ class TemplateViewModel: ViewModelType {
         customKey(index: 6, hasUsed: true): "gem_yellow_s_on",
         customKey(index: 6, hasUsed: false): "gem_yellow_s_off"
     ]
-
-    /// 고민보관함뷰의 고민 작성지 뷰에서 사용
+  
+    // templateinfo
     private var templateInfoList: [TemplateInfoPublisherModel] = []
     
     /// 고민작성뷰와 고민보관함뷰의 modalVC에서 사용
