@@ -34,11 +34,6 @@ class TemplateViewModel: ViewModelType {
     
     var templateUpdateList: [TemplateListPublisherModel] = []
     
-    var templateListDummy = [
-           TemplateListModel(templateId: 0, title: "모든 보석 보기", shortInfo: "그동안 캐낸 모든 보석을 볼 수 있어요", info: "어떤 질문도 던지지 않아요. 캐라 도화지에서 머릿 속 얽혀있는 고민 실타래들을 마음껏 풀어내세요!", hasUsed: true),
-           TemplateListModel(templateId: 1, title: "Free Flow", shortInfo: "빈 공간을 자유롭게 채우기", info: "내가 할 수 있는 선택지를 나열해보세요. 각각 어떤 장점과 단점을 가지고 있나요? 당신의 가능성을 펼쳐 비교해 더 나은 선택을 할 수 있도록 도와줄게요.", hasUsed: true)
-       ]
-    
     lazy var templateListPublisher = CurrentValueSubject<[TemplateListPublisherModel], Never>(templateUpdateList)
     
     // templateinfo
