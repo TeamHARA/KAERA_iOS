@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 import Then
 
+
 class ArchiveModalCVC: UICollectionViewCell {
     
     let templateCell = UIView().then {
@@ -87,7 +88,7 @@ extension ArchiveModalCVC{
     }
     
     // MARK: - DataBind
-    func dataBind(model: TemplateListPublisherModel, indexPath: IndexPath) {
+    func dataBind(model: TemplateInfoPublisherModel, indexPath: IndexPath) {
         templateImage.image = model.image
         templateTitle.text = model.templateTitle
         templateDetail.text = model.templateDetail

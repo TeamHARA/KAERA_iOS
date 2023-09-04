@@ -17,9 +17,10 @@ protocol TemplateTitleDelegate: AnyObject {
 class WriteModalVC: UIViewController {
     // MARK: - Properties
     var templateVM: TemplateViewModel = TemplateViewModel()
+    private var cancellables = Set<AnyCancellable>()
+    private let input = PassthroughSubject<Void, Never> ()
     
-    var templateList: [TemplateListPublisherModel] = []
-    var disposalbleBag = Set<AnyCancellable>()
+    var templateList: [TemplateInfoPublisherModel] = []
     
     weak var sendTitleDelegate: TemplateTitleDelegate?
     
@@ -45,10 +46,10 @@ class WriteModalVC: UIViewController {
     // MARK: - Life Cycles
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.setBindings()
-        self.registerCV()
-        self.setLayout()
+        setBindings()
+        registerCV()
+        setLayout()
+        input.send()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -80,12 +81,17 @@ extension WriteModalVC {
 
 // MARK: - ViewModel
 extension WriteModalVC {
-    
+
     /// 뷰모델의 데이터를 뷰컨의 리스트 데이터와 연동
-    fileprivate func setBindings() {
-        self.templateVM.templateListPublisher.sink{ (updatedList : [TemplateListPublisherModel]) in
-            self.templateList = updatedList
-        }.store(in: &disposalbleBag)
+    private func setBindings() {
+        let output = templateVM.transformModal(input: input.eraseToAnyPublisher())
+        output.receive(on: DispatchQueue.main)
+            .sink { [weak self] list in
+                self?.templateList = list
+                print("템플릿 리스트입니다", self?.templateList)
+                self?.templateListCV.reloadData()
+            }
+            .store(in: &cancellables)
     }
 }
 
@@ -123,7 +129,7 @@ extension WriteModalVC: UICollectionViewDelegateFlowLayout {
         
         /// 선택한 카테고리의 종류를 WriteVC로 보내줌으로써 화면에 선택된 템플릿이 무엇인지를 알려줍니다.
         /// '모든 보석 보기' cell은 포함하면 안되므로, 그 다음 셀의 제목을 첫번째 제목으로 하기 위해 +1을 해줍니다.
-        sendTitleDelegate?.templateReload(templateId: templateIndex, templateTitle: templateVM.templateListPublisher.value[templateIndex + 1].templateTitle, templateInfo: templateVM.templateListPublisher.value[templateIndex + 1].templateDetail)
+        sendTitleDelegate?.templateReload(templateId: templateIndex, templateTitle: templateList[templateIndex].templateTitle, templateInfo: templateList[templateIndex].templateDetail)
         
         // notification for tableView reload
         self.dismiss(animated: true, completion: nil)
@@ -134,7 +140,7 @@ extension WriteModalVC: UICollectionViewDelegateFlowLayout {
 extension WriteModalVC: UICollectionViewDataSource {
     /// '모든 보석 보기' cell은 제외해야 하기에 -1을 해줍니다.
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return templateList.count - 1
+        return templateList.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -142,7 +148,7 @@ extension WriteModalVC: UICollectionViewDataSource {
             withReuseIdentifier: WriteModalCVC.className, for: indexPath)
                 as? WriteModalCVC else { return UICollectionViewCell() }
         /// '모든 보석 보기' cell은 포함하면 안되므로, 그 다음 셀의 제목을 첫번째 제목으로 하기 위해 +1을 해줍니다.
-        cell.dataBind(model: templateList[indexPath.item + 1], indexPath: indexPath)
+        cell.dataBind(model: templateList[indexPath.item], indexPath: indexPath)
         return cell
     }
 }

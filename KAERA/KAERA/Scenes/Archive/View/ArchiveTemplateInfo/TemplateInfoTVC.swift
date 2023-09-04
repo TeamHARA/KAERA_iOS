@@ -9,6 +9,10 @@ import UIKit
 import SnapKit
 import Then
 
+protocol TemplateInfoTVCDelegate: AnyObject {
+    func didPressWritingButton(templateId: Int)
+}
+
 // MARK: - ListTableViewCell
 class TemplateInfoTVC: UITableViewCell {
     
@@ -67,6 +71,7 @@ class TemplateInfoTVC: UITableViewCell {
     
     /// cell의 indexPath를 담을 변수를 선언
     var indexPath: IndexPath?
+    weak var delegate: TemplateInfoTVCDelegate?
 
     // MARK: - View Life Cycle
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -84,8 +89,9 @@ class TemplateInfoTVC: UITableViewCell {
     // MARK: - Functions
     private func pressBtn() {
         writingBtn.press {
-            /// indexPath[1] : 값의 row data를 담고 있음. 
-            print(self.indexPath?[1] ?? 0,"번째 TVC의 버튼이 눌렸습니다.")
+            /// indexPath[1] : 값의 row data를 담고 있음.
+            let templateId = self.indexPath?[1] ?? 0
+            self.delegate?.didPressWritingButton(templateId: templateId)
         }
     }
     
