@@ -45,7 +45,7 @@ class TemplateInfoVC: UIViewController, TemplateInfoTVCDelegate {
     
     // writeVC Modal시에 화면에 띄어줄 제목을 담아서 보내줌
     private var templateTitleShortInfoList:
-    [TemplateListPublisherModel] = []
+    [TemplateInfoPublisherModel] = []
     
     private let writeModalVC = WriteModalVC()
     
@@ -121,13 +121,13 @@ class TemplateInfoVC: UIViewController, TemplateInfoTVCDelegate {
     
     // writeVC Modal시에 화면에 띄어줄 title 및 shortInfo를 보내주기 위한 함수
     private func sendTitleInfo() {
-        self.templateVM.templateListPublisher.sink{ [weak self] (updatedList : [TemplateListPublisherModel]) in
-            self?.templateTitleShortInfoList = updatedList
-        }
+        let output = templateVM.transform(input: input.eraseToAnyPublisher())
+        output.receive(on: DispatchQueue.main)
+            .sink { [weak self] list in
+                self?.templateTitleShortInfoList = list
+            }
             .store(in: &cancellables)
     }
-    
-    
     
     // MARK: - TemplateInfoTVCDelegate
     func didPressWritingButton(templateId: Int) {
