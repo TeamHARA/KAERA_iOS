@@ -9,20 +9,12 @@ import UIKit
 import Foundation
 
 /// 서버통신용 모델
-struct TemplateListModel {
+struct TemplateListModel: Codable {
     let templateId: Int
-    let templateTitle: String
-    let templateDetail: String
+    let title: String
+    let shortInfo: String
     let info: String
     let hasUsed: Bool
-}
-
-/// View에 뿌려주기 위한 model
-struct TemplateListPublisherModel {
-    let templateId: Int
-    let templateTitle: String
-    let templateDetail: String
-    let image: UIImage
 }
 
 /// View에 뿌려주기 위한 model
@@ -30,5 +22,6 @@ struct TemplateInfoPublisherModel {
     let templateId: Int
     let templateTitle: String
     let info: String
+    let templateDetail: String
     let image: UIImage
 }

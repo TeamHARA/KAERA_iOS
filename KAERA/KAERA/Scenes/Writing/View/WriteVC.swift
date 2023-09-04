@@ -15,7 +15,7 @@ class WriteVC: BaseVC {
     // MARK: - View Model
     private let templateContentVM = TemplateContentViewModel()
     private var cancellables = Set<AnyCancellable>()
-    private let input = PassthroughSubject<Int, Never>.init()
+    let input = PassthroughSubject<Int, Never>.init()
     
     // MARK: - Properties
     private let writeModalVC = WriteModalVC()
@@ -105,7 +105,7 @@ class WriteVC: BaseVC {
     }
     
     // MARK: - Functions
-    private func dataBind() {
+    func dataBind() {
         let output = templateContentVM.transform(
             input: TemplateContentViewModel.Input(input)
         )
