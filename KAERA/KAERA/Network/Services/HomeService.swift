@@ -17,7 +17,7 @@ extension HomeService: BaseTargetType {
     var path: String {
         switch self {
         case .homeGemList(let isSolved):
-            return APIConstant.homeWorryList + "/\(isSolved)"
+            return APIConstant.worryList + "/\(isSolved)"
         }
     }
     

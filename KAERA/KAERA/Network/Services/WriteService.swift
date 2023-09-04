@@ -18,9 +18,9 @@ extension WriteService: BaseTargetType {
     var path: String {
         switch self {
         case .getTemplateList:
-            return APIConstant.templateList
+            return APIConstant.template
         case .getTemplateQuestion(let templateId):
-            return APIConstant.templateList + "/\(templateId)"
+            return APIConstant.template + "/\(templateId)"
         }
     }
     
