@@ -17,7 +17,7 @@ extension ArchiveService: BaseTargetType {
     var path: String {
         switch self {
         case .archiveWorryList:
-            return APIConstant.archiveWorryList
+            return APIConstant.worry
         }
     }
     
