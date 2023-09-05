@@ -10,11 +10,20 @@ import Foundation
 // MARK: - WorryDetailModel
 struct WorryDetailModel: Codable {
     let title: String
-    let templateId, deadline: Int
-    let questions, answers: [String]
-    let period, updatedAt, finalAnswer: String
-    let review: Review
+    let templateId: Int
+    let subtitles, answers: [String]
+    let period, updatedAt, deadline: String
+    let dDay: Int
+    let finalAnswer: String?
+    let review: Review?
+    
+    enum CodingKeys : String, CodingKey {
+        case dDay = "d-day"
+        case title, templateId, subtitles, answers, period, updatedAt, deadline, finalAnswer, review
+    }
 }
+
+
 
 // MARK: - Review
 struct Review: Codable {

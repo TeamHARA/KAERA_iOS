@@ -40,7 +40,6 @@ final class WorryDetailReviewView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setUI()
-        setTextView()
         setLayout()
     }
     
@@ -48,6 +47,15 @@ final class WorryDetailReviewView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Function
+    func setData(content: String, updatedAt: String) {
+        reviewDateLabel.text = updatedAt
+        if !content.isEmpty {
+            reviewTextView.text = content
+        }else {
+            reviewTextView.text = "이 고민을 통해 배운점 또는 생각을 자유롭게 적어보세요"
+        }
+    }
 }
 
 // MARK: - UI
@@ -57,9 +65,6 @@ extension WorryDetailReviewView {
         self.layer.borderWidth = 1
         self.layer.cornerRadius = 8
         self.layer.borderColor = UIColor.kGray3.cgColor
-    }
-    
-    private func setTextView() {
     }
     
     private func setLayout() {
