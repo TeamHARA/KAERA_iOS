@@ -17,7 +17,14 @@ final class HomeWorryDetailVC: BaseVC {
     private var cancellables = Set<AnyCancellable>()
     private let input = PassthroughSubject<Int, Never>.init()
     
-    private let navigationBarView = CustomNavigationBarView(leftType: .close, rightType: .edit, title: "고민캐기")
+    private lazy var navigationBarView: CustomNavigationBarView = {
+        switch self.pageType {
+        case .digging:
+            return CustomNavigationBarView(leftType: .close, rightType: .edit, title: "고민캐기")
+        case .dug:
+            return CustomNavigationBarView(leftType: .close, rightType: .delete, title: "고민캐기")
+        }
+    }()
     
     private let worryDetailTV = UITableView().then {
         $0.backgroundColor = .clear
@@ -47,23 +54,24 @@ final class HomeWorryDetailVC: BaseVC {
         $0.backgroundColor = .kGray3
         $0.layer.cornerRadius = 8
     }
-    
+    private let reviewView = WorryDetailReviewView()
     private var questions = [String]()
     private var answers = [String]()
     private var updateDate = ""
     private var worryTitle = ""
     private var templateId = 1
-    private var deadline = ""
+    private var dDay = ""
     private var period = ""
     private var pageType: PageType = .digging
     
-    private let reviewView = WorryDetailReviewView()
     private let restReviewViewHeight: CGFloat = 67
     private var defaultTextViewHeight: CGFloat = 53
     private let reviewSpacing: CGFloat = 32
     private let placeholderText = "이 고민을 통해 배운점 또는 생각을 자유롭게 적어보세요"
     private var reviewTextViewHeight: CGFloat = 0
-
+    private var finalAnswer = ""
+    private var reivew: Review = Review(content: "", updatedAt: "")
+    
     // MARK: - Initialization
     init(worryId: Int, type: PageType) {
         super.init(nibName: nil, bundle: nil)
@@ -91,11 +99,24 @@ final class HomeWorryDetailVC: BaseVC {
         setNaviButtonAction()
         setupTableView()
         setReviewTextView()
-        dataBind()
         hideKeyboardWhenTappedAround()
         setPressAction()
     }
+
+    override func viewWillAppear(_ animated: Bool) {
+        self.addKeyboardObserver()
+    }
+    
     override func viewWillLayoutSubviews() {
+        setDynamicLayout()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        self.removeKeyboardObserver()
+    }
+
+    // MARK: - Function
+    private func setDynamicLayout() {
         /// 테이블 뷰 contentSize.height 보다 1이상 커야지 footer뷰가 제대로 나옴
         let tableContentHeight = worryDetailTV.contentSize.height + 1
         worryDetailTV.snp.updateConstraints {
@@ -106,6 +127,7 @@ final class HomeWorryDetailVC: BaseVC {
             worryDetailScrollView.snp.updateConstraints {
                 $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(89.adjustedH)
             }
+            
             worryDetailContentView.snp.updateConstraints {
                 $0.height.equalTo(tableContentHeight)
             }
@@ -123,67 +145,14 @@ final class HomeWorryDetailVC: BaseVC {
                 worryDetailContentView.snp.updateConstraints {
                     $0.height.equalTo(tableContentHeight + reviewSpacing + restReviewViewHeight + defaultTextViewHeight)
                 }
-               
+
                 reviewView.snp.updateConstraints {
                     $0.height.equalTo(restReviewViewHeight + defaultTextViewHeight)
                 }
             }
-            
         }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        self.addKeyboardObserver()
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        self.removeKeyboardObserver()
-    }
-    
-    // MARK: - Function
-    private func addKeyboardObserver() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(self.keyboardWillAppear(_:)),
-            name: UIResponder.keyboardWillShowNotification,
-            object: nil
-        )
-        
-        NotificationCenter.default.addObserver(
-            self, selector: #selector(keyboardWillDisappear),
-            name: UIResponder.keyboardWillHideNotification,
-            object: nil)
-
-    }
-    
-    
-    private func removeKeyboardObserver() {
-        NotificationCenter.default.removeObserver(
-            self,
-            name: UIResponder.keyboardWillShowNotification,
-            object: nibName
-        )
-        
-        NotificationCenter.default.removeObserver(
-            self,
-            name: UIResponder.keyboardWillHideNotification,
-            object: nibName
-        )
-    }
-    @objc
-    func keyboardWillAppear(_ notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-                UIView.animate(withDuration: 0.1, animations: {
-                    self.worryDetailScrollView.contentInset.bottom = keyboardSize.height + 50
-                })
-        }
-    }
-    @objc
-    func keyboardWillDisappear(_ notification: NSNotification) {
-        worryDetailScrollView.contentInset.bottom = .zero
-    }
-    
-    // MARK: - Function
     private func setNaviButtonAction() {
         navigationBarView.setLeftButtonAction {
             self.dismiss(animated: true, completion: nil)
@@ -204,9 +173,6 @@ final class HomeWorryDetailVC: BaseVC {
         worryDetailTV.estimatedSectionHeaderHeight = 200
         worryDetailTV.estimatedRowHeight = 200
         worryDetailTV.estimatedSectionFooterHeight = 200
-        worryDetailTV.rowHeight = UITableView.automaticDimension
-        worryDetailTV.sectionHeaderHeight = UITableView.automaticDimension
-        worryDetailTV.sectionFooterHeight = UITableView.automaticDimension
         worryDetailTV.backgroundView = backgroundImageView
     }
     
@@ -235,19 +201,90 @@ final class HomeWorryDetailVC: BaseVC {
     }
     
     private func updateUI(worryDetail: WorryDetailModel) {
-        questions = worryDetail.questions
+        questions = worryDetail.subtitles
         answers = worryDetail.answers
         updateDate = worryDetail.updatedAt
         worryTitle = worryDetail.title
         templateId = worryDetail.templateId
-        /// 넘어오는 값이 -1일 경우 String 값으로 표현
-        deadline = worryDetail.deadline < 0 ? "∞" : "\(worryDetail.deadline)"
-        navigationBarView.setTitleText(text: "고민캐기 D-\(deadline)")
         period = worryDetail.period
+
+        switch pageType {
+        case .digging:
+            if worryDetail.dDay > 0 {
+                dDay = "-\(worryDetail.dDay)"
+            } else if worryDetail.dDay < 0 {
+                dDay = "+\(worryDetail.dDay)"
+            } else if worryDetail.dDay == 0 {
+                dDay = "day"
+            } else {
+                dDay = "-∞"
+            }
+            navigationBarView.setTitleText(text: "고민캐기 D\(dDay)")
+        case .dug:
+            if let finalAnswer = worryDetail.finalAnswer {
+                self.finalAnswer = finalAnswer
+                if let review = worryDetail.review {
+                    self.reviewView.setData(content: review.content, updatedAt: review.updatedAt)
+                }
+            }
+            navigationBarView.setTitleText(text: "나의 고민")
+        }
+        
+        /// 갱신된 데이터로 테이블뷰 정보를 갱신
+        /// -> 갱신된 데이터를 적용한 콘텐트 크기를 아직 모르니 contentSize는 각 셀,헤더,푸터의 estimatedSize 합으로 일단 지정됨
         worryDetailTV.reloadData()
+        /// worryDetailTV 높이를 contentSize.height으로 업데이트
+        worryDetailTV.frame.size.height = worryDetailTV.contentSize.height
+        /// layout을 업데이트 시키면서 worryDetailTV의 콘텐트 사이즈 값이 실제 크기에 맞게 조정
+        /// -> layoutSubView 메서드가 호출되면서 setDynamicLayout호출
+        worryDetailTV.layoutIfNeeded()
     }
     
 }
+// MARK: - KeyBoard
+extension HomeWorryDetailVC {
+    private func addKeyboardObserver() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillAppear),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+        
+        NotificationCenter.default.addObserver(
+            self, selector: #selector(keyboardWillDisappear),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil)
+    }
+    
+    
+    private func removeKeyboardObserver() {
+        NotificationCenter.default.removeObserver(
+            self,
+            name: UIResponder.keyboardWillShowNotification,
+            object: nibName
+        )
+        
+        NotificationCenter.default.removeObserver(
+            self,
+            name: UIResponder.keyboardWillHideNotification,
+            object: nibName
+        )
+    }
+    @objc
+    func keyboardWillAppear(_ notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+                UIView.animate(withDuration: 0.1, animations: {
+                    self.worryDetailScrollView.contentInset.bottom = keyboardSize.height + 50
+                })
+        }
+    }
+    @objc
+    func keyboardWillDisappear(_ notification: NSNotification) {
+        worryDetailScrollView.contentInset.bottom = .zero
+    }
+}
+
 // MARK: - TextView
 extension HomeWorryDetailVC: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
@@ -281,7 +318,6 @@ extension HomeWorryDetailVC: UITextViewDelegate {
         let newSize = textView.sizeThatFits(CGSize(width: fixedWidth, height: CGFloat.greatestFiniteMagnitude))
         self.reviewTextViewHeight = newSize.height
     }
-    
 }
 
 
@@ -290,7 +326,7 @@ extension HomeWorryDetailVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return questions.count
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: HomeWorryDetailTVC.className) as? HomeWorryDetailTVC else { return UITableViewCell() }
@@ -306,17 +342,18 @@ extension HomeWorryDetailVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard let headerCell = tableView.dequeueReusableHeaderFooterView(withIdentifier: HomeWorryDetailHeaderView.className) as? HomeWorryDetailHeaderView else { return nil }
         headerCell.setData(templateId: self.templateId, title: self.worryTitle, type: pageType, period: period)
-        
         return headerCell
     }
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         guard let footerCell = tableView.dequeueReusableHeaderFooterView(withIdentifier: HomeWorryDetailFooterView.className) as? HomeWorryDetailFooterView else { return nil }
-        footerCell.setData(updateAt: updateDate)
+
         switch pageType {
         case .digging:
+            footerCell.setData(updateAt: updateDate)
             footerCell.setDiggingLayout()
         case .dug:
+            footerCell.setData(updateAt: updateDate, finalAnswer: finalAnswer)
             footerCell.setDugLayout()
         }
         return footerCell
@@ -329,7 +366,7 @@ extension HomeWorryDetailVC {
         self.view.addSubviews([navigationBarView, worryDetailScrollView])
         
         navigationBarView.snp.makeConstraints {
-            $0.left.right.equalToSuperview().inset(16)
+            $0.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(16)
             $0.top.equalTo(view.safeAreaLayoutGuide).inset(20)
             $0.height.equalTo(50)
         }
