@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 import Then
 import KakaoSDKUser
+import AuthenticationServices
 
 final class SignInVC: UIViewController {
         
@@ -61,6 +62,54 @@ final class SignInVC: UIViewController {
                 // TODO: 카카오톡 미설치 알림창 띄우기
             }
         }
+        
+        appleLoginButton.press {
+            let appleIDProvider = ASAuthorizationAppleIDProvider()
+            let request = appleIDProvider.createRequest()
+            request.requestedScopes = [.fullName, .email]
+            
+            let authorizationController = ASAuthorizationController(authorizationRequests: [request])
+            authorizationController.delegate = self
+            authorizationController.presentationContextProvider = self
+            authorizationController.performRequests()
+        }
+    }
+}
+
+// MARK: - ASAuthorizationControllerDelegate
+extension SignInVC: ASAuthorizationControllerDelegate {
+    
+    /// 사용자 인증 성공 시 인증 정보를 반환 받습니다.
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+        switch authorization.credential {
+            
+        case let appleIDCredential as ASAuthorizationAppleIDCredential:
+            if let identityToken = appleIDCredential.identityToken,
+               let tokenString = String(data: identityToken, encoding: .utf8) {
+               //TODO: 서버에 tokenString 전달
+            }
+            let tabBarController = KaeraTabbarController()
+            tabBarController.modalPresentationStyle = .fullScreen
+            tabBarController.modalTransitionStyle = .crossDissolve
+            self.present(tabBarController, animated: true)
+        default:
+            break
+        }
+    }
+    
+    /// 사용자 인증 실패 시 에러 처리를 합니다.
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+        print("Apple 로그인 사용자 인증 실패")
+        print("error \(error)")
+    }
+}
+
+// MARK: - ASAuthorizationControllerPresentationContextProviding
+extension SignInVC: ASAuthorizationControllerPresentationContextProviding {
+    
+    /// 애플 로그인 UI를 어디에 띄울지 가장 적합한 뷰 앵커를 반환합니다.
+    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+        return self.view.window!
     }
 }
 
