@@ -159,6 +159,7 @@
 		E79AAC482A52F3E000F3F439 /* BaseVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseVC.swift; sourceTree = "<group>"; };
 		E79AAC492A52F3E000F3F439 /* BaseNC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseNC.swift; sourceTree = "<group>"; };
 		E79AAC592A531E3300F3F439 /* NanumMyeongjoOTF.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumMyeongjoOTF.otf; sourceTree = "<group>"; };
+		E7A94CC12AA4569300F231D0 /* KAERA.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = KAERA.entitlements; sourceTree = "<group>"; };
 		E7A94CC32AA484E300F231D0 /* SignInVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInVC.swift; sourceTree = "<group>"; };
 		E7A94CCC2AAC149900F231D0 /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 		E7AC12202A51CFFD00FE504C /* GeneralResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralResponse.swift; sourceTree = "<group>"; };
@@ -566,6 +567,7 @@
 		E7C808E72A4D37F800F475CE /* KAERA */ = {
 			isa = PBXGroup;
 			children = (
+				E7A94CC12AA4569300F231D0 /* KAERA.entitlements */,
 				E7AC12162A51CBA400FE504C /* Global */,
 				E78C39F12A5138D200A15120 /* Scenes */,
 				E78C39F52A51394A00A15120 /* Resources */,
@@ -876,6 +878,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = KAERA/KAERA.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = AFS6YUQ2Y4;
@@ -903,6 +906,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = KAERA/KAERA.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = AFS6YUQ2Y4;
