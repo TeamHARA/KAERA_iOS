@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import Then
+import KakaoSDKUser
 
 final class SignInVC: UIViewController {
         
@@ -35,7 +36,31 @@ final class SignInVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setLoginButtonAction()
         setUI()
+    }
+    
+    // MARK: - Function
+    private func setLoginButtonAction() {
+        kakaoLoginButton.press {
+            /// 카카오톡 실행 가능한지 확인
+            if UserApi.isKakaoTalkLoginAvailable() {
+                /// 카카오톡 로그인 실행
+                UserApi.shared.loginWithKakaoTalk {(oauthToken, error) in
+                    if error != nil {
+                    } else {
+                        print("loginWithKakaoTalk() success.")
+                        //TODO: 서버에 oauthToken 전달
+                        let tabBarController = KaeraTabbarController()
+                        tabBarController.modalPresentationStyle = .fullScreen
+                        tabBarController.modalTransitionStyle = .crossDissolve
+                        self.present(tabBarController, animated: true)
+                    }
+                }
+            } else {
+                // TODO: 카카오톡 미설치 알림창 띄우기
+            }
+        }
     }
 }
 
