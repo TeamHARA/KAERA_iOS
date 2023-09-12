@@ -16,7 +16,8 @@ final class HomeWorryDetailViewModel: ViewModelType {
     
     private let output: PassthroughSubject<WorryDetailModel, Never> = .init()
     private var cancellables = Set<AnyCancellable>()
-    private var worryId = 1
+    
+    var worryDetail: WorryDetailModel?
     
     // MARK: - Function
     func transform(input: AnyPublisher<Int, Never>) -> AnyPublisher<WorryDetailModel, Never> {
@@ -37,6 +38,7 @@ extension HomeWorryDetailViewModel {
             guard let res = res else { return }
             guard let data = res.data else { return }
             self.output.send(data)
+            self.worryDetail = data
         }
     }
 }
