@@ -73,6 +73,7 @@
 		E7A94CC92AA6A46800F231D0 /* KakaoSDKCommon in Frameworks */ = {isa = PBXBuildFile; productRef = E7A94CC82AA6A46800F231D0 /* KakaoSDKCommon */; };
 		E7A94CCB2AA6A46800F231D0 /* KakaoSDKUser in Frameworks */ = {isa = PBXBuildFile; productRef = E7A94CCA2AA6A46800F231D0 /* KakaoSDKUser */; };
 		E7A94CCD2AAC149900F231D0 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7A94CCC2AAC149900F231D0 /* Environment.swift */; };
+		E7A94CCF2AAD9F9100F231D0 /* HomeWorryEditVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7A94CCE2AAD9F9100F231D0 /* HomeWorryEditVC.swift */; };
 		E7AC12212A51CFFD00FE504C /* GeneralResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7AC12202A51CFFD00FE504C /* GeneralResponse.swift */; };
 		E7AC12232A51D08300FE504C /* Temp_DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7AC12222A51D08300FE504C /* Temp_DataModel.swift */; };
 		E7AC122F2A51D54900FE504C /* CombineMoya in Frameworks */ = {isa = PBXBuildFile; productRef = E7AC122E2A51D54900FE504C /* CombineMoya */; };
@@ -162,6 +163,7 @@
 		E7A94CC12AA4569300F231D0 /* KAERA.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = KAERA.entitlements; sourceTree = "<group>"; };
 		E7A94CC32AA484E300F231D0 /* SignInVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInVC.swift; sourceTree = "<group>"; };
 		E7A94CCC2AAC149900F231D0 /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
+		E7A94CCE2AAD9F9100F231D0 /* HomeWorryEditVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeWorryEditVC.swift; sourceTree = "<group>"; };
 		E7AC12202A51CFFD00FE504C /* GeneralResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralResponse.swift; sourceTree = "<group>"; };
 		E7AC12222A51D08300FE504C /* Temp_DataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Temp_DataModel.swift; sourceTree = "<group>"; };
 		E7BB4F3A2A5ED3610018312B /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
@@ -261,6 +263,7 @@
 				E74968D52A74B84100C3C0CF /* WorryDetailReviewView.swift */,
 				E749692F2A7B2DF000C3C0CF /* WorryDecisionVC.swift */,
 				E74969332A80AE2100C3C0CF /* WorryQuoteView.swift */,
+				E7A94CCE2AAD9F9100F231D0 /* HomeWorryEditVC.swift */,
 			);
 			path = HomeWorryDetail;
 			sourceTree = "<group>";
@@ -713,6 +716,7 @@
 				85887D992A60431000F7FB21 /* ArchiveModalVC.swift in Sources */,
 				85887D902A5EFA2C00F7FB21 /* WritePickerVC.swift in Sources */,
 				85887D8C2A5D084800F7FB21 /* TemplateListModel.swift in Sources */,
+				E7A94CCF2AAD9F9100F231D0 /* HomeWorryEditVC.swift in Sources */,
 				E79AAC362A52F2C300F3F439 /* UILabel+.swift in Sources */,
 				E79AAC3A2A52F2C300F3F439 /* Adjusted+.swift in Sources */,
 				E79AAC312A52F2C300F3F439 /* UIView+.swift in Sources */,
