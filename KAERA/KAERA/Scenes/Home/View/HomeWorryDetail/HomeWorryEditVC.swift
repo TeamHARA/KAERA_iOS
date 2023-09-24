@@ -71,7 +71,14 @@ final class HomeWorryEditVC: BaseVC {
         }
         
         deleteWorryButton.press {
-            //TODO: 고민 삭제 알럿
+            /// 버튼, 타이틀, 서브타이틀, 강조 텍스트, 버튼 액션 추가 가능
+            let alertVC = KaeraAlertVC(okTitle: "삭제")
+            alertVC.setTitleSubTitle(title: "고민을 삭제하시나요?", subTitle: "삭제된 고민은 복구할 수 없어요", highlighting: "삭제")
+            alertVC.OKButton.press {
+                //TODO: 삭제 로직 추가
+                print("고민 삭제")
+            }
+            self.present(alertVC, animated: true)
         }
         
         cancelButton.press {
