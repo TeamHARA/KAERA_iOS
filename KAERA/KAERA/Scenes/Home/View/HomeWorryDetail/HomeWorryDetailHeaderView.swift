@@ -34,18 +34,18 @@ final class HomeWorryDetailHeaderView: UITableViewHeaderFooterView {
     }
     
     private let gemStoneDictionary: [DictionaryKey : String] = [
-        DictionaryKey(templateId: 1, type: .digging) : "gemstone_pink",
-        DictionaryKey(templateId: 2, type: .digging) : "gemstone_orange",
-        DictionaryKey(templateId: 3, type: .digging) : "gemstone_blue",
+        DictionaryKey(templateId: 1, type: .digging) : "gemstone_blue",
+        DictionaryKey(templateId: 2, type: .digging) : "gemstone_red",
+        DictionaryKey(templateId: 3, type: .digging) : "gemstone_orange",
         DictionaryKey(templateId: 4, type: .digging) : "gemstone_green",
-        DictionaryKey(templateId: 5, type: .digging) : "gemstone_yellow",
-        DictionaryKey(templateId: 6, type: .digging) : "gemstone_red",
-        DictionaryKey(templateId: 1, type: .dug) : "gem_pink_l",
-        DictionaryKey(templateId: 2, type: .dug) : "gem_orange_l",
-        DictionaryKey(templateId: 3, type: .dug) : "gem_blue_l",
+        DictionaryKey(templateId: 5, type: .digging) : "gemstone_pink",
+        DictionaryKey(templateId: 6, type: .digging) : "gemstone_yellow",
+        DictionaryKey(templateId: 1, type: .dug) : "gem_blue_l",
+        DictionaryKey(templateId: 2, type: .dug) : "gem_red_l",
+        DictionaryKey(templateId: 3, type: .dug) : "gem_orange_l",
         DictionaryKey(templateId: 4, type: .dug) : "gem_green_l",
-        DictionaryKey(templateId: 5, type: .dug) : "gem_yellow_l",
-        DictionaryKey(templateId: 6, type: .dug) : "gem_red_l"
+        DictionaryKey(templateId: 5, type: .dug) : "gem_pink_l",
+        DictionaryKey(templateId: 6, type: .dug) : "gem_yellow_l"
     ]
     
     
