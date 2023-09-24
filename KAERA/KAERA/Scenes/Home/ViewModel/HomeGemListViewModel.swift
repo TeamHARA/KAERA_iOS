@@ -32,20 +32,20 @@ final class HomeGemListViewModel: ViewModelType {
         let id: Int
         let isSolved: Int
     }
-    
+
     private var gemStoneDictionary: [TemplateKey: String] = [
-        TemplateKey(id: 1, isSolved: 0): "gemstone_pink",
-        TemplateKey(id: 1, isSolved: 1): "gem_pink_l",
-        TemplateKey(id: 2, isSolved: 0): "gemstone_orange",
-        TemplateKey(id: 2, isSolved: 1): "gem_orange_l",
-        TemplateKey(id: 3, isSolved: 0): "gemstone_blue",
-        TemplateKey(id: 3, isSolved: 1): "gem_blue_l",
+        TemplateKey(id: 1, isSolved: 0): "gemstone_blue",
+        TemplateKey(id: 1, isSolved: 1): "gem_blue_l",
+        TemplateKey(id: 2, isSolved: 0): "gemstone_red",
+        TemplateKey(id: 2, isSolved: 1): "gem_red_l",
+        TemplateKey(id: 3, isSolved: 0): "gemstone_orange",
+        TemplateKey(id: 3, isSolved: 1): "gem_orange_l",
         TemplateKey(id: 4, isSolved: 0): "gemstone_green",
         TemplateKey(id: 4, isSolved: 1): "gem_green_l",
-        TemplateKey(id: 5, isSolved: 0): "gemstone_yellow",
-        TemplateKey(id: 5, isSolved: 1): "gem_yellow_l",
-        TemplateKey(id: 6, isSolved: 0): "gemstone_red",
-        TemplateKey(id: 6, isSolved: 1): "gem_red_l",
+        TemplateKey(id: 5, isSolved: 0): "gemstone_pink",
+        TemplateKey(id: 5, isSolved: 1): "gem_pink_l",
+        TemplateKey(id: 6, isSolved: 0): "gemstone_yellow",
+        TemplateKey(id: 6, isSolved: 1): "gem_yellow_l",
     ]
     
     private var gemStoneList: [HomePublisherModel] = []
