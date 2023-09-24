@@ -23,6 +23,7 @@ struct Worry: Codable {
 
 // View에 뿌려주기 위한 model
 struct WorryListPublisherModel {
+    let worryId: Int
     let templateId: Int
     let title: String
     let period: String
