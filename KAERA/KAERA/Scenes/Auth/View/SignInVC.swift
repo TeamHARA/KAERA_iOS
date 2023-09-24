@@ -34,7 +34,7 @@ final class SignInVC: UIViewController {
         $0.setImage(UIImage(named:"appleLoginButton"), for: .normal)
     }
     
-    private let signinViewModel = SigninViewModel()
+    private let signinViewModel = SignInViewModel()
     
     private let input: PassthroughSubject<LoginType, Never> = .init()
     
@@ -49,7 +49,7 @@ final class SignInVC: UIViewController {
     
     // MARK: - Function
     private func dataBind() {
-        let output = signinViewModel.transform(input: SigninViewModel.Input(input))
+        let output = signinViewModel.transform(input: SignInViewModel.Input(input))
         output.receive(on: DispatchQueue.main)
             .sink { [weak self] userInfo in
                 //TODO: UserInfo 저장

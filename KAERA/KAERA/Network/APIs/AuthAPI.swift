@@ -15,14 +15,14 @@ final class AuthAPI {
     
     private init() { }
     
-    public private(set) var kakaoLoginResponse: GeneralResponse<SigninModel>?
+    public private(set) var kakaoLoginResponse: GeneralResponse<SignInModel>?
     
-    func postKakaoLogin(token: String, completion: @escaping (GeneralResponse<SigninModel>?) -> ()) {
+    func postKakaoLogin(token: String, completion: @escaping (GeneralResponse<SignInModel>?) -> ()) {
         authProvider.request(.kakaoLogin(token: token)) { [weak self] response in
             switch response {
             case .success(let result):
                 do {
-                    self?.kakaoLoginResponse = try result.map(GeneralResponse<SigninModel>?.self)
+                    self?.kakaoLoginResponse = try result.map(GeneralResponse<SignInModel>?.self)
                     guard let data = self?.kakaoLoginResponse else { return }
                     completion(data)
                 } catch(let err) {

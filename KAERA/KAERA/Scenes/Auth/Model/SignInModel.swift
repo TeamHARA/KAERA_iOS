@@ -1,5 +1,5 @@
 //
-//  SigninModel.swift
+//  SignInModel.swift
 //  KAERA
 //
 //  Created by 김담인 on 2023/09/24.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct SigninModel: Codable {
+struct SignInModel: Codable {
     let id: Int
     let name: String
     let accessToken: String
