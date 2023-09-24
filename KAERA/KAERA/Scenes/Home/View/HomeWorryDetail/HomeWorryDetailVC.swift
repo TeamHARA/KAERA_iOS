@@ -161,7 +161,7 @@ final class HomeWorryDetailVC: BaseVC {
             let editVC = HomeWorryEditVC()
             editVC.worryDetail = self.worryDetailViewModel.worryDetail
             editVC.modalPresentationStyle = .overCurrentContext
-            editVC.modalTransitionStyle = .coverVertical
+            editVC.modalTransitionStyle = .crossDissolve
             self.present(editVC, animated: true)
         }
     }
