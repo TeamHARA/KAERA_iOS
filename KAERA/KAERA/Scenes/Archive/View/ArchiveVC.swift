@@ -40,9 +40,9 @@ class ArchiveVC: UIViewController, RefreshListDelegate {
     
     // MARK: - Constants
     final let worryListInset: UIEdgeInsets = UIEdgeInsets(top: 0, left: 16.adjustedW, bottom: 20, right: 16.adjustedW)
-    final let interItemSpacing: CGFloat = 12.adjustedW
-    final let lineSpacing: CGFloat = 12.adjustedW
-    let worryCellCize = CGSize(width: 165.adjustedW, height: 165.adjustedW)
+    final let interItemSpacing: CGFloat = 11.adjustedW
+    final let lineSpacing: CGFloat = 11.adjustedW
+    let worryCellCize = CGSize(width: 166.adjustedW, height: 166.adjustedW)
     
     // MARK: - Life Cycles
     override func viewDidLoad() {
@@ -157,6 +157,14 @@ extension ArchiveVC: UICollectionViewDataSource {
                 as? WorryListCVC else { return UICollectionViewCell() }
         cell.dataBind(model: worryListWithTemplate[indexPath.item])
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("indexPath?: ", indexPath.row)
+        let worryDetailVC = HomeWorryDetailVC(worryId: worryListWithTemplate[indexPath.row].worryId, type: .dug)
+        worryDetailVC.modalPresentationStyle = .overFullScreen
+        worryDetailVC.modalTransitionStyle = .coverVertical
+        self.present(worryDetailVC, animated: true)
     }
 }
 
