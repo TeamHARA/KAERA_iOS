@@ -157,9 +157,12 @@ final class HomeWorryDetailVC: BaseVC {
         navigationBarView.setLeftButtonAction {
             self.dismiss(animated: true, completion: nil)
         }
-        
         navigationBarView.setRightButtonAction {
-            //TODO: edit 창 띄우기
+            let editVC = HomeWorryEditVC()
+            editVC.worryDetail = self.worryDetailViewModel.worryDetail
+            editVC.modalPresentationStyle = .overCurrentContext
+            editVC.modalTransitionStyle = .coverVertical
+            self.present(editVC, animated: true)
         }
     }
     
