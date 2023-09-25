@@ -18,6 +18,8 @@ class WritePickerVC: UIViewController {
         $0.backgroundColor = .kGray1
     }
     
+    let contentInfo = ContentInfo.shared
+    
     private let pickerViewTitle = UILabel().then {
         $0.text = "이 고민, 언제까지 끝낼까요?"
         $0.font = .kB1B16
@@ -83,7 +85,7 @@ class WritePickerVC: UIViewController {
     
     // MARK: - Functions
     private func pressBtn() {
-        completeWritingBtn.press {
+        completeWritingBtn.press {[self] in
             UIView.animate(withDuration: 0.5, animations: { [self] in
                 view.alpha = 0
                 view.layoutIfNeeded()
@@ -92,7 +94,15 @@ class WritePickerVC: UIViewController {
                     NotificationCenter.default.post(name: NSNotification.Name("CompleteWriting"), object: nil, userInfo: nil)
                 })
             })
-        }
+            
+            let selectedRow = datePickerView.selectedRow(inComponent: 0)
+            let selectedValue = pickerData[selectedRow]
+            contentInfo.deadline = Int(selectedValue)
+            print("Template ID: \(contentInfo.templateId ?? 0)")
+            print("Title: \(contentInfo.title ?? "")")
+            print("Answers: \(contentInfo.answers ?? [])")
+            print("Deadline: \(contentInfo.deadline ?? 0)")
+            }
     }
     
     private func setDelegate() {
