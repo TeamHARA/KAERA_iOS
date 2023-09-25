@@ -9,9 +9,15 @@ import UIKit
 import SnapKit
 import Then
 
+protocol TemplateContentTVCDelegate: AnyObject {
+    func textViewDidEndEditing(cell: TemplateContentTVC, newText: String)
+}
+
 class TemplateContentTVC: UITableViewCell {
     
     // MARK: - Properties
+    weak var delegate: TemplateContentTVCDelegate?
+    
     private var keyboardHeight: CGFloat = 336.adjustedH
     
     private var questionLabel = UILabel().then {
@@ -138,5 +144,7 @@ extension TemplateContentTVC: UITextViewDelegate {
             tableView.beginUpdates()
             tableView.endUpdates()
         }
+        
+        delegate?.textViewDidEndEditing(cell: self, newText: trimmedText)
     }
 }
