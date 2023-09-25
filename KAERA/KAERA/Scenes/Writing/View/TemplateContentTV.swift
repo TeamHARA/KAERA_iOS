@@ -76,7 +76,7 @@ extension TemplateContentTV : UITableViewDataSource
         guard let headerCell = tableView.dequeueReusableHeaderFooterView(withIdentifier: TemplateContentHeaderView.className) as? TemplateContentHeaderView else { return nil }
         headerCell.worryTitleTextField.becomeFirstResponder()
 
-        /// headerCell에 입력된 고민 제목을 contentInfo에 담아준다. 
+        /// headerCell에 입력된 고민 제목을 contentInfo에 담아준다.
         headerCell.delegate = self
         
         return headerCell

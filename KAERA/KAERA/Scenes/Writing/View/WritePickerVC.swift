@@ -19,6 +19,7 @@ class WritePickerVC: UIViewController {
     }
     
     let contentInfo = ContentInfo.shared
+    var publishedContent = WorryContentRequestDto(templateId: 1, title: "", answers: [], deadline: -1)
     
     private let pickerViewTitle = UILabel().then {
         $0.text = "이 고민, 언제까지 끝낼까요?"
@@ -95,14 +96,22 @@ class WritePickerVC: UIViewController {
                 })
             })
             
+            /// picker에서 고른 숫자를 deadline으로 설정해줌.
             let selectedRow = datePickerView.selectedRow(inComponent: 0)
             let selectedValue = pickerData[selectedRow]
             contentInfo.deadline = Int(selectedValue)
-            print("Template ID: \(contentInfo.templateId ?? 0)")
-            print("Title: \(contentInfo.title ?? "")")
-            print("Answers: \(contentInfo.answers ?? [])")
-            print("Deadline: \(contentInfo.deadline ?? 0)")
+            
+            /// contentInfo 싱글톤 클래스에 담긴 내용을 서버로 보내주기 위해 구조체 형식으로 변환시켜줌.
+            publishedContent.templateId = contentInfo.templateId ?? 1
+            publishedContent.title = contentInfo.title ?? ""
+            publishedContent.answers = contentInfo.answers ?? []
+            publishedContent.deadline = contentInfo.deadline ?? -1
+                        
+            /// 서버로 고민 내용을 POST 시켜줌
+            WriteAPI.shared.postWorryContent(param: publishedContent) { result in
+                guard let result = result, let _ = result.data else { return }
             }
+        }
     }
     
     private func setDelegate() {
