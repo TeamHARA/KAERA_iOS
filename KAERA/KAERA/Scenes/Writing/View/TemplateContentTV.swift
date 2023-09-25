@@ -17,6 +17,8 @@ class TemplateContentTV: UITableView {
     var questions: [String] = []
     var hints: [String] = []
     
+    let contentInfo = ContentInfo.shared
+    
     // MARK: - Life Cycle
     init() {
         super.init(frame: .zero, style: .grouped)
@@ -73,6 +75,10 @@ extension TemplateContentTV : UITableViewDataSource
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard let headerCell = tableView.dequeueReusableHeaderFooterView(withIdentifier: TemplateContentHeaderView.className) as? TemplateContentHeaderView else { return nil }
         headerCell.worryTitleTextField.becomeFirstResponder()
+
+        /// headerCell에 입력된 고민 제목을 contentInfo에 담아준다. 
+        headerCell.delegate = self
+        
         return headerCell
     }
     

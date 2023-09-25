@@ -9,9 +9,15 @@ import UIKit
 import SnapKit
 import Then
 
+protocol TemplateContentHeaderViewDelegate: AnyObject {
+    func textFieldDidEndEditing(view: TemplateContentHeaderView, newText: String)
+}
+
 final class TemplateContentHeaderView: UITableViewHeaderFooterView {
     
     // MARK: - Properties
+    weak var delegate: TemplateContentHeaderViewDelegate?
+    
     let worryTitleTextField = UITextField().then{
         $0.layer.cornerRadius = 8
         $0.backgroundColor = .clear
@@ -98,6 +104,10 @@ extension TemplateContentHeaderView: UITextFieldDelegate {
         let attributedString = NSMutableAttributedString(string: "\(worryTitleTextField.text!.count)/7")
         attributedString.addAttribute(.foregroundColor, value: UIColor.kWhite, range: ("\(worryTitleTextField.text!.count)/7" as NSString).range(of:"\(worryTitleTextField.text!.count)"))
         titleNumLabel.attributedText = attributedString
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
+        delegate?.textFieldDidEndEditing(view: self, newText: worryTitleTextField.text ?? "")
     }
 }
 
