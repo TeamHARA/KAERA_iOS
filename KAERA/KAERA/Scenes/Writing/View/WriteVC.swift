@@ -90,6 +90,9 @@ class WriteVC: BaseVC {
         $0.font = .kSb1R12
     }
     
+    /// tableView의 데이터들을 담는 싱글톤 클래스
+    let contentInfo = ContentInfo.shared
+
     private let pickerVC = WritePickerVC()
     
     // MARK: - Life Cycles

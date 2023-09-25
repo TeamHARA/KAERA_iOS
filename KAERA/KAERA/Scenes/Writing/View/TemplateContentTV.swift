@@ -86,6 +86,12 @@ extension TemplateContentTV : UITableViewDataSource
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: TemplateContentTVC.classIdentifier, for: indexPath) as? TemplateContentTVC else {return UITableViewCell()}
         
+        /// 1씩 작은 templateId에 1을 더해주어 원래 값으로 만들어준다.
+        contentInfo.templateId = templateId + 1
+        
+        /// cell에서 endEditing 시에 적힌 값을 TV로 보내준다.
+        cell.delegate = self
+        
         cell.dataBind(question: questions[indexPath.row], hint: hints[indexPath.row])
         
         return cell
