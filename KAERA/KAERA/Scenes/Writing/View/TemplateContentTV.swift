@@ -91,3 +91,18 @@ extension TemplateContentTV : UITableViewDataSource
         return cell
     }
 }
+
+extension TemplateContentTV: TemplateContentHeaderViewDelegate,  TemplateContentTVCDelegate {
+    func textFieldDidEndEditing(view: TemplateContentHeaderView, newText: String) {
+        contentInfo.title = newText
+    }
+    
+    func textViewDidEndEditing(cell: TemplateContentTVC, newText: String) {
+
+        if let indexPath = indexPath(for: cell) {
+            /// 각 cell의 힌트를 작성된 텍스트로 변경하여 contentInfo에 담아준다.
+            hints[indexPath.row] = newText
+            contentInfo.answers = hints
+        }
+    }
+}
