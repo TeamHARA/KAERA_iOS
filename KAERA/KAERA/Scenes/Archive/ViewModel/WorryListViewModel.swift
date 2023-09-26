@@ -37,7 +37,7 @@ class WorryListViewModel: ViewModelType {
         worryUpdateList = []
         data.forEach {
             guard let imgName = IdtoImgDict[$0.templateId] else { return }
-            worryUpdateList.append(WorryListPublisherModel(templateId: $0.templateId, title: $0.title, period: $0.period, image: UIImage(named: imgName) ?? UIImage() ))
+            worryUpdateList.append(WorryListPublisherModel(worryId: $0.worryId, templateId: $0.templateId, title: $0.title, period: $0.period, image: UIImage(named: imgName) ?? UIImage() ))
         }
         self.output.send(worryUpdateList)
     }
