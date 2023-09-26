@@ -99,7 +99,7 @@ extension TemplateContentTV : UITableViewDataSource
 }
 
 extension TemplateContentTV: TemplateContentHeaderViewDelegate, TemplateContentTVCDelegate {
-    func textFieldDidEndEditing(view: TemplateContentHeaderView, newText: String) {
+    func textFieldDidEndEditing(newText: String) {
         contentInfo.title = newText
     }
     
