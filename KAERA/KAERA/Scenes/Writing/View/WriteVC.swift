@@ -92,7 +92,7 @@ class WriteVC: BaseVC {
     
     /// tableView의 데이터들을 담는 싱글톤 클래스
     let contentInfo = ContentInfo.shared
-
+    
     private let pickerVC = WritePickerVC()
     
     // MARK: - Life Cycles
@@ -105,6 +105,13 @@ class WriteVC: BaseVC {
         hideKeyboardWhenTappedAround()
         addKeyboardObserver()
         dataBind()
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(self.didCompleteWritingNotification(_:)),
+            name: NSNotification.Name("CompleteWriting"),
+            object: nil
+        )
     }
     
     // MARK: - Functions
