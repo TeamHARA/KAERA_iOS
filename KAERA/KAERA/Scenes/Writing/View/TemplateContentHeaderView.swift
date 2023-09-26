@@ -10,7 +10,7 @@ import SnapKit
 import Then
 
 protocol TemplateContentHeaderViewDelegate: AnyObject {
-    func textFieldDidEndEditing(view: TemplateContentHeaderView, newText: String)
+    func textFieldDidEndEditing(newText: String)
 }
 
 final class TemplateContentHeaderView: UITableViewHeaderFooterView {
@@ -107,7 +107,7 @@ extension TemplateContentHeaderView: UITextFieldDelegate {
     }
     
     func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
-        delegate?.textFieldDidEndEditing(view: self, newText: worryTitleTextField.text ?? "")
+        delegate?.textFieldDidEndEditing(newText: worryTitleTextField.text ?? "")
     }
 }
 
