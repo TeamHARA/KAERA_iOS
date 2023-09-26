@@ -37,6 +37,8 @@ class WorryListCVC: UICollectionViewCell {
         $0.text = "2023.02.10~2023.04.01"
         $0.font = .kSb1R12
         $0.textColor = .kGray4
+        /// figma에는 -6.5%로 나와있는데, 티가 잘 안나서 임의로 -50%로 설정해놨습니다
+        $0.setCharacterSpacing(-0.5)
     }
     
     override init(frame: CGRect) {
