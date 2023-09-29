@@ -14,9 +14,9 @@ final class SignInViewModel: NSObject, ViewModelType {
     
     typealias Input = AnyPublisher<LoginType, Never>
 
-    typealias Output = AnyPublisher<SignInModel, Never>
+    typealias Output = AnyPublisher<Bool, Never>
     
-    private let output: PassthroughSubject<SignInModel, Never> = .init()
+    private let output: PassthroughSubject<Bool, Never> = .init()
     
     private var cancellables = Set<AnyCancellable>()
     
@@ -26,7 +26,7 @@ final class SignInViewModel: NSObject, ViewModelType {
     }
     
     // MARK: - Function
-    func transform(input: AnyPublisher<LoginType, Never>) -> AnyPublisher<SignInModel, Never> {
+    func transform(input: AnyPublisher<LoginType, Never>) -> AnyPublisher<Bool, Never> {
         input
             .sink { [weak self] loginType in
                 switch loginType {
@@ -53,7 +53,7 @@ final class SignInViewModel: NSObject, ViewModelType {
             }
             
         } else {
-            // TODO: 카카오톡 미설치 알림창 띄우기
+            output.send(false)
         }
     }
     
@@ -74,9 +74,15 @@ final class SignInViewModel: NSObject, ViewModelType {
 extension SignInViewModel {
     private func postKakaoLogin(token: String) {
         AuthAPI.shared.postKakaoLogin(token: token) { res in
-            guard let res else { return }
-            guard let data = res.data else { return }
-            self.output.send(data)
+            guard let res, let data = res.data else {
+                self.output.send(false)
+                return
+            }
+            
+            /// user info 저장
+            KeychainManager.saveUserInfo(id: "\(data.id)", userName: data.name, accessToken: data.accessToken, refreshToken: data.refreshToken)
+            
+            self.output.send(true)
         }
     }
     
@@ -113,5 +119,6 @@ extension SignInViewModel: ASAuthorizationControllerDelegate {
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
         print("Apple 로그인 사용자 인증 실패")
         print("error \(error)")
+        output.send(false)
     }
 }
