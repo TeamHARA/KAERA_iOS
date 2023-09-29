@@ -44,7 +44,7 @@ extension AuthService: BaseTargetType {
     var headers: [String : String]? {
         switch self {
         case .kakaoLogin:
-            return NetworkConstant.hasTokenHeader
+            return NetworkConstant.noTokenHeader
         }
     }
 }
