@@ -31,6 +31,7 @@ final class HomeWorryDetailVC: BaseVC {
         $0.isScrollEnabled = false
         $0.showsVerticalScrollIndicator = false
         $0.showsHorizontalScrollIndicator = false
+        $0.separatorStyle = .none
     }
     
     private let worryDetailScrollView = UIScrollView().then {
