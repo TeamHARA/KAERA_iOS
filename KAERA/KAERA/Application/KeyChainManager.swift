@@ -54,7 +54,7 @@ final class KeychainManager {
     }
     
     // Keychain에서 값 가져오기
-    class func load(key: UserInfoKey) -> Data? {
+    class func load(key: UserInfoKey) -> String? {
         let query = [
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrAccount as String: key.rawValue,
@@ -66,7 +66,9 @@ final class KeychainManager {
         let status = SecItemCopyMatching(query as CFDictionary, &dataTypeRef)
         
         if status == errSecSuccess {
-            return dataTypeRef as? Data
+            let dataString = String(data: dataTypeRef as? Data ?? Data(), encoding: .utf8)
+            return dataString
+            
         } else {
             return nil
         }
@@ -105,15 +107,10 @@ final class KeychainManager {
     
     // 사용자 정보 및 토큰 로드
     static func loadUserInfo() -> UserInfoModel {
-        let userIdData = KeychainManager.load(key: .userId)
-        let userNameData = KeychainManager.load(key: .userName)
-        let accessTokenData = KeychainManager.load(key: .acessToken)
-        let refreshTokenData = KeychainManager.load(key: .refreshToken)
-        
-        let userId = String(data: userIdData ?? Data(), encoding: .utf8)
-        let userName = String(data: userNameData ?? Data(), encoding: .utf8)
-        let accessToken = String(data: accessTokenData ?? Data(), encoding: .utf8)
-        let refreshToken = String(data: refreshTokenData ?? Data(), encoding: .utf8)
+        let userId = KeychainManager.load(key: .userId)
+        let userName = KeychainManager.load(key: .userName)
+        let accessToken = KeychainManager.load(key: .acessToken)
+        let refreshToken = KeychainManager.load(key: .refreshToken)
         
         return UserInfoModel(userId: userId, userName: userName, accessToken: accessToken, refreshToken: refreshToken)
     }
