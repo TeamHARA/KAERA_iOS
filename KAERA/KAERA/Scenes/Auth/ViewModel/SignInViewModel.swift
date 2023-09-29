@@ -48,7 +48,6 @@ final class SignInViewModel: NSObject, ViewModelType {
                 if error != nil {
                 } else {
                     print("loginWithKakaoTalk() success.")
-                    //TODO: 서버에 oauthToken 전달
                     self.postKakaoLogin(token: oauthToken?.accessToken ?? "")
                 }
             }
@@ -102,7 +101,6 @@ extension SignInViewModel: ASAuthorizationControllerDelegate {
             }
             if let identityToken = appleIDCredential.identityToken,
                let tokenString = String(data: identityToken, encoding: .utf8) {
-               //TODO: 서버에 tokenString 전달
                 postAppleLogin(token: tokenString)
             }
            
