@@ -52,8 +52,9 @@ final class SignInVC: UIViewController {
         let output = signinViewModel.transform(input: SignInViewModel.Input(input))
         output.receive(on: DispatchQueue.main)
             .sink { [weak self] userInfo in
-                //TODO: UserInfo 저장
-                print("유저 정보",userInfo)
+                
+                /// user info 저장
+                KeychainManager.saveUserInfo(id: "\(userInfo.id)", userName: userInfo.name, accessToken: userInfo.accessToken, refreshToken: userInfo.refreshToken)
             }
             .store(in: &cancellables)
     }
