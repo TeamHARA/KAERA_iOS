@@ -36,6 +36,7 @@
 		E70764692ABFF68800627AA7 /* AuthAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E70764682ABFF68800627AA7 /* AuthAPI.swift */; };
 		E707646E2ABFF7E800627AA7 /* SignInModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E707646D2ABFF7E800627AA7 /* SignInModel.swift */; };
 		E70764732ABFFF9200627AA7 /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E70764722ABFFF9200627AA7 /* SignInViewModel.swift */; };
+		E70764752AC06B6000627AA7 /* KeyChainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E70764742AC06B6000627AA7 /* KeyChainManager.swift */; };
 		E70C7CA12A90959A006B2E74 /* HomeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E70C7CA02A90959A006B2E74 /* HomeService.swift */; };
 		E70C7CA32A909829006B2E74 /* HomeAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E70C7CA22A909829006B2E74 /* HomeAPI.swift */; };
 		E721EABD2A51D5D900A04AA0 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = E721EABC2A51D5D900A04AA0 /* Then */; };
@@ -133,6 +134,7 @@
 		E70764682ABFF68800627AA7 /* AuthAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAPI.swift; sourceTree = "<group>"; };
 		E707646D2ABFF7E800627AA7 /* SignInModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInModel.swift; sourceTree = "<group>"; };
 		E70764722ABFFF9200627AA7 /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
+		E70764742AC06B6000627AA7 /* KeyChainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainManager.swift; sourceTree = "<group>"; };
 		E70C7C9E2A908574006B2E74 /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 		E70C7CA02A90959A006B2E74 /* HomeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeService.swift; sourceTree = "<group>"; };
 		E70C7CA22A909829006B2E74 /* HomeAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeAPI.swift; sourceTree = "<group>"; };
@@ -332,6 +334,7 @@
 				E7A94CCC2AAC149900F231D0 /* Environment.swift */,
 				E7C808EA2A4D37F800F475CE /* SceneDelegate.swift */,
 				E7C808E82A4D37F800F475CE /* AppDelegate.swift */,
+				E70764742AC06B6000627AA7 /* KeyChainManager.swift */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -729,6 +732,7 @@
 				E79AAC372A52F2C300F3F439 /* CALayer+.swift in Sources */,
 				E74969302A7B2DF000C3C0CF /* WorryDecisionVC.swift in Sources */,
 				E7A94CCD2AAC149900F231D0 /* Environment.swift in Sources */,
+				E70764752AC06B6000627AA7 /* KeyChainManager.swift in Sources */,
 				E79AAC3D2A52F2C300F3F439 /* UIFont+.swift in Sources */,
 				85887D8E2A5D086300F7FB21 /* TemplateViewModel.swift in Sources */,
 				85ECEE4D2A9B821500A624AE /* WriteAPI.swift in Sources */,
