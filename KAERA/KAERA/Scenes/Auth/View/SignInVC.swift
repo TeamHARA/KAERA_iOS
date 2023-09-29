@@ -51,12 +51,27 @@ final class SignInVC: UIViewController {
     private func dataBind() {
         let output = signinViewModel.transform(input: SignInViewModel.Input(input))
         output.receive(on: DispatchQueue.main)
-            .sink { [weak self] userInfo in
-                
-                /// user info 저장
-                KeychainManager.saveUserInfo(id: "\(userInfo.id)", userName: userInfo.name, accessToken: userInfo.accessToken, refreshToken: userInfo.refreshToken)
+            .sink { [weak self] isSucceed in
+                if isSucceed {
+                    self?.moveToTabBarController()
+                }else {
+                    self?.presentAlertView()
+                }
             }
             .store(in: &cancellables)
+    }
+    
+    private func moveToTabBarController() {
+        let tabBar = KaeraTabbarController()
+        tabBar.modalTransitionStyle = .crossDissolve
+        tabBar.modalPresentationStyle = .fullScreen
+        self.present(tabBar, animated: true)
+    }
+    
+    private func presentAlertView() {
+        let alertVC = KaeraAlertVC(buttonType: .onlyOK, okTitle: "확인")
+        alertVC.setTitleSubTitle(title: "로그인에 실패했습니다 😢", subTitle: "다시 한번 시도해주세요", highlighting: "")
+        self.present(alertVC, animated: true)
     }
     
     private func setLoginButtonAction() {
