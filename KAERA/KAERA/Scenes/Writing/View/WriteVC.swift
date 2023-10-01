@@ -90,6 +90,9 @@ class WriteVC: BaseVC {
         $0.font = .kSb1R12
     }
     
+    /// tableView의 데이터들을 담는 싱글톤 클래스
+    let contentInfo = ContentInfo.shared
+    
     private let pickerVC = WritePickerVC()
     
     // MARK: - Life Cycles
@@ -102,6 +105,13 @@ class WriteVC: BaseVC {
         hideKeyboardWhenTappedAround()
         addKeyboardObserver()
         dataBind()
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(self.didCompleteWritingNotification(_:)),
+            name: NSNotification.Name("CompleteWriting"),
+            object: nil
+        )
     }
     
     // MARK: - Functions
@@ -116,8 +126,7 @@ class WriteVC: BaseVC {
     }
     
     private func updateUI(_ templateContents: TemplateContentModel) {
-        templateContentTV.questions = templateContents.questions
-        templateContentTV.hints = templateContents.hints
+        templateContentTV.setData(questions: templateContents.questions, hints: templateContents.hints)
         
         view.addSubview(templateContentTV)
         templateContentTV.snp.updateConstraints {

@@ -18,6 +18,9 @@ class WritePickerVC: UIViewController {
         $0.backgroundColor = .kGray1
     }
     
+    let contentInfo = ContentInfo.shared
+    var publishedContent = WorryContentRequestModel(templateId: 1, title: "", answers: [], deadline: -1)
+    
     private let pickerViewTitle = UILabel().then {
         $0.text = "이 고민, 언제까지 끝낼까요?"
         $0.font = .kB1B16
@@ -83,7 +86,21 @@ class WritePickerVC: UIViewController {
     
     // MARK: - Functions
     private func pressBtn() {
-        completeWritingBtn.press {
+        
+        completeWritingBtn.press { [self] in
+            /// picker에서 고른 숫자를 deadline으로 설정해줌.
+            let selectedRow = datePickerView.selectedRow(inComponent: 0)
+            let selectedValue = pickerData[selectedRow]
+            contentInfo.deadline = Int(selectedValue) ?? -1
+                        
+            /// contentInfo 싱글톤 클래스에 담긴 내용을 서버로 보내주기 위해 구조체 형식으로 변환시켜줌.
+            publishedContent.templateId = contentInfo.templateId
+            publishedContent.title = contentInfo.title
+            publishedContent.answers = contentInfo.answers
+            publishedContent.deadline = contentInfo.deadline
+            
+            self.postWorryContent()
+            
             UIView.animate(withDuration: 0.5, animations: { [self] in
                 view.alpha = 0
                 view.layoutIfNeeded()
@@ -98,6 +115,13 @@ class WritePickerVC: UIViewController {
     private func setDelegate() {
         datePickerView.delegate = self
         datePickerView.dataSource = self
+    }
+    
+    private func postWorryContent() {
+        /// 서버로 고민 내용을 POST 시켜줌
+        WriteAPI.shared.postWorryContent(param: publishedContent) { result in
+            guard let result = result, let _ = result.data else { return }
+        }
     }
 }
 
