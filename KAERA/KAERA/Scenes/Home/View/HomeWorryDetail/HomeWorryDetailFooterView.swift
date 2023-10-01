@@ -36,6 +36,7 @@ final class HomeWorryDetailFooterView: UITableViewHeaderFooterView {
         $0.textColor = .kWhite
         $0.textAlignment = .center
         $0.text = "내가 내린 답은 이거임"
+        $0.numberOfLines = 0
     }
         
     // MARK: - Initialization

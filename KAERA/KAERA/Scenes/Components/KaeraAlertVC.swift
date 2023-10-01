@@ -141,6 +141,12 @@ final class KaeraAlertVC: BaseVC {
     }
     
     func setCancelButtonAction() {
+        if buttonType == .onlyOK {
+            OKButton.press { [weak self] in
+                self?.dismiss(animated: true)
+            }
+        }
+        
         cancelButton.press { [weak self] in
             self?.dismiss(animated: true)
         }
