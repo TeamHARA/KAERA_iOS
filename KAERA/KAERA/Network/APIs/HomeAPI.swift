@@ -17,6 +17,8 @@ final class HomeAPI {
     
     public private(set) var homeGemListResponse: GeneralArrayResponse<HomeGemListModel>?
     public private(set) var worryDetailResponse: GeneralResponse<WorryDetailModel>?
+    public private(set) var deleteWorryResponse: EmptyResponse?
+    
    
     // MARK: - HomeGemList
     func getHomeGemList(param: Int, completion: @escaping (GeneralArrayResponse<HomeGemListModel>?) -> () ) {
@@ -55,6 +57,23 @@ final class HomeAPI {
             case .failure(let err):
                 print(err.localizedDescription)
                 completion(nil)
+            }
+        }
+    }
+    
+    // MARK: - DeleteWorry
+    func deleteWorryResponse(param: Int) {
+        homeProvider.request(.deleteWorry(worryId: param)) { [weak self] response in
+            switch response {
+            case .success(let result):
+                do {
+                    self?.deleteWorryResponse = try
+                    result.map(EmptyResponse?.self)
+                } catch(let err) {
+                    print(err.localizedDescription)
+                }
+            case .failure(let err):
+                print(err.localizedDescription)
             }
         }
     }
