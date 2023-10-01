@@ -21,7 +21,7 @@ final class WriteAPI {
     
     public private(set) var templateListResponse: GeneralArrayResponse<TemplateListModel>?
     public private(set) var templateContentResponse: GeneralResponse<TemplateContentModel>?
-    public private(set) var woryContentResponse: GeneralResponse<WorryContentResponseDto>?
+    public private(set) var woryContentResponse: GeneralResponse<WorryContentResponseModel>?
     
     
     // MARK: - HomeGemList
@@ -65,13 +65,13 @@ final class WriteAPI {
         }
     }
     
-    func postWorryContent(param: WorryContentRequestDto, completion: @escaping (GeneralResponse<WorryContentResponseDto>?) -> () ) {
+    func postWorryContent(param: WorryContentRequestModel, completion: @escaping (GeneralResponse<WorryContentResponseModel>?) -> () ) {
         writeProvider.request(.postWorryContent(param: param)) { [weak self] response in
             switch response {
             case .success(let result):
                 do {
                     self?.woryContentResponse = try
-                    result.map(GeneralResponse<WorryContentResponseDto>?.self)
+                    result.map(GeneralResponse<WorryContentResponseModel>?.self)
                     guard let contentList = self?.woryContentResponse else { return }
                     completion(contentList)
                 } catch(let err) {

@@ -13,7 +13,7 @@ import Moya
 enum WriteService {
     case getTemplateList
     case getTemplateQuestion(templateId: Int)
-    case postWorryContent(param: WorryContentRequestDto)
+    case postWorryContent(param: WorryContentRequestModel)
 }
 
 extension WriteService: BaseTargetType {
@@ -42,7 +42,7 @@ extension WriteService: BaseTargetType {
         switch self {
         case .getTemplateList, .getTemplateQuestion:
             return .requestPlain
-        case .postWorryContent(param: let param):
+        case .postWorryContent(let param):
             return .requestJSONEncodable(param)
         }
     }
