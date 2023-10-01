@@ -10,10 +10,10 @@ import Foundation
 class ContentInfo {
     static let shared = ContentInfo()
 
-    var templateId: Int?
-    var title: String?
-    var answers: [String]?
-    var deadline: Int?
+    var templateId: Int = 1
+    var title: String = ""
+    var answers: [String] = []
+    var deadline: Int = -1
 
     private init() { }
 }
