@@ -214,14 +214,15 @@ final class HomeWorryDetailVC: BaseVC {
 
         switch pageType {
         case .digging:
-            if worryDetail.dDay > 0 {
+            /// dDay가 -888인 경우 데드라인 미 지정한 것 
+            if worryDetail.dDay < 800 {
+                dDay = "-∞"
+            }else if worryDetail.dDay > 0 {
                 dDay = "-\(worryDetail.dDay)"
             } else if worryDetail.dDay < 0 {
-                dDay = "+\(worryDetail.dDay)"
+                dDay = "\(worryDetail.dDay)"
             } else if worryDetail.dDay == 0 {
                 dDay = "day"
-            } else {
-                dDay = "-∞"
             }
             navigationBarView.setTitleText(text: "고민캐기 D\(dDay)")
         case .dug:
