@@ -55,7 +55,7 @@ final class SignInVC: UIViewController {
                 if isSucceed {
                     self?.moveToTabBarController()
                 }else {
-                    self?.presentAlertView()
+                    self?.makeAlert(title: "로그인에 실패했습니다 😢", message: "다시 한번 시도해주세요")
                 }
             }
             .store(in: &cancellables)
@@ -66,12 +66,6 @@ final class SignInVC: UIViewController {
         tabBar.modalTransitionStyle = .crossDissolve
         tabBar.modalPresentationStyle = .fullScreen
         self.present(tabBar, animated: true)
-    }
-    
-    private func presentAlertView() {
-        let alertVC = KaeraAlertVC(buttonType: .onlyOK, okTitle: "확인")
-        alertVC.setTitleSubTitle(title: "로그인에 실패했습니다 😢", subTitle: "다시 한번 시도해주세요", highlighting: "")
-        self.present(alertVC, animated: true)
     }
     
     private func setLoginButtonAction() {
