@@ -60,6 +60,7 @@ final class HomeWorryDetailVC: BaseVC {
     private var updateDate = ""
     private var worryTitle = ""
     private var templateId = 1
+    private var worryId = 1
     private var dDay = ""
     private var period = ""
     private var pageType: PageType = .digging
@@ -76,6 +77,7 @@ final class HomeWorryDetailVC: BaseVC {
     init(worryId: Int, type: PageType) {
         super.init(nibName: nil, bundle: nil)
         self.pageType = type
+        self.worryId = worryId
         dataBind()
         /// input 전달
         input.send(worryId)
