@@ -14,8 +14,9 @@ class TemplateContentTV: UITableView {
     
     // MARK: - Properties
     var templateId: Int = 0
-    var questions: [String] = []
-    var hints: [String] = []
+    private var questions: [String] = []
+    private var hints: [String] = []
+    private var answers: [String] = []
     
     let contentInfo = ContentInfo.shared
     
@@ -32,6 +33,12 @@ class TemplateContentTV: UITableView {
     }
     
     // MARK: - Functions
+    func setData(questions: [String], hints: [String]) {
+        self.questions = questions
+        self.hints = hints
+        self.answers = Array(repeating: "", count: hints.count)
+    }
+    
     private func registerTV() {
         self.register(TemplateContentTVC.self,
                       forCellReuseIdentifier: TemplateContentTVC.classIdentifier)
@@ -92,23 +99,22 @@ extension TemplateContentTV : UITableViewDataSource
         /// cell에서 endEditing 시에 적힌 값을 TV로 보내준다.
         cell.delegate = self
         
-        cell.dataBind(question: questions[indexPath.row], hint: hints[indexPath.row])
+        cell.dataBind(question: questions[indexPath.row], hint: hints[indexPath.row], index: indexPath.row)
         
         return cell
     }
 }
 
 extension TemplateContentTV: TemplateContentHeaderViewDelegate, TemplateContentTVCDelegate {
-    func textFieldDidEndEditing(newText: String) {
-        contentInfo.title = newText
+    
+
+    
+    func textViewDidEndEditing(index: Int, newText: String) {
+        answers[index] = newText
+        contentInfo.answers = answers
     }
     
-    func textViewDidEndEditing(cell: TemplateContentTVC, newText: String) {
-
-        if let indexPath = indexPath(for: cell) {
-            /// 각 cell의 힌트를 작성된 텍스트로 변경하여 contentInfo에 담아준다.
-            hints[indexPath.row] = newText
-            contentInfo.answers = hints
-        }
+    func textFieldDidEndEditing(newText: String) {
+        contentInfo.title = newText
     }
 }

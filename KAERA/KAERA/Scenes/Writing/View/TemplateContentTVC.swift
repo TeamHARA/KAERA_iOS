@@ -10,13 +10,15 @@ import SnapKit
 import Then
 
 protocol TemplateContentTVCDelegate: AnyObject {
-    func textViewDidEndEditing(cell: TemplateContentTVC, newText: String)
+    func textViewDidEndEditing(index: Int, newText: String)
 }
 
 class TemplateContentTVC: UITableViewCell {
     
     // MARK: - Properties
     weak var delegate: TemplateContentTVCDelegate?
+    
+    private var indexPath: Int = 0
     
     private var keyboardHeight: CGFloat = 336.adjustedH
     
@@ -29,8 +31,8 @@ class TemplateContentTVC: UITableViewCell {
     
     private let textViewConstant: CGFloat = 111.adjustedH
     
-    var placeHolder: String = ""
-    
+    private var placeHolder: String = ""
+        
     lazy var textView = UITextView().then {
         $0.isScrollEnabled = false
         $0.delegate = self
@@ -73,11 +75,12 @@ class TemplateContentTVC: UITableViewCell {
         }
     }
     
-    func dataBind(question: String, hint: String) {
+    func dataBind(question: String, hint: String, index: Int) {
         questionLabel.text = question
         /// 아래의 textViewDelegate에서 update된 placeholder를 써주기 위해 placeholder에도 hint를 담아준다.
         placeHolder = hint
         textView.text = placeHolder
+        self.indexPath = index
     }
 }
 
@@ -145,6 +148,6 @@ extension TemplateContentTVC: UITextViewDelegate {
             tableView.endUpdates()
         }
         
-        delegate?.textViewDidEndEditing(cell: self, newText: trimmedText)
+        delegate?.textViewDidEndEditing(index: self.indexPath, newText: trimmedText)
     }
 }
