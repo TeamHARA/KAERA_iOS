@@ -19,7 +19,7 @@ class WritePickerVC: UIViewController {
     }
     
     let contentInfo = ContentInfo.shared
-    var publishedContent = WorryContentRequestDto(templateId: 1, title: "", answers: [], deadline: -1)
+    var publishedContent = WorryContentRequestModel(templateId: 1, title: "", answers: [], deadline: -1)
     
     private let pickerViewTitle = UILabel().then {
         $0.text = "이 고민, 언제까지 끝낼까요?"
@@ -99,10 +99,7 @@ class WritePickerVC: UIViewController {
             publishedContent.answers = contentInfo.answers
             publishedContent.deadline = contentInfo.deadline
             
-            /// 서버로 고민 내용을 POST 시켜줌
-            WriteAPI.shared.postWorryContent(param: publishedContent) { result in
-                guard let result = result, let _ = result.data else { return }
-            }
+            self.postWorryContent()
             
             UIView.animate(withDuration: 0.5, animations: { [self] in
                 view.alpha = 0
@@ -118,6 +115,13 @@ class WritePickerVC: UIViewController {
     private func setDelegate() {
         datePickerView.delegate = self
         datePickerView.dataSource = self
+    }
+    
+    private func postWorryContent() {
+        /// 서버로 고민 내용을 POST 시켜줌
+        WriteAPI.shared.postWorryContent(param: publishedContent) { result in
+            guard let result = result, let _ = result.data else { return }
+        }
     }
 }
 
