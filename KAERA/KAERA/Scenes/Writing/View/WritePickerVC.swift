@@ -91,13 +91,13 @@ class WritePickerVC: UIViewController {
             /// picker에서 고른 숫자를 deadline으로 설정해줌.
             let selectedRow = datePickerView.selectedRow(inComponent: 0)
             let selectedValue = pickerData[selectedRow]
-            contentInfo.deadline = Int(selectedValue)
+            contentInfo.deadline = Int(selectedValue) ?? -1
                         
             /// contentInfo 싱글톤 클래스에 담긴 내용을 서버로 보내주기 위해 구조체 형식으로 변환시켜줌.
-            publishedContent.templateId = contentInfo.templateId ?? 1
-            publishedContent.title = contentInfo.title ?? ""
-            publishedContent.answers = contentInfo.answers ?? []
-            publishedContent.deadline = contentInfo.deadline ?? -1
+            publishedContent.templateId = contentInfo.templateId
+            publishedContent.title = contentInfo.title
+            publishedContent.answers = contentInfo.answers
+            publishedContent.deadline = contentInfo.deadline
             
             /// 서버로 고민 내용을 POST 시켜줌
             WriteAPI.shared.postWorryContent(param: publishedContent) { result in
