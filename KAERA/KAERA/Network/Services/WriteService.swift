@@ -6,11 +6,14 @@
 //
 
 import Foundation
+import UIKit
+
 import Moya
 
 enum WriteService {
     case getTemplateList
     case getTemplateQuestion(templateId: Int)
+    case postWorryContent(param: WorryContentRequestModel)
 }
 
 extension WriteService: BaseTargetType {
@@ -21,6 +24,8 @@ extension WriteService: BaseTargetType {
             return APIConstant.template
         case .getTemplateQuestion(let templateId):
             return APIConstant.template + "/\(templateId)"
+        case .postWorryContent:
+            return APIConstant.worry
         }
     }
     
@@ -28,6 +33,8 @@ extension WriteService: BaseTargetType {
         switch self {
         case .getTemplateList, .getTemplateQuestion:
             return .get
+        case .postWorryContent:
+            return .post
         }
     }
     
@@ -35,6 +42,8 @@ extension WriteService: BaseTargetType {
         switch self {
         case .getTemplateList, .getTemplateQuestion:
             return .requestPlain
+        case .postWorryContent(let param):
+            return .requestJSONEncodable(param)
         }
     }
 
@@ -43,6 +52,8 @@ extension WriteService: BaseTargetType {
         case .getTemplateList:
             return NetworkConstant.hasTokenHeader
         case .getTemplateQuestion:
+            return NetworkConstant.hasTokenHeader
+        case .postWorryContent:
             return NetworkConstant.hasTokenHeader
         }
     }

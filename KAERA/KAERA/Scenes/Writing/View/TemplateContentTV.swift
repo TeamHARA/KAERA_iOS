@@ -14,8 +14,11 @@ class TemplateContentTV: UITableView {
     
     // MARK: - Properties
     var templateId: Int = 0
-    var questions: [String] = []
-    var hints: [String] = []
+    private var questions: [String] = []
+    private var hints: [String] = []
+    private var answers: [String] = []
+    
+    let contentInfo = ContentInfo.shared
     
     // MARK: - Life Cycle
     init() {
@@ -30,6 +33,12 @@ class TemplateContentTV: UITableView {
     }
     
     // MARK: - Functions
+    func setData(questions: [String], hints: [String]) {
+        self.questions = questions
+        self.hints = hints
+        self.answers = Array(repeating: "", count: hints.count)
+    }
+    
     private func registerTV() {
         self.register(TemplateContentTVC.self,
                       forCellReuseIdentifier: TemplateContentTVC.classIdentifier)
@@ -73,6 +82,10 @@ extension TemplateContentTV : UITableViewDataSource
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard let headerCell = tableView.dequeueReusableHeaderFooterView(withIdentifier: TemplateContentHeaderView.className) as? TemplateContentHeaderView else { return nil }
         headerCell.worryTitleTextField.becomeFirstResponder()
+
+        /// headerCell에 입력된 고민 제목을 contentInfo에 담아준다.
+        headerCell.delegate = self
+        
         return headerCell
     }
     
@@ -80,8 +93,28 @@ extension TemplateContentTV : UITableViewDataSource
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: TemplateContentTVC.classIdentifier, for: indexPath) as? TemplateContentTVC else {return UITableViewCell()}
         
-        cell.dataBind(question: questions[indexPath.row], hint: hints[indexPath.row])
+        /// 1씩 작은 templateId에 1을 더해주어 원래 값으로 만들어준다.
+        contentInfo.templateId = templateId + 1
+        
+        /// cell에서 endEditing 시에 적힌 값을 TV로 보내준다.
+        cell.delegate = self
+        
+        cell.dataBind(question: questions[indexPath.row], hint: hints[indexPath.row], index: indexPath.row)
         
         return cell
+    }
+}
+
+extension TemplateContentTV: TemplateContentHeaderViewDelegate, TemplateContentTVCDelegate {
+    
+
+    
+    func textViewDidEndEditing(index: Int, newText: String) {
+        answers[index] = newText
+        contentInfo.answers = answers
+    }
+    
+    func textFieldDidEndEditing(newText: String) {
+        contentInfo.title = newText
     }
 }
