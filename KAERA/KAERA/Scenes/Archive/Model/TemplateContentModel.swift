@@ -16,14 +16,14 @@ struct TemplateContentModel: Codable {
 }
 
 /// 서버 post용 모델
-struct WorryContentRequestDto: Codable {
+struct WorryContentRequestModel: Codable {
     var templateId: Int
     var title: String
     var answers: [String]
     var deadline: Int
 }
 
-struct WorryContentResponseDto: Codable {
+struct WorryContentResponseModel: Codable {
     let createdAt: String
     let deadline: String
 }
