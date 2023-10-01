@@ -61,7 +61,12 @@ final class HomeWorryEditVC: BaseVC {
         setPressAction()
         hideKeyboardWhenTappedAround()
     }
+    
     // MARK: - Function
+    private func dismissVC() {
+        self.dismiss(animated: true)
+    }
+
     private func setPressAction() {
         editWorryButton.press {
             //TODO: 고민 수정하기 -> 수정용 작성페이지(고민 상세에 있던 데이터 전달)
@@ -86,8 +91,14 @@ final class HomeWorryEditVC: BaseVC {
             let alertVC = KaeraAlertVC(okTitle: "삭제")
             alertVC.setTitleSubTitle(title: "고민을 삭제하시나요?", subTitle: "삭제된 고민은 복구할 수 없어요", highlighting: "삭제")
             alertVC.OKButton.press {
-                //TODO: 삭제 로직 추가
-                print("고민 삭제")
+                /// 고민 삭제 delete 서버 통신 구현
+                HomeAPI.shared.deleteWorryResponse(param: self.worryId)
+                self.dismiss(animated: true, completion: {
+                    /// 현재 뷰에서 present 되있는 뷰를 dismiss 해준다.
+                    self.presentingViewController?.dismiss(animated: true, completion: {
+                        NotificationCenter.default.post(name: NSNotification.Name("dismissAlertVC"), object: nil, userInfo: nil)
+                    })
+                })
             }
             self.present(alertVC, animated: true)
         }
@@ -115,7 +126,6 @@ extension HomeWorryEditVC {
         }
         
         menuStackView.addArrangedSubviews([editWorryButton, editDeadlineButton, deleteWorryButton])
-        
         
         cancelButton.snp.makeConstraints {
             $0.centerX.equalToSuperview()
