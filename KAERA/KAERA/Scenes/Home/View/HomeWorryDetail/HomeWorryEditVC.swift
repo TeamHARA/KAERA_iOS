@@ -13,6 +13,8 @@ final class HomeWorryEditVC: BaseVC {
     
     var worryDetail: WorryDetailModel?
     
+    private var worryId: Int = 0
+    
     private let menuStackView = UIStackView().then {
         $0.axis = .vertical
         $0.backgroundColor = .kGray3
@@ -42,6 +44,15 @@ final class HomeWorryEditVC: BaseVC {
         $0.setTitle("취소", for: .normal)
         $0.setTitleColor(UIColor.kRed1, for: .normal)
         $0.layer.cornerRadius = 12
+    }
+    
+    init(worryId: Int) {
+        super.init(nibName: nil, bundle: nil)
+        self.worryId = worryId
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     override func viewDidLoad() {
