@@ -12,6 +12,7 @@ enum UserInfoKey: String {
     case userName
     case acessToken
     case refreshToken
+    case fcmToken
 }
 
 struct UserInfoModel {
@@ -19,6 +20,7 @@ struct UserInfoModel {
     let userName: String?
     let accessToken: String?
     let refreshToken: String?
+    let fcmToken: String?
 }
 
 final class KeychainManager {
@@ -98,11 +100,12 @@ final class KeychainManager {
     }
     
     // 사용자 정보 및 토큰 저장
-    static func saveUserInfo(id: String, userName: String, accessToken: String, refreshToken: String) {
+    static func saveUserInfo(id: String = "", userName: String = "", accessToken: String = "", refreshToken: String = "", fcmToken: String = "") {
         KeychainManager.save(key: .userId, value: id)
         KeychainManager.save(key: .userName, value: userName)
         KeychainManager.save(key: .acessToken, value: accessToken)
         KeychainManager.save(key: .refreshToken, value: refreshToken)
+        KeychainManager.save(key: .fcmToken, value: fcmToken)
     }
     
     // 사용자 정보 및 토큰 로드
@@ -111,8 +114,9 @@ final class KeychainManager {
         let userName = KeychainManager.load(key: .userName)
         let accessToken = KeychainManager.load(key: .acessToken)
         let refreshToken = KeychainManager.load(key: .refreshToken)
+        let fcmToken = KeychainManager.load(key: .fcmToken)
         
-        return UserInfoModel(userId: userId, userName: userName, accessToken: accessToken, refreshToken: refreshToken)
+        return UserInfoModel(userId: userId, userName: userName, accessToken: accessToken, refreshToken: refreshToken, fcmToken: fcmToken)
     }
     
     static func clearAllUserInfo() {
@@ -120,6 +124,7 @@ final class KeychainManager {
         KeychainManager.delete(key: .userName)
         KeychainManager.delete(key: .acessToken)
         KeychainManager.delete(key: .refreshToken)
+        KeychainManager.delete(key: .fcmToken)
     }
     
 }
