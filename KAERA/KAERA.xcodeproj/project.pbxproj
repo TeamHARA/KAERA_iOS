@@ -68,6 +68,8 @@
 		E70764EB2AC9980600627AA7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E70764EA2AC9980600627AA7 /* GoogleService-Info.plist */; };
 		E70C7CA12A90959A006B2E74 /* HomeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E70C7CA02A90959A006B2E74 /* HomeService.swift */; };
 		E70C7CA32A909829006B2E74 /* HomeAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E70C7CA22A909829006B2E74 /* HomeAPI.swift */; };
+		E71FC2262AD284D9001DD27D /* SplashVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E71FC2252AD284D9001DD27D /* SplashVC.swift */; };
+		E71FC22C2AD29400001DD27D /* RenewalTokenModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E71FC22B2AD29400001DD27D /* RenewalTokenModel.swift */; };
 		E721EABD2A51D5D900A04AA0 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = E721EABC2A51D5D900A04AA0 /* Then */; };
 		E73CA3DA2A69300F00BAC9D6 /* HomePublisherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73CA3D92A69300F00BAC9D6 /* HomePublisherModel.swift */; };
 		E73CA3DC2A693C9D00BAC9D6 /* GemStoneEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73CA3DB2A693C9D00BAC9D6 /* GemStoneEmptyView.swift */; };
@@ -126,7 +128,6 @@
 		E7C808E92A4D37F800F475CE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C808E82A4D37F800F475CE /* AppDelegate.swift */; };
 		E7C808EB2A4D37F800F475CE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C808EA2A4D37F800F475CE /* SceneDelegate.swift */; };
 		E7C808F22A4D37FA00F475CE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E7C808F12A4D37FA00F475CE /* Assets.xcassets */; };
-		E7C808F52A4D37FA00F475CE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E7C808F32A4D37FA00F475CE /* LaunchScreen.storyboard */; };
 		E7FEC0962A6CFD12006F36BF /* HomeWorryDetailFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7FEC0952A6CFD12006F36BF /* HomeWorryDetailFooterView.swift */; };
 		E7FEC0982A6D1274006F36BF /* HomeWorryDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7FEC0972A6D1274006F36BF /* HomeWorryDetailViewModel.swift */; };
 		E7FEC09A2A6D1725006F36BF /* WorryDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7FEC0992A6D1725006F36BF /* WorryDetailModel.swift */; };
@@ -169,6 +170,8 @@
 		E70C7C9E2A908574006B2E74 /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 		E70C7CA02A90959A006B2E74 /* HomeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeService.swift; sourceTree = "<group>"; };
 		E70C7CA22A909829006B2E74 /* HomeAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeAPI.swift; sourceTree = "<group>"; };
+		E71FC2252AD284D9001DD27D /* SplashVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashVC.swift; sourceTree = "<group>"; };
+		E71FC22B2AD29400001DD27D /* RenewalTokenModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenewalTokenModel.swift; sourceTree = "<group>"; };
 		E73CA3D92A69300F00BAC9D6 /* HomePublisherModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePublisherModel.swift; sourceTree = "<group>"; };
 		E73CA3DB2A693C9D00BAC9D6 /* GemStoneEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GemStoneEmptyView.swift; sourceTree = "<group>"; };
 		E73CA3DE2A6A62F700BAC9D6 /* HomeWorryDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeWorryDetailVC.swift; sourceTree = "<group>"; };
@@ -222,7 +225,6 @@
 		E7C808E82A4D37F800F475CE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E7C808EA2A4D37F800F475CE /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		E7C808F12A4D37FA00F475CE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		E7C808F42A4D37FA00F475CE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E7C808F62A4D37FA00F475CE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E7FEC0952A6CFD12006F36BF /* HomeWorryDetailFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeWorryDetailFooterView.swift; sourceTree = "<group>"; };
 		E7FEC0972A6D1274006F36BF /* HomeWorryDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeWorryDetailViewModel.swift; sourceTree = "<group>"; };
@@ -347,6 +349,31 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
+		E71FC2242AD284B1001DD27D /* Splash */ = {
+			isa = PBXGroup;
+			children = (
+				E71FC2282AD293AD001DD27D /* View */,
+				E71FC22A2AD293C5001DD27D /* Model */,
+			);
+			path = Splash;
+			sourceTree = "<group>";
+		};
+		E71FC2282AD293AD001DD27D /* View */ = {
+			isa = PBXGroup;
+			children = (
+				E71FC2252AD284D9001DD27D /* SplashVC.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		E71FC22A2AD293C5001DD27D /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				E71FC22B2AD29400001DD27D /* RenewalTokenModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		E73CA3DD2A6A62D000BAC9D6 /* HomeWorryDetail */ = {
 			isa = PBXGroup;
 			children = (
@@ -377,6 +404,7 @@
 			children = (
 				85EBC7F02A5AD7BC00B9E891 /* KaeraTabbarController.swift */,
 				E73CA3E02A6A685900BAC9D6 /* Components */,
+				E71FC2242AD284B1001DD27D /* Splash */,
 				E7A94CC22AA484C300F231D0 /* Auth */,
 				E78C39F62A5182AA00A15120 /* Home */,
 				E78C39F72A5182B100A15120 /* Writing */,
@@ -402,7 +430,6 @@
 			isa = PBXGroup;
 			children = (
 				E79AAC4E2A531C0400F3F439 /* Fonts */,
-				E7C808F32A4D37FA00F475CE /* LaunchScreen.storyboard */,
 				E7C808F12A4D37FA00F475CE /* Assets.xcassets */,
 			);
 			path = Resources;
@@ -783,7 +810,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E7C808F52A4D37FA00F475CE /* LaunchScreen.storyboard in Resources */,
 				E7C808F22A4D37FA00F475CE /* Assets.xcassets in Resources */,
 				E7C30F612A533D08002BD782 /* NanumSquareNeoTTF-aLt.ttf in Resources */,
 				E7C30F622A533D08002BD782 /* NanumSquareNeoTTF-bRg.ttf in Resources */,
@@ -838,9 +864,11 @@
 				E79AAC462A52F36500F3F439 /* NetworkConstant.swift in Sources */,
 				85EBC7F52A5AD94100B9E891 /* WriteVC.swift in Sources */,
 				E73CA3DA2A69300F00BAC9D6 /* HomePublisherModel.swift in Sources */,
+				E71FC22C2AD29400001DD27D /* RenewalTokenModel.swift in Sources */,
 				85887D9E2A61219700F7FB21 /* TemplateInfoHeaderView.swift in Sources */,
 				E79AAC4A2A52F3E000F3F439 /* BaseVC.swift in Sources */,
 				E70764732ABFFF9200627AA7 /* SignInViewModel.swift in Sources */,
+				E71FC2262AD284D9001DD27D /* SplashVC.swift in Sources */,
 				85A8492D2A87A3FF009F1468 /* TemplateContentModel.swift in Sources */,
 				E79AAC3B2A52F2C300F3F439 /* UIButton+.swift in Sources */,
 				E70C7CA32A909829006B2E74 /* HomeAPI.swift in Sources */,
@@ -887,17 +915,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		E7C808F32A4D37FA00F475CE /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				E7C808F42A4D37FA00F475CE /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		E7C808F72A4D37FA00F475CE /* Debug */ = {
@@ -1027,7 +1044,6 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = KAERA/Application/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1058,7 +1074,6 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = KAERA/Application/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
