@@ -54,5 +54,10 @@
 	<array>
 		<string>remote-notification</string>
 	</array>
+	<key>UILaunchScreen</key>
+	<dict>
+		<key>UIColorName</key>
+		<string>kaeraGray1</string>
+	</dict>
 </dict>
 </plist>
