@@ -23,7 +23,7 @@ struct NetworkConstant {
     }()
     
     static let accessToken = {
-        guard let accessToken = KeychainManager.load(key: .acessToken) else {  fatalError("AccessToken Not in the Keychain")
+        guard let accessToken = KeychainManager.load(key: .accessToken) else {  fatalError("AccessToken Not in the Keychain")
         }
         return accessToken
     }()

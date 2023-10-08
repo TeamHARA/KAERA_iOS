@@ -10,7 +10,7 @@ import Foundation
 enum UserInfoKey: String {
     case userId
     case userName
-    case acessToken
+    case accessToken
     case refreshToken
     case fcmToken
 }
@@ -68,9 +68,9 @@ final class KeychainManager {
         let status = SecItemCopyMatching(query as CFDictionary, &dataTypeRef)
         
         if status == errSecSuccess {
-            let dataString = String(data: dataTypeRef as? Data ?? Data(), encoding: .utf8)
+            guard let data = dataTypeRef as? Data else { return nil }
+            let dataString = String(data:data, encoding: .utf8)
             return dataString
-            
         } else {
             return nil
         }
@@ -85,14 +85,6 @@ final class KeychainManager {
         
         let status = SecItemDelete(query as CFDictionary)
         if status == errSecSuccess {
-            // 아이템 삭제에 성공하면 동기화 작업을 수행
-            let syncStatus = SecItemUpdate(query as CFDictionary, [:] as CFDictionary)
-            
-            if syncStatus == errSecSuccess {
-                print("아이템이 완전히 삭제되었습니다.")
-            } else {
-                print("동기화에 실패하였습니다.")
-            }
             print("delete \(key.rawValue) success")
         } else {
             print("delete \(key.rawValue) failed")
@@ -103,7 +95,7 @@ final class KeychainManager {
     static func saveUserInfo(id: String = "", userName: String = "", accessToken: String = "", refreshToken: String = "", fcmToken: String = "") {
         KeychainManager.save(key: .userId, value: id)
         KeychainManager.save(key: .userName, value: userName)
-        KeychainManager.save(key: .acessToken, value: accessToken)
+        KeychainManager.save(key: .accessToken, value: accessToken)
         KeychainManager.save(key: .refreshToken, value: refreshToken)
         KeychainManager.save(key: .fcmToken, value: fcmToken)
     }
@@ -112,7 +104,7 @@ final class KeychainManager {
     static func loadUserInfo() -> UserInfoModel {
         let userId = KeychainManager.load(key: .userId)
         let userName = KeychainManager.load(key: .userName)
-        let accessToken = KeychainManager.load(key: .acessToken)
+        let accessToken = KeychainManager.load(key: .accessToken)
         let refreshToken = KeychainManager.load(key: .refreshToken)
         let fcmToken = KeychainManager.load(key: .fcmToken)
         
@@ -122,7 +114,7 @@ final class KeychainManager {
     static func clearAllUserInfo() {
         KeychainManager.delete(key: .userId)
         KeychainManager.delete(key: .userName)
-        KeychainManager.delete(key: .acessToken)
+        KeychainManager.delete(key: .accessToken)
         KeychainManager.delete(key: .refreshToken)
         KeychainManager.delete(key: .fcmToken)
     }
