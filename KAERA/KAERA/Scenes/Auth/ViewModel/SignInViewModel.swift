@@ -87,7 +87,7 @@ extension SignInViewModel {
     }
     
     private func postAppleLogin(token: String) {
-        print(token)
+        print("아이덴티티토큰", token)
     }
 }
 
@@ -108,6 +108,11 @@ extension SignInViewModel: ASAuthorizationControllerDelegate {
             if let identityToken = appleIDCredential.identityToken,
                let tokenString = String(data: identityToken, encoding: .utf8) {
                 postAppleLogin(token: tokenString)
+            }
+            
+            if let authorizationCode = appleIDCredential.authorizationCode {
+                let authorizationCodeString = String(data: authorizationCode, encoding: .utf8)
+                print("인가코드", authorizationCodeString)
             }
            
         default:
