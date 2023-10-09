@@ -8,12 +8,11 @@
 import UIKit
 import SnapKit
 import Then
-import UserNotifications
 
 final class SplashVC: BaseVC {
     
-    private let signInGemsImage = UIImageView().then {
-        $0.image = UIImage(named: "signInGems")
+    private let splashGem = UIImageView().then {
+        $0.image = UIImage(named: "splash_gem")
     }
     
     private let kaeraLogoImage = UIImageView().then {
@@ -29,19 +28,32 @@ final class SplashVC: BaseVC {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUI()
-        //TODO: 스플래시 애니메이션 적용
-        self.view.backgroundColor = .kGray2
-        UIView.animate(withDuration: 1.2) { [weak self] in
-            self?.view.backgroundColor = .kGray1
-            
-        } completion: { [weak self] _ in
-            self?.renewRefreshToken()
+        setDissolveAnimation()
+
+    }
+    
+    private func setDissolveAnimation() {
+        splashGem.alpha = 0.0
+        kaeraLogoImage.alpha = 0.0
+        titleLabel.alpha = 0.0
+        
+        UIView.animate(withDuration: 1.4, animations: { [weak self] in
+            self?.splashGem.alpha = 1.0
+            self?.kaeraLogoImage.alpha = 1.0
+        })
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.4) {
+            UIView.animate(withDuration: 1.3) { [weak self] in
+                self?.titleLabel.alpha = 1.0
+            } completion: { [weak self] _ in
+                self?.renewRefreshToken()
+            }
         }
     }
     
-    
     private func shouldSignIn(renewal: Bool) {
         if renewal {
+            //TODO: 온보딩 페이지로 이동
             let signInVC = SignInVC()
             signInVC.modalPresentationStyle = .fullScreen
             signInVC.modalTransitionStyle = .crossDissolve
@@ -71,23 +83,24 @@ extension SplashVC {
             KeychainManager.save(key: .accessToken, value: renewedAccessToken)
             self?.shouldSignIn(renewal: false)
         }
-        
     }
 }
 
 // MARK: - UI
 extension SplashVC {
     private func setUI() {
-        view.addSubviews([signInGemsImage, kaeraLogoImage, titleLabel])
+        self.view.backgroundColor = .kGray1
         
-        signInGemsImage.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).inset(268.adjustedH)
+        view.addSubviews([splashGem, kaeraLogoImage, titleLabel])
+
+        splashGem.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide).inset(206.adjustedH)
             $0.centerX.equalToSuperview()
-            $0.height.equalTo(74.adjustedH)
+            $0.height.equalTo(80.adjustedH)
         }
         
         kaeraLogoImage.snp.makeConstraints {
-            $0.top.equalTo(signInGemsImage.snp.bottom).offset(9)
+            $0.top.equalTo(splashGem.snp.bottom).offset(9)
             $0.centerX.equalToSuperview()
             $0.height.equalTo(38.adjustedH)
         }
@@ -97,5 +110,6 @@ extension SplashVC {
             $0.centerX.equalToSuperview()
             $0.height.equalTo(17)
         }
+
     }
 }
