@@ -62,13 +62,13 @@ final class HomeAPI {
     }
     
     // MARK: - DeleteWorry
-    func deleteWorryResponse(param: Int) {
+    func deleteWorryResponse(param: Int, completion: @escaping (EmptyResponse?) -> ()) {
         homeProvider.request(.deleteWorry(worryId: param)) { [weak self] response in
             switch response {
             case .success(let result):
                 do {
-                    self?.deleteWorryResponse = try
-                    result.map(EmptyResponse?.self)
+                    self?.deleteWorryResponse = try result.map(EmptyResponse?.self)
+                    completion(self?.deleteWorryResponse)
                 } catch(let err) {
                     print(err.localizedDescription)
                 }
