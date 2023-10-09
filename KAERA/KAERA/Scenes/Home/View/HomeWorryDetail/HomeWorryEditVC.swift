@@ -109,6 +109,19 @@ final class HomeWorryEditVC: BaseVC {
             })
         }
     }
+    
+    private func deleteWorry(completion: @escaping (Bool) -> Void) {
+        /// 고민 삭제 delete 서버 통신
+        HomeAPI.shared.deleteWorryResponse(param: self.worryId) { response in
+            if response?.status == 200 {
+                completion(true)
+            } else {
+                completion(false)
+            }
+        }
+    }
+    
+    
 }
 
 // MARK: - UI
