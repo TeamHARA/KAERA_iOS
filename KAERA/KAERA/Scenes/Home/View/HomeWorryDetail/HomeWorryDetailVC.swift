@@ -109,7 +109,6 @@ final class HomeWorryDetailVC: BaseVC {
         setReviewTextView()
         hideKeyboardWhenTappedAround()
         setPressAction()
-        addObserver()
     }
     
     override func viewWillAppear(_ animated: Bool) {
