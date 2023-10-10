@@ -25,4 +25,5 @@ struct APIConstant {
     static let template = "/template"
     static let review = "/review"
     static let kakaoLogin = "/user/kakao/login"
+    static let refresh = "/user/token/refresh"
 }
