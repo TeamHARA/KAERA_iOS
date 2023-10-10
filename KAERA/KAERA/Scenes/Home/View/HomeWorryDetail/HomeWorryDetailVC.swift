@@ -61,6 +61,7 @@ final class HomeWorryDetailVC: BaseVC {
     private var updateDate = ""
     private var worryTitle = ""
     private var templateId = 1
+    private var worryId = 1
     private var dDay = ""
     private var period = ""
     private var pageType: PageType = .digging
@@ -77,6 +78,7 @@ final class HomeWorryDetailVC: BaseVC {
     init(worryId: Int, type: PageType) {
         super.init(nibName: nil, bundle: nil)
         self.pageType = type
+        self.worryId = worryId
         dataBind()
         /// input 전달
         input.send(worryId)
@@ -84,6 +86,11 @@ final class HomeWorryDetailVC: BaseVC {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    deinit {
+        // 뷰 컨트롤러가 dismiss될 때 옵저버 제거
+        NotificationCenter.default.removeObserver(self)
     }
     
     // MARK: - View Life Cycle
@@ -102,8 +109,9 @@ final class HomeWorryDetailVC: BaseVC {
         setReviewTextView()
         hideKeyboardWhenTappedAround()
         setPressAction()
+        addObserver()
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         self.addKeyboardObserver()
     }
@@ -115,7 +123,7 @@ final class HomeWorryDetailVC: BaseVC {
     override func viewDidDisappear(_ animated: Bool) {
         self.removeKeyboardObserver()
     }
-
+    
     // MARK: - Function
     private func setDynamicLayout() {
         /// 테이블 뷰 contentSize.height 보다 1이상 커야지 footer뷰가 제대로 나옴
@@ -139,14 +147,14 @@ final class HomeWorryDetailVC: BaseVC {
                 }
                 reviewView.snp.updateConstraints {
                     $0.height.equalTo(restReviewViewHeight + reviewTextViewHeight
-                    + 10)
+                                      + 10)
                 }
                 
             }else {
                 worryDetailContentView.snp.updateConstraints {
                     $0.height.equalTo(tableContentHeight + reviewSpacing + restReviewViewHeight + defaultTextViewHeight)
                 }
-
+                
                 reviewView.snp.updateConstraints {
                     $0.height.equalTo(restReviewViewHeight + defaultTextViewHeight)
                 }
@@ -159,7 +167,7 @@ final class HomeWorryDetailVC: BaseVC {
             self.dismiss(animated: true, completion: nil)
         }
         navigationBarView.setRightButtonAction {
-            let editVC = HomeWorryEditVC()
+            let editVC = HomeWorryEditVC(worryId: self.worryId)
             editVC.worryDetail = self.worryDetailViewModel.worryDetail
             editVC.modalPresentationStyle = .overCurrentContext
             editVC.modalTransitionStyle = .crossDissolve
@@ -211,7 +219,7 @@ final class HomeWorryDetailVC: BaseVC {
         worryTitle = worryDetail.title
         templateId = worryDetail.templateId
         period = worryDetail.period
-
+        
         switch pageType {
         case .digging:
             /// dDay가 -888인 경우 데드라인 미 지정한 것 
@@ -244,7 +252,6 @@ final class HomeWorryDetailVC: BaseVC {
         /// -> layoutSubView 메서드가 호출되면서 setDynamicLayout호출
         worryDetailTV.layoutIfNeeded()
     }
-    
 }
 // MARK: - KeyBoard
 extension HomeWorryDetailVC {
@@ -262,7 +269,6 @@ extension HomeWorryDetailVC {
             object: nil)
     }
     
-    
     private func removeKeyboardObserver() {
         NotificationCenter.default.removeObserver(
             self,
@@ -276,12 +282,13 @@ extension HomeWorryDetailVC {
             object: nibName
         )
     }
+    
     @objc
     func keyboardWillAppear(_ notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-                UIView.animate(withDuration: 0.1, animations: {
-                    self.worryDetailScrollView.contentInset.bottom = keyboardSize.height + 50
-                })
+            UIView.animate(withDuration: 0.1, animations: {
+                self.worryDetailScrollView.contentInset.bottom = keyboardSize.height + 50
+            })
         }
     }
     @objc
@@ -306,7 +313,6 @@ extension HomeWorryDetailVC: UITextViewDelegate {
                 .font: UIFont.kB4R14
             ]
         )
-        
         textView.attributedText = attributedText
     }
     
@@ -331,7 +337,7 @@ extension HomeWorryDetailVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return questions.count
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: HomeWorryDetailTVC.className) as? HomeWorryDetailTVC else { return UITableViewCell() }
@@ -352,7 +358,7 @@ extension HomeWorryDetailVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         guard let footerCell = tableView.dequeueReusableHeaderFooterView(withIdentifier: HomeWorryDetailFooterView.className) as? HomeWorryDetailFooterView else { return nil }
-
+        
         switch pageType {
         case .digging:
             footerCell.setData(updateAt: updateDate)

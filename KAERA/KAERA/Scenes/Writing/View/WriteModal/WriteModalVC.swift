@@ -88,7 +88,6 @@ extension WriteModalVC {
         output.receive(on: DispatchQueue.main)
             .sink { [weak self] list in
                 self?.templateList = list
-                print("템플릿 리스트입니다", self?.templateList)
                 self?.templateListCV.reloadData()
             }
             .store(in: &cancellables)
