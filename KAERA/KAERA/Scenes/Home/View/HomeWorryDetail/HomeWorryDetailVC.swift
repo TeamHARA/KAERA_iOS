@@ -250,21 +250,6 @@ final class HomeWorryDetailVC: BaseVC {
         /// -> layoutSubView 메서드가 호출되면서 setDynamicLayout호출
         worryDetailTV.layoutIfNeeded()
     }
-    
-    private func addObserver() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(self.dismissAlertVCNotification(_:)),
-            name: NSNotification.Name("dismissAlertVC"),
-            object: nil
-        )
-    }
-    
-    @objc func dismissAlertVCNotification(_ notification: Notification) {
-        DispatchQueue.main.async { [self] in
-            self.dismiss(animated: true)
-        }
-    }
 }
 // MARK: - KeyBoard
 extension HomeWorryDetailVC {
@@ -282,7 +267,6 @@ extension HomeWorryDetailVC {
             object: nil)
     }
     
-    
     private func removeKeyboardObserver() {
         NotificationCenter.default.removeObserver(
             self,
@@ -296,6 +280,7 @@ extension HomeWorryDetailVC {
             object: nibName
         )
     }
+    
     @objc
     func keyboardWillAppear(_ notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
@@ -326,7 +311,6 @@ extension HomeWorryDetailVC: UITextViewDelegate {
                 .font: UIFont.kB4R14
             ]
         )
-        
         textView.attributedText = attributedText
     }
     
