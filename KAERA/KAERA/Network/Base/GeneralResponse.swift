@@ -52,4 +52,21 @@ struct GeneralArrayResponse<T: Decodable>: Decodable {
 }
 
 /// status, message, success 이외에 정보를 사용하지 않는 경우에 VoidType를 설정해주면 됩니다!
-struct VoidType: Decodable {}
+struct EmptyResponse: Decodable {
+    let status: Int
+    let message: String?
+    let success: Bool?
+    
+    enum CodingKeys: String, CodingKey {
+        case message
+        case status
+        case success
+    }
+    
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        message = (try? values.decode(String.self, forKey: .message)) ?? ""
+        status = (try? values.decode(Int.self, forKey: .status)) ?? 0
+        success = (try? values.decode(Bool.self, forKey: .success)) ?? false
+    }
+}
