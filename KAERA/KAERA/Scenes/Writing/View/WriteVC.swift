@@ -10,6 +10,11 @@ import Combine
 import SnapKit
 import Then
 
+enum WriteType {
+    case post
+    case patch
+}
+
 class WriteVC: BaseVC {
     
     // MARK: - View Model
@@ -94,6 +99,17 @@ class WriteVC: BaseVC {
     let contentInfo = ContentInfo.shared
     
     private let pickerVC = WritePickerVC(type: .post)
+    
+    private var writeType: WriteType = .post
+    // MARK: - Initialization
+    init(type: WriteType) {
+        super.init(nibName: nil, bundle: nil)
+        self.writeType = type
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     // MARK: - Life Cycles
     override func viewDidLoad() {

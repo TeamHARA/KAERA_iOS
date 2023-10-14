@@ -79,7 +79,7 @@ final class KaeraTabbarController: UITabBarController {
 extension KaeraTabbarController: UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         if viewController.tabBarItem.tag == 1 {
-            let writeVC = WriteVC()
+            let writeVC = WriteVC(type: .post)
             writeVC.modalPresentationStyle = .fullScreen
             writeVC.modalTransitionStyle = .coverVertical
             self.present(writeVC, animated: true, completion: nil)

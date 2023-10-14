@@ -131,7 +131,7 @@ class TemplateInfoVC: UIViewController, TemplateInfoTVCDelegate {
     
     // MARK: - TemplateInfoTVCDelegate
     func didPressWritingButton(templateId: Int) {
-        let writeVC = WriteVC()
+        let writeVC = WriteVC(type: .post)
         writeVC.modalPresentationStyle = .fullScreen
         self.present(writeVC, animated: true, completion: nil)
         writeVC.dataBind()
