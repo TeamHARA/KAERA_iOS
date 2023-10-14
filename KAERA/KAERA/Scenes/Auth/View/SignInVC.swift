@@ -12,8 +12,8 @@ import Combine
 
 final class SignInVC: UIViewController {
         
-    private let signInGemsImage = UIImageView().then {
-        $0.image = UIImage(named: "signInGems")
+    private let splashGem = UIImageView().then {
+        $0.image = UIImage(named: "splash_gem")
     }
     
     private let kaeraLogoImage = UIImageView().then {
@@ -85,16 +85,16 @@ extension SignInVC {
     private func setUI() {
         view.backgroundColor = .kGray1
         
-        view.addSubviews([signInGemsImage, kaeraLogoImage, titleLabel, appleLoginButton, kakaoLoginButton])
+        view.addSubviews([splashGem, kaeraLogoImage, titleLabel, appleLoginButton, kakaoLoginButton])
         
-        signInGemsImage.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).inset(168.adjustedH)
+        splashGem.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide).inset(206.adjustedH)
             $0.centerX.equalToSuperview()
-            $0.height.equalTo(74.adjustedH)
+            $0.height.equalTo(80.adjustedH)
         }
         
         kaeraLogoImage.snp.makeConstraints {
-            $0.top.equalTo(signInGemsImage.snp.bottom).offset(9)
+            $0.top.equalTo(splashGem.snp.bottom).offset(9)
             $0.centerX.equalToSuperview()
             $0.height.equalTo(38.adjustedH)
         }
