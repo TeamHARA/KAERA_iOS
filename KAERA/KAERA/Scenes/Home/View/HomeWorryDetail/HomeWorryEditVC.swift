@@ -86,6 +86,10 @@ final class HomeWorryEditVC: BaseVC {
             writeVC.modalPresentationStyle = .fullScreen
             writeVC.modalTransitionStyle = .coverVertical
             self.present(writeVC, animated: true)
+            /// 적힌 제목을 templateContentTV의 제목으로 설정해줌
+            if let worryTitle = self.worryDetail?.title {
+                writeVC.templateContentTV.tempTitle = worryTitle
+                }
             /// 선택된 템플릿이 어떤건지 WriteVC.templateBtn에 표시해주기 위해 함수 구현
             writeVC.templateReload(templateId: templateId, templateTitle: self.templateTitleShortInfoList[templateId].templateTitle, templateInfo: self.templateTitleShortInfoList[templateId].templateDetail)
             /// 템플릿에 맞는 templateContent 보여지게끔 연동

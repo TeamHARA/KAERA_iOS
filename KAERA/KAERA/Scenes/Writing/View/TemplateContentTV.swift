@@ -81,6 +81,9 @@ extension TemplateContentTV : UITableViewDataSource
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard let headerCell = tableView.dequeueReusableHeaderFooterView(withIdentifier: TemplateContentHeaderView.className) as? TemplateContentHeaderView else { return nil }
+        
+        /// .patch(고민 수정)의 경우 제목이 이미 있으므로 이를 headerCell의 제목으로 지정해줌.
+        headerCell.worryTitleTextField.text = tempTitle
         headerCell.worryTitleTextField.becomeFirstResponder()
 
         /// headerCell에 입력된 고민 제목을 contentInfo에 담아준다.
@@ -106,8 +109,6 @@ extension TemplateContentTV : UITableViewDataSource
 }
 
 extension TemplateContentTV: TemplateContentHeaderViewDelegate, TemplateContentTVCDelegate {
-    
-
     
     func textViewDidEndEditing(index: Int, newText: String) {
         answers[index] = newText

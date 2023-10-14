@@ -32,7 +32,7 @@ class TemplateContentTVC: UITableViewCell {
     private let textViewConstant: CGFloat = 111.adjustedH
     
     private var placeHolder: String = ""
-        
+            
     lazy var textView = UITextView().then {
         $0.isScrollEnabled = false
         $0.delegate = self
@@ -75,12 +75,19 @@ class TemplateContentTVC: UITableViewCell {
         }
     }
     
-    func dataBind(question: String, hint: String, index: Int) {
+    func dataBind(type: WriteType, question: String, hint: String, index: Int) {
         questionLabel.text = question
         /// 아래의 textViewDelegate에서 update된 placeholder를 써주기 위해 placeholder에도 hint를 담아준다.
-        placeHolder = hint
-        textView.text = placeHolder
-        self.indexPath = index
+        if type == .post {
+            placeHolder = hint
+            textView.text = placeHolder
+            self.indexPath = index
+        }
+        /// writeType이 .patch(고민수정) 이라면 텍스트 컬러를 white로 바꿔주어 원래 있던 텍스트가 회색으로 보여지지 않게끔 해준다.
+        else {
+            textView.textColor = .white
+            textView.text = hint
+        }
     }
 }
 
