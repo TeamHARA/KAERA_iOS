@@ -75,12 +75,10 @@ final class HomeWorryEditVC: BaseVC {
             print("고민상세", self.worryDetail)
             writeVC.modalPresentationStyle = .fullScreen
             writeVC.modalTransitionStyle = .coverVertical
-            self.present(writeVC,animated: true)
+            self.present(writeVC, animated: true)
         }
         
         editDeadlineButton.press {
-            //TODO: 데드라인 수정하기 -> 기존 데드라인 표시
-            print("디데이", self.worryDetail?.dDay)
             let pickerVC = WritePickerVC(type: .patch)
             pickerVC.worryId = self.worryId
             print("worryId 보낼거 ", self.worryId, type(of: self.worryId))
