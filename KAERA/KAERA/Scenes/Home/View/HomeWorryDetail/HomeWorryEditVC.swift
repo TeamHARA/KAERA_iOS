@@ -90,6 +90,10 @@ final class HomeWorryEditVC: BaseVC {
             if let worryTitle = self.worryDetail?.title {
                 writeVC.templateContentTV.tempTitle = worryTitle
                 }
+            /// 적힌 답변을 writeVC로 보내줌
+            writeVC.setTempAnswers(answers: self.worryDetail?.answers ?? [])
+            writeVC.dataBind()
+            let templateId = (self.worryDetail?.templateId ?? 1) - 1
             /// 선택된 템플릿이 어떤건지 WriteVC.templateBtn에 표시해주기 위해 함수 구현
             writeVC.templateReload(templateId: templateId, templateTitle: self.templateTitleShortInfoList[templateId].templateTitle, templateInfo: self.templateTitleShortInfoList[templateId].templateDetail)
             /// 템플릿에 맞는 templateContent 보여지게끔 연동

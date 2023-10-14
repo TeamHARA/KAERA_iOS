@@ -17,6 +17,9 @@ class TemplateContentTV: UITableView {
     private var questions: [String] = []
     private var hints: [String] = []
     private var answers: [String] = []
+    private var writeType: WriteType = .post
+    
+    var tempTitle: String = ""
     
     let contentInfo = ContentInfo.shared
     
@@ -33,7 +36,8 @@ class TemplateContentTV: UITableView {
     }
     
     // MARK: - Functions
-    func setData(questions: [String], hints: [String]) {
+    func setData(type: WriteType, questions: [String], hints: [String]) {
+        self.writeType = type
         self.questions = questions
         self.hints = hints
         self.answers = Array(repeating: "", count: hints.count)
@@ -102,7 +106,7 @@ extension TemplateContentTV : UITableViewDataSource
         /// cell에서 endEditing 시에 적힌 값을 TV로 보내준다.
         cell.delegate = self
         
-        cell.dataBind(question: questions[indexPath.row], hint: hints[indexPath.row], index: indexPath.row)
+        cell.dataBind(type: self.writeType, question: questions[indexPath.row], hint: hints[indexPath.row], index: indexPath.row)
         
         return cell
     }

@@ -24,7 +24,7 @@ class WriteVC: BaseVC {
     
     // MARK: - Properties
     private let writeModalVC = WriteModalVC()
-    private let templateContentTV = TemplateContentTV()
+    let templateContentTV = TemplateContentTV()
     private let templateHeaderView = TemplateContentHeaderView()
     
     private let closeBtn = UIButton().then {
@@ -101,6 +101,9 @@ class WriteVC: BaseVC {
     private let pickerVC = WritePickerVC(type: .post)
     
     private var writeType: WriteType = .post
+    
+    private var tempAnswers: [String] = []
+    
     // MARK: - Initialization
     init(type: WriteType) {
         super.init(nibName: nil, bundle: nil)
@@ -142,7 +145,13 @@ class WriteVC: BaseVC {
     }
     
     private func updateUI(_ templateContents: TemplateContentModel) {
-        templateContentTV.setData(questions: templateContents.questions, hints: templateContents.hints)
+        switch self .writeType {
+        case .post:
+            templateContentTV.setData(type: .post, questions: templateContents.questions, hints: templateContents.hints)
+        case .patch:
+            /// 고민상세뷰로부터 전달받은 답변을 hints로 사용
+            templateContentTV.setData(type: .patch, questions: templateContents.questions, hints: tempAnswers)
+        }
         
         view.addSubview(templateContentTV)
         templateContentTV.snp.updateConstraints {
@@ -190,6 +199,10 @@ class WriteVC: BaseVC {
             }
             self.present(self.writeModalVC, animated: true)
         }
+    }
+    
+    func setTempAnswers(answers: [String]) {
+        self.tempAnswers = answers
     }
 }
 
