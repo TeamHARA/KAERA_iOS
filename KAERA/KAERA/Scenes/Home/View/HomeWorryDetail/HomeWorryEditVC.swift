@@ -81,7 +81,6 @@ final class HomeWorryEditVC: BaseVC {
         editDeadlineButton.press {
             let pickerVC = WritePickerVC(type: .patch)
             pickerVC.worryId = self.worryId
-            print("worryId 보낼거 ", self.worryId, type(of: self.worryId))
             pickerVC.modalPresentationStyle = .fullScreen
             pickerVC.modalTransitionStyle = .coverVertical
             pickerVC.completeWritingBtn.press {
