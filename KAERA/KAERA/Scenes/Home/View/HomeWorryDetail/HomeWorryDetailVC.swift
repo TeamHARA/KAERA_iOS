@@ -109,6 +109,7 @@ final class HomeWorryDetailVC: BaseVC {
         setReviewTextView()
         hideKeyboardWhenTappedAround()
         setPressAction()
+        addObserver()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -221,8 +222,8 @@ final class HomeWorryDetailVC: BaseVC {
         
         switch pageType {
         case .digging:
-            /// dDay가 -888인 경우 데드라인 미 지정한 것 
-            if worryDetail.dDay < 800 {
+            /// dDay가 -888인 경우 데드라인 미 지정한 것
+            if worryDetail.dDay < -800 {
                 dDay = "-∞"
             }else if worryDetail.dDay > 0 {
                 dDay = "-\(worryDetail.dDay)"
@@ -250,6 +251,18 @@ final class HomeWorryDetailVC: BaseVC {
         /// layout을 업데이트 시키면서 worryDetailTV의 콘텐트 사이즈 값이 실제 크기에 맞게 조정
         /// -> layoutSubView 메서드가 호출되면서 setDynamicLayout호출
         worryDetailTV.layoutIfNeeded()
+    }
+    
+    /// 데드라인 수정시 받는 notification을 관리하는 observer 추가
+    func addObserver() {
+        NotificationCenter.default.addObserver(self, selector: #selector(handleDeadlineUpdate(_:)), name: NSNotification.Name("updateDeadline"), object: nil)
+    }
+    
+    /// 전달 받은 수정된 데드라인 일자로 navigationBar Title 변경
+    @objc func handleDeadlineUpdate(_ notification: Notification) {
+        if let userInfo = notification.userInfo, let deadline = userInfo["deadline"] as? Int {
+            navigationBarView.setTitleText(text: "고민캐기 D-\(deadline)")
+        }
     }
 }
 // MARK: - KeyBoard
@@ -440,3 +453,4 @@ extension HomeWorryDetailVC {
         }
     }
 }
+
