@@ -107,9 +107,8 @@ final class MyPageVC: BaseVC {
             if hasChanged {
                 myPageTV.reloadData()
             }
-            print("push")
-        case .notice:
-            print("notice")
+        case .notice(let url):
+            self.openSafariVC(url: url)
         case .account:
             print("account")
         }
@@ -134,9 +133,9 @@ extension MyPageVC: UITableViewDataSource, UITableViewDelegate {
         
         cell.removeButtonTarget()
         cell.configureCell(labelText: title, buttonType: buttonType)
-//        cell.cellButton.press {
-//            self.input.send(.action(indexPath: indexPath))
-//        }
+        cell.cellButton.press {
+            self.input.send(.action(indexPath: indexPath))
+        }
         return cell
     }
     

@@ -18,7 +18,7 @@ final class MyPageTVC: UITableViewCell {
         return label
     }()
     
-   private let cellButton = UIButton()
+   let cellButton = UIButton()
     
 
     // MARK: - Initialization
