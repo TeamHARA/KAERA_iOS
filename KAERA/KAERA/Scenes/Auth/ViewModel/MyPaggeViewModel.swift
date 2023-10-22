@@ -21,14 +21,13 @@ final class MyPaggeViewModel: ViewModelType {
     
     private let myPageTVCModels: [MyPageTVCModel] = [
         MyPageTVCModel(headerTitle: "알림설정", rowTitles: ["Push 알림"], rowButton: .push),
-        MyPageTVCModel(headerTitle: "정보", rowTitles: ["인스타그램", "서비스 이용약관", "개인정보 처리방침"], rowButton: .next),
+        MyPageTVCModel(headerTitle: "정보", rowTitles: ["캐라 사용설명서", "인스타그램", "서비스 이용약관", "개인정보 처리방침"], rowButton: .next),
         MyPageTVCModel(headerTitle: "", rowTitles: ["로그아웃","계정탈퇴"], rowButton: .none)
     ]
         
     func transform(input: Input) -> Output{
         input
             .sink { inputType in
-                print(inputType)
                 self.selectOutput(input: inputType)
             }
             .store(in: &cancellables)
@@ -50,15 +49,12 @@ final class MyPaggeViewModel: ViewModelType {
         case 0:
             checkPushState()
         case 1:
-            setNoticePage(row: indePath.row)
+            setInfoPage(row: indePath.row)
         case 2:
             self.output.send(.account)
         default:
             break
         }
-    }
-    private func setNoticePage(row: Int) {
-        self.output.send(.notice)
     }
     
     private func checkPushState() {
@@ -69,5 +65,35 @@ final class MyPaggeViewModel: ViewModelType {
             self.output.send(.push(hasChanged: hasChanged))
         }
     }
+    
+    //TODO: API나오면 서버 리스폰스 모델로 교체
+    struct MyPageInforURLs {
+        let manual: String
+        let instagram: String
+        let privacy: String
+        let openSource: String
+    }
+    
+    let myPageURLs = MyPageInforURLs(manual: "https://www.google.com", instagram: "https://www.naver.com", privacy: "", openSource: "")
+    
+    private func setInfoPage(row: Int) {
+        var urlString = ""
+        switch row {
+        case 0:
+            urlString = myPageURLs.manual
+        case 1:
+            urlString = myPageURLs.instagram
+        case 2:
+            urlString = myPageURLs.privacy
+        case 3:
+            urlString = myPageURLs.openSource
+        default:
+            urlString = ""
+        }
+        if let url = URL(string: urlString) {
+            self.output.send(.notice(url: url))
+        }
+    }
+
 
 }
