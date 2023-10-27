@@ -54,6 +54,8 @@ final class HomeWorryEditVC: BaseVC {
     /// writeVC Modal시에 화면에 띄어줄 제목을 담아서 보내줌
     private var templateTitleShortInfoList:
     [TemplateInfoPublisherModel] = []
+    
+    let worryPatchContent = WorryPatchManager.shared
 
     init(worryId: Int) {
         super.init(nibName: nil, bundle: nil)
@@ -81,11 +83,11 @@ final class HomeWorryEditVC: BaseVC {
     
     private func setPressAction() {
         editWorryButton.press {
-            //TODO: 고민 수정하기 -> 수정용 작성페이지(고민 상세에 있던 데이터 전달)
             let writeVC = WriteVC(type: .patch)
             writeVC.modalPresentationStyle = .fullScreen
             writeVC.modalTransitionStyle = .coverVertical
             self.present(writeVC, animated: true)
+            
             /// 적힌 제목을 templateContentTV의 제목으로 설정해줌
             if let worryTitle = self.worryDetail?.title {
                 writeVC.templateContentTV.tempTitle = worryTitle
@@ -94,6 +96,9 @@ final class HomeWorryEditVC: BaseVC {
             writeVC.setTempAnswers(answers: self.worryDetail?.answers ?? [])
             writeVC.dataBind()
             let templateId = (self.worryDetail?.templateId ?? 1) - 1
+            
+            self.worryPatchContent.worryId = self.worryId
+            self.worryPatchContent.templateId = templateId + 1
             /// 선택된 템플릿이 어떤건지 WriteVC.templateBtn에 표시해주기 위해 함수 구현
             writeVC.templateReload(templateId: templateId, templateTitle: self.templateTitleShortInfoList[templateId].templateTitle, templateInfo: self.templateTitleShortInfoList[templateId].templateDetail)
             /// 템플릿에 맞는 templateContent 보여지게끔 연동
@@ -110,7 +115,6 @@ final class HomeWorryEditVC: BaseVC {
             }
             self.present(pickerVC, animated: true)
             pickerVC.datePickerView.selectRow(abs(self.worryDetail?.dDay ?? 0) - 1, inComponent: 0, animated: true)
-            
         }
         
         deleteWorryButton.press {
