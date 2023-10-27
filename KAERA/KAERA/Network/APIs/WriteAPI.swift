@@ -15,7 +15,7 @@ final class WriteAPI {
     private let writeProvider = MoyaProvider<WriteService>(plugins: [MoyaLoggingPlugin()])
     
     // tableView의 데이터들을 담는 싱글톤 클래스
-    let contentInfo = ContentInfo.shared
+    let contentInfo = WorryPostManager.shared
     
     private init() { }
     
