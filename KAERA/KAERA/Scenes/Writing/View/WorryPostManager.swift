@@ -7,8 +7,8 @@
 
 import Foundation
 
-class ContentInfo {
-    static let shared = ContentInfo()
+class WorryPostManager {
+    static let shared = WorryPostManager()
 
     var templateId: Int = 1
     var title: String = ""
