@@ -32,3 +32,10 @@ struct PatchDeadlineModel: Codable {
     var worryId: Int
     var dayCount: Int
 }
+
+struct PatchWorryModel: Codable {
+    var worryId: Int
+    var templateId: Int
+    var title: String
+    var answers: [String]
+}
