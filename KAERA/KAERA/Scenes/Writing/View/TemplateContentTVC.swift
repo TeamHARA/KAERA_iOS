@@ -10,7 +10,7 @@ import SnapKit
 import Then
 
 protocol TemplateContentTVCDelegate: AnyObject {
-    func textViewDidEndEditing(index: Int, newText: String)
+    func answerDidEndEditing(index: Int, newText: String)
 }
 
 class TemplateContentTVC: UITableViewCell {
@@ -78,7 +78,7 @@ class TemplateContentTVC: UITableViewCell {
     func dataBind(type: WriteType, question: String, hint: String, index: Int) {
         questionLabel.text = question
         /// 아래의 textViewDelegate에서 update된 placeholder를 써주기 위해 placeholder에도 hint를 담아준다.
-        if type == .post {
+        if type == .post || type == .postDifferentTemplate {
             placeHolder = hint
             textView.text = placeHolder
             self.indexPath = index
@@ -87,6 +87,7 @@ class TemplateContentTVC: UITableViewCell {
         else {
             textView.textColor = .white
             textView.text = hint
+            self.indexPath = index
         }
     }
 }
@@ -121,6 +122,12 @@ extension TemplateContentTVC: UITextViewDelegate {
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
+        let trimmedText = textView.text.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        if trimmedText.isEmpty == true {
+            textView.text = placeHolder
+            textView.textColor = .kGray4
+        }
         if textView.textColor == .kGray4 {
             textView.text = nil
             textView.textColor = .kWhite
@@ -155,6 +162,6 @@ extension TemplateContentTVC: UITextViewDelegate {
             tableView.endUpdates()
         }
         
-        delegate?.textViewDidEndEditing(index: self.indexPath, newText: trimmedText)
+        delegate?.answerDidEndEditing(index: self.indexPath, newText: trimmedText)
     }
 }

@@ -17,11 +17,14 @@ class TemplateContentTV: UITableView {
     private var questions: [String] = []
     private var hints: [String] = []
     private var answers: [String] = []
+    private var changedIndex: Int = 0
+    private var initTV: Bool = false
     private var writeType: WriteType = .post
     
     var tempTitle: String = ""
     
-    let contentInfo = ContentInfo.shared
+    let worryPostContent = WorryPostManager.shared
+    let worryPatchContent = WorryPatchManager.shared
     
     // MARK: - Life Cycle
     init() {
@@ -40,7 +43,16 @@ class TemplateContentTV: UITableView {
         self.writeType = type
         self.questions = questions
         self.hints = hints
-        self.answers = Array(repeating: "", count: hints.count)
+        
+        switch self .writeType {
+            /// 고민 수정 시 각 질문에 대한 원래 답변이 hints에 저장되므로 이를 answers 배열에도 최신화시켜준다.
+        case .patch:
+            self.answers = hints
+            /// 서버에 담아서 보내줄 PatchContent에도 값을 담아줌
+            worryPatchContent.answers = hints
+        case .post, .postDifferentTemplate:
+            self.answers = Array(repeating: "", count: hints.count)
+        }
     }
     
     private func registerTV() {
@@ -64,7 +76,7 @@ class TemplateContentTV: UITableView {
 
 // MARK: - UITableViewDelegate
 extension TemplateContentTV: UITableViewDelegate {
-    
+
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         /// 헤더의 높이 + 헤더와 첫번째 셀간의 간격
         return 74.adjustedH + 36.adjustedH
@@ -89,7 +101,7 @@ extension TemplateContentTV : UITableViewDataSource
         /// .patch(고민 수정)의 경우 제목이 이미 있으므로 이를 headerCell의 제목으로 지정해줌.
         headerCell.worryTitleTextField.text = tempTitle
         headerCell.worryTitleTextField.becomeFirstResponder()
-
+        
         /// headerCell에 입력된 고민 제목을 contentInfo에 담아준다.
         headerCell.delegate = self
         
@@ -101,25 +113,56 @@ extension TemplateContentTV : UITableViewDataSource
         guard let cell = tableView.dequeueReusableCell(withIdentifier: TemplateContentTVC.classIdentifier, for: indexPath) as? TemplateContentTVC else {return UITableViewCell()}
         
         /// 1씩 작은 templateId에 1을 더해주어 원래 값으로 만들어준다.
-        contentInfo.templateId = templateId + 1
+        worryPostContent.templateId = templateId + 1
         
         /// cell에서 endEditing 시에 적힌 값을 TV로 보내준다.
         cell.delegate = self
-        
-        cell.dataBind(type: self.writeType, question: questions[indexPath.row], hint: hints[indexPath.row], index: indexPath.row)
-        
+                
+        /// 처음에 tableView를 초기화시에만 hint를 넣어준다.
+        if initTV == false {
+            cell.dataBind(type: self.writeType, question: questions[indexPath.row], hint: answers[indexPath.row], index: indexPath.row)
+            initTV = true
+        }
+        else {
+            switch self .writeType {
+            case .post, .postDifferentTemplate:
+                if answers[indexPath.row] != "" {
+                    cell.dataBind(type: self.writeType, question: questions[indexPath.row], hint: answers[indexPath.row], index: indexPath.row)
+                }
+                else {
+                    cell.dataBind(type: self.writeType, question: questions[indexPath.row], hint: hints[indexPath.row], index: indexPath.row)
+                }
+            case .patch:
+                if answers[indexPath.row] != hints[indexPath.row] {
+                    cell.dataBind(type: self.writeType, question: questions[indexPath.row], hint: answers[indexPath.row], index: indexPath.row)
+                }
+                else {
+                    cell.dataBind(type: self.writeType, question: questions[indexPath.row], hint: hints[indexPath.row], index: indexPath.row)
+                }
+            }
+        }
         return cell
     }
 }
 
 extension TemplateContentTV: TemplateContentHeaderViewDelegate, TemplateContentTVCDelegate {
-    
-    func textViewDidEndEditing(index: Int, newText: String) {
+    func answerDidEndEditing(index: Int, newText: String) {
         answers[index] = newText
-        contentInfo.answers = answers
+        self.changedIndex = index
+        worryPostContent.answers = answers
+        worryPatchContent.answers = answers
+        print("answers입니다. ", answers)
     }
     
+    //    func textViewDidEndEditing(index: Int, newText: String) {
+    //        answers[index] = newText
+    //        worryPostContent.answers = answers
+    //        worryPatchContent.answers = answers
+    //        print("answers입니다. ", answers)
+    //    }
+    
     func textFieldDidEndEditing(newText: String) {
-        contentInfo.title = newText
+        worryPostContent.title = newText
+        worryPatchContent.title = newText
     }
 }
