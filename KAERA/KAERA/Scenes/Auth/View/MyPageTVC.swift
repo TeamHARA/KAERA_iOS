@@ -7,20 +7,20 @@
 
 import UIKit
 import SnapKit
+import SafariServices
 
 final class MyPageTVC: UITableViewCell {
     
     // MARK: - Components
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.font = .kB2R16
-        label.textColor = .kWhite
-        return label
+    private let titleButton: UIButton = {
+        let btn = UIButton()
+        btn.titleLabel?.font = .kB2R16
+        btn.setTitleColor(.kWhite, for: .normal)
+        return btn
     }()
     
-   let cellButton = UIButton()
+    private let cellButton = UIButton()
     
-
     // MARK: - Initialization
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -31,33 +31,29 @@ final class MyPageTVC: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-            
-    func configureCell(labelText: String, buttonType: MyPageButtonType ) {
-        self.cellButton.isSelected = false
-        self.titleLabel.text = labelText
-        if labelText == "계정탈퇴" {
-            titleLabel.textColor = .kGray4
+    func updateCellContent(titleText: String, buttonType: MyPageButtonType) {
+        self.titleButton.setTitle(titleText, for: .normal)
+        if titleText == "계정탈퇴" {
+            titleButton.setTitleColor(.kGray4, for: .normal)
         }else {
-            titleLabel.textColor = .kWhite
+            titleButton.setTitleColor(.kWhite, for: .normal)
         }
         
         switch buttonType {
         case .push:
-            setPushButton()
+            self.cellButton.setImage(UIImage(named:"icn_btn_off"), for: .normal)
+            self.cellButton.setImage(UIImage(named:"icn_btn_on"), for: .selected)
+            self.cellButton.isSelected = PushSettingInfo.shared.isPushOn
         case .next:
-            setNextButton()
-        case .none:
-            setNoneButton()
+            self.cellButton.setImage(UIImage(named:"icn_next"), for: .normal)
+        case .account:
+            self.cellButton.setImage(UIImage(named:""), for: .normal)
         }
     }
     
-    private func setPushButton() {
-        self.cellButton.setImage(UIImage(named:"icn_btn_off"), for: .normal)
-        self.cellButton.setImage(UIImage(named:"icn_btn_on"), for: .selected)
-        self.cellButton.isSelected = PushSettingInfo.shared.isPushOn
-        
-        cellButton.press {
-            self.goToSetting()
+    func setPushButtonAction() {
+        cellButton.press { [weak self] in
+            self?.goToSetting()
         }
     }
     /// 설정 페이지 열기
@@ -66,30 +62,34 @@ final class MyPageTVC: UITableViewCell {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
     }
-   
-    private func setNextButton() {
-        self.cellButton.setImage(UIImage(named:"icn_next"), for: .normal)
+    
+    func setNextButtonAction(completion: @escaping () -> ()) {
+        cellButton.press { 
+            completion()
+        }
     }
     
-    private func setNoneButton() {
-        self.cellButton.setImage(UIImage(named:""), for: .normal)
-
+    func setAccountButtonAction(completion: @escaping () -> ()) {
+        titleButton.press {
+            completion()
+        }
     }
     
-    func removeButtonTarget() {
+    func clearButtonState() {
+        self.cellButton.isSelected = false
+        self.titleButton.isSelected = false
         self.cellButton.removeTarget(nil, action: nil, for: .allTouchEvents)
+        self.titleButton.removeTarget(nil, action: nil, for: .allTouchEvents)
     }
-
-
 }
 
 // MARK: - UI
 extension MyPageTVC {
     private func setLayout() {
         self.backgroundColor = .clear
-        contentView.addSubviews([titleLabel, cellButton])
+        contentView.addSubviews([titleButton, cellButton])
         
-        titleLabel.snp.makeConstraints {
+        titleButton.snp.makeConstraints {
             $0.leading.equalToSuperview().inset(17)
             $0.centerY.equalToSuperview()
         }
