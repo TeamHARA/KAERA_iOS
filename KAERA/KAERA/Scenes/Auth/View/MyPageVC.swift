@@ -56,6 +56,7 @@ final class MyPageVC: BaseVC {
         super.viewDidLoad()
         setUI()
         setTV()
+        setPressAction()
         dataBind()
         input.send(.loadData)
         setNotificationCenter()
@@ -71,7 +72,7 @@ final class MyPageVC: BaseVC {
     
     private func setPressAction() {
         self.navigationBarView.setLeftButtonAction { [weak self] in
-            self?.dismiss(animated: true)
+            self?.navigationController?.popViewController(animated: true)
         }
     }
     
