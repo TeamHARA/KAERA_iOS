@@ -106,9 +106,12 @@ final class MyPageVC: BaseVC {
             }
         case .accountAction:
             if let alertVC = self.presentedViewController {
-                alertVC.dismiss(animated: true) { [weak self] in
-                    let signInVC = SignInVC()
-                    self?.present(signInVC, animated: true)
+                alertVC.dismiss(animated: true) {
+                    if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
+                        // window의 rootViewController 설정
+                        sceneDelegate.window?.rootViewController = SplashVC()
+                    }
+
                 }
             }
             

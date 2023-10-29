@@ -115,6 +115,7 @@ final class MyPaggeViewModel: ViewModelType {
     
     private func requestDeleteAccount() {
         print("회원탈퇴 호출")
+        //TODO: 유저정보 다 지우기
         output.send(.accountAction)
     }
 }
