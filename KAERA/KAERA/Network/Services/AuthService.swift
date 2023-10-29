@@ -10,6 +10,7 @@ import Moya
 
 enum AuthService {
     case kakaoLogin(token: String)
+    case kakaoLogout
     case renewelToken
 }
 
@@ -24,18 +25,24 @@ extension AuthService: BaseTargetType {
         let refreshToken: String
     }
     
+    struct SignOutRequestBody: Codable {
+        let accessToken: String
+    }
+
     var path: String {
         switch self {
         case .kakaoLogin:
             return APIConstant.kakaoLogin
         case .renewelToken:
             return APIConstant.refresh
+        case .kakaoLogout:
+            return APIConstant.kakaoLogout
         }
     }
     
     var method: Moya.Method {
         switch self {
-        case .kakaoLogin, .renewelToken:
+        case .kakaoLogin, .renewelToken, .kakaoLogout:
             return .post
         }
     }
@@ -51,12 +58,17 @@ extension AuthService: BaseTargetType {
             let refreshToken = KeychainManager.load(key: .refreshToken) ?? ""
             let requestBody = RenewalRequestBody(accessToken: accessToken, refreshToken: refreshToken)
             return .requestJSONEncodable(requestBody)
+            
+        case .kakaoLogout:
+            let accessToken = KeychainManager.load(key: .accessToken) ?? ""
+            let requestBody = SignOutRequestBody(accessToken: accessToken)
+            return .requestJSONEncodable(requestBody)
         }
     }
     
     var headers: [String : String]? {
         switch self {
-        case .kakaoLogin, .renewelToken:
+        case .kakaoLogin, .renewelToken, .kakaoLogout:
             return NetworkConstant.noTokenHeader
         }
     }
