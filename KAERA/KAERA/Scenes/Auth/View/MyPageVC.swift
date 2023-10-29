@@ -105,13 +105,20 @@ final class MyPageVC: BaseVC {
                 myPageTV.reloadData()
             }
         case .accountAction:
-            //TODO: 로그아웃 or 회원탈퇴후 메인화면으로 이동
             if let alertVC = self.presentedViewController {
                 alertVC.dismiss(animated: true) { [weak self] in
-                    self?.dismiss(animated: true)
+                    let signInVC = SignInVC()
+                    self?.present(signInVC, animated: true)
                 }
-                
             }
+            
+        case .networkFail:
+            if let alertVC = self.presentedViewController {
+                alertVC.dismiss(animated: true) { [weak self] in
+                    self?.presentNetworkAlert()
+                }
+            }
+            
         }
         
     }
