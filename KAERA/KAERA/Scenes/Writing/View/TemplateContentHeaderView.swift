@@ -46,6 +46,7 @@ final class TemplateContentHeaderView: UITableViewHeaderFooterView {
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
         setLayout()
+        addObserver()
         worryTitleTextField.delegate = self
     }
     
@@ -68,11 +69,35 @@ final class TemplateContentHeaderView: UITableViewHeaderFooterView {
             $0.top.equalToSuperview().offset(28.adjustedH)
             $0.trailing.equalToSuperview().offset(-16)
         }
-
+        
         dividingLine.snp.makeConstraints {
             $0.top.equalTo(worryTitleTextField.snp.bottom)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(1.adjustedW)
+        }
+    }
+    
+    private func addObserver() {
+        NotificationCenter.default.addObserver(self, selector: #selector(textDidChange), name: UITextField.textDidChangeNotification, object: nil)
+    }
+    
+    @objc func textDidChange(noti: NSNotification) {
+        if let text = worryTitleTextField.text {
+            let maxLength = 7
+            
+            /// 마지막 문자에 한글 받침을 사용할 수 없는 문제를 해결하기 위해 변경
+            if text.count >= maxLength {
+                if let endIndex = text.index(text.startIndex, offsetBy: maxLength, limitedBy: text.endIndex) {
+                    let fixedText = text[..<endIndex]
+                    /// 공백을 추가했다가
+                    worryTitleTextField.text = String(fixedText) + " "
+                    
+                    /// 공백을 바로 제거해줌으로써 한글 받침을 쓸 수 있게 구현해준다.
+                    DispatchQueue.main.async {
+                        self.worryTitleTextField.text = String(fixedText)
+                    }
+                }
+            }
         }
     }
 }
@@ -95,7 +120,6 @@ extension TemplateContentHeaderView: UITextFieldDelegate {
                 return true
             }
         }
-        guard textField.text!.count < 7 else { return false }
         return true
     }
     
