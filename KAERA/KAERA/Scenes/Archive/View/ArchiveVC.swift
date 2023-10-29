@@ -15,7 +15,6 @@ class ArchiveVC: UIViewController, RefreshListDelegate {
     // MARK: - Properties
     private let archiveHeaderView = ArchiveHeaderView()
     let modalVC = ArchiveModalVC()
-    let templateInfoVC = TemplateInfoVC()
     var templateIndex: Int = 0
     
     private let flowLayout = UICollectionViewFlowLayout().then {
@@ -63,10 +62,11 @@ class ArchiveVC: UIViewController, RefreshListDelegate {
     }
     
     private func pressBtn() {
-        archiveHeaderView.sortBtn.press {
-            self.modalVC.modalPresentationStyle = .pageSheet
+        
+        archiveHeaderView.setSortButtonPressAction { [weak self] in
+            self?.modalVC.modalPresentationStyle = .pageSheet
             
-            if let sheet = self.modalVC.sheetPresentationController {
+            if let sheet = self?.modalVC.sheetPresentationController {
                 
                 /// 지원할 크기 지정 .large() 혹은 .medium()
                 sheet.detents = [.medium()]
@@ -74,13 +74,20 @@ class ArchiveVC: UIViewController, RefreshListDelegate {
                 /// 시트 상단에 그래버 표시 (기본 값은 false)
                 sheet.prefersGrabberVisible = true
             }
-            self.present(self.modalVC, animated: true)
+            self?.present(self?.modalVC ?? UIViewController(), animated: true)
         }
         
-        archiveHeaderView.templateInfoBtn.press {
-            self.navigationController?.pushViewController(self.templateInfoVC, animated: true)
+        archiveHeaderView.setLeftButtonPressAction { [weak self] in
+            let templateInfoVC = TemplateInfoVC()
+            self?.navigationController?.pushViewController(templateInfoVC, animated: true)
+        }
+        
+        archiveHeaderView.setRightButtonPressAction { [weak self] in
+            let myPageVC = MyPageVC()
+            self?.navigationController?.pushViewController(myPageVC, animated: true)
         }
     }
+    
     
     /// 뷰모델의 데이터를 뷰컨의 리스트 데이터와 연동
     private func dataBind() {
@@ -90,7 +97,7 @@ class ArchiveVC: UIViewController, RefreshListDelegate {
         output.receive(on: DispatchQueue.main)
             .sink { [weak self] worryList in
                 self?.worryListWithTemplate = worryList // 받아온 데이터로 worryListWithTemplate 업데이트
-                self?.archiveHeaderView.numLabel.text = "총 \(worryList.count)개"
+                self?.archiveHeaderView.setNumLabelText(text: "총 \(worryList.count)개")
                 self?.worryListCV.reloadData() // 컬렉션 뷰 다시 그리기
             }.store(in: &cancellables)
     }
@@ -99,7 +106,7 @@ class ArchiveVC: UIViewController, RefreshListDelegate {
     func refreshList(templateTitle: String, templateId: Int) {
         input.send(templateId)
         self.templateIndex = templateId
-        archiveHeaderView.sortBtn.setTitle(templateTitle, for: .normal)
+        archiveHeaderView.setSortButtonTitle(title: templateTitle)
         worryListCV.reloadData()
     }
     
