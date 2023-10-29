@@ -14,6 +14,7 @@ enum WriteType {
     case post
     case postDifferentTemplate
     case patch
+    case patchDifferentTemplate
 }
 
 class WriteVC: BaseVC {
@@ -149,10 +150,18 @@ class WriteVC: BaseVC {
     
     private func updateUI(_ templateContents: TemplateContentModel) {
         switch self .writeType {
-        case .post, .postDifferentTemplate:
+        /// 고민 작성, 고민 작성(템플릿 변경), 고민 수정(템플릿 변경) 의 경우에는 값을 초기화해주는 것이기 때문에, writeModalVC에서 선택한 템플릿의 값으로 cell을 설정해준다.
+        case .post:
+            templateContentTV.title = ""
             templateContentTV.setData(type: .post, questions: templateContents.questions, hints: templateContents.hints)
+        case .postDifferentTemplate:
+            templateContentTV.title = ""
+            templateContentTV.setData(type: .postDifferentTemplate, questions: templateContents.questions, hints: templateContents.hints)
+        case .patchDifferentTemplate:
+            templateContentTV.title = ""
+            templateContentTV.setData(type: .patchDifferentTemplate, questions: templateContents.questions, hints: templateContents.hints)
+        /// 고민 수정의 경우에는 HomeWorryEditVC에서 tempAnswer로 전달받은 원래 답변으로 cell을 초기화 시켜준다.
         case .patch:
-            /// 고민상세뷰로부터 전달받은 답변을 hints로 사용
             templateContentTV.setData(type: .patch, questions: templateContents.questions, hints: tempAnswers)
         }
         
@@ -188,7 +197,7 @@ class WriteVC: BaseVC {
                         pickerVC.view.layoutIfNeeded()
                     })
                 })
-            case .patch:
+            case .patch, .patchDifferentTemplate:
                 worryPatchPublishedContent.worryId = worryPatchContent.worryId
                 worryPatchPublishedContent.templateId = worryPatchContent.templateId
                 worryPatchPublishedContent.title = worryPatchContent.title
@@ -203,27 +212,26 @@ class WriteVC: BaseVC {
     private func pressBtn() {
         templateBtn.press {
             switch self .writeType {
-            case .patch:
-                let failureAlertVC = KaeraAlertVC(buttonType: .cancelAndOK, okTitle: "변경")
-                failureAlertVC.setTitleSubTitle(title: "템플릿이 변경되면 작성 중인 내용이 사라집니다.", subTitle: "변경하시겠어요?", highlighting: "변경")
-                self.present(failureAlertVC, animated: true)
-                failureAlertVC.OKButton.press {
-                    self.dismiss(animated: true)
-                    self.modalTemplateSelectVC()
-                }
             case .post:
                 self.modalTemplateSelectVC()
                 self.writeType = .postDifferentTemplate
-            /// post 시에 템플릿 변경 할 시에 경고문 modal 해주기
-            case .postDifferentTemplate:
-                let failureAlertVC = KaeraAlertVC(buttonType: .cancelAndOK, okTitle: "변경")
-                failureAlertVC.setTitleSubTitle(title: "템플릿이 변경되면 작성 중인 내용이 사라집니다.", subTitle: "변경하시겠어요?", highlighting: "변경")
-                self.present(failureAlertVC, animated: true)
-                failureAlertVC.OKButton.press {
-                    self.dismiss(animated: true)
-                    self.modalTemplateSelectVC()
-                }
+            /// 고민 작성 시를 제외하고는 템플릿 변경 시 알럿 창을 띄워주어야 한다.
+            case .patch:
+                self.writeType = .patchDifferentTemplate
+                self.makeAlert()
+            case .postDifferentTemplate, .patchDifferentTemplate:
+                self.makeAlert()
             }
+        }
+    }
+    
+    private func makeAlert() {
+        let failureAlertVC = KaeraAlertVC(buttonType: .cancelAndOK, okTitle: "변경")
+        failureAlertVC.setTitleSubTitle(title: "템플릿이 변경되면 작성 중인 내용이 사라집니다.", subTitle: "변경하시겠어요?", highlighting: "변경")
+        self.present(failureAlertVC, animated: true)
+        failureAlertVC.OKButton.press {
+            self.dismiss(animated: true)
+            self.modalTemplateSelectVC()
         }
     }
     
