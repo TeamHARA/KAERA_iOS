@@ -103,8 +103,14 @@ final class MyPaggeViewModel: ViewModelType {
     }
     
     private func requestSignOut() {
-        print("로그아웃 호출")
-        output.send(.accountAction)
+        AuthAPI.shared.postKakaoLogout { [weak self] status in
+            guard let status else {
+                self?.output.send(.networkFail)
+                return
+            }
+            KeychainManager.delete(key: .accessToken)
+            self?.output.send(.accountAction)
+        }
     }
     
     private func requestDeleteAccount() {
