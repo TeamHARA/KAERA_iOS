@@ -11,7 +11,7 @@ import UserNotifications
 
 
 final class MyPaggeViewModel: ViewModelType {
-   
+    
     typealias Input = AnyPublisher<MyPageInputType, Never>
     typealias Output = AnyPublisher<MyPageOutputType, Never>
     
@@ -19,12 +19,17 @@ final class MyPaggeViewModel: ViewModelType {
     
     private var cancellables = Set<AnyCancellable>()
     
-    private let myPageTVCModels: [MyPageTVCModel] = [
+    private static var myPageURLs = Array<URL>()
+    
+    private static let accountAlertInfo = [MyPageAccountAlertInfoModel(okTitle: "로그아웃", title: "로그아웃하시겠어요?", subTitle: "고민 원석과 보석은 저장되고 있어요", type: .signOut), MyPageAccountAlertInfoModel(okTitle: "탈퇴", title: "정말로 캐라를 떠나실 건가요?", subTitle: "탈퇴 후 내용은 복구가 불가능해요😢", type: .delete)]
+    
+    private var myPageTVCModels: [MyPageTVCModel] = [
         MyPageTVCModel(headerTitle: "알림설정", rowTitles: ["Push 알림"], rowButton: .push),
-        MyPageTVCModel(headerTitle: "정보", rowTitles: ["캐라 사용설명서", "인스타그램", "서비스 이용약관", "개인정보 처리방침"], rowButton: .next),
-        MyPageTVCModel(headerTitle: "", rowTitles: ["로그아웃","계정탈퇴"], rowButton: .none)
+        MyPageTVCModel(headerTitle: "정보", rowTitles: ["캐라 사용설명서", "인스타그램", "서비스 이용약관", "개인정보 처리방침"], rowButton: .next(myPageURLs: myPageURLs)),
+        MyPageTVCModel(headerTitle: "", rowTitles: ["로그아웃","계정탈퇴"], rowButton: .account(data: accountAlertInfo))
     ]
-        
+    
+    
     func transform(input: Input) -> Output{
         input
             .sink { inputType in
@@ -37,23 +42,11 @@ final class MyPaggeViewModel: ViewModelType {
     private func selectOutput(input: MyPageInputType) {
         switch input {
         case .loadData:
+            requestMyPageURLs()
+        case .push:
             checkPushState()
-            self.output.send(.data(data: myPageTVCModels))
-        case .action(indexPath: let indexPath):
-            setInputAction(indePath: indexPath)
-        }
-    }
-    
-    private func setInputAction(indePath: IndexPath) {
-        switch indePath.section {
-        case 0:
-            checkPushState()
-        case 1:
-            setInfoPage(row: indePath.row)
-        case 2:
-            self.output.send(.account)
-        default:
-            break
+        case .accountAction(type: let type):
+            requestAccountAction(type: type)
         }
     }
     
@@ -62,38 +55,60 @@ final class MyPaggeViewModel: ViewModelType {
         UNUserNotificationCenter.current().getNotificationSettings { setting in
             PushSettingInfo.shared.isPushOn = setting.alertSetting == .enabled
             let hasChanged: Bool = priorState != PushSettingInfo.shared.isPushOn
-            self.output.send(.push(hasChanged: hasChanged))
-        }
-    }
-    
-    //TODO: API나오면 서버 리스폰스 모델로 교체
-    struct MyPageInforURLs {
-        let manual: String
-        let instagram: String
-        let privacy: String
-        let openSource: String
-    }
-    
-    let myPageURLs = MyPageInforURLs(manual: "https://www.google.com", instagram: "https://www.naver.com", privacy: "", openSource: "")
-    
-    private func setInfoPage(row: Int) {
-        var urlString = ""
-        switch row {
-        case 0:
-            urlString = myPageURLs.manual
-        case 1:
-            urlString = myPageURLs.instagram
-        case 2:
-            urlString = myPageURLs.privacy
-        case 3:
-            urlString = myPageURLs.openSource
-        default:
-            urlString = ""
-        }
-        if let url = URL(string: urlString) {
-            self.output.send(.notice(url: url))
+            ///  이전과 상태과 바뀌었으면 상태값 send
+            if hasChanged{
+                self.output.send(.push(hasChanged: hasChanged))
+            }
         }
     }
 
-
+    private func requestMyPageURLs() {
+        //TODO: 서버에 URL 받아오기
+        let result = [
+            "https://daffy-lawyer-1b8.notion.site/HARA-da398bb18b39485ba103a9daf7a2bfa3",
+            "https://www.google.com",
+            "https://github.com/TeamHARA/KAERA_iOS",
+            "https://www.notion.so/TEAM-cd8e429815a54c64b67ad272499f8e22?pvs=4"]
+        
+        var urls = Array<URL>()
+        
+        result.forEach { url in
+            if let url = URL(string: url) {
+                urls.append(url)
+            }
+        }
+        MyPaggeViewModel.myPageURLs = urls
+        
+        let updatedMyPageTVCModel = updateMypageURLModel()
+        
+        self.output.send(.data(data: updatedMyPageTVCModel))
+    }
+    
+    private func updateMypageURLModel() -> [MyPageTVCModel] {
+        myPageTVCModels = [
+            MyPageTVCModel(headerTitle: "알림설정", rowTitles: ["Push 알림"], rowButton: .push),
+            MyPageTVCModel(headerTitle: "정보", rowTitles: ["캐라 사용설명서", "인스타그램", "서비스 이용약관", "개인정보 처리방침"], rowButton: .next(myPageURLs: MyPaggeViewModel.myPageURLs)),
+            MyPageTVCModel(headerTitle: "", rowTitles: ["로그아웃","계정탈퇴"], rowButton: .account(data: MyPaggeViewModel.accountAlertInfo))
+        ]
+        return myPageTVCModels
+    }
+    
+    private func requestAccountAction(type: AccountActionType) {
+        switch type {
+        case .signOut:
+            requestSignOut()
+        case .delete:
+            requestDeleteAccount()
+        }
+    }
+    
+    private func requestSignOut() {
+        print("로그아웃 호출")
+        output.send(.accountAction)
+    }
+    
+    private func requestDeleteAccount() {
+        print("회원탈퇴 호출")
+        output.send(.accountAction)
+    }
 }
