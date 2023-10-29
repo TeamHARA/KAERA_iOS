@@ -61,27 +61,24 @@ final class MyPageVC: BaseVC {
         setNotificationCenter()
     }
     
-    /// 앱 상태 변화 observer 세팅 함수
     private func setNotificationCenter() {
-        NotificationCenter.default.addObserver(self, selector:  #selector(checkPushState), name: UIApplication.didBecomeActiveNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector:  #selector(shouldCheckState), name: UIApplication.didBecomeActiveNotification, object: nil)
     }
     
-    @objc private func checkPushState() {
-        input.send(.action(indexPath: IndexPath(row: 0, section: 0)))
+    @objc private func shouldCheckState() {
+        input.send(.push)
     }
     
     private func setPressAction() {
-        self.navigationBarView.setLeftButtonAction {
-            self.dismiss(animated: true)
+        self.navigationBarView.setLeftButtonAction { [weak self] in
+            self?.dismiss(animated: true)
         }
     }
     
     private func setTV() {
         myPageTV.delegate = self
         myPageTV.dataSource = self
-        
         myPageTV.register(MyPageTVC.self, forCellReuseIdentifier: MyPageTVC.className)
-        
         myPageTV.register(MyPageTVHeaderView.self, forHeaderFooterViewReuseIdentifier: MyPageTVHeaderView.className)
         myPageTV.register(MyPageTVFooterView.self, forHeaderFooterViewReuseIdentifier: MyPageTVFooterView.className)
         
@@ -107,11 +104,32 @@ final class MyPageVC: BaseVC {
             if hasChanged {
                 myPageTV.reloadData()
             }
-        case .notice(let url):
-            self.openSafariVC(url: url)
-        case .account:
-            print("account")
+        case .accountAction:
+            //TODO: 로그아웃 or 회원탈퇴후 메인화면으로 이동
+            if let alertVC = self.presentedViewController {
+                alertVC.dismiss(animated: true) { [weak self] in
+                    self?.dismiss(animated: true)
+                }
+                
+            }
         }
+        
+    }
+    
+    private func presentAccountAlertVC(data: MyPageAccountAlertInfoModel) {
+        let alertVC = KaeraAlertVC(okTitle: data.okTitle)
+        alertVC.setTitleSubTitle(title: data.title, subTitle: data.subTitle)
+        switch data.type {
+        case .signOut:
+            alertVC.OKButton.press { [weak self] in
+                self?.input.send(.accountAction(type: .signOut))
+            }
+        case .delete:
+            alertVC.OKButton.press { [weak self] in
+                self?.input.send(.accountAction(type: .delete))
+            }
+        }
+        self.present(alertVC, animated: true)
     }
 
 }
@@ -131,11 +149,26 @@ extension MyPageVC: UITableViewDataSource, UITableViewDelegate {
         let title = myPageTVCData[indexPath.section].rowTitles[indexPath.row]
         let buttonType = myPageTVCData[indexPath.section].rowButton
         
-        cell.removeButtonTarget()
-        cell.configureCell(labelText: title, buttonType: buttonType)
-        cell.cellButton.press {
-            self.input.send(.action(indexPath: indexPath))
+        cell.clearButtonState()
+        cell.updateCellContent(titleText: title, buttonType: buttonType)
+        switch buttonType {
+        case .push:
+            cell.setPushButtonAction()
+        case .next(let myPageURLs):
+            if myPageURLs.indices.contains(indexPath.row) {
+                let url = myPageURLs[indexPath.row]
+                cell.setNextButtonAction { [weak self] in
+                    self?.openSafariVC(url: url)
+                }
+            }
+        case .account(let info):
+            if info.indices.contains(indexPath.row) {
+                cell.setAccountButtonAction { [weak self] in
+                    self?.presentAccountAlertVC(data: info[indexPath.row])
+                }
+            }
         }
+    
         return cell
     }
     
@@ -170,10 +203,6 @@ extension MyPageVC: UITableViewDataSource, UITableViewDelegate {
             return 0
         }
         return 40.adjustedH
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        input.send(.action(indexPath: indexPath))
     }
 }
 
