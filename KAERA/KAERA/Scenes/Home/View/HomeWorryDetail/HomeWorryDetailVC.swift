@@ -276,9 +276,7 @@ final class HomeWorryDetailVC: BaseVC {
         dataBind()
         input.send(worryId)
         worryDetailTV.reloadData()
-        DispatchQueue.main.async { [self] in
-            self.dismiss(animated: true)
-        }
+        self.dismiss(animated: true)
     }
 }
 // MARK: - KeyBoard

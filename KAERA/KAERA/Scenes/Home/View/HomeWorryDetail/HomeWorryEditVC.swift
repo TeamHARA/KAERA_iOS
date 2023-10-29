@@ -90,7 +90,7 @@ final class HomeWorryEditVC: BaseVC {
             
             /// 적힌 제목을 templateContentTV의 제목으로 설정해줌
             if let worryTitle = self.worryDetail?.title {
-                writeVC.templateContentTV.tempTitle = worryTitle
+                writeVC.templateContentTV.title = worryTitle
                 }
             /// 적힌 답변을 writeVC로 보내줌
             writeVC.setTempAnswers(answers: self.worryDetail?.answers ?? [])
