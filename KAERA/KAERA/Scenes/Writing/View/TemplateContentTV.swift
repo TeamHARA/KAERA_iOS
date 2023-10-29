@@ -15,10 +15,9 @@ class TemplateContentTV: UITableView {
     // MARK: - Properties
     var templateId: Int = 0
     private var questions: [String] = []
-    private var hints: [String] = []
-    private var answers: [String] = []
-    private var changedIndex: Int = 0
-    private var initTV: Bool = false
+    var title: String = ""
+    var hints: [String] = []
+    var answers: [String] = []
     private var writeType: WriteType = .post
     
     var tempTitle: String = ""
@@ -50,7 +49,7 @@ class TemplateContentTV: UITableView {
             self.answers = hints
             /// 서버에 담아서 보내줄 PatchContent에도 값을 담아줌
             worryPatchContent.answers = hints
-        case .post, .postDifferentTemplate:
+        case .post, .postDifferentTemplate, .patchDifferentTemplate:
             self.answers = Array(repeating: "", count: hints.count)
         }
     }
@@ -76,7 +75,7 @@ class TemplateContentTV: UITableView {
 
 // MARK: - UITableViewDelegate
 extension TemplateContentTV: UITableViewDelegate {
-
+    
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         /// 헤더의 높이 + 헤더와 첫번째 셀간의 간격
         return 74.adjustedH + 36.adjustedH
@@ -99,7 +98,13 @@ extension TemplateContentTV : UITableViewDataSource
         guard let headerCell = tableView.dequeueReusableHeaderFooterView(withIdentifier: TemplateContentHeaderView.className) as? TemplateContentHeaderView else { return nil }
         
         /// .patch(고민 수정)의 경우 제목이 이미 있으므로 이를 headerCell의 제목으로 지정해줌.
-        headerCell.worryTitleTextField.text = tempTitle
+        switch self .writeType {
+        case .patch:
+            headerCell.worryTitleTextField.text = title
+        default:
+            headerCell.worryTitleTextField.text = title
+            headerCell.titleNumLabel.text = "\(title.count)/7"
+        }
         headerCell.worryTitleTextField.becomeFirstResponder()
         
         /// headerCell에 입력된 고민 제목을 contentInfo에 담아준다.
@@ -112,57 +117,32 @@ extension TemplateContentTV : UITableViewDataSource
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: TemplateContentTVC.classIdentifier, for: indexPath) as? TemplateContentTVC else {return UITableViewCell()}
         
-        /// 1씩 작은 templateId에 1을 더해주어 원래 값으로 만들어준다.
-        worryPostContent.templateId = templateId + 1
-        
         /// cell에서 endEditing 시에 적힌 값을 TV로 보내준다.
         cell.delegate = self
-                
-        /// 처음에 tableView를 초기화시에만 hint를 넣어준다.
-        if initTV == false {
-            cell.dataBind(type: self.writeType, question: questions[indexPath.row], hint: answers[indexPath.row], index: indexPath.row)
-            initTV = true
-        }
-        else {
-            switch self .writeType {
-            case .post, .postDifferentTemplate:
-                if answers[indexPath.row] != "" {
-                    cell.dataBind(type: self.writeType, question: questions[indexPath.row], hint: answers[indexPath.row], index: indexPath.row)
-                }
-                else {
-                    cell.dataBind(type: self.writeType, question: questions[indexPath.row], hint: hints[indexPath.row], index: indexPath.row)
-                }
-            case .patch:
-                if answers[indexPath.row] != hints[indexPath.row] {
-                    cell.dataBind(type: self.writeType, question: questions[indexPath.row], hint: answers[indexPath.row], index: indexPath.row)
-                }
-                else {
-                    cell.dataBind(type: self.writeType, question: questions[indexPath.row], hint: hints[indexPath.row], index: indexPath.row)
-                }
-            }
-        }
+        
+        /// 1씩 작은 templateId에 1을 더해주어 원래 값으로 만들어준다.
+        worryPostContent.templateId = templateId + 1
+        worryPatchContent.templateId = templateId + 1
+        
+        /// .patch(고민수정)의 경우에만 hints배열에 answers값들이 들어가 있다.
+        cell.dataBind(type: self.writeType, question: questions[indexPath.row], hint: hints[indexPath.row], answer: answers[indexPath.row], index: indexPath.row)
+
         return cell
     }
 }
 
 extension TemplateContentTV: TemplateContentHeaderViewDelegate, TemplateContentTVCDelegate {
-    func answerDidEndEditing(index: Int, newText: String) {
-        answers[index] = newText
-        self.changedIndex = index
-        worryPostContent.answers = answers
-        worryPatchContent.answers = answers
-        print("answers입니다. ", answers)
+    func titleDidEndEditing(newText: String) {
+        /// 테이블 뷰 cell이 재사용될 때 제목 값이 날라가는 걸 방지하기 위해 title 지역변수에 제목을 저장해준다.
+        self.title = newText
+        worryPostContent.title = title
+        worryPatchContent.title = title
     }
     
-    //    func textViewDidEndEditing(index: Int, newText: String) {
-    //        answers[index] = newText
-    //        worryPostContent.answers = answers
-    //        worryPatchContent.answers = answers
-    //        print("answers입니다. ", answers)
-    //    }
-    
-    func textFieldDidEndEditing(newText: String) {
-        worryPostContent.title = newText
-        worryPatchContent.title = newText
+    func answerDidEndEditing(index: Int, newText: String) {
+        /// 테이블 뷰 값의 순서가 바뀌는 것을 막기 위해 index를 cell로 부터 받아서 answers 지역변수에 index값과 함께 저장해준다.
+        self.answers[index] = newText
+        worryPostContent.answers = answers
+        worryPatchContent.answers = answers
     }
 }
