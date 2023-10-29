@@ -9,18 +9,37 @@ import Foundation
 
 enum MyPageInputType {
     case loadData
-    case action(indexPath: IndexPath)
+    case push
+    case accountAction(type: AccountActionType)
 }
 
 enum MyPageOutputType {
     case data(data: [MyPageTVCModel])
     case push(hasChanged: Bool)
-    case notice(url: URL)
-    case account
+    case accountAction
 }
 
 enum MyPageButtonType {
     case push
-    case next
-    case none
+    case next(myPageURLs: [URL])
+    case account(data: [MyPageAccountAlertInfoModel])
+}
+
+enum AccountActionType {
+    case signOut, delete
+}
+
+struct MyPageAccountAlertInfoModel {
+    let okTitle: String
+    let title: String
+    let subTitle: String
+    let type: AccountActionType
+}
+
+//TODO: API나오면 서버 리스폰스 모델로 교체
+struct MyPageURLModel {
+    let manual: String
+    let instagram: String
+    let privacy: String
+    let openSource: String
 }
