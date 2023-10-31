@@ -93,7 +93,7 @@ class WriteVC: BaseVC {
     /// tableView의 데이터들을 담는 싱글톤 클래스
     let contentInfo = ContentInfo.shared
     
-    private let pickerVC = WritePickerVC()
+    private let pickerVC = WritePickerVC(type: .post)
     
     // MARK: - Life Cycles
     override func viewDidLoad() {

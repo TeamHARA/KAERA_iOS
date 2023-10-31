@@ -60,6 +60,7 @@ final class HomeWorryEditVC: BaseVC {
         setUI()
         setPressAction()
         hideKeyboardWhenTappedAround()
+        addObserver()
     }
     
     // MARK: - Function
@@ -74,16 +75,19 @@ final class HomeWorryEditVC: BaseVC {
             print("고민상세", self.worryDetail)
             writeVC.modalPresentationStyle = .fullScreen
             writeVC.modalTransitionStyle = .coverVertical
-            self.present(writeVC,animated: true)
+            self.present(writeVC, animated: true)
         }
         
         editDeadlineButton.press {
-            //TODO: 데드라인 수정하기 -> 기존 데드라인 표시
-            let pickerVC = WritePickerVC()
-            print("디데이", self.worryDetail?.dDay)
+            let pickerVC = WritePickerVC(type: .patch)
+            pickerVC.worryId = self.worryId
             pickerVC.modalPresentationStyle = .fullScreen
             pickerVC.modalTransitionStyle = .coverVertical
+            pickerVC.completeWritingBtn.press {
+                self.dismiss(animated: true)
+            }
             self.present(pickerVC, animated: true)
+            pickerVC.datePickerView.selectRow(abs(self.worryDetail?.dDay ?? 0) - 1, inComponent: 0, animated: true)
         }
         
         deleteWorryButton.press {
@@ -134,12 +138,27 @@ final class HomeWorryEditVC: BaseVC {
     
     private func deleteWorry(completion: @escaping (Bool) -> Void) {
         /// 고민 삭제 delete 서버 통신
-        HomeAPI.shared.deleteWorryResponse(param: self.worryId) { response in
+        HomeAPI.shared.deleteWorry(param: self.worryId) { response in
             if response?.status == 200 {
                 completion(true)
             } else {
                 completion(false)
             }
+        }
+    }
+    
+    private func addObserver() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(self.didCompleteWritingNotification(_:)),
+            name: NSNotification.Name("CompleteWriting"),
+            object: nil
+        )
+    }
+    
+    @objc func didCompleteWritingNotification(_ notification: Notification) {
+        DispatchQueue.main.async {
+            self.dismiss(animated: true)
         }
     }
 }

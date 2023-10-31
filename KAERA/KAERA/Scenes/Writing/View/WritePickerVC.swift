@@ -9,6 +9,11 @@ import UIKit
 import SnapKit
 import Then
 
+enum DeadlineType {
+    case post
+    case patch
+}
+
 class WritePickerVC: UIViewController {
     
     // MARK: - Properties
@@ -20,6 +25,10 @@ class WritePickerVC: UIViewController {
     
     let contentInfo = ContentInfo.shared
     var publishedContent = WorryContentRequestModel(templateId: 1, title: "", answers: [], deadline: -1)
+    
+    var worryId: Int = 0
+    
+    var deadlineContent = PatchDeadlineModel(worryId: 1, dayCount: 1)
     
     private let pickerViewTitle = UILabel().then {
         $0.text = "이 고민, 언제까지 끝낼까요?"
@@ -51,7 +60,7 @@ class WritePickerVC: UIViewController {
         $0.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
     }
     
-    private let completeWritingBtn = UIButton().then {
+    let completeWritingBtn = UIButton().then {
         $0.backgroundColor = .kGray5
         $0.titleLabel?.font = .kB2R16
         $0.setTitle("작성완료", for: .normal)
@@ -75,6 +84,17 @@ class WritePickerVC: UIViewController {
         $0.setAttributedTitle(attributedTitle, for: .normal)
     }
     
+    private var deadlineType: DeadlineType = .post
+    
+    // MARK: - Initialization
+    init(type: DeadlineType) {
+        super.init(nibName: nil, bundle: nil)
+        self.deadlineType = type
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     // MARK: - Life Cycles
     override func viewDidLoad() {
@@ -86,7 +106,6 @@ class WritePickerVC: UIViewController {
     
     // MARK: - Functions
     private func pressBtn() {
-        
         completeWritingBtn.press { [self] in
             /// picker에서 고른 숫자를 deadline으로 설정해줌.
             let selectedRow = datePickerView.selectedRow(inComponent: 0)
@@ -99,8 +118,26 @@ class WritePickerVC: UIViewController {
             publishedContent.answers = contentInfo.answers
             publishedContent.deadline = contentInfo.deadline
             
-            self.postWorryContent()
-            
+            switch self .deadlineType {
+            case .post:
+                self.postWorryContent()
+            case .patch:
+                deadlineContent.worryId = self.worryId
+                deadlineContent.dayCount = contentInfo.deadline
+                /// 서버통신 실패 시 띄울 알럿 창 구현
+                let failureAlertVC = KaeraAlertVC(buttonType: .onlyOK, okTitle: "확인")
+                failureAlertVC.setTitleSubTitle(title: "일자 수정에 실패했어요", subTitle: "다시 한번 시도해주세요.", highlighting: "실패")
+                self.patchWorryDeadline { success in
+                    if success {
+                        NotificationCenter.default.post(name: NSNotification.Name("updateDeadline"), object: nil, userInfo: ["deadline": self.contentInfo.deadline])
+                    } else {
+                        self.present(failureAlertVC, animated: true)
+                        failureAlertVC.OKButton.press {
+                            self.dismiss(animated: true)
+                        }
+                    }
+                }
+            }
             UIView.animate(withDuration: 0.5, animations: { [self] in
                 view.alpha = 0
                 view.layoutIfNeeded()
@@ -121,6 +158,17 @@ class WritePickerVC: UIViewController {
         /// 서버로 고민 내용을 POST 시켜줌
         WriteAPI.shared.postWorryContent(param: publishedContent) { result in
             guard let result = result, let _ = result.data else { return }
+        }
+    }
+    
+    func patchWorryDeadline(completion: @escaping (Bool) -> Void) {
+        /// 서버로 고민 내용을 POST 시켜줌
+        HomeAPI.shared.updateDeadline(param: deadlineContent) { response in
+            if response?.status == 200 {
+                completion(true)
+            } else {
+                completion(false)
+            }
         }
     }
 }

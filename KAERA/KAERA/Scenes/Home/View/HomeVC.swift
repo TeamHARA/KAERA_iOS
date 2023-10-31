@@ -40,7 +40,7 @@ final class HomeVC: BaseVC {
     private let pageVC = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
     private let homeDiggingVC = HomeGemStoneVC(type: .digging)
     private let homeDugVC = HomeGemStoneVC(type: .dug)
-    private lazy var contents: [UIViewController] = [ homeDiggingVC, homeDugVC ]
+    private lazy var contents: [UIViewController] = [homeDiggingVC, homeDugVC ]
     
     // MARK: - View Life Cycle
     override func viewDidLoad() {

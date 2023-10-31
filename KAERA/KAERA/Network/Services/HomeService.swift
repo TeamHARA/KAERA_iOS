@@ -12,6 +12,7 @@ enum HomeService {
     case homeGemList(isSolved: Int)
     case worryDetail(worryId: Int)
     case deleteWorry(worryId: Int)
+    case updateDeadline(param: PatchDeadlineModel)
 }
 
 extension HomeService: BaseTargetType {
@@ -22,6 +23,8 @@ extension HomeService: BaseTargetType {
             return APIConstant.worryList + "/\(isSolved)"
         case .worryDetail(let worryId), .deleteWorry(let worryId):
             return APIConstant.worry + "/\(worryId)"
+        case .updateDeadline:
+            return APIConstant.worry + "/deadline"
         }
     }
     
@@ -31,6 +34,8 @@ extension HomeService: BaseTargetType {
             return .get
         case .deleteWorry:
             return .delete
+        case .updateDeadline:
+            return .patch
         }
     }
     
@@ -38,12 +43,14 @@ extension HomeService: BaseTargetType {
         switch self {
         case .homeGemList, .worryDetail, .deleteWorry:
             return .requestPlain
+        case .updateDeadline(let param):
+            return .requestJSONEncodable(param)
         }
     }
 
     var headers: [String : String]? {
         switch self {
-        case .homeGemList, .worryDetail, .deleteWorry:
+        case .homeGemList, .worryDetail, .deleteWorry, .updateDeadline:
             return NetworkConstant.hasTokenHeader
         }
     }

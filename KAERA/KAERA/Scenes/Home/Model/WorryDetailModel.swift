@@ -23,9 +23,12 @@ struct WorryDetailModel: Codable {
     }
 }
 
-
-
 // MARK: - Review
 struct Review: Codable {
     let content, updatedAt: String
+}
+
+struct PatchDeadlineModel: Codable {
+    var worryId: Int
+    var dayCount: Int
 }

@@ -18,10 +18,10 @@ final class HomeAPI {
     public private(set) var homeGemListResponse: GeneralArrayResponse<HomeGemListModel>?
     public private(set) var worryDetailResponse: GeneralResponse<WorryDetailModel>?
     public private(set) var deleteWorryResponse: EmptyResponse?
-    
+    public private(set) var updateDeadlineResponse: GeneralResponse<String>?
    
     // MARK: - HomeGemList
-    func getHomeGemList(param: Int, completion: @escaping (GeneralArrayResponse<HomeGemListModel>?) -> () ) {
+    func getHomeGemList(param: Int, completion: @escaping (GeneralArrayResponse<HomeGemListModel>?) -> ()) {
         homeProvider.request(.homeGemList(isSolved: param)) { [weak self] response in
             switch response {
             case .success(let result):
@@ -62,7 +62,7 @@ final class HomeAPI {
     }
     
     // MARK: - DeleteWorry
-    func deleteWorryResponse(param: Int, completion: @escaping (EmptyResponse?) -> ()) {
+    func deleteWorry(param: Int, completion: @escaping (EmptyResponse?) -> ()) {
         homeProvider.request(.deleteWorry(worryId: param)) { [weak self] response in
             switch response {
             case .success(let result):
@@ -74,6 +74,26 @@ final class HomeAPI {
                 }
             case .failure(let err):
                 print(err.localizedDescription)
+            }
+        }
+    }
+    
+    // MARK: - UpdateDeadline
+    func updateDeadline(param: PatchDeadlineModel, completion: @escaping (GeneralResponse<String>?) -> ()) {
+        homeProvider.request(.updateDeadline(param: param)) { [weak self] response in
+            switch response {
+            case .success(let result):
+                do {
+                    self?.updateDeadlineResponse = try result.map(GeneralResponse<String>?.self)
+                    guard let worryDeadline = self?.updateDeadlineResponse else { return }
+                    completion(worryDeadline)
+                } catch(let err) {
+                    print(err.localizedDescription)
+                    completion(nil)
+                }
+            case .failure(let err):
+                print(err.localizedDescription)
+                completion(nil)
             }
         }
     }
