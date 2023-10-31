@@ -197,7 +197,7 @@ final class HomeWorryDetailVC: BaseVC {
             let vc = WorryDecisionVC()
             vc.setTemplateId(id: self.templateId)
             vc.modalPresentationStyle = .overCurrentContext
-            vc.modalTransitionStyle = .coverVertical
+            vc.modalTransitionStyle = .crossDissolve
             self.present(vc, animated: true, completion: nil)
         }
     }
