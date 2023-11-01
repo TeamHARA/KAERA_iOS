@@ -23,11 +23,7 @@ final class MyPaggeViewModel: ViewModelType {
     
     private static let accountAlertInfo = [MyPageAccountAlertInfoModel(okTitle: "로그아웃", title: "로그아웃하시겠어요?", subTitle: "고민 원석과 보석은 저장되고 있어요", type: .signOut), MyPageAccountAlertInfoModel(okTitle: "탈퇴", title: "정말로 캐라를 떠나실 건가요?", subTitle: "탈퇴 후 내용은 복구가 불가능해요😢", type: .delete)]
     
-    private var myPageTVCModels: [MyPageTVCModel] = [
-        MyPageTVCModel(headerTitle: "알림설정", rowTitles: ["Push 알림"], rowButton: .push),
-        MyPageTVCModel(headerTitle: "정보", rowTitles: ["캐라 사용설명서", "인스타그램", "서비스 이용약관", "개인정보 처리방침"], rowButton: .next(myPageURLs: myPageURLs)),
-        MyPageTVCModel(headerTitle: "", rowTitles: ["로그아웃","계정탈퇴"], rowButton: .account(data: accountAlertInfo))
-    ]
+    private var myPageTVCModels: [MyPageTVCModel] = []
     
     
     func transform(input: Input) -> Output{
@@ -42,7 +38,7 @@ final class MyPaggeViewModel: ViewModelType {
     private func selectOutput(input: MyPageInputType) {
         switch input {
         case .loadData:
-            requestMyPageURLs()
+            requestMyPageData()
         case .push:
             checkPushState()
         case .accountAction(type: let type):
@@ -62,17 +58,18 @@ final class MyPaggeViewModel: ViewModelType {
         }
     }
 
-    private func requestMyPageURLs() {
-        //TODO: 서버에 URL 받아오기
-        let result = [
+    private func requestMyPageData() {
+        UNUserNotificationCenter.current().getNotificationSettings { setting in
+            PushSettingInfo.shared.isPushOn = setting.alertSetting == .enabled
+        }
+        
+        let urlStringArray = [
             "https://daffy-lawyer-1b8.notion.site/HARA-da398bb18b39485ba103a9daf7a2bfa3",
             "https://www.google.com",
             "https://github.com/TeamHARA/KAERA_iOS",
             "https://www.notion.so/TEAM-cd8e429815a54c64b67ad272499f8e22?pvs=4"]
-        
         var urls = Array<URL>()
-        
-        result.forEach { url in
+        urlStringArray.forEach { url in
             if let url = URL(string: url) {
                 urls.append(url)
             }
