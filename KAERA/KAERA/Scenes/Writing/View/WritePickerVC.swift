@@ -23,8 +23,8 @@ class WritePickerVC: UIViewController {
         $0.backgroundColor = .kGray1
     }
     
-    let contentInfo = ContentInfo.shared
-    var publishedContent = WorryContentRequestModel(templateId: 1, title: "", answers: [], deadline: -1)
+    let worryPostContent = WorryPostManager.shared
+    var worryPostPublishedContent = WorryContentRequestModel(templateId: 1, title: "", answers: [], deadline: -1)
     
     var worryId: Int = 0
     
@@ -110,26 +110,26 @@ class WritePickerVC: UIViewController {
             /// picker에서 고른 숫자를 deadline으로 설정해줌.
             let selectedRow = datePickerView.selectedRow(inComponent: 0)
             let selectedValue = pickerData[selectedRow]
-            contentInfo.deadline = Int(selectedValue) ?? -1
+            worryPostContent.deadline = Int(selectedValue) ?? -1
                         
             /// contentInfo 싱글톤 클래스에 담긴 내용을 서버로 보내주기 위해 구조체 형식으로 변환시켜줌.
-            publishedContent.templateId = contentInfo.templateId
-            publishedContent.title = contentInfo.title
-            publishedContent.answers = contentInfo.answers
-            publishedContent.deadline = contentInfo.deadline
+            worryPostPublishedContent.templateId = worryPostContent.templateId
+            worryPostPublishedContent.title = worryPostContent.title
+            worryPostPublishedContent.answers = worryPostContent.answers
+            worryPostPublishedContent.deadline = worryPostContent.deadline
             
             switch self .deadlineType {
             case .post:
                 self.postWorryContent()
             case .patch:
                 deadlineContent.worryId = self.worryId
-                deadlineContent.dayCount = contentInfo.deadline
+                deadlineContent.dayCount = worryPostContent.deadline
                 /// 서버통신 실패 시 띄울 알럿 창 구현
                 let failureAlertVC = KaeraAlertVC(buttonType: .onlyOK, okTitle: "확인")
                 failureAlertVC.setTitleSubTitle(title: "일자 수정에 실패했어요", subTitle: "다시 한번 시도해주세요.", highlighting: "실패")
                 self.patchWorryDeadline { success in
                     if success {
-                        NotificationCenter.default.post(name: NSNotification.Name("updateDeadline"), object: nil, userInfo: ["deadline": self.contentInfo.deadline])
+                        NotificationCenter.default.post(name: NSNotification.Name("updateDeadline"), object: nil, userInfo: ["deadline": self.deadlineContent.dayCount])
                     } else {
                         self.present(failureAlertVC, animated: true)
                         failureAlertVC.OKButton.press {
@@ -156,7 +156,7 @@ class WritePickerVC: UIViewController {
     
     private func postWorryContent() {
         /// 서버로 고민 내용을 POST 시켜줌
-        WriteAPI.shared.postWorryContent(param: publishedContent) { result in
+        WriteAPI.shared.postWorryContent(param: worryPostPublishedContent) { result in
             guard let result = result, let _ = result.data else { return }
         }
     }

@@ -19,6 +19,7 @@ final class HomeAPI {
     public private(set) var worryDetailResponse: GeneralResponse<WorryDetailModel>?
     public private(set) var deleteWorryResponse: EmptyResponse?
     public private(set) var updateDeadlineResponse: GeneralResponse<String>?
+    public private(set) var editWorryResponse: GeneralResponse<String>?
    
     // MARK: - HomeGemList
     func getHomeGemList(param: Int, completion: @escaping (GeneralArrayResponse<HomeGemListModel>?) -> ()) {
@@ -87,6 +88,26 @@ final class HomeAPI {
                     self?.updateDeadlineResponse = try result.map(GeneralResponse<String>?.self)
                     guard let worryDeadline = self?.updateDeadlineResponse else { return }
                     completion(worryDeadline)
+                } catch(let err) {
+                    print(err.localizedDescription)
+                    completion(nil)
+                }
+            case .failure(let err):
+                print(err.localizedDescription)
+                completion(nil)
+            }
+        }
+    }
+    
+    // MARK: - EditWorry
+    func editWorry(param: PatchWorryModel, completion: @escaping (GeneralResponse<String>?) -> ()) {
+        homeProvider.request(.editWorry(param: param)) { [weak self] response in
+            switch response {
+            case .success(let result):
+                do {
+                    self?.editWorryResponse = try result.map(GeneralResponse<String>?.self)
+                    guard let worryContent = self?.editWorryResponse else { return }
+                    completion(worryContent)
                 } catch(let err) {
                     print(err.localizedDescription)
                     completion(nil)

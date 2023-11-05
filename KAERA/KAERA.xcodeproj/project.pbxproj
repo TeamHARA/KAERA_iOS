@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		850C55962ADB2AA00088ABBB /* WorryPatchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850C55952ADB2AA00088ABBB /* WorryPatchManager.swift */; };
 		85887D822A5C429F00F7FB21 /* WriteModalVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85887D812A5C429F00F7FB21 /* WriteModalVC.swift */; };
 		85887D842A5C42A700F7FB21 /* WriteModalCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85887D832A5C42A700F7FB21 /* WriteModalCVC.swift */; };
 		85887D8C2A5D084800F7FB21 /* TemplateListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85887D8B2A5D084800F7FB21 /* TemplateListModel.swift */; };
@@ -24,7 +25,7 @@
 		85A8492F2A87A9EC009F1468 /* TemplateContentTV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A8492E2A87A9EC009F1468 /* TemplateContentTV.swift */; };
 		85A849312A87A9F7009F1468 /* TemplateContentTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A849302A87A9F7009F1468 /* TemplateContentTVC.swift */; };
 		85A849332A87DA36009F1468 /* TemplateContentHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A849322A87DA36009F1468 /* TemplateContentHeaderView.swift */; };
-		85E349492AC06C63007D9956 /* ContentInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85E349482AC06C63007D9956 /* ContentInfo.swift */; };
+		85E349492AC06C63007D9956 /* WorryPostManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85E349482AC06C63007D9956 /* WorryPostManager.swift */; };
 		85EBC7F12A5AD7BC00B9E891 /* KaeraTabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EBC7F02A5AD7BC00B9E891 /* KaeraTabbarController.swift */; };
 		85EBC7F32A5AD93200B9E891 /* HomeGemStoneVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EBC7F22A5AD93200B9E891 /* HomeGemStoneVC.swift */; };
 		85EBC7F52A5AD94100B9E891 /* WriteVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EBC7F42A5AD94100B9E891 /* WriteVC.swift */; };
@@ -135,6 +136,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		850C55952ADB2AA00088ABBB /* WorryPatchManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorryPatchManager.swift; sourceTree = "<group>"; };
 		85887D812A5C429F00F7FB21 /* WriteModalVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteModalVC.swift; sourceTree = "<group>"; };
 		85887D832A5C42A700F7FB21 /* WriteModalCVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteModalCVC.swift; sourceTree = "<group>"; };
 		85887D8B2A5D084800F7FB21 /* TemplateListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateListModel.swift; sourceTree = "<group>"; };
@@ -152,7 +154,7 @@
 		85A8492E2A87A9EC009F1468 /* TemplateContentTV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateContentTV.swift; sourceTree = "<group>"; };
 		85A849302A87A9F7009F1468 /* TemplateContentTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateContentTVC.swift; sourceTree = "<group>"; };
 		85A849322A87DA36009F1468 /* TemplateContentHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateContentHeaderView.swift; sourceTree = "<group>"; };
-		85E349482AC06C63007D9956 /* ContentInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentInfo.swift; sourceTree = "<group>"; };
+		85E349482AC06C63007D9956 /* WorryPostManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorryPostManager.swift; sourceTree = "<group>"; };
 		85EBC7F02A5AD7BC00B9E891 /* KaeraTabbarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KaeraTabbarController.swift; sourceTree = "<group>"; };
 		85EBC7F22A5AD93200B9E891 /* HomeGemStoneVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeGemStoneVC.swift; sourceTree = "<group>"; };
 		85EBC7F42A5AD94100B9E891 /* WriteVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteVC.swift; sourceTree = "<group>"; };
@@ -657,7 +659,8 @@
 		E7BB4F4C2A5EF7520018312B /* View */ = {
 			isa = PBXGroup;
 			children = (
-				85E349482AC06C63007D9956 /* ContentInfo.swift */,
+				850C55952ADB2AA00088ABBB /* WorryPatchManager.swift */,
+				85E349482AC06C63007D9956 /* WorryPostManager.swift */,
 				85A849322A87DA36009F1468 /* TemplateContentHeaderView.swift */,
 				85A849302A87A9F7009F1468 /* TemplateContentTVC.swift */,
 				85A8492E2A87A9EC009F1468 /* TemplateContentTV.swift */,
@@ -836,6 +839,7 @@
 				E79AAC212A52F19300F3F439 /* ToastMessageColorType.swift in Sources */,
 				E73CA3E72A6B5D2500BAC9D6 /* HomeWorryDetailHeaderView.swift in Sources */,
 				E7AC12232A51D08300FE504C /* Temp_DataModel.swift in Sources */,
+				850C55962ADB2AA00088ABBB /* WorryPatchManager.swift in Sources */,
 				85887DA02A612E1000F7FB21 /* TemplateInfoTVC.swift in Sources */,
 				E7BB4F3B2A5ED3610018312B /* HomeVC.swift in Sources */,
 				E79AAC342A52F2C300F3F439 /* UIViewController+.swift in Sources */,
@@ -908,7 +912,7 @@
 				E74969342A80AE2100C3C0CF /* WorryQuoteView.swift in Sources */,
 				E79AAC352A52F2C300F3F439 /* UIImageView+.swift in Sources */,
 				85887D9C2A605D0B00F7FB21 /* TemplateInfoVC.swift in Sources */,
-				85E349492AC06C63007D9956 /* ContentInfo.swift in Sources */,
+				85E349492AC06C63007D9956 /* WorryPostManager.swift in Sources */,
 				E7BB4F4F2A5EF81C0018312B /* WorryListViewModel.swift in Sources */,
 				E7FEC09E2A6F6C76006F36BF /* ViewModelType.swift in Sources */,
 			);
