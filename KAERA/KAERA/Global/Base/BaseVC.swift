@@ -64,6 +64,12 @@ extension BaseVC {
         
         self.present(safariVC, animated: true)
     }
+    
+    func presentNetworkAlert() {
+        let alertVC = KaeraAlertVC(buttonType: .onlyOK)
+        alertVC.setTitleSubTitle(title: "요청에 실패했어요...😢", subTitle: "잠시후 다시 시도해주세요")
+        self.present(alertVC, animated: true)
+    }
 }
 
 // MARK: - Custom Methods(화면전환)

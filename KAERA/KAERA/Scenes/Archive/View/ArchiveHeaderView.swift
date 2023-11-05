@@ -9,34 +9,18 @@ import UIKit
 import SnapKit
 import Then
 
-class ArchiveHeaderView: UIView {
+final class ArchiveHeaderView: UIView {
     
     // MARK: - Properties
-    private let titleLabel = UILabel().then {
-        $0.text = "보석고민함"
-        $0.textColor = .white
-        $0.font = .kH1B20
-    }
+    private let navigationBarView = CustomNavigationBarView(leftType: .info, rightType: .myPage, title: "보석고민함")
     
-    let templateInfoBtn = UIButton().then {
-        $0.setBackgroundImage(UIImage(named: "icn_template_info"), for: .normal)
-        $0.contentMode = .scaleToFill
-        $0.backgroundColor = .clear
-    }
-    
-    private let myPage = UIButton().then {
-        $0.setBackgroundImage(UIImage(named: "icn_mypage"), for: .normal)
-        $0.contentMode = .scaleToFill
-        $0.backgroundColor = .clear
-    }
-    
-    let numLabel = UILabel().then {
+    private let numLabel = UILabel().then {
         $0.text = "총 n개"
         $0.textColor = .white
         $0.font = .kB4R14
     }
     
-    let sortBtn = UIButton().then {
+    private let sortBtn = UIButton().then {
         $0.backgroundColor = .kGray2
         $0.layer.cornerRadius = 10
         $0.titleLabel?.font = .kB4R14
@@ -59,35 +43,48 @@ class ArchiveHeaderView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    func setLeftButtonPressAction(completion: @escaping () -> ()) {
+        navigationBarView.setLeftButtonAction {
+            completion()
+        }
+    }
+    
+    func setRightButtonPressAction(completion: @escaping () -> ()) {
+        navigationBarView.setRightButtonAction {
+            completion()
+        }
+    }
+    
+    func setSortButtonPressAction(completion: @escaping () -> ()) {
+        sortBtn.press {
+            completion()
+        }
+    }
+    
+    func setSortButtonTitle(title: String) {
+        sortBtn.setTitle(title, for: .normal)
+    }
+    
+    func setNumLabelText(text: String) {
+        numLabel.text = text
+    }
 }
 
 // MARK: - Layout
 extension ArchiveHeaderView{
-    func setLayout() {
+    private func setLayout() {
         self.backgroundColor = .clear
-        self.addSubViews([titleLabel, templateInfoBtn, myPage, sortBtn, numLabel, toggleBtn])
-        
-        titleLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(24.adjustedW)
-            $0.centerX.equalToSuperview()
-        }
-        
-        templateInfoBtn.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(25.adjustedW)
-            $0.leading.equalToSuperview().offset(16.adjustedW)
-            $0.width.equalTo(28)
-            $0.height.equalTo(28)
-        }
-        
-        myPage.snp.makeConstraints {
-            $0.centerY.equalTo(titleLabel.snp.centerY)
-            $0.trailing.equalToSuperview().offset(-16.adjustedW)
-            $0.width.equalTo(24)
-            $0.height.equalTo(24)
+        self.addSubViews([navigationBarView, sortBtn, numLabel, toggleBtn])
+
+        navigationBarView.snp.makeConstraints {
+            $0.horizontalEdges.equalTo(self.safeAreaLayoutGuide).inset(16)
+            $0.top.equalTo(self.safeAreaLayoutGuide).inset(20)
+            $0.height.equalTo(24.adjustedH)
         }
         
         sortBtn.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).offset(25)
+            $0.top.equalTo(navigationBarView.snp.bottom).offset(25)
             $0.leading.equalToSuperview().offset(16.adjustedW)
             $0.trailing.equalToSuperview().offset(-16.adjustedW)
             $0.height.equalTo(32.adjustedW)

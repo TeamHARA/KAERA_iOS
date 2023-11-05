@@ -79,7 +79,7 @@ final class CustomNavigationBarView: UIView {
             case .edit:
                 rightButton.setImage(UIImage(named: "icn_edit"), for: .normal)
             case .myPage:
-                rightButton.setImage(UIImage(named: "icn_myPage"), for: .normal)
+                rightButton.setImage(UIImage(named: "icn_mypage"), for: .normal)
             case .delete:
                 rightButton.setImage(UIImage(named: "icn_delete"), for: .normal)
             default:
@@ -123,16 +123,16 @@ extension CustomNavigationBarView {
     private func setLayout() {
         self.addSubviews([leftButton, rightButton, titleLabel])
         titleLabel.snp.makeConstraints {
-            $0.centerX.top.equalToSuperview()
+            $0.centerX.centerY.equalToSuperview()
         }
         
         leftButton.snp.makeConstraints {
-            $0.top.left.equalToSuperview()
+            $0.centerY.left.equalToSuperview()
             $0.width.height.equalTo(24)
         }
         
         rightButton.snp.makeConstraints {
-            $0.top.right.equalToSuperview()
+            $0.centerY.right.equalToSuperview()
             $0.width.height.equalTo(24)
         }
     }
