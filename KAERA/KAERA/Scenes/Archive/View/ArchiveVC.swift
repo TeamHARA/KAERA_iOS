@@ -83,7 +83,7 @@ class ArchiveVC: UIViewController, RefreshListDelegate {
     }
     
     /// 뷰모델의 데이터를 뷰컨의 리스트 데이터와 연동
-    private func dataBind() {
+    func dataBind() {
         let output = worryVM.transform(
             input: WorryListViewModel.Input(input)
         )

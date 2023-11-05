@@ -195,9 +195,10 @@ final class HomeWorryDetailVC: BaseVC {
     private func setPressAction() {
         digWorryButton.press {
             let vc = WorryDecisionVC()
-            vc.setTemplateId(id: self.templateId)
+            vc.setWorryInfo(worryId: self.worryId, templateid: self.templateId)
             vc.modalPresentationStyle = .overCurrentContext
             vc.modalTransitionStyle = .crossDissolve
+            vc.setKeyboardAction()
             self.present(vc, animated: true, completion: nil)
         }
     }

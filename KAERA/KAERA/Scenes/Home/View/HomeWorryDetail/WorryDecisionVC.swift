@@ -63,7 +63,12 @@ final class WorryDecisionVC: BaseVC {
     private var defaultTextHeight: CGFloat = 40
     private lazy var defaultMainViewHeight: CGFloat = (282 - defaultTextHeight).adjustedH
     
+    private var worryId: Int = 0
     private var templateId: Int = 0
+    
+    private var worryCompletePublishedContent = CompleteWorryModel(worryId: 0, finalAnswer: "")
+    
+    private let archiveVC = ArchiveVC()
     
     // MARK: - View Life Cycle
     override func viewDidLoad() {
@@ -89,9 +94,36 @@ final class WorryDecisionVC: BaseVC {
     }
     
     private func setPressAction() {
-        self.doneButton.press {
-            // 고민 완료 Post
-            self.showWorryQuote()
+        doneButton.press {
+            self.completeWorry { success in
+                print("성공 여부", success)
+                if success {
+                    self.showWorryQuote()
+                    self.archiveVC.dataBind()
+                    self.archiveVC.refreshList(templateTitle: "모든 보석 보기", templateId: 0)
+                /// 서버통신 실패 시 "고민 보석 캐기 실패" 알럿창 띄우기
+                } else {
+                    let failureAlertVC = KaeraAlertVC(buttonType: .onlyOK, okTitle: "확인")
+                    failureAlertVC.setTitleSubTitle(title: "고민 보석 캐기에 실패했어요", subTitle: "다시 한번 시도해주세요.", highlighting: "실패")
+                    self.present(failureAlertVC, animated: true)
+                    failureAlertVC.OKButton.press {
+                        self.dismiss(animated: true)
+                    }
+                }
+            }
+        }
+    }
+    
+    private func completeWorry(completion: @escaping (Bool) -> Void) {
+        self.worryCompletePublishedContent.worryId = self.worryId
+        self.worryCompletePublishedContent.finalAnswer = self.worryTextView.text
+        /// 고민 삭제 delete 서버 통신
+        HomeAPI.shared.completeWorry(param: worryCompletePublishedContent) { response in
+            if response?.status == 200 {
+                completion(true)
+            } else {
+                completion(false)
+            }
         }
     }
     
@@ -115,11 +147,16 @@ final class WorryDecisionVC: BaseVC {
         }
     }
     
-    func setTemplateId(id: Int) {
-        self.templateId = id
+    func setWorryInfo(worryId:Int, templateid: Int) {
+        self.worryId = worryId
+        self.templateId = templateid
     }
-
+    
+    func setKeyboardAction() {
+        worryTextView.becomeFirstResponder()
+    }
 }
+
 // MARK: - Keyboard Setting
 extension WorryDecisionVC {
     private func addKeyboardObserver() {
@@ -134,9 +171,7 @@ extension WorryDecisionVC {
             self, selector: #selector(keyboardWillDisappear),
             name: UIResponder.keyboardWillHideNotification,
             object: nil)
-
     }
-    
     
     private func removeKeyboardObserver() {
         NotificationCenter.default.removeObserver(

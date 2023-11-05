@@ -86,6 +86,8 @@ class WritePickerVC: UIViewController {
     
     private var deadlineType: DeadlineType = .post
     
+    private let archiveVC = ArchiveVC()
+    
     // MARK: - Initialization
     init(type: DeadlineType) {
         super.init(nibName: nil, bundle: nil)
