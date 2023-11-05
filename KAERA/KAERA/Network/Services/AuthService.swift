@@ -36,7 +36,7 @@ extension AuthService: BaseTargetType {
         case .renewelToken:
             return APIConstant.refresh
         case .kakaoLogout:
-            return APIConstant.kakaoLogout
+            return APIConstant.logout
         }
     }
     
@@ -60,16 +60,16 @@ extension AuthService: BaseTargetType {
             return .requestJSONEncodable(requestBody)
             
         case .kakaoLogout:
-            let accessToken = KeychainManager.load(key: .accessToken) ?? ""
-            let requestBody = SignOutRequestBody(accessToken: accessToken)
-            return .requestJSONEncodable(requestBody)
+            return .requestPlain
         }
     }
     
     var headers: [String : String]? {
         switch self {
-        case .kakaoLogin, .renewelToken, .kakaoLogout:
+        case .kakaoLogin, .renewelToken:
             return NetworkConstant.noTokenHeader
+        case .kakaoLogout:
+            return NetworkConstant.hasTokenHeader
         }
     }
 }
