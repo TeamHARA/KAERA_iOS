@@ -118,9 +118,12 @@ final class WorryDecisionVC: BaseVC {
         self.worryCompletePublishedContent.worryId = self.worryId
         self.worryCompletePublishedContent.finalAnswer = self.worryTextView.text
         /// 고민 삭제 delete 서버 통신
-        HomeAPI.shared.completeWorry(param: worryCompletePublishedContent) { response in
-            if response?.status == 200 {
+        HomeAPI.shared.completeWorry(param: worryCompletePublishedContent) {[weak self] response in
+            if let res = response {
                 completion(true)
+                if let quote = res.data?.quote {
+                    self?.quoteView.getRandomQuote(text: quote)
+                }
             } else {
                 completion(false)
             }
