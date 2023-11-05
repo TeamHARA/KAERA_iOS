@@ -10,9 +10,7 @@ import SnapKit
 import Then
 
 final class WorryQuoteView: UIView {
-    
-    private var quoteString: String = ""
-    
+        
     private let gemImage = UIImageView().then {
         $0.image = UIImage(named: "gem_red_l")
     }
@@ -28,11 +26,9 @@ final class WorryQuoteView: UIView {
         $0.font = .kMoR13
         $0.numberOfLines = 2
     }
-    
+        
     override init(frame: CGRect) {
         super.init(frame: .zero)
-        // 랜덤 명언 데이터 선택
-        getRandomQuote()
         setLayout()
     }
     
@@ -40,8 +36,7 @@ final class WorryQuoteView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func getRandomQuote() {
-        let text = "고민하면서 길을 찾는 사람들, 그들은 참된 인간상이다\n- 파스칼 -"
+    func getRandomQuote(text: String) {
         let style = NSMutableParagraphStyle()
         style.lineSpacing = UIFont.kB4R14.lineHeight * 0.6
         style.alignment = .center
@@ -55,7 +50,6 @@ final class WorryQuoteView: UIView {
         )
         subTitleLabel.attributedText = attributedText
     }
-    
 }
 
 // MARK: - UI

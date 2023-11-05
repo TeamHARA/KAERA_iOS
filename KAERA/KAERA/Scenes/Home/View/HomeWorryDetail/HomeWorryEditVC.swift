@@ -56,6 +56,8 @@ final class HomeWorryEditVC: BaseVC {
     [TemplateInfoPublisherModel] = []
     
     let worryPatchContent = WorryPatchManager.shared
+    
+    private let archiveVC = ArchiveVC()
 
     init(worryId: Int) {
         super.init(nibName: nil, bundle: nil)
@@ -138,6 +140,8 @@ final class HomeWorryEditVC: BaseVC {
                                 }
                             }
                         }
+                        // MARK: - worryListCV 데이터 다시 받아오고 reload시켜주어야함.
+                        self?.archiveVC.dataBind()
                     /// 서버통신 실패 시 "삭제 실패" 알럿창 띄우기
                     } else {
                         self?.dismiss(animated: true) { [weak self] in
