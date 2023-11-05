@@ -26,5 +26,5 @@ struct APIConstant {
     static let review = "/review"
     static let kakaoLogin = "/auth/kakao/login"
     static let refresh = "/auth/token/refresh"
-    static let kakaoLogout = "/auth/kakao/logout"
+    static let logout = "/auth/logout"
 }
