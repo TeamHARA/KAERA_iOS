@@ -123,13 +123,13 @@ class WritePickerVC: UIViewController {
                 self.postWorryContent()
             case .patch:
                 deadlineContent.worryId = self.worryId
-                deadlineContent.dayCount = contentInfo.deadline
+                deadlineContent.dayCount = worryPostContent.deadline
                 /// 서버통신 실패 시 띄울 알럿 창 구현
                 let failureAlertVC = KaeraAlertVC(buttonType: .onlyOK, okTitle: "확인")
                 failureAlertVC.setTitleSubTitle(title: "일자 수정에 실패했어요", subTitle: "다시 한번 시도해주세요.", highlighting: "실패")
                 self.patchWorryDeadline { success in
                     if success {
-                        NotificationCenter.default.post(name: NSNotification.Name("updateDeadline"), object: nil, userInfo: ["deadline": self.contentInfo.deadline])
+                        NotificationCenter.default.post(name: NSNotification.Name("updateDeadline"), object: nil, userInfo: ["deadline": self.deadlineContent.dayCount])
                     } else {
                         self.present(failureAlertVC, animated: true)
                         failureAlertVC.OKButton.press {
