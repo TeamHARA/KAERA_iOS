@@ -72,6 +72,7 @@
 		E70C7CA32A909829006B2E74 /* HomeAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E70C7CA22A909829006B2E74 /* HomeAPI.swift */; };
 		E71FC2262AD284D9001DD27D /* SplashVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E71FC2252AD284D9001DD27D /* SplashVC.swift */; };
 		E71FC22C2AD29400001DD27D /* RenewalTokenModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E71FC22B2AD29400001DD27D /* RenewalTokenModel.swift */; };
+		E71FC2442ADC01B6001DD27D /* MyPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E71FC2432ADC01B6001DD27D /* MyPageVC.swift */; };
 		E721EABD2A51D5D900A04AA0 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = E721EABC2A51D5D900A04AA0 /* Then */; };
 		E73CA3DA2A69300F00BAC9D6 /* HomePublisherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73CA3D92A69300F00BAC9D6 /* HomePublisherModel.swift */; };
 		E73CA3DC2A693C9D00BAC9D6 /* GemStoneEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73CA3DB2A693C9D00BAC9D6 /* GemStoneEmptyView.swift */; };
@@ -118,6 +119,12 @@
 		E7AC122F2A51D54900FE504C /* CombineMoya in Frameworks */ = {isa = PBXBuildFile; productRef = E7AC122E2A51D54900FE504C /* CombineMoya */; };
 		E7AC12312A51D54900FE504C /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = E7AC12302A51D54900FE504C /* Moya */; };
 		E7AC12342A51D56F00FE504C /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = E7AC12332A51D56F00FE504C /* SnapKit */; };
+		E7B94D702ADDF9B8005D9FB8 /* MyPageTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B94D6F2ADDF9B8005D9FB8 /* MyPageTVC.swift */; };
+		E7B94D722ADDF9F3005D9FB8 /* MyPageTVHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B94D712ADDF9F3005D9FB8 /* MyPageTVHeaderView.swift */; };
+		E7B94D742ADE9A35005D9FB8 /* MyPaggeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B94D732ADE9A35005D9FB8 /* MyPaggeViewModel.swift */; };
+		E7B94D782ADEAAB3005D9FB8 /* MyPageTVFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B94D772ADEAAB3005D9FB8 /* MyPageTVFooterView.swift */; };
+		E7B94D7A2ADEB403005D9FB8 /* MyPageTVCModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B94D792ADEB403005D9FB8 /* MyPageTVCModel.swift */; };
+		E7B94D7C2AE00C42005D9FB8 /* PushSettingInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B94D7B2AE00C42005D9FB8 /* PushSettingInfo.swift */; };
 		E7BB4F3B2A5ED3610018312B /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7BB4F3A2A5ED3610018312B /* HomeVC.swift */; };
 		E7BB4F472A5EF7060018312B /* HomeGemListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7BB4F462A5EF7060018312B /* HomeGemListViewModel.swift */; };
 		E7BB4F492A5EF7320018312B /* HomeGemListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7BB4F482A5EF7320018312B /* HomeGemListModel.swift */; };
@@ -130,6 +137,7 @@
 		E7C808E92A4D37F800F475CE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C808E82A4D37F800F475CE /* AppDelegate.swift */; };
 		E7C808EB2A4D37F800F475CE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C808EA2A4D37F800F475CE /* SceneDelegate.swift */; };
 		E7C808F22A4D37FA00F475CE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E7C808F12A4D37FA00F475CE /* Assets.xcassets */; };
+		E7DE36242AE4F59900B0DC67 /* MyPageDataType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7DE36232AE4F59900B0DC67 /* MyPageDataType.swift */; };
 		E7FEC0962A6CFD12006F36BF /* HomeWorryDetailFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7FEC0952A6CFD12006F36BF /* HomeWorryDetailFooterView.swift */; };
 		E7FEC0982A6D1274006F36BF /* HomeWorryDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7FEC0972A6D1274006F36BF /* HomeWorryDetailViewModel.swift */; };
 		E7FEC09A2A6D1725006F36BF /* WorryDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7FEC0992A6D1725006F36BF /* WorryDetailModel.swift */; };
@@ -176,6 +184,7 @@
 		E70C7CA22A909829006B2E74 /* HomeAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeAPI.swift; sourceTree = "<group>"; };
 		E71FC2252AD284D9001DD27D /* SplashVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashVC.swift; sourceTree = "<group>"; };
 		E71FC22B2AD29400001DD27D /* RenewalTokenModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenewalTokenModel.swift; sourceTree = "<group>"; };
+		E71FC2432ADC01B6001DD27D /* MyPageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageVC.swift; sourceTree = "<group>"; };
 		E73CA3D92A69300F00BAC9D6 /* HomePublisherModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePublisherModel.swift; sourceTree = "<group>"; };
 		E73CA3DB2A693C9D00BAC9D6 /* GemStoneEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GemStoneEmptyView.swift; sourceTree = "<group>"; };
 		E73CA3DE2A6A62F700BAC9D6 /* HomeWorryDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeWorryDetailVC.swift; sourceTree = "<group>"; };
@@ -216,6 +225,12 @@
 		E7A94CD22AB0910F00F231D0 /* KaeraAlertVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KaeraAlertVC.swift; sourceTree = "<group>"; };
 		E7AC12202A51CFFD00FE504C /* GeneralResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralResponse.swift; sourceTree = "<group>"; };
 		E7AC12222A51D08300FE504C /* Temp_DataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Temp_DataModel.swift; sourceTree = "<group>"; };
+		E7B94D6F2ADDF9B8005D9FB8 /* MyPageTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageTVC.swift; sourceTree = "<group>"; };
+		E7B94D712ADDF9F3005D9FB8 /* MyPageTVHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageTVHeaderView.swift; sourceTree = "<group>"; };
+		E7B94D732ADE9A35005D9FB8 /* MyPaggeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPaggeViewModel.swift; sourceTree = "<group>"; };
+		E7B94D772ADEAAB3005D9FB8 /* MyPageTVFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageTVFooterView.swift; sourceTree = "<group>"; };
+		E7B94D792ADEB403005D9FB8 /* MyPageTVCModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageTVCModel.swift; sourceTree = "<group>"; };
+		E7B94D7B2AE00C42005D9FB8 /* PushSettingInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushSettingInfo.swift; sourceTree = "<group>"; };
 		E7BB4F3A2A5ED3610018312B /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
 		E7BB4F462A5EF7060018312B /* HomeGemListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeGemListViewModel.swift; sourceTree = "<group>"; };
 		E7BB4F482A5EF7320018312B /* HomeGemListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeGemListModel.swift; sourceTree = "<group>"; };
@@ -230,6 +245,7 @@
 		E7C808EA2A4D37F800F475CE /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		E7C808F12A4D37FA00F475CE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E7C808F62A4D37FA00F475CE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E7DE36232AE4F59900B0DC67 /* MyPageDataType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageDataType.swift; sourceTree = "<group>"; };
 		E7FEC0952A6CFD12006F36BF /* HomeWorryDetailFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeWorryDetailFooterView.swift; sourceTree = "<group>"; };
 		E7FEC0972A6D1274006F36BF /* HomeWorryDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeWorryDetailViewModel.swift; sourceTree = "<group>"; };
 		E7FEC0992A6D1725006F36BF /* WorryDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorryDetailModel.swift; sourceTree = "<group>"; };
@@ -333,6 +349,10 @@
 			isa = PBXGroup;
 			children = (
 				E7A94CC32AA484E300F231D0 /* SignInVC.swift */,
+				E71FC2432ADC01B6001DD27D /* MyPageVC.swift */,
+				E7B94D6F2ADDF9B8005D9FB8 /* MyPageTVC.swift */,
+				E7B94D712ADDF9F3005D9FB8 /* MyPageTVHeaderView.swift */,
+				E7B94D772ADEAAB3005D9FB8 /* MyPageTVFooterView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -341,6 +361,9 @@
 			isa = PBXGroup;
 			children = (
 				E707646D2ABFF7E800627AA7 /* SignInModel.swift */,
+				E7B94D792ADEB403005D9FB8 /* MyPageTVCModel.swift */,
+				E7B94D7B2AE00C42005D9FB8 /* PushSettingInfo.swift */,
+				E7DE36232AE4F59900B0DC67 /* MyPageDataType.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -349,6 +372,7 @@
 			isa = PBXGroup;
 			children = (
 				E70764722ABFFF9200627AA7 /* SignInViewModel.swift */,
+				E7B94D732ADE9A35005D9FB8 /* MyPaggeViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -841,11 +865,14 @@
 				E73CA3E42A6AB09100BAC9D6 /* HomeWorryDetailTVC.swift in Sources */,
 				E79AAC212A52F19300F3F439 /* ToastMessageColorType.swift in Sources */,
 				E73CA3E72A6B5D2500BAC9D6 /* HomeWorryDetailHeaderView.swift in Sources */,
+				E7B94D7A2ADEB403005D9FB8 /* MyPageTVCModel.swift in Sources */,
+				E7B94D7C2AE00C42005D9FB8 /* PushSettingInfo.swift in Sources */,
 				E7AC12232A51D08300FE504C /* Temp_DataModel.swift in Sources */,
 				85831C322AF0F5F2008839A0 /* CompleteWorryModel.swift in Sources */,
 				850C55962ADB2AA00088ABBB /* WorryPatchManager.swift in Sources */,
 				85887DA02A612E1000F7FB21 /* TemplateInfoTVC.swift in Sources */,
 				E7BB4F3B2A5ED3610018312B /* HomeVC.swift in Sources */,
+				E7B94D722ADDF9F3005D9FB8 /* MyPageTVHeaderView.swift in Sources */,
 				E79AAC342A52F2C300F3F439 /* UIViewController+.swift in Sources */,
 				E79AAC332A52F2C300F3F439 /* UITextField+.swift in Sources */,
 				E79AAC322A52F2C300F3F439 /* UIColor+.swift in Sources */,
@@ -855,6 +882,7 @@
 				E79AAC372A52F2C300F3F439 /* CALayer+.swift in Sources */,
 				E74969302A7B2DF000C3C0CF /* WorryDecisionVC.swift in Sources */,
 				E7A94CCD2AAC149900F231D0 /* Environment.swift in Sources */,
+				E71FC2442ADC01B6001DD27D /* MyPageVC.swift in Sources */,
 				E70764752AC06B6000627AA7 /* KeyChainManager.swift in Sources */,
 				E79AAC3D2A52F2C300F3F439 /* UIFont+.swift in Sources */,
 				85887D8E2A5D086300F7FB21 /* TemplateViewModel.swift in Sources */,
@@ -862,6 +890,7 @@
 				E7BB4F492A5EF7320018312B /* HomeGemListModel.swift in Sources */,
 				E7BB4F512A5EF8260018312B /* WorryListModel.swift in Sources */,
 				E79AAC392A52F2C300F3F439 /* UICollectionVIew+.swift in Sources */,
+				E7B94D702ADDF9B8005D9FB8 /* MyPageTVC.swift in Sources */,
 				85EBC7F72A5AD95D00B9E891 /* ArchiveVC.swift in Sources */,
 				E79AAC432A52F36500F3F439 /* APIConstant.swift in Sources */,
 				E7FEC09A2A6D1725006F36BF /* WorryDetailModel.swift in Sources */,
@@ -873,6 +902,7 @@
 				85EBC7F52A5AD94100B9E891 /* WriteVC.swift in Sources */,
 				E73CA3DA2A69300F00BAC9D6 /* HomePublisherModel.swift in Sources */,
 				E71FC22C2AD29400001DD27D /* RenewalTokenModel.swift in Sources */,
+				E7B94D782ADEAAB3005D9FB8 /* MyPageTVFooterView.swift in Sources */,
 				85887D9E2A61219700F7FB21 /* TemplateInfoHeaderView.swift in Sources */,
 				E79AAC4A2A52F3E000F3F439 /* BaseVC.swift in Sources */,
 				E70764732ABFFF9200627AA7 /* SignInViewModel.swift in Sources */,
@@ -894,6 +924,7 @@
 				E707646E2ABFF7E800627AA7 /* SignInModel.swift in Sources */,
 				E79AAC312A52F2C300F3F439 /* UIView+.swift in Sources */,
 				E7FEC0962A6CFD12006F36BF /* HomeWorryDetailFooterView.swift in Sources */,
+				E7DE36242AE4F59900B0DC67 /* MyPageDataType.swift in Sources */,
 				85EBC7F32A5AD93200B9E891 /* HomeGemStoneVC.swift in Sources */,
 				E79AAC442A52F36500F3F439 /* BaseTargetType.swift in Sources */,
 				E7BB4F472A5EF7060018312B /* HomeGemListViewModel.swift in Sources */,
@@ -903,6 +934,7 @@
 				E7FEC0982A6D1274006F36BF /* HomeWorryDetailViewModel.swift in Sources */,
 				85887D842A5C42A700F7FB21 /* WriteModalCVC.swift in Sources */,
 				85A8492F2A87A9EC009F1468 /* TemplateContentTV.swift in Sources */,
+				E7B94D742ADE9A35005D9FB8 /* MyPaggeViewModel.swift in Sources */,
 				85ECEE472A9A117E00A624AE /* ArchiveAPI.swift in Sources */,
 				E79AAC3C2A52F2C300F3F439 /* NSObject+.swift in Sources */,
 				85887D922A60320A00F7FB21 /* ArchiveHeaderView.swift in Sources */,

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SafariServices
 
 class BaseVC: UIViewController, UIGestureRecognizerDelegate {
     
@@ -55,6 +56,13 @@ extension BaseVC {
     func setHaraBackGroundColor() {
         /// 해라 기본 배경 색상으로 변경
         view.backgroundColor = .white
+    }
+    
+    func openSafariVC(url: URL) {
+        let safariVC = SFSafariViewController(url: url)
+        safariVC.modalPresentationStyle = .pageSheet
+        
+        self.present(safariVC, animated: true)
     }
 }
 
