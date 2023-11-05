@@ -184,7 +184,7 @@ final class HomeWorryEditVC: BaseVC {
     }
     
     @objc func didCompleteWritingNotification(_ notification: Notification) {
-        DispatchQueue.main.async { [self] in
+        DispatchQueue.main.async {
             self.dismiss(animated: true)
         }
     }

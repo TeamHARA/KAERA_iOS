@@ -123,11 +123,21 @@ class WritePickerVC: UIViewController {
                 self.postWorryContent()
             case .patch:
                 deadlineContent.worryId = self.worryId
-                deadlineContent.dayCount = worryPostContent.deadline
-                self.patchWorryDeadline()
-                NotificationCenter.default.post(name: NSNotification.Name("updateDeadline"), object: nil, userInfo: ["deadline": worryPostContent.deadline])
+                deadlineContent.dayCount = contentInfo.deadline
+                /// 서버통신 실패 시 띄울 알럿 창 구현
+                let failureAlertVC = KaeraAlertVC(buttonType: .onlyOK, okTitle: "확인")
+                failureAlertVC.setTitleSubTitle(title: "일자 수정에 실패했어요", subTitle: "다시 한번 시도해주세요.", highlighting: "실패")
+                self.patchWorryDeadline { success in
+                    if success {
+                        NotificationCenter.default.post(name: NSNotification.Name("updateDeadline"), object: nil, userInfo: ["deadline": self.contentInfo.deadline])
+                    } else {
+                        self.present(failureAlertVC, animated: true)
+                        failureAlertVC.OKButton.press {
+                            self.dismiss(animated: true)
+                        }
+                    }
+                }
             }
-            
             UIView.animate(withDuration: 0.5, animations: { [self] in
                 view.alpha = 0
                 view.layoutIfNeeded()
@@ -151,10 +161,14 @@ class WritePickerVC: UIViewController {
         }
     }
     
-    func patchWorryDeadline() {
+    func patchWorryDeadline(completion: @escaping (Bool) -> Void) {
         /// 서버로 고민 내용을 POST 시켜줌
-        HomeAPI.shared.updateDeadline(param: deadlineContent){ result in
-            guard let result = result, let _ = result.data else { return }
+        HomeAPI.shared.updateDeadline(param: deadlineContent) { response in
+            if response?.status == 200 {
+                completion(true)
+            } else {
+                completion(false)
+            }
         }
     }
 }
