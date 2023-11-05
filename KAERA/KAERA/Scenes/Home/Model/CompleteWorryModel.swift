@@ -11,3 +11,7 @@ struct CompleteWorryModel: Codable {
     var worryId: Int
     var finalAnswer: String
 }
+
+struct QuoteModel: Codable {
+    let quote: String
+}
