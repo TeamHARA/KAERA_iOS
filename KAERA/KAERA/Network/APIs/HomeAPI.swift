@@ -20,7 +20,7 @@ final class HomeAPI {
     public private(set) var deleteWorryResponse: EmptyResponse?
     public private(set) var updateDeadlineResponse: GeneralResponse<String>?
     public private(set) var editWorryResponse: GeneralResponse<String>?
-    public private(set) var completeWorryResponse: EmptyResponse?
+    public private(set) var completeWorryResponse: GeneralResponse<QuoteModel>?
    
     // MARK: - HomeGemList
     func getHomeGemList(param: Int, completion: @escaping (GeneralArrayResponse<HomeGemListModel>?) -> ()) {
@@ -121,13 +121,20 @@ final class HomeAPI {
     }
     
     // MARK: - CompleteWorry
-    func completeWorry(param: CompleteWorryModel, completion: @escaping (EmptyResponse?) -> ()) {
+    func completeWorry(param: CompleteWorryModel, completion: @escaping (GeneralResponse<QuoteModel>?) -> ()) {
         homeProvider.request(.completeWorry(param: param)) { [weak self] response in
             switch response {
             case .success(let result):
                 do {
-                    self?.completeWorryResponse = try result.map(EmptyResponse?.self)
-                    completion(self?.completeWorryResponse)
+                    self?.completeWorryResponse = try result.map(GeneralResponse<QuoteModel>?.self)
+                    
+                    guard let res = self?.completeWorryResponse else { return }
+                    switch res.status {
+                    case 200..<300:
+                        completion(res)
+                    default:
+                        completion(nil)
+                    }
                 } catch(let err) {
                     print(err.localizedDescription)
                     completion(nil)
