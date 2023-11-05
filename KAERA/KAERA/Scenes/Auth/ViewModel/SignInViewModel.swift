@@ -117,7 +117,6 @@ extension SignInViewModel: ASAuthorizationControllerDelegate {
             if let identityToken = appleIDCredential.identityToken,
                let tokenString = String(data: identityToken, encoding: .utf8) {
                 
-                // fullName이 nil일 경우 "해라"로 대체
                 let requestBody = AppleSignInRequestBody(identityToken: tokenString, user: user, fullName: userName)
                 
                 postAppleSignIn(body: requestBody)
