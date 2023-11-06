@@ -21,6 +21,7 @@ final class HomeAPI {
     public private(set) var updateDeadlineResponse: GeneralResponse<String>?
     public private(set) var editWorryResponse: GeneralResponse<String>?
     public private(set) var completeWorryResponse: GeneralResponse<QuoteModel>?
+    public private(set) var worryReviewResponse: GeneralResponse<WorryReviewResponseModel>?
    
     // MARK: - HomeGemList
     func getHomeGemList(param: Int, completion: @escaping (GeneralArrayResponse<HomeGemListModel>?) -> ()) {
@@ -135,6 +136,32 @@ final class HomeAPI {
                     default:
                         completion(nil)
                     }
+                } catch(let err) {
+                    print(err.localizedDescription)
+                    completion(nil)
+                }
+            case .failure(let err):
+                print(err.localizedDescription)
+                completion(nil)
+            }
+        }
+    }
+    
+    // MARK: - putReview
+    func putReview(body: WorryReviewRequestBody, completion: @escaping (GeneralResponse<WorryReviewResponseModel>?) -> ()) {
+        homeProvider.request(.putReview(body: body)) { [weak self] response in
+            switch response {
+            case .success(let result):
+                do {
+                    self?.worryReviewResponse = try result.map(GeneralResponse<WorryReviewResponseModel>?.self)
+                    guard let res = self?.worryReviewResponse else { return }
+                    switch res.status {
+                    case 200..<300:
+                        completion(res)
+                    default:
+                        completion(nil)
+                    }
+
                 } catch(let err) {
                     print(err.localizedDescription)
                     completion(nil)
