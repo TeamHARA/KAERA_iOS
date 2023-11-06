@@ -20,7 +20,7 @@ final class WorryDetailReviewView: UIView {
                                       range: (text as NSString).range(of: "나의 기록"))
         $0.attributedText = attributedString
     }
-
+    
     let reviewTextView = UITextView().then {
         $0.textColor = .kGray5
         $0.font = .kSb2R12W
@@ -41,6 +41,7 @@ final class WorryDetailReviewView: UIView {
         super.init(frame: frame)
         setUI()
         setLayout()
+        setKeyboardButton()
     }
     
     required init?(coder: NSCoder) {
@@ -56,6 +57,37 @@ final class WorryDetailReviewView: UIView {
             reviewTextView.text = "이 고민을 통해 배운점 또는 생각을 자유롭게 적어보세요"
         }
     }
+    
+    private let saveButton = UIButton().then {
+        $0.setTitle("저장", for: .normal)
+        $0.setTitleColor(.kWhite, for: .normal)
+    }
+    private func setKeyboardButton() {
+        let spacerBarButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let saveBarButton = UIBarButtonItem.init(customView: saveButton)
+        let toolBar = UIToolbar()
+        toolBar.barTintColor = .kGray2
+        toolBar.sizeToFit()
+        
+        toolBar.items = [spacerBarButton, saveBarButton]
+        
+        reviewTextView.inputAccessoryView = toolBar
+    }
+    
+    func setPressAction(completion: @escaping () -> ()) {
+        saveButton.press {
+            completion()
+        }
+    }
+    
+    func updateReviewContent(text: String) {
+        self.reviewTextView.text = text
+    }
+    
+    func updateReviewDate(date: String) {
+        self.reviewDateLabel.text = date
+    }
+
 }
 
 // MARK: - UI
