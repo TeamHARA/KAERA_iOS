@@ -284,7 +284,7 @@ final class HomeWorryDetailVC: BaseVC {
     
     private func reviewViewKeyboardButtonAction() {
         reviewView.setPressAction { [weak self] in
-            self?.putReviewText()
+            self?.patchReviewText()
         }
     }
     
@@ -354,11 +354,11 @@ extension HomeWorryDetailVC {
 //TODO: 뷰모델로 데이터 처리를 넘기도록 리팩토링!
 // MARK: - Network
 extension HomeWorryDetailVC {
-    func putReviewText() {
+    func patchReviewText() {
         self.reviewText = reviewView.reviewTextView.text ?? ""
         let reviewModel = WorryReviewRequestBody(worryId: worryId, review: reviewText)
         
-        HomeAPI.shared.putReview(body: reviewModel) { [weak self] res in
+        HomeAPI.shared.patchReview(body: reviewModel) { [weak self] res in
             guard let data = res?.data else {
                 self?.presentNetworkAlert()
                 return

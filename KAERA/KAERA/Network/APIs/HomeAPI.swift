@@ -147,9 +147,9 @@ final class HomeAPI {
         }
     }
     
-    // MARK: - putReview
-    func putReview(body: WorryReviewRequestBody, completion: @escaping (GeneralResponse<WorryReviewResponseModel>?) -> ()) {
-        homeProvider.request(.putReview(body: body)) { [weak self] response in
+    // MARK: - patchReview
+    func patchReview(body: WorryReviewRequestBody, completion: @escaping (GeneralResponse<WorryReviewResponseModel>?) -> ()) {
+        homeProvider.request(.patchReview(body: body)) { [weak self] response in
             switch response {
             case .success(let result):
                 do {
