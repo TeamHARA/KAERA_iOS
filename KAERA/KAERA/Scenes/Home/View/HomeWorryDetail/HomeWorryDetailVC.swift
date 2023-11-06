@@ -350,6 +350,8 @@ extension HomeWorryDetailVC {
         isReviewEditing = false
     }
 }
+
+//TODO: 뷰모델로 데이터 처리를 넘기도록 리팩토링!
 // MARK: - Network
 extension HomeWorryDetailVC {
     func putReviewText() {
