@@ -131,6 +131,12 @@ final class KaeraAlertVC: BaseVC {
         titleLabel.sizeToFit()
 
         subTitleLabel.text = subTitle
+        let attrString = NSMutableAttributedString(string: subTitle)
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 4
+        paragraphStyle.alignment = .center
+        attrString.addAttribute(NSAttributedString.Key.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, attrString.length))
+        subTitleLabel.attributedText = attrString
         subTitleLabel.sizeToFit()
     }
     
@@ -181,7 +187,7 @@ extension KaeraAlertVC {
         }
         
         buttonStackView.snp.makeConstraints {
-            $0.height.equalTo(60)
+            $0.height.equalTo(58.adjustedH)
             $0.left.right.bottom.equalToSuperview()
         }
     }
