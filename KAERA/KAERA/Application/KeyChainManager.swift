@@ -88,6 +88,12 @@ final class KeychainManager {
             print("delete \(key.rawValue) success")
         } else {
             print("delete \(key.rawValue) failed")
+            printDescription(status: status)
+        }
+    }
+    class func printDescription(status: OSStatus) {
+        if let desctiption = SecCopyErrorMessageString(status, nil) {
+            print(desctiption)
         }
     }
     

@@ -17,3 +17,18 @@ struct SignInModel: Codable {
 enum LoginType {
     case kakao, apple
 }
+
+struct RenewalRequestBody: Codable {
+    let accessToken: String
+    let refreshToken: String
+}
+
+struct KakaoSignInRequestBody: Codable {
+    let accessToken: String
+}
+
+struct AppleSignInRequestBody: Codable {
+    let identityToken: String
+    let user: String
+    let fullName: String
+}

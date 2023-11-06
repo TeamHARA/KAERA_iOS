@@ -18,6 +18,8 @@ final class AuthAPI {
     public private(set) var kakaoLoginResponse: GeneralResponse<SignInModel>?
     public private(set) var renewalResponse: GeneralResponse<RenewalTokenModel>?
     public private(set) var kakaoLogoutResponse: EmptyResponse?
+    public private(set) var appleSignInResponse: GeneralResponse<SignInModel>?
+    
     
     func postKakaoLogin(token: String, completion: @escaping (GeneralResponse<SignInModel>?) -> ()) {
         authProvider.request(.kakaoLogin(token: token)) { [weak self] response in
@@ -75,6 +77,25 @@ final class AuthAPI {
                     default:
                         completion(nil)
                     }
+                } catch(let err) {
+                    print(err.localizedDescription)
+                    completion(nil)
+                }
+            case .failure(let err):
+                print(err.localizedDescription)
+                completion(nil)
+            }
+        }
+    }
+    
+    func postAppleSignIn(body: AppleSignInRequestBody, completion: @escaping (GeneralResponse<SignInModel>?) -> ()) {
+        authProvider.request(.appleLogin(body: body)) { [weak self] response in
+            switch response {
+            case .success(let result):
+                do {
+                    self?.appleSignInResponse = try result.map(GeneralResponse<SignInModel>?.self)
+                    guard let res = self?.appleSignInResponse else { return }
+                    completion(res)
                 } catch(let err) {
                     print(err.localizedDescription)
                     completion(nil)

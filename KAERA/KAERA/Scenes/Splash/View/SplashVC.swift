@@ -29,7 +29,6 @@ final class SplashVC: BaseVC {
         super.viewDidLoad()
         setUI()
         setDissolveAnimation()
-
     }
     
     private func setDissolveAnimation() {
