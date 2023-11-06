@@ -139,7 +139,7 @@ final class KaeraAlertVC: BaseVC {
         self.modalTransitionStyle = .crossDissolve
     }
     
-    func setCancelButtonAction() {
+    private func setCancelButtonAction() {
         if buttonType == .onlyOK {
             OKButton.press { [weak self] in
                 self?.dismiss(animated: true)
