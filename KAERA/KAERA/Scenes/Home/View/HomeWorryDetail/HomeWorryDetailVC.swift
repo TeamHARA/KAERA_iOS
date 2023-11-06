@@ -277,7 +277,6 @@ final class HomeWorryDetailVC: BaseVC {
     
     @objc func didCompleteWorryEditing(_ notification: Notification) {
         /// 수정된 데이터를 다시 받아오기 위해 ViewModel과 다시 한번 연동
-        dataBind()
         input.send(worryId)
         worryDetailTV.reloadData()
         self.dismiss(animated: true)
@@ -297,6 +296,9 @@ final class HomeWorryDetailVC: BaseVC {
             self?.dismiss(animated: true) {
                 self?.view.endEditing(true)
             }
+        }
+        alertVC.addCancelPressAction { [weak self] in
+            self?.reviewView.reviewTextView.becomeFirstResponder()
         }
         self.present(alertVC, animated: true)
     }
@@ -351,7 +353,7 @@ extension HomeWorryDetailVC {
 // MARK: - Network
 extension HomeWorryDetailVC {
     func putReviewText() {
-        let reviewText = reviewView.reviewTextView.text ?? ""
+        self.reviewText = reviewView.reviewTextView.text ?? ""
         let reviewModel = WorryReviewRequestBody(worryId: worryId, review: reviewText)
         
         HomeAPI.shared.putReview(body: reviewModel) { [weak self] res in

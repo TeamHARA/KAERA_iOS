@@ -151,6 +151,12 @@ final class KaeraAlertVC: BaseVC {
         }
     }
     
+    func addCancelPressAction(completion: @escaping () -> ()) {
+        cancelButton.press {
+            completion()
+        }
+    }
+    
 }
 
 // MARK: - UI
