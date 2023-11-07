@@ -224,9 +224,9 @@ final class HomeWorryDetailVC: BaseVC {
         switch pageType {
         case .digging:
             /// dDay가 -888인 경우 데드라인 미 지정한 것
-            if worryDetail.dDay < -800 {
+            if worryDetail.dDay < -800 || worryDetail.dDay > 800 {
                 dDay = "-∞"
-            }else if worryDetail.dDay > 0 {
+            } else if worryDetail.dDay > 0 {
                 dDay = "-\(worryDetail.dDay)"
             } else if worryDetail.dDay < 0 {
                 dDay = "\(worryDetail.dDay)"
@@ -268,7 +268,16 @@ final class HomeWorryDetailVC: BaseVC {
     /// 전달 받은 수정된 데드라인 일자로 navigationBar Title 변경
     @objc func handleDeadlineUpdate(_ notification: Notification) {
         if let userInfo = notification.userInfo, let deadline = userInfo["deadline"] as? Int {
-            navigationBarView.setTitleText(text: "고민캐기 D-\(deadline)")
+            if deadline < -800 || deadline > 800 {
+                dDay = "-∞"
+            } else if deadline > 0 {
+                dDay = "-\(deadline)"
+            } else if deadline < 0 {
+                dDay = "\(deadline)"
+            } else if deadline == 0 {
+                dDay = "day"
+            }
+            navigationBarView.setTitleText(text: "고민캐기 D\(dDay)")
         }
     }
     

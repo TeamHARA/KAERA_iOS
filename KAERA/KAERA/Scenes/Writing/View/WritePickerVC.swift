@@ -113,42 +113,52 @@ class WritePickerVC: UIViewController {
             let selectedRow = datePickerView.selectedRow(inComponent: 0)
             let selectedValue = pickerData[selectedRow]
             worryPostContent.deadline = Int(selectedValue) ?? -1
-                        
-            /// contentInfo 싱글톤 클래스에 담긴 내용을 서버로 보내주기 위해 구조체 형식으로 변환시켜줌.
-            worryPostPublishedContent.templateId = worryPostContent.templateId
-            worryPostPublishedContent.title = worryPostContent.title
-            worryPostPublishedContent.answers = worryPostContent.answers
-            worryPostPublishedContent.deadline = worryPostContent.deadline
-            
-            switch self .deadlineType {
-            case .post:
-                self.postWorryContent()
-            case .patch:
-                deadlineContent.worryId = self.worryId
-                deadlineContent.dayCount = worryPostContent.deadline
-                /// 서버통신 실패 시 띄울 알럿 창 구현
-                let failureAlertVC = KaeraAlertVC(buttonType: .onlyOK, okTitle: "확인")
-                failureAlertVC.setTitleSubTitle(title: "일자 수정에 실패했어요", subTitle: "다시 한번 시도해주세요.", highlighting: "실패")
-                self.patchWorryDeadline { success in
-                    if success {
-                        NotificationCenter.default.post(name: NSNotification.Name("updateDeadline"), object: nil, userInfo: ["deadline": self.deadlineContent.dayCount])
-                    } else {
-                        self.present(failureAlertVC, animated: true)
-                        failureAlertVC.OKButton.press {
-                            self.dismiss(animated: true)
-                        }
+            completeWorry()
+        }
+        
+        noDeadlineBtn.press { [self] in
+            /// -888 로 데드라인 설정시 기한 설정하지 않기와 기능 동일
+            worryPostContent.deadline = -888
+            completeWorry()
+        }
+        
+    }
+    
+    private func completeWorry() {
+        /// contentInfo 싱글톤 클래스에 담긴 내용을 서버로 보내주기 위해 구조체 형식으로 변환시켜줌.
+        worryPostPublishedContent.templateId = worryPostContent.templateId
+        worryPostPublishedContent.title = worryPostContent.title
+        worryPostPublishedContent.answers = worryPostContent.answers
+        worryPostPublishedContent.deadline = worryPostContent.deadline
+        
+        switch self .deadlineType {
+        case .post:
+            self.postWorryContent()
+        case .patch:
+            deadlineContent.worryId = self.worryId
+            deadlineContent.dayCount = worryPostContent.deadline
+            /// 서버통신 실패 시 띄울 알럿 창 구현
+            let failureAlertVC = KaeraAlertVC(buttonType: .onlyOK, okTitle: "확인")
+            failureAlertVC.setTitleSubTitle(title: "일자 수정에 실패했어요", subTitle: "다시 한번 시도해주세요.", highlighting: "실패")
+            self.patchWorryDeadline { success in
+                if success {
+                    NotificationCenter.default.post(name: NSNotification.Name("updateDeadline"), object: nil, userInfo: ["deadline": self.deadlineContent.dayCount])
+                } else {
+                    self.present(failureAlertVC, animated: true)
+                    failureAlertVC.OKButton.press {
+                        self.dismiss(animated: true)
                     }
                 }
             }
-            UIView.animate(withDuration: 0.5, animations: { [self] in
-                view.alpha = 0
-                view.layoutIfNeeded()
-            }, completion: { _ in
-                self.dismiss(animated: false, completion: {
-                    NotificationCenter.default.post(name: NSNotification.Name("CompleteWriting"), object: nil, userInfo: nil)
-                })
-            })
         }
+        UIView.animate(withDuration: 0.5, animations: { [self] in
+            view.alpha = 0
+            view.layoutIfNeeded()
+        }, completion: { _ in
+            self.dismiss(animated: false, completion: {
+                NotificationCenter.default.post(name: NSNotification.Name("CompleteWriting"), object: nil, userInfo: nil)
+            })
+        })
     }
     
     private func setDelegate() {
