@@ -72,8 +72,9 @@ final class HomeWorryDetailVC: BaseVC {
     private let placeholderText = "이 고민을 통해 배운점 또는 생각을 자유롭게 적어보세요"
     private var reviewTextViewHeight: CGFloat = 0
     private var finalAnswer = ""
-    private var reivew: Review = Review(content: "", updatedAt: "")
-    
+    private var reviewText = ""
+    private var isReviewEditing: Bool = false
+
     // MARK: - Initialization
     init(worryId: Int, type: PageType) {
         super.init(nibName: nil, bundle: nil)
@@ -107,9 +108,10 @@ final class HomeWorryDetailVC: BaseVC {
         setNaviButtonAction()
         setupTableView()
         setReviewTextView()
-        hideKeyboardWhenTappedAround()
         setPressAction()
         addObserver()
+        reviewViewKeyboardButtonAction()
+        hideKeyboardWhenTappedAround()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -163,15 +165,15 @@ final class HomeWorryDetailVC: BaseVC {
     }
     
     private func setNaviButtonAction() {
-        navigationBarView.setLeftButtonAction {
-            self.dismiss(animated: true, completion: nil)
+        navigationBarView.setLeftButtonAction { [weak self] in
+            self?.dismiss(animated: true, completion: nil)
         }
         navigationBarView.setRightButtonAction {
             let editVC = HomeWorryEditVC(worryId: self.worryId, editType: self.pageType)
             editVC.worryDetail = self.worryDetailViewModel.worryDetail
             editVC.modalPresentationStyle = .overCurrentContext
             editVC.modalTransitionStyle = .crossDissolve
-            self.present(editVC, animated: true)
+            self?.present(editVC, animated: true)
         }
     }
     
@@ -220,7 +222,7 @@ final class HomeWorryDetailVC: BaseVC {
         worryTitle = worryDetail.title
         templateId = worryDetail.templateId
         period = worryDetail.period
-        
+
         switch pageType {
         case .digging:
             /// dDay가 -888인 경우 데드라인 미 지정한 것
@@ -238,6 +240,7 @@ final class HomeWorryDetailVC: BaseVC {
             if let finalAnswer = worryDetail.finalAnswer {
                 self.finalAnswer = finalAnswer
                 if let review = worryDetail.review {
+                    self.reviewText = review.content
                     self.reviewView.setData(content: review.content, updatedAt: review.updatedAt)
                 }
             }
@@ -283,10 +286,30 @@ final class HomeWorryDetailVC: BaseVC {
     
     @objc func didCompleteWorryEditing(_ notification: Notification) {
         /// 수정된 데이터를 다시 받아오기 위해 ViewModel과 다시 한번 연동
-        dataBind()
         input.send(worryId)
         worryDetailTV.reloadData()
         self.dismiss(animated: true)
+    }
+    
+    private func reviewViewKeyboardButtonAction() {
+        reviewView.setPressAction { [weak self] in
+            self?.patchReviewText()
+        }
+    }
+    
+    private func presentReviewAlert() {
+        let alertVC = KaeraAlertVC(okTitle: "삭제")
+        alertVC.setTitleSubTitle(title: "기록을 취소하시나요?", subTitle: "작성된 기록이 저장되지 않았어요.")
+        alertVC.OKButton.press {  [weak self] in
+            self?.reviewView.updateReviewContent(text: self?.reviewText ?? "")
+            self?.dismiss(animated: true) {
+                self?.view.endEditing(true)
+            }
+        }
+        alertVC.addCancelPressAction { [weak self] in
+            self?.reviewView.reviewTextView.becomeFirstResponder()
+        }
+        self.present(alertVC, animated: true)
     }
 }
 // MARK: - KeyBoard
@@ -330,6 +353,30 @@ extension HomeWorryDetailVC {
     @objc
     func keyboardWillDisappear(_ notification: NSNotification) {
         worryDetailScrollView.contentInset.bottom = .zero
+        if isReviewEditing {
+            presentReviewAlert()
+        }
+        isReviewEditing = false
+    }
+}
+
+//TODO: 뷰모델로 데이터 처리를 넘기도록 리팩토링!
+// MARK: - Network
+extension HomeWorryDetailVC {
+    func patchReviewText() {
+        self.reviewText = reviewView.reviewTextView.text ?? ""
+        let reviewModel = WorryReviewRequestBody(worryId: worryId, review: reviewText)
+        
+        HomeAPI.shared.patchReview(body: reviewModel) { [weak self] res in
+            guard let data = res?.data else {
+                self?.presentNetworkAlert()
+                return
+            }
+            self?.reviewView.updateReviewDate(date: data.updatedAt)
+            self?.isReviewEditing = false
+            self?.view.endEditing(true)
+            self?.showToastMessage(message: "작성완료!", color: .black)
+        }
     }
 }
 
@@ -337,7 +384,7 @@ extension HomeWorryDetailVC {
 extension HomeWorryDetailVC: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         var inputText = ""
-        inputText = textView.text == placeholderText ? "  " : textView.text
+        inputText = textView.text == placeholderText ? " " : textView.text
         /// 행간 간격 150% 설정
         let style = NSMutableParagraphStyle()
         style.lineSpacing = UIFont.kB4R14.lineHeight * 0.5
@@ -350,6 +397,8 @@ extension HomeWorryDetailVC: UITextViewDelegate {
             ]
         )
         textView.attributedText = attributedText
+        
+        isReviewEditing = true
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {

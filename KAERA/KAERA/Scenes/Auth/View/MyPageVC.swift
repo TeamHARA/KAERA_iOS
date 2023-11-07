@@ -56,6 +56,7 @@ final class MyPageVC: BaseVC {
         super.viewDidLoad()
         setUI()
         setTV()
+        setPressAction()
         dataBind()
         input.send(.loadData)
         setNotificationCenter()
@@ -71,7 +72,7 @@ final class MyPageVC: BaseVC {
     
     private func setPressAction() {
         self.navigationBarView.setLeftButtonAction { [weak self] in
-            self?.dismiss(animated: true)
+            self?.navigationController?.popViewController(animated: true)
         }
     }
     
@@ -105,13 +106,23 @@ final class MyPageVC: BaseVC {
                 myPageTV.reloadData()
             }
         case .accountAction:
-            //TODO: 로그아웃 or 회원탈퇴후 메인화면으로 이동
+            if let alertVC = self.presentedViewController {
+                alertVC.dismiss(animated: true) {
+                    if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
+                        // window의 rootViewController 설정
+                        sceneDelegate.window?.rootViewController = SplashVC()
+                    }
+
+                }
+            }
+            
+        case .networkFail:
             if let alertVC = self.presentedViewController {
                 alertVC.dismiss(animated: true) { [weak self] in
-                    self?.dismiss(animated: true)
+                    self?.presentNetworkAlert()
                 }
-                
             }
+            
         }
         
     }

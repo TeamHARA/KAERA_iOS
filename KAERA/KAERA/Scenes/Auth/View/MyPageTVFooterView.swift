@@ -20,7 +20,6 @@ final class MyPageTVFooterView: UITableViewHeaderFooterView {
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
         setLayout()
-        self.backgroundColor = .yellow
     }
     
     required init?(coder: NSCoder) {

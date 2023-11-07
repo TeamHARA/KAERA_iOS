@@ -73,21 +73,29 @@ final class SignInViewModel: NSObject, ViewModelType {
 // MARK: - Network
 extension SignInViewModel {
     private func postKakaoLogin(token: String) {
-        AuthAPI.shared.postKakaoLogin(token: token) { res in
+        AuthAPI.shared.postKakaoLogin(token: token) { [weak self] res in
             guard let res, let data = res.data else {
-                self.output.send(false)
+                self?.output.send(false)
                 return
             }
             
             /// user info 저장
             KeychainManager.saveUserInfo(id: "\(data.id)", userName: data.name, accessToken: data.accessToken, refreshToken: data.refreshToken)
             
-            self.output.send(true)
+            self?.output.send(true)
         }
     }
     
-    private func postAppleLogin(token: String) {
-        print("아이덴티티토큰", token)
+    private func postAppleSignIn(body: AppleSignInRequestBody) {
+        AuthAPI.shared.postAppleSignIn(body: body) { [weak self] res in
+            guard let data = res?.data else {
+                self?.output.send(false)
+                return
+            }
+            KeychainManager.saveUserInfo(id: "\(data.id)", userName: data.name,accessToken: data.accessToken, refreshToken: data.refreshToken)
+            
+            self?.output.send(true)
+        }
     }
 }
 
@@ -99,20 +107,19 @@ extension SignInViewModel: ASAuthorizationControllerDelegate {
         switch authorization.credential {
             
         case let appleIDCredential as ASAuthorizationAppleIDCredential:
-            if let email = appleIDCredential.email {
-                print("이메일", email)
-            }
-            if let fullName = appleIDCredential.fullName {
-                print("풀네임", fullName)
-            }
+            
+            let user = appleIDCredential.user
+            let fullName = appleIDCredential.fullName
+            
+            /// 이름을 못받을 경우 "해라"로 기입 될 수 있게 수정
+            let userName = (fullName?.familyName ?? "") + (fullName?.givenName ?? "해라")
+            
             if let identityToken = appleIDCredential.identityToken,
                let tokenString = String(data: identityToken, encoding: .utf8) {
-                postAppleLogin(token: tokenString)
-            }
-            
-            if let authorizationCode = appleIDCredential.authorizationCode {
-                let authorizationCodeString = String(data: authorizationCode, encoding: .utf8)
-                print("인가코드", authorizationCodeString)
+                
+                let requestBody = AppleSignInRequestBody(identityToken: tokenString, user: user, fullName: userName)
+                
+                postAppleSignIn(body: requestBody)
             }
            
         default:

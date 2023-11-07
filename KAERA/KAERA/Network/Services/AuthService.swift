@@ -10,32 +10,29 @@ import Moya
 
 enum AuthService {
     case kakaoLogin(token: String)
+    case kakaoLogout
     case renewelToken
+    case appleLogin(body: AppleSignInRequestBody)
 }
 
 extension AuthService: BaseTargetType {
-    
-    struct SignInRequestBody: Codable {
-        let accessToken: String
-    }
-    
-    struct RenewalRequestBody: Codable {
-        let accessToken: String
-        let refreshToken: String
-    }
-    
+
     var path: String {
         switch self {
         case .kakaoLogin:
             return APIConstant.kakaoLogin
         case .renewelToken:
             return APIConstant.refresh
+        case .kakaoLogout:
+            return APIConstant.logout
+        case .appleLogin:
+            return APIConstant.appleLogin
         }
     }
     
     var method: Moya.Method {
         switch self {
-        case .kakaoLogin, .renewelToken:
+        case .kakaoLogin, .renewelToken, .kakaoLogout, .appleLogin:
             return .post
         }
     }
@@ -43,7 +40,7 @@ extension AuthService: BaseTargetType {
     var task: Moya.Task {
         switch self {
         case .kakaoLogin(let token):
-            let requsetBody = SignInRequestBody(accessToken: token)
+            let requsetBody = KakaoSignInRequestBody(accessToken: token)
             return .requestJSONEncodable(requsetBody)
             
         case .renewelToken:
@@ -51,13 +48,21 @@ extension AuthService: BaseTargetType {
             let refreshToken = KeychainManager.load(key: .refreshToken) ?? ""
             let requestBody = RenewalRequestBody(accessToken: accessToken, refreshToken: refreshToken)
             return .requestJSONEncodable(requestBody)
+            
+        case .kakaoLogout:
+            return .requestPlain
+        
+		case .appleLogin(let body):
+            return .requestJSONEncodable(body)
         }
     }
     
     var headers: [String : String]? {
         switch self {
-        case .kakaoLogin, .renewelToken:
+        case .kakaoLogin, .renewelToken, .appleLogin:
             return NetworkConstant.noTokenHeader
+        case .kakaoLogout:
+            return NetworkConstant.hasTokenHeader
         }
     }
 }

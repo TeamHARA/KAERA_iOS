@@ -47,7 +47,7 @@ final class MyPageTVC: UITableViewCell {
         case .next:
             self.cellButton.setImage(UIImage(named:"icn_next"), for: .normal)
         case .account:
-            self.cellButton.setImage(UIImage(named:""), for: .normal)
+            self.cellButton.setImage(nil, for: .normal)
         }
     }
     
