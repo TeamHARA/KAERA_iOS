@@ -15,6 +15,7 @@ final class HomeWorryEditVC: BaseVC {
     var worryDetail: WorryDetailModel?
     
     private var worryId: Int = 0
+    private var editType: PageType = .digging
     
     private let menuStackView = UIStackView().then {
         $0.axis = .vertical
@@ -59,9 +60,10 @@ final class HomeWorryEditVC: BaseVC {
     
     private let archiveVC = ArchiveVC()
 
-    init(worryId: Int) {
+    init(worryId: Int, editType: PageType) {
         super.init(nibName: nil, bundle: nil)
         self.worryId = worryId
+        self.editType = editType
     }
     
     required init?(coder: NSCoder) {
@@ -214,11 +216,21 @@ extension HomeWorryEditVC {
         menuStackView.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(80)
-            $0.height.equalTo(156.adjustedH)
             $0.width.equalTo(342.adjustedW)
         }
         
-        menuStackView.addArrangedSubviews([editWorryButton, editDeadlineButton, deleteWorryButton])
+        switch self .editType {
+        case .digging:
+            menuStackView.snp.makeConstraints {
+                $0.height.equalTo(156.adjustedH)
+            }
+            menuStackView.addArrangedSubviews([editWorryButton, editDeadlineButton, deleteWorryButton])
+        case .dug:
+            menuStackView.snp.makeConstraints {
+                $0.height.equalTo(52.adjustedH)
+            }
+            menuStackView.addArrangedSubview(deleteWorryButton)
+        }
         
         cancelButton.snp.makeConstraints {
             $0.centerX.equalToSuperview()

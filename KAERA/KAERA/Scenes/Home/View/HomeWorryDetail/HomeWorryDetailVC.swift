@@ -167,7 +167,7 @@ final class HomeWorryDetailVC: BaseVC {
             self.dismiss(animated: true, completion: nil)
         }
         navigationBarView.setRightButtonAction {
-            let editVC = HomeWorryEditVC(worryId: self.worryId)
+            let editVC = HomeWorryEditVC(worryId: self.worryId, editType: self.pageType)
             editVC.worryDetail = self.worryDetailViewModel.worryDetail
             editVC.modalPresentationStyle = .overCurrentContext
             editVC.modalTransitionStyle = .crossDissolve
