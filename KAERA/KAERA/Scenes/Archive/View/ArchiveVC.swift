@@ -56,6 +56,10 @@ class ArchiveVC: UIViewController, RefreshListDelegate {
         setDelgate()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        input.send(templateIndex)
+    }
+    
     // MARK: - Functions
     private func registerCV() {
         worryListCV.register(WorryListCVC.self,
