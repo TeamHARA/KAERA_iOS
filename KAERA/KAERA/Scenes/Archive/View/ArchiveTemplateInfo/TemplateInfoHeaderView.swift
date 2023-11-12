@@ -54,6 +54,8 @@ extension TemplateInfoHeaderView {
         self.addSubviews([bgImage, jewelImage, instaLabel, instaBtn])
         
         bgImage.snp.makeConstraints {
+            $0.width.equalTo(342.adjustedW)
+            $0.height.equalTo(168.adjustedW)
             $0.edges.equalToSuperview()
         }
         

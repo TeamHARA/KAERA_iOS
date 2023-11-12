@@ -145,7 +145,7 @@ class TemplateInfoVC: UIViewController, TemplateInfoTVCDelegate {
 extension TemplateInfoVC{
     func setLayout() {
         view.backgroundColor = .kGray1
-        view.addSubViews([titleLabel, backBtn, headerView, templateInfoTV])
+        view.addSubViews([titleLabel, backBtn, templateInfoTV])
         
         titleLabel.snp.makeConstraints {
             $0.top.equalTo(self.view.safeAreaLayoutGuide).offset(24.adjustedW)
@@ -159,15 +159,8 @@ extension TemplateInfoVC{
             $0.height.equalTo(24)
         }
         
-        headerView.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).offset(20.adjustedW)
-            $0.centerX.equalToSuperview()
-            $0.width.equalTo(342.adjustedW)
-            $0.height.equalTo(168.adjustedW)
-        }
-        
         templateInfoTV.snp.makeConstraints {
-            $0.top.equalTo(headerView.snp.bottom).offset(16.adjustedW)
+            $0.top.equalTo(backBtn.snp.bottom).offset(20.adjustedW)
             $0.leading.equalTo(self.view.safeAreaLayoutGuide).offset(16.adjustedW)
             $0.trailing.equalTo(self.view.safeAreaLayoutGuide).offset(-16.adjustedW)
             $0.bottom.equalToSuperview().offset(-20.adjustedW)
@@ -180,11 +173,18 @@ extension TemplateInfoVC: UITableViewDelegate {
     
     /// tableView와 Header 사이에 생기는 공백을 제거해주기 위해 빈뷰를 추가
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return UIView()
+        let containerView = UIView()
+        containerView.addSubview(headerView)
+        headerView.snp.makeConstraints {
+            $0.top.equalTo(containerView)
+            $0.bottom.equalTo(containerView).offset(-32)
+            $0.leading.trailing.equalTo(containerView)
+        }
+        return containerView
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 0
+        return 200
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
