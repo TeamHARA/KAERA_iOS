@@ -115,7 +115,16 @@ final class HomeWorryEditVC: BaseVC {
             pickerVC.completeWritingBtn.press {
                 self.dismiss(animated: true)
             }
-            self.present(pickerVC, animated: true)
+            pickerVC.view.alpha = 0 /// pickerView를 초기에 보이지 않게 설정
+            ///
+            pickerVC.modalPresentationStyle = .overCurrentContext
+            self.present(pickerVC, animated: false, completion: { /// 애니메이션을 false로 설정
+                UIView.animate(withDuration: 0.5, animations: { /// 애니메이션 추가
+                    pickerVC.view.alpha = 1 /// pickerView가 서서히 보이게 설정
+                    pickerVC.view.layoutIfNeeded()
+                })
+            })
+            
             pickerVC.datePickerView.selectRow(abs(self.worryDetail?.dDay ?? 0) - 1, inComponent: 0, animated: true)
         }
         

@@ -14,10 +14,14 @@ enum DeadlineType {
     case patch
 }
 
-class WritePickerVC: UIViewController {
+class WritePickerVC: UIViewController, UIGestureRecognizerDelegate {
     
     // MARK: - Properties
     let pickerData = Array(1...30).map { String($0) }
+    
+    let pickerViewLayout = UIView().then {
+        $0.backgroundColor = .kGray1
+    }
     
     let datePickerView = UIPickerView().then {
         $0.backgroundColor = .kGray1
@@ -104,6 +108,7 @@ class WritePickerVC: UIViewController {
         setLayout()
         pressBtn()
         setDelegate()
+        addTabGesture()
     }
     
     // MARK: - Functions
@@ -173,13 +178,43 @@ class WritePickerVC: UIViewController {
             }
         }
     }
+    
+    private func addTabGesture() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(backgroundTapped))
+        tapGesture.delegate = self
+        view.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc private func backgroundTapped() {
+        UIView.animate(withDuration: 0.5, animations: {
+            self.pickerViewLayout.alpha = 0
+            self.view.layoutIfNeeded()
+        }) { _ in
+            self.dismiss(animated: false, completion: nil)
+        }
+    }
+    
+    // MARK: - tabGesture Delegate
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        // 터치영역이 pickerViewLayout이 아닌 경우에만 true를 반환
+        return !(touch.view?.isDescendant(of: pickerViewLayout) ?? false)
+    }
 }
 
 // MARK: - Layout
 extension WritePickerVC {
     private func setLayout() {
         view.backgroundColor = .black.withAlphaComponent(0.5)
-        view.addSubviews([datePickerView, upperCover, pickerViewTitle, lowerCover, completeWritingBtn, noDeadlineBtn])
+        view.addSubview(pickerViewLayout)
+        
+        pickerViewLayout.addSubviews([datePickerView, upperCover, pickerViewTitle, lowerCover, completeWritingBtn, noDeadlineBtn])
+        
+        pickerViewLayout.snp.makeConstraints {
+            $0.width.equalTo(358.adjustedW)
+            $0.height.equalTo(360.adjustedW)
+            $0.centerX.equalToSuperview()
+            $0.centerY.equalToSuperview()
+        }
         
         /// datepickerView 관련 Component
         datePickerView.addSubviews([firstLabel, secondLabel])
@@ -188,7 +223,7 @@ extension WritePickerVC {
             $0.width.equalTo(358.adjustedW)
             $0.height.equalTo(136.adjustedW)
             $0.centerX.equalToSuperview()
-            $0.top.equalToSuperview().offset(302.adjustedW)
+            $0.centerY.equalToSuperview()
         }
         
         firstLabel.snp.makeConstraints {
