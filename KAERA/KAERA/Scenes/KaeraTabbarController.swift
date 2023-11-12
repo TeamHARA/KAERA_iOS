@@ -72,6 +72,7 @@ final class KaeraTabbarController: UITabBarController {
         
         // 탭바의 테두리를 설정합니다.
         tabBar.layer.cornerRadius = 30
+        tabBar.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
     }
 }
 
