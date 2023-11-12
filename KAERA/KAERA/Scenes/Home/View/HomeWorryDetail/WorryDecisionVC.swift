@@ -98,9 +98,8 @@ final class WorryDecisionVC: BaseVC {
             self.completeWorry { success in
                 print("성공 여부", success)
                 if success {
+                    self.quoteView.setGemImage(templateId: self.templateId)
                     self.showWorryQuote()
-                    self.archiveVC.dataBind()
-                    self.archiveVC.refreshList(templateTitle: "모든 보석 보기", templateId: 0)
                 /// 서버통신 실패 시 "고민 보석 캐기 실패" 알럿창 띄우기
                 } else {
                     let failureAlertVC = KaeraAlertVC(buttonType: .onlyOK, okTitle: "확인")

@@ -50,6 +50,25 @@ final class WorryQuoteView: UIView {
         )
         subTitleLabel.attributedText = attributedText
     }
+    
+    func setGemImage(templateId: Int) {
+        switch templateId {
+        case 1:
+            gemImage.image = UIImage(named: "gem_blue_l")
+        case 2:
+            gemImage.image = UIImage(named: "gem_red_l")
+        case 3:
+            gemImage.image = UIImage(named: "gem_orange_l")
+        case 4:
+            gemImage.image = UIImage(named: "gem_green_l")
+        case 5:
+            gemImage.image = UIImage(named: "gem_pink_l")
+        case 6:
+            gemImage.image = UIImage(named: "gem_yellow_l")
+        default:
+            gemImage.image = UIImage(named: "gem_blue_l")
+        }
+    }
 }
 
 // MARK: - UI
