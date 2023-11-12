@@ -10,6 +10,10 @@ import Combine
 import SnapKit
 import Then
 
+protocol ActivateButtonDelegate: AnyObject {
+    func isTitleEmpty(check: Bool)
+}
+
 class TemplateContentTV: UITableView {
     
     // MARK: - Properties
@@ -24,6 +28,8 @@ class TemplateContentTV: UITableView {
     
     let worryPostContent = WorryPostManager.shared
     let worryPatchContent = WorryPatchManager.shared
+    
+    weak var buttonDelegate: ActivateButtonDelegate?
     
     // MARK: - Life Cycle
     init() {
@@ -137,6 +143,7 @@ extension TemplateContentTV: TemplateContentHeaderViewDelegate, TemplateContentT
         self.title = newText
         worryPostContent.title = title
         worryPatchContent.title = title
+        buttonDelegate?.isTitleEmpty(check: title.isEmpty)
     }
     
     func answerDidEndEditing(index: Int, newText: String) {

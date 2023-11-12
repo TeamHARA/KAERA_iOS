@@ -29,19 +29,6 @@ class WriteVC: BaseVC {
     let templateContentTV = TemplateContentTV()
     private let templateHeaderView = TemplateContentHeaderView()
     
-    private let closeBtn = UIButton().then {
-        $0.setBackgroundImage(UIImage(named: "icn_close"), for: .normal)
-        $0.contentMode = .scaleAspectFit
-    }
-    
-    private let completeBtn = UIButton().then {
-        $0.backgroundColor = .kGray3
-        $0.titleLabel?.font = .kB4R14
-        $0.setTitle("완료", for: .normal)
-        $0.setTitleColor(.white, for: .normal)
-        $0.layer.cornerRadius = 12
-    }
-    
     private let navigationBarView = CustomNavigationBarView(leftType: .close, rightType: .done, title: "")
     
     let templateBtn = UIButton().then {
@@ -121,9 +108,11 @@ class WriteVC: BaseVC {
     // MARK: - Life Cycles
     override func viewDidLoad() {
         super.viewDidLoad()
-        writeModalVC.sendTitleDelegate = self
+        /// 초기에 완료 상태 비활성화
+        navigationBarView.setupDoneButtonStatus(type: true)
         setNaviButtonAction()
         setLayout()
+        setDelegate()
         pressBtn()
         hideKeyboardWhenTappedAround()
         addKeyboardObserver()
@@ -138,6 +127,11 @@ class WriteVC: BaseVC {
     }
     
     // MARK: - Functions
+    private func setDelegate() {
+        writeModalVC.sendTitleDelegate = self
+        templateContentTV.buttonDelegate = self
+    }
+    
     func dataBind() {
         let output = templateContentVM.transform(
             input: TemplateContentViewModel.Input(input)
@@ -334,6 +328,14 @@ extension WriteVC: TemplateTitleDelegate {
     private func setTemplateContentTV(_ templateId: Int) {
         templateContentTV.templateId = templateId
         input.send(templateContentTV.templateId)
+    }
+}
+
+// MARK: - ActivateButtonDelegate
+extension WriteVC: ActivateButtonDelegate {
+    func isTitleEmpty(check: Bool) {
+        /// navigationBarView의 상태를 변경해준다.
+        navigationBarView.setupDoneButtonStatus(type: check)
     }
 }
 
