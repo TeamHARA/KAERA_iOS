@@ -83,6 +83,7 @@
 		E74968D62A74B84100C3C0CF /* WorryDetailReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E74968D52A74B84100C3C0CF /* WorryDetailReviewView.swift */; };
 		E74969302A7B2DF000C3C0CF /* WorryDecisionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E749692F2A7B2DF000C3C0CF /* WorryDecisionVC.swift */; };
 		E74969342A80AE2100C3C0CF /* WorryQuoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E74969332A80AE2100C3C0CF /* WorryQuoteView.swift */; };
+		E772E70D2AF9AE650098E091 /* HomeGemStoneCount.swift in Sources */ = {isa = PBXBuildFile; fileRef = E772E70C2AF9AE650098E091 /* HomeGemStoneCount.swift */; };
 		E78B648B2AF85FA00046215D /* WorryReviewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E78B648A2AF85FA00046215D /* WorryReviewModel.swift */; };
 		E79AAC1F2A52F16300F3F439 /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79AAC1E2A52F16300F3F439 /* ImageCacheManager.swift */; };
 		E79AAC212A52F19300F3F439 /* ToastMessageColorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79AAC202A52F19300F3F439 /* ToastMessageColorType.swift */; };
@@ -195,6 +196,7 @@
 		E74968D52A74B84100C3C0CF /* WorryDetailReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorryDetailReviewView.swift; sourceTree = "<group>"; };
 		E749692F2A7B2DF000C3C0CF /* WorryDecisionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorryDecisionVC.swift; sourceTree = "<group>"; };
 		E74969332A80AE2100C3C0CF /* WorryQuoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorryQuoteView.swift; sourceTree = "<group>"; };
+		E772E70C2AF9AE650098E091 /* HomeGemStoneCount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeGemStoneCount.swift; sourceTree = "<group>"; };
 		E78B648A2AF85FA00046215D /* WorryReviewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorryReviewModel.swift; sourceTree = "<group>"; };
 		E79AAC1E2A52F16300F3F439 /* ImageCacheManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
 		E79AAC202A52F19300F3F439 /* ToastMessageColorType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastMessageColorType.swift; sourceTree = "<group>"; };
@@ -656,6 +658,7 @@
 				E73CA3D92A69300F00BAC9D6 /* HomePublisherModel.swift */,
 				E7FEC0992A6D1725006F36BF /* WorryDetailModel.swift */,
 				85831C312AF0F5F2008839A0 /* CompleteWorryModel.swift */,
+				E772E70C2AF9AE650098E091 /* HomeGemStoneCount.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -946,6 +949,7 @@
 				85EBC7F12A5AD7BC00B9E891 /* KaeraTabbarController.swift in Sources */,
 				E7AC12212A51CFFD00FE504C /* GeneralResponse.swift in Sources */,
 				E79AAC382A52F2C300F3F439 /* UIStackView+.swift in Sources */,
+				E772E70D2AF9AE650098E091 /* HomeGemStoneCount.swift in Sources */,
 				E78B648B2AF85FA00046215D /* WorryReviewModel.swift in Sources */,
 				E7C808EB2A4D37F800F475CE /* SceneDelegate.swift in Sources */,
 				85887D822A5C429F00F7FB21 /* WriteModalVC.swift in Sources */,
