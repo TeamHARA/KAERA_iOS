@@ -48,11 +48,14 @@ class ArchiveVC: UIViewController, RefreshListDelegate {
         super.viewDidLoad()
         self.navigationController?.isNavigationBarHidden = true
         dataBind()
-        input.send(templateIndex)
         setLayout()
         registerCV()
         pressBtn()
         setDelgate()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        input.send(templateIndex)
     }
     
     // MARK: - Functions
