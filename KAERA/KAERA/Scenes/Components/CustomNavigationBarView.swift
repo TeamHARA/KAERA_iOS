@@ -101,9 +101,9 @@ final class CustomNavigationBarView: UIView {
         }
     }
     
-    func setupDoneButtonStatus(type: Bool) {
-        rightButton.isEnabled = !type
-        if type {
+    func setupDoneButtonStatus(status: Bool) {
+        rightButton.isEnabled = !status
+        if status {
             /// 제목이 비어있으면 완료 버튼 비활성화
             rightButton.setTitleColor(.kWhite, for: .disabled)
             rightButton.backgroundColor = .kGray3
