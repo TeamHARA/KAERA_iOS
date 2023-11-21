@@ -82,11 +82,13 @@ class ArchiveVC: UIViewController, RefreshListDelegate {
         
         archiveHeaderView.setLeftButtonPressAction { [weak self] in
             let templateInfoVC = TemplateInfoVC()
+            templateInfoVC.hidesBottomBarWhenPushed = true
             self?.navigationController?.pushViewController(templateInfoVC, animated: true)
         }
         
         archiveHeaderView.setRightButtonPressAction { [weak self] in
             let myPageVC = MyPageVC()
+            myPageVC.hidesBottomBarWhenPushed = true
             self?.navigationController?.pushViewController(myPageVC, animated: true)
         }
     }
