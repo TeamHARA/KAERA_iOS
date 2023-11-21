@@ -91,14 +91,26 @@ final class CustomNavigationBarView: UIView {
     
     private func setupDoneButton() {
         rightButton.setTitleWithCustom("완료", font: .kB4R14, color: .black, for: .normal)
-        rightButton.setTitleColor(.kWhite, for: .disabled)
-        rightButton.setTitleColor(.kGray1, for: .normal)
+        rightButton.setTitleWithCustom("완료", font: .kB4R14, color: .white, for: .disabled)
         rightButton.setBackgroundColor(.kGray3, for: .disabled)
         rightButton.setBackgroundColor(.kYellow1, for: .normal)
         rightButton.layer.cornerRadius = 12
         rightButton.snp.updateConstraints {
             $0.width.equalTo(50)
             $0.height.equalTo(26)
+        }
+    }
+    
+    func setupDoneButtonStatus(status: Bool) {
+        rightButton.isEnabled = !status
+        if status {
+            /// 제목이 비어있으면 완료 버튼 비활성화
+            rightButton.setTitleColor(.kWhite, for: .disabled)
+            rightButton.backgroundColor = .kGray3
+        } else {
+            /// 제목이 있으면 완료 버튼 활성화
+            rightButton.setTitleColor(.kGray1, for: .normal)
+            rightButton.backgroundColor = .kYellow1
         }
     }
     
