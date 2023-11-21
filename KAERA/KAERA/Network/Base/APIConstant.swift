@@ -20,7 +20,7 @@ struct APIConstant {
     
     static let worryList = "/worry/list"
     static let worry = "/worry"
-    static let deadline = "/worrry/deadline"
+    static let deadline = "/worry/deadline"
     static let myAnswer = "/worry/myanswer"
     static let template = "/template"
     static let review = "/review"
@@ -28,4 +28,5 @@ struct APIConstant {
     static let refresh = "/auth/token/refresh"
     static let logout = "/auth/logout"
     static let appleLogin = "/auth/apple/login"
+    static let finalAnswer = "/worry/finalAnswer"
 }
