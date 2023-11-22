@@ -69,12 +69,12 @@ final class SignInVC: UIViewController {
     }
     
     private func setLoginButtonAction() {
-        kakaoLoginButton.press {
-            self.input.send(.kakao)
+        kakaoLoginButton.press { [weak self] in
+            self?.input.send(.kakao)
         }
         
-        appleLoginButton.press {
-            self.input.send(.apple)
+        appleLoginButton.press { [weak self] in
+            self?.input.send(.apple)
         }
     }
 }
