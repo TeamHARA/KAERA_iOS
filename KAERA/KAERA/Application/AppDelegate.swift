@@ -34,17 +34,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         /// 자동 초기화 방지
         Messaging.messaging().isAutoInitEnabled = true
         
-        /// 현재 등록 토큰 가져오기
-        Messaging.messaging().token { token, error in
-            if let error = error {
-                print("Error fetching FCM registration token: \(error)")
-            } else if let token = token {
-                print("FCM registration token: \(token)")
-                /// 키체인에 FCM Token 저장
-                KeychainManager.save(key: .fcmToken, value: token)
-            }
-        }
-        
         return true
     }
     
@@ -117,20 +106,6 @@ extension AppDelegate: MessagingDelegate {
         )
        
     }
-    
-    /// 아래 코드로 갱신된 토큰을 옵저버로 받아서 사용가능
-    /*
-    NotificationCenter.default.addObserver(self, selector: #selector(getNotification), name: Notification.Name(rawValue: "FCMToken"), object: nil)
-    
-    @objc func getNotification(_ notification: NSNotification){
-        guard let tokenDictionary = notification.userInfo as! [String:Any]? else {
-            return
-        }
-        let token: String  = tokenDictionary["token"] as! String
-        print("Got TOKEN \(token)")
-    }
-     */
-    
 }
 
 // MARK: - UNUserNotificationCenterDelegate
