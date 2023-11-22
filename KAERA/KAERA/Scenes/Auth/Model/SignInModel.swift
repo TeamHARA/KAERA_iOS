@@ -25,10 +25,12 @@ struct RenewalRequestBody: Codable {
 
 struct KakaoSignInRequestBody: Codable {
     let accessToken: String
+    let deviceToken: String
 }
 
 struct AppleSignInRequestBody: Codable {
     let identityToken: String
     let user: String
     let fullName: String
+    let deviceToken: String
 }
