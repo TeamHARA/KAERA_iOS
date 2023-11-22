@@ -116,8 +116,8 @@ extension SignInViewModel: ASAuthorizationControllerDelegate {
             
             if let identityToken = appleIDCredential.identityToken,
                let tokenString = String(data: identityToken, encoding: .utf8) {
-                
-                let requestBody = AppleSignInRequestBody(identityToken: tokenString, user: user, fullName: userName)
+                let fcmToken = KeychainManager.load(key: .fcmToken) ?? ""
+                let requestBody = AppleSignInRequestBody(identityToken: tokenString, user: user, fullName: userName, deviceToken: fcmToken)
                 
                 postAppleSignIn(body: requestBody)
             }
