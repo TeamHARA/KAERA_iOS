@@ -40,7 +40,8 @@ extension AuthService: BaseTargetType {
     var task: Moya.Task {
         switch self {
         case .kakaoLogin(let token):
-            let requsetBody = KakaoSignInRequestBody(accessToken: token)
+            let fcmToken = KeychainManager.load(key: .fcmToken) ?? ""
+            let requsetBody = KakaoSignInRequestBody(accessToken: token, deviceToken: fcmToken)
             return .requestJSONEncodable(requsetBody)
             
         case .renewelToken:
