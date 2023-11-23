@@ -109,7 +109,7 @@ class WriteVC: BaseVC {
     override func viewDidLoad() {
         super.viewDidLoad()
         /// 초기에 완료 상태 비활성화
-        navigationBarView.setupDoneButtonStatus(type: true)
+        navigationBarView.setupDoneButtonStatus(status: true)
         setNaviButtonAction()
         setLayout()
         setDelegate()
@@ -335,7 +335,7 @@ extension WriteVC: TemplateTitleDelegate {
 extension WriteVC: ActivateButtonDelegate {
     func isTitleEmpty(check: Bool) {
         /// navigationBarView의 상태를 변경해준다.
-        navigationBarView.setupDoneButtonStatus(type: check)
+        navigationBarView.setupDoneButtonStatus(status: check)
     }
 }
 
