@@ -66,4 +66,8 @@ extension AuthService: BaseTargetType {
             return NetworkConstant.hasTokenHeader
         }
     }
+    
+    var validationType: ValidationType {
+         return .successCodes
+     }
 }

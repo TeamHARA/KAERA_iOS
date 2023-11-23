@@ -76,4 +76,8 @@ extension HomeService: BaseTargetType {
             return NetworkConstant.hasTokenHeader
         }
     }
+    
+    var validationType: ValidationType {
+         return .successCodes
+     }
 }
