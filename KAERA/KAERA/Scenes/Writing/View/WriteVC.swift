@@ -323,7 +323,9 @@ extension WriteVC: TemplateTitleDelegate {
         self.templateInfo.text = templateInfo
         setTemplateContentTV(templateId)
         // 처음 고민작성시 템플릿을 선택했을때 writeType을 바꿔줌
-        self.writeType = .postDifferentTemplate
+        if writeType == .post {
+            self.writeType = .postDifferentTemplate
+        }
     }
     
     private func setTemplateContentTV(_ templateId: Int) {
