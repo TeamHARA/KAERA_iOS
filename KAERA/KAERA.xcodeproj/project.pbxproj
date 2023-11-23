@@ -26,6 +26,8 @@
 		85A8492F2A87A9EC009F1468 /* TemplateContentTV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A8492E2A87A9EC009F1468 /* TemplateContentTV.swift */; };
 		85A849312A87A9F7009F1468 /* TemplateContentTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A849302A87A9F7009F1468 /* TemplateContentTVC.swift */; };
 		85A849332A87DA36009F1468 /* TemplateContentHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A849322A87DA36009F1468 /* TemplateContentHeaderView.swift */; };
+		85E1C2042B0F6B9C00E6647C /* OnboardingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85E1C2032B0F6B9C00E6647C /* OnboardingVC.swift */; };
+		85E1C2062B0F8B5200E6647C /* CustomPageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85E1C2052B0F8B5200E6647C /* CustomPageControl.swift */; };
 		85E349492AC06C63007D9956 /* WorryPostManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85E349482AC06C63007D9956 /* WorryPostManager.swift */; };
 		85EBC7F12A5AD7BC00B9E891 /* KaeraTabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EBC7F02A5AD7BC00B9E891 /* KaeraTabbarController.swift */; };
 		85EBC7F32A5AD93200B9E891 /* HomeGemStoneVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EBC7F22A5AD93200B9E891 /* HomeGemStoneVC.swift */; };
@@ -166,6 +168,8 @@
 		85A8492E2A87A9EC009F1468 /* TemplateContentTV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateContentTV.swift; sourceTree = "<group>"; };
 		85A849302A87A9F7009F1468 /* TemplateContentTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateContentTVC.swift; sourceTree = "<group>"; };
 		85A849322A87DA36009F1468 /* TemplateContentHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateContentHeaderView.swift; sourceTree = "<group>"; };
+		85E1C2032B0F6B9C00E6647C /* OnboardingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingVC.swift; sourceTree = "<group>"; };
+		85E1C2052B0F8B5200E6647C /* CustomPageControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPageControl.swift; sourceTree = "<group>"; };
 		85E349482AC06C63007D9956 /* WorryPostManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorryPostManager.swift; sourceTree = "<group>"; };
 		85EBC7F02A5AD7BC00B9E891 /* KaeraTabbarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KaeraTabbarController.swift; sourceTree = "<group>"; };
 		85EBC7F22A5AD93200B9E891 /* HomeGemStoneVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeGemStoneVC.swift; sourceTree = "<group>"; };
@@ -349,6 +353,23 @@
 			path = ArchiveTemplateInfo;
 			sourceTree = "<group>";
 		};
+		85E1C2012B0F6B7700E6647C /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				85E1C2022B0F6B8A00E6647C /* View */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		85E1C2022B0F6B8A00E6647C /* View */ = {
+			isa = PBXGroup;
+			children = (
+				85E1C2032B0F6B9C00E6647C /* OnboardingVC.swift */,
+				85E1C2052B0F8B5200E6647C /* CustomPageControl.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		E707646A2ABFF7A200627AA7 /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -436,6 +457,7 @@
 			isa = PBXGroup;
 			children = (
 				85EBC7F02A5AD7BC00B9E891 /* KaeraTabbarController.swift */,
+				85E1C2012B0F6B7700E6647C /* Onboarding */,
 				E73CA3E02A6A685900BAC9D6 /* Components */,
 				E71FC2242AD284B1001DD27D /* Splash */,
 				E7A94CC22AA484C300F231D0 /* Auth */,
@@ -901,6 +923,7 @@
 				E79AAC432A52F36500F3F439 /* APIConstant.swift in Sources */,
 				E7FEC09A2A6D1725006F36BF /* WorryDetailModel.swift in Sources */,
 				E79AAC302A52F2C300F3F439 /* String+.swift in Sources */,
+				85E1C2062B0F8B5200E6647C /* CustomPageControl.swift in Sources */,
 				85A849312A87A9F7009F1468 /* TemplateContentTVC.swift in Sources */,
 				85ECEE492A9A406B00A624AE /* ArchiveService.swift in Sources */,
 				E79AAC4B2A52F3E000F3F439 /* BaseNC.swift in Sources */,
@@ -933,6 +956,7 @@
 				E7DE36242AE4F59900B0DC67 /* MyPageDataType.swift in Sources */,
 				85EBC7F32A5AD93200B9E891 /* HomeGemStoneVC.swift in Sources */,
 				E79AAC442A52F36500F3F439 /* BaseTargetType.swift in Sources */,
+				85E1C2042B0F6B9C00E6647C /* OnboardingVC.swift in Sources */,
 				E7BB4F472A5EF7060018312B /* HomeGemListViewModel.swift in Sources */,
 				E7C808E92A4D37F800F475CE /* AppDelegate.swift in Sources */,
 				E73CA3DC2A693C9D00BAC9D6 /* GemStoneEmptyView.swift in Sources */,
