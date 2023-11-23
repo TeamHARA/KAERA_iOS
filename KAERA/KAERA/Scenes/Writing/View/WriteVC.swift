@@ -17,7 +17,7 @@ enum WriteType {
     case patchDifferentTemplate
 }
 
-class WriteVC: BaseVC {
+final class WriteVC: BaseVC {
     
     // MARK: - View Model
     private let templateContentVM = TemplateContentViewModel()
@@ -208,7 +208,6 @@ class WriteVC: BaseVC {
             switch self .writeType {
             case .post:
                 self.modalTemplateSelectVC()
-                self.writeType = .postDifferentTemplate
             /// 고민 작성 시를 제외하고는 템플릿 변경 시 알럿 창을 띄워주어야 한다.
             case .patch:
                 self.writeType = .patchDifferentTemplate
@@ -323,6 +322,8 @@ extension WriteVC: TemplateTitleDelegate {
         self.templateTitle.text = templateTitle
         self.templateInfo.text = templateInfo
         setTemplateContentTV(templateId)
+        // 처음 고민작성시 템플릿을 선택했을때 writeType을 바꿔줌
+        self.writeType = .postDifferentTemplate
     }
     
     private func setTemplateContentTV(_ templateId: Int) {

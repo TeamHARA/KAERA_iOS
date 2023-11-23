@@ -14,7 +14,7 @@ protocol ActivateButtonDelegate: AnyObject {
     func isTitleEmpty(check: Bool)
 }
 
-class TemplateContentTV: UITableView {
+final class TemplateContentTV: UITableView {
     
     // MARK: - Properties
     var templateId: Int = 0
