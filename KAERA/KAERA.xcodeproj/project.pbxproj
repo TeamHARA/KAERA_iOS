@@ -121,6 +121,7 @@
 		E7AC122F2A51D54900FE504C /* CombineMoya in Frameworks */ = {isa = PBXBuildFile; productRef = E7AC122E2A51D54900FE504C /* CombineMoya */; };
 		E7AC12312A51D54900FE504C /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = E7AC12302A51D54900FE504C /* Moya */; };
 		E7AC12342A51D56F00FE504C /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = E7AC12332A51D56F00FE504C /* SnapKit */; };
+		E7B091302B0DF6AA00F47BEB /* AuthInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B0912F2B0DF6AA00F47BEB /* AuthInterceptor.swift */; };
 		E7B94D702ADDF9B8005D9FB8 /* MyPageTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B94D6F2ADDF9B8005D9FB8 /* MyPageTVC.swift */; };
 		E7B94D722ADDF9F3005D9FB8 /* MyPageTVHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B94D712ADDF9F3005D9FB8 /* MyPageTVHeaderView.swift */; };
 		E7B94D742ADE9A35005D9FB8 /* MyPaggeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B94D732ADE9A35005D9FB8 /* MyPaggeViewModel.swift */; };
@@ -229,6 +230,7 @@
 		E7A94CD22AB0910F00F231D0 /* KaeraAlertVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KaeraAlertVC.swift; sourceTree = "<group>"; };
 		E7AC12202A51CFFD00FE504C /* GeneralResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralResponse.swift; sourceTree = "<group>"; };
 		E7AC12222A51D08300FE504C /* Temp_DataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Temp_DataModel.swift; sourceTree = "<group>"; };
+		E7B0912F2B0DF6AA00F47BEB /* AuthInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthInterceptor.swift; sourceTree = "<group>"; };
 		E7B94D6F2ADDF9B8005D9FB8 /* MyPageTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageTVC.swift; sourceTree = "<group>"; };
 		E7B94D712ADDF9F3005D9FB8 /* MyPageTVHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageTVHeaderView.swift; sourceTree = "<group>"; };
 		E7B94D732ADE9A35005D9FB8 /* MyPaggeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPaggeViewModel.swift; sourceTree = "<group>"; };
@@ -628,6 +630,7 @@
 				E79AAC412A52F36500F3F439 /* NetworkConstant.swift */,
 				E79AAC422A52F36500F3F439 /* NetworkResult.swift */,
 				E7AC12202A51CFFD00FE504C /* GeneralResponse.swift */,
+				E7B0912F2B0DF6AA00F47BEB /* AuthInterceptor.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -877,6 +880,7 @@
 				85831C322AF0F5F2008839A0 /* CompleteWorryModel.swift in Sources */,
 				850C55962ADB2AA00088ABBB /* WorryPatchManager.swift in Sources */,
 				85887DA02A612E1000F7FB21 /* TemplateInfoTVC.swift in Sources */,
+				E7B091302B0DF6AA00F47BEB /* AuthInterceptor.swift in Sources */,
 				E7BB4F3B2A5ED3610018312B /* HomeVC.swift in Sources */,
 				E7B94D722ADDF9F3005D9FB8 /* MyPageTVHeaderView.swift in Sources */,
 				E79AAC342A52F2C300F3F439 /* UIViewController+.swift in Sources */,
