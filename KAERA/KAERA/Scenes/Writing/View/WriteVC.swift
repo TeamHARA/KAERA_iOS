@@ -27,8 +27,7 @@ final class WriteVC: BaseVC {
     // MARK: - Properties
     private let writeModalVC = WriteModalVC()
     let templateContentTV = TemplateContentTV()
-    private let templateHeaderView = TemplateContentHeaderView()
-    
+
     private let navigationBarView = CustomNavigationBarView(leftType: .close, rightType: .done, title: "")
     
     let templateBtn = UIButton().then {
