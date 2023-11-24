@@ -160,12 +160,6 @@ final class WriteVC: BaseVC {
             templateContentTV.setData(type: .patch, questions: templateContents.questions, hints: tempAnswers)
         }
         
-        view.addSubview(templateContentTV)
-        templateContentTV.snp.updateConstraints {
-            $0.top.equalTo(self.dividingLine.snp.bottom)
-            $0.horizontalEdges.equalToSuperview()
-            $0.bottom.equalToSuperview()
-        }
         templateContentTV.reloadData()
     }
     
@@ -369,7 +363,14 @@ extension WriteVC {
         templateBtn.addSubviews([templateTitle, templateInfo, dropdownImg])
         view.addSubviews([baseImage, introTitle, introDetail])
         view.addSubviews([dividingLine])
+        view.addSubview(templateContentTV)
         
+        templateContentTV.snp.makeConstraints {
+            $0.top.equalTo(self.dividingLine.snp.bottom)
+            $0.horizontalEdges.equalToSuperview()
+            $0.bottom.equalToSuperview()
+        }
+
         navigationBarView.snp.makeConstraints {
             $0.left.right.equalToSuperview().inset(16)
             $0.top.equalToSuperview().inset(70)
