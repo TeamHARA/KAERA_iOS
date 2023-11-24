@@ -208,6 +208,14 @@ final class WriteVC: BaseVC {
         failureAlertVC.setTitleSubTitle(title: "화면을 나가면 작성 중인 내용이 사라져요!", subTitle: "지금 나가실 건가요?")
         self.present(failureAlertVC, animated: true)
         failureAlertVC.OKButton.press { [weak self] in
+            switch self?.writeType {
+            case .post, .postDifferentTemplate:
+                WorryPostManager.shared.clearWorryData()
+            case .patch, .patchDifferentTemplate:
+                WorryPatchManager.shared.clearWorryData()
+            case .none:
+                break
+            }
             let presentingVC = self?.presentingViewController
             self?.dismiss(animated: true) {
                 presentingVC?.dismiss(animated: true)
@@ -254,6 +262,14 @@ final class WriteVC: BaseVC {
         failureAlertVC.setTitleSubTitle(title: "템플릿이 변경되면 작성 중인 내용이 사라집니다.", subTitle: "변경하시겠어요?", highlighting: "변경")
         self.present(failureAlertVC, animated: true)
         failureAlertVC.OKButton.press { [weak self] in
+            switch self?.writeType {
+            case .post, .postDifferentTemplate:
+                WorryPostManager.shared.clearWorryData()
+            case .patch, .patchDifferentTemplate:
+                WorryPatchManager.shared.clearWorryData()
+            case .none:
+                break
+            }
             self?.dismiss(animated: true) {
                 self?.modalTemplateSelectVC()
             }
