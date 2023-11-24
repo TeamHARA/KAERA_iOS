@@ -11,7 +11,8 @@ import Moya
 final class HomeAPI {
     
     static let shared: HomeAPI = HomeAPI()
-    private let homeProvider = MoyaProvider<HomeService>(plugins: [MoyaLoggingPlugin()])
+
+    private let homeProvider = MoyaProvider<HomeService>(session: Session(interceptor: AuthInterceptor.shared), plugins: [MoyaLoggingPlugin()])
     
     private init() { }
     

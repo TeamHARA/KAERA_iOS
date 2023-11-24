@@ -57,5 +57,9 @@ extension WriteService: BaseTargetType {
             return NetworkConstant.hasTokenHeader
         }
     }
+    
+    var validationType: ValidationType {
+         return .successCodes
+     }
 }
 
