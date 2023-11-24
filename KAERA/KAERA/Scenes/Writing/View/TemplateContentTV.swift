@@ -44,7 +44,7 @@ final class TemplateContentTV: UITableView {
     }
     
     // MARK: - Functions
-    func setData(type: WriteType, questions: [String], hints: [String], answers: [String] = []) {
+    func setData(type: WriteType, questions: [String], hints: [String], answers: [String]) {
         self.writeType = type
         self.questions = questions
         self.hints = hints
@@ -98,15 +98,7 @@ extension TemplateContentTV : UITableViewDataSource
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard let headerCell = tableView.dequeueReusableHeaderFooterView(withIdentifier: TemplateContentHeaderView.className) as? TemplateContentHeaderView else { return nil }
-        
-        /// .patch(고민 수정)의 경우 제목이 이미 있으므로 이를 headerCell의 제목으로 지정해줌.
-        switch self .writeType {
-        case .patch:
-            headerCell.worryTitleTextField.text = title
-        default:
-            headerCell.worryTitleTextField.text = title
-            headerCell.titleNumLabel.text = "\(title.count)/7"
-        }
+        headerCell.worryTitleTextField.text = title
         headerCell.worryTitleTextField.becomeFirstResponder()
         
         /// headerCell에 입력된 고민 제목을 contentInfo에 담아준다.
