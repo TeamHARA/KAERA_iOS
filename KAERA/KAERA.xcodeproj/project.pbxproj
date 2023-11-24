@@ -140,6 +140,8 @@
 		E7C808EB2A4D37F800F475CE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C808EA2A4D37F800F475CE /* SceneDelegate.swift */; };
 		E7C808F22A4D37FA00F475CE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E7C808F12A4D37FA00F475CE /* Assets.xcassets */; };
 		E7DE36242AE4F59900B0DC67 /* MyPageDataType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7DE36232AE4F59900B0DC67 /* MyPageDataType.swift */; };
+		E7F8CC642B10712600066BB1 /* OnboardingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7F8CC622B10712600066BB1 /* OnboardingVC.swift */; };
+		E7F8CC652B10712600066BB1 /* CustomPageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7F8CC632B10712600066BB1 /* CustomPageControl.swift */; };
 		E7FEC0962A6CFD12006F36BF /* HomeWorryDetailFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7FEC0952A6CFD12006F36BF /* HomeWorryDetailFooterView.swift */; };
 		E7FEC0982A6D1274006F36BF /* HomeWorryDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7FEC0972A6D1274006F36BF /* HomeWorryDetailViewModel.swift */; };
 		E7FEC09A2A6D1725006F36BF /* WorryDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7FEC0992A6D1725006F36BF /* WorryDetailModel.swift */; };
@@ -250,6 +252,8 @@
 		E7C808F12A4D37FA00F475CE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E7C808F62A4D37FA00F475CE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E7DE36232AE4F59900B0DC67 /* MyPageDataType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageDataType.swift; sourceTree = "<group>"; };
+		E7F8CC622B10712600066BB1 /* OnboardingVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingVC.swift; sourceTree = "<group>"; };
+		E7F8CC632B10712600066BB1 /* CustomPageControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomPageControl.swift; sourceTree = "<group>"; };
 		E7FEC0952A6CFD12006F36BF /* HomeWorryDetailFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeWorryDetailFooterView.swift; sourceTree = "<group>"; };
 		E7FEC0972A6D1274006F36BF /* HomeWorryDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeWorryDetailViewModel.swift; sourceTree = "<group>"; };
 		E7FEC0992A6D1725006F36BF /* WorryDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorryDetailModel.swift; sourceTree = "<group>"; };
@@ -442,6 +446,7 @@
 				E78C39F62A5182AA00A15120 /* Home */,
 				E78C39F72A5182B100A15120 /* Writing */,
 				E78C39F82A5182BC00A15120 /* Archive */,
+				E7F8CC602B10712600066BB1 /* Onboarding */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -745,6 +750,23 @@
 			path = KAERA;
 			sourceTree = "<group>";
 		};
+		E7F8CC602B10712600066BB1 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				E7F8CC612B10712600066BB1 /* View */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		E7F8CC612B10712600066BB1 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				E7F8CC622B10712600066BB1 /* OnboardingVC.swift */,
+				E7F8CC632B10712600066BB1 /* CustomPageControl.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -897,12 +919,14 @@
 				E7BB4F512A5EF8260018312B /* WorryListModel.swift in Sources */,
 				E79AAC392A52F2C300F3F439 /* UICollectionVIew+.swift in Sources */,
 				E7B94D702ADDF9B8005D9FB8 /* MyPageTVC.swift in Sources */,
+				E7F8CC652B10712600066BB1 /* CustomPageControl.swift in Sources */,
 				85EBC7F72A5AD95D00B9E891 /* ArchiveVC.swift in Sources */,
 				E79AAC432A52F36500F3F439 /* APIConstant.swift in Sources */,
 				E7FEC09A2A6D1725006F36BF /* WorryDetailModel.swift in Sources */,
 				E79AAC302A52F2C300F3F439 /* String+.swift in Sources */,
 				85A849312A87A9F7009F1468 /* TemplateContentTVC.swift in Sources */,
 				85ECEE492A9A406B00A624AE /* ArchiveService.swift in Sources */,
+				E7F8CC642B10712600066BB1 /* OnboardingVC.swift in Sources */,
 				E79AAC4B2A52F3E000F3F439 /* BaseNC.swift in Sources */,
 				E79AAC462A52F36500F3F439 /* NetworkConstant.swift in Sources */,
 				85EBC7F52A5AD94100B9E891 /* WriteVC.swift in Sources */,
