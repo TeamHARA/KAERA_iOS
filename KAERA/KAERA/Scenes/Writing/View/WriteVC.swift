@@ -144,21 +144,7 @@ final class WriteVC: BaseVC {
     private func updateUI(_ templateContents: TemplateContentModel) {
         self.templateTitle.text = templateContents.title
         self.templateInfo.text = templateContents.info
-        switch self .writeType {
-        /// 고민 작성, 고민 작성(템플릿 변경), 고민 수정(템플릿 변경) 의 경우에는 값을 초기화해주는 것이기 때문에, writeModalVC에서 선택한 템플릿의 값으로 cell을 설정해준다.
-        case .post:
-            templateContentTV.title = ""
-            templateContentTV.setData(type: .post, questions: templateContents.questions, hints: templateContents.hints)
-        case .postDifferentTemplate:
-            templateContentTV.title = ""
-            templateContentTV.setData(type: .postDifferentTemplate, questions: templateContents.questions, hints: templateContents.hints)
-        case .patchDifferentTemplate:
-            templateContentTV.title = ""
-            templateContentTV.setData(type: .patchDifferentTemplate, questions: templateContents.questions, hints: templateContents.hints)
-        /// 고민 수정의 경우에는 HomeWorryEditVC에서 tempAnswer로 전달받은 원래 답변으로 cell을 초기화 시켜준다.
-        case .patch:
-            templateContentTV.setData(type: .patch, questions: templateContents.questions, hints: templateContents.hints, answers: tempAnswers)
-        }
+        templateContentTV.setData(type: writeType, questions: templateContents.questions, hints: templateContents.hints, answers: tempAnswers)
         
         templateContentTV.reloadData()
     }
@@ -312,6 +298,7 @@ extension WriteVC: TemplateTitleDelegate {
             self.writeType = .postDifferentTemplate
         }else if writeType == .patch {
             self.writeType = .patchDifferentTemplate
+            self.tempAnswers = []
         }
     }
 }
