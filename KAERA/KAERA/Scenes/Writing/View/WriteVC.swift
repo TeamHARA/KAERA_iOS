@@ -112,7 +112,7 @@ final class WriteVC: BaseVC {
         setNaviButtonAction()
         setLayout()
         setDelegate()
-        pressBtn()
+        setPressBtn()
         hideKeyboardWhenTappedAround()
         addKeyboardObserver()
         dataBind()
@@ -203,21 +203,42 @@ final class WriteVC: BaseVC {
             }
         }
     }
+    private func isStringArrayEmpty(_ array: [String]) -> Bool{
+        let joinedArray = array.joined()
+        if joinedArray.count <= 0 {
+            return true
+        }else {
+            return false
+        }
+    }
     
-    private func pressBtn() {
-        templateBtn.press {
-            switch self .writeType {
-            case .post:
-                self.modalTemplateSelectVC()
+    private func setPressBtn() {
+        var title: String = ""
+        var answers: [String] = []
+        
+        templateBtn.press { [weak self] in
+            
+            switch self?.writeType {
+            case .post, .postDifferentTemplate:
+                title = WorryPostManager.shared.title
+                answers = WorryPostManager.shared.answers
             /// 고민 작성 시를 제외하고는 템플릿 변경 시 알럿 창을 띄워주어야 한다.
-            case .patch:
-                self.writeType = .patchDifferentTemplate
-                self.makeAlert()
-            case .postDifferentTemplate, .patchDifferentTemplate:
-                self.makeAlert()
+            case .patch, .patchDifferentTemplate:
+                title = WorryPatchManager.shared.title
+                answers = WorryPatchManager.shared.answers
+            default:
+                break
+            }
+            
+            // 제목, 내용 다 텍스트가 없을때만 바로 modal을 띄움
+            if title.isEmpty && self?.isStringArrayEmpty(answers) ?? false {
+                self?.modalTemplateSelectVC()
+            }else {
+                self?.makeAlert()
             }
         }
     }
+    
     
     private func makeAlert() {
         let failureAlertVC = KaeraAlertVC(buttonType: .cancelAndOK, okTitle: "변경")
