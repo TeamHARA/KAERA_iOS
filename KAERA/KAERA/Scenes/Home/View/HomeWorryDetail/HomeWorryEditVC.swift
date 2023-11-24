@@ -86,25 +86,25 @@ final class HomeWorryEditVC: BaseVC {
     }
     
     private func setPressAction() {
-        editWorryButton.press {
+        editWorryButton.press { [weak self] in
             let writeVC = WriteVC(type: .patch)
             writeVC.modalPresentationStyle = .fullScreen
             writeVC.modalTransitionStyle = .coverVertical
-            self.present(writeVC, animated: true)
+            self?.present(writeVC, animated: true)
             
             /// 적힌 제목을 templateContentTV의 제목으로 설정해줌
-            if let worryTitle = self.worryDetail?.title {
+            if let worryTitle = self?.worryDetail?.title {
                 writeVC.templateContentTV.title = worryTitle
                 }
             /// 적힌 답변을 writeVC로 보내줌
-            writeVC.setTempAnswers(answers: self.worryDetail?.answers ?? [])
+            writeVC.setTempAnswers(answers: self?.worryDetail?.answers ?? [])
             writeVC.dataBind()
-            let templateId = (self.worryDetail?.templateId ?? 1) - 1
+            let templateId = (self?.worryDetail?.templateId ?? 1) - 1
             
-            self.worryPatchContent.worryId = self.worryId
-            self.worryPatchContent.templateId = templateId + 1
+            self?.worryPatchContent.worryId =  self?.worryId ?? 0
+            self?.worryPatchContent.templateId = templateId + 1
             /// 선택된 템플릿이 어떤건지 WriteVC.templateBtn에 표시해주기 위해 함수 구현
-            writeVC.templateReload(templateId: templateId, templateTitle: self.templateTitleShortInfoList[templateId].templateTitle, templateInfo: self.templateTitleShortInfoList[templateId].templateDetail)
+            writeVC.templateReload(templateId: templateId, templateTitle:  self?.templateTitleShortInfoList[templateId].templateTitle ?? "", templateInfo:  self?.templateTitleShortInfoList[templateId].templateDetail ?? "")
             /// 템플릿에 맞는 templateContent 보여지게끔 연동
             writeVC.input.send(templateId)
         }
