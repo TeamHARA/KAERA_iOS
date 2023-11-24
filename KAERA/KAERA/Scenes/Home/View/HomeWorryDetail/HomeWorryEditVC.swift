@@ -81,19 +81,17 @@ final class HomeWorryEditVC: BaseVC {
             writeVC.modalPresentationStyle = .fullScreen
             writeVC.modalTransitionStyle = .coverVertical
             self?.present(writeVC, animated: true)
-            
             /// 적힌 제목을 templateContentTV의 제목으로 설정해줌
             if let worryTitle = self?.worryDetail?.title {
                 writeVC.templateContentTV.title = worryTitle
-                }
+            }
             /// 적힌 답변을 writeVC로 보내줌
             writeVC.setTempAnswers(answers: self?.worryDetail?.answers ?? [])
             let templateId = (self?.worryDetail?.templateId ?? 1) - 1
             
             self?.worryPatchContent.worryId =  self?.worryId ?? 0
             self?.worryPatchContent.templateId = templateId + 1
-            /// 선택된 템플릿이 어떤건지 WriteVC.templateBtn에 표시해주기 위해 함수 구현
-            writeVC.templateReload(templateId: templateId, templateTitle: "템플릿 타이틀", templateInfo: "템플릿 인포")
+            writeVC.input.send(templateId)
         }
         
         editDeadlineButton.press {

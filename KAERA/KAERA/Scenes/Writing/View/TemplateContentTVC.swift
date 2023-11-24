@@ -75,19 +75,17 @@ class TemplateContentTVC: UITableViewCell {
         }
     }
     
-    func dataBind(type: WriteType, question: String, hint: String, answer: String, index: Int) {
+    func dataBind(question: String, hint: String, answer: String, index: Int) {
         questionLabel.text = question
         placeHolder = hint
         self.indexPath = index
-        /// 아래의 textViewDelegate에서 update된 placeholder를 써주기 위해 placeholder에도 hint를 담아준다.
-        if type == .patch {
+        
+        if answer.isEmpty {
+            textView.text = placeHolder
+            textView.textColor = .kGray4
+        } else {
             textView.text = answer
             textView.textColor = .kWhite
-        } else {
-            if answer == "" {
-                textView.text = placeHolder
-                textView.textColor = .kGray4
-            }
         }
     }
 }

@@ -157,7 +157,7 @@ final class WriteVC: BaseVC {
             templateContentTV.setData(type: .patchDifferentTemplate, questions: templateContents.questions, hints: templateContents.hints)
         /// 고민 수정의 경우에는 HomeWorryEditVC에서 tempAnswer로 전달받은 원래 답변으로 cell을 초기화 시켜준다.
         case .patch:
-            templateContentTV.setData(type: .patch, questions: templateContents.questions, hints: tempAnswers)
+            templateContentTV.setData(type: .patch, questions: templateContents.questions, hints: templateContents.hints, answers: tempAnswers)
         }
         
         templateContentTV.reloadData()
@@ -310,6 +310,8 @@ extension WriteVC: TemplateTitleDelegate {
         // 처음 고민작성시 템플릿을 선택했을때 writeType을 바꿔줌
         if writeType == .post {
             self.writeType = .postDifferentTemplate
+        }else if writeType == .patch {
+            self.writeType = .patchDifferentTemplate
         }
     }
 }
