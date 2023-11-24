@@ -48,14 +48,6 @@ final class HomeWorryEditVC: BaseVC {
         $0.layer.cornerRadius = 12
     }
     
-    private let templateVM = TemplateViewModel()
-    private var cancellables = Set<AnyCancellable>()
-    private let input = PassthroughSubject<Void, Never> ()
-    
-    /// writeVC Modal시에 화면에 띄어줄 제목을 담아서 보내줌
-    private var templateTitleShortInfoList:
-    [TemplateInfoPublisherModel] = []
-    
     let worryPatchContent = WorryPatchManager.shared
     
     private let archiveVC = ArchiveVC()
@@ -76,8 +68,6 @@ final class HomeWorryEditVC: BaseVC {
         setPressAction()
         hideKeyboardWhenTappedAround()
         addObserver()
-        sendTitleInfo()
-        input.send() /// shortInfo를 받아오기 위해 연동
     }
     
     // MARK: - Function
@@ -103,9 +93,7 @@ final class HomeWorryEditVC: BaseVC {
             self?.worryPatchContent.worryId =  self?.worryId ?? 0
             self?.worryPatchContent.templateId = templateId + 1
             /// 선택된 템플릿이 어떤건지 WriteVC.templateBtn에 표시해주기 위해 함수 구현
-            writeVC.templateReload(templateId: templateId, templateTitle:  self?.templateTitleShortInfoList[templateId].templateTitle ?? "", templateInfo:  self?.templateTitleShortInfoList[templateId].templateDetail ?? "")
-            /// 템플릿에 맞는 templateContent 보여지게끔 연동
-            writeVC.input.send(templateId)
+            writeVC.templateReload(templateId: templateId, templateTitle: "템플릿 타이틀", templateInfo: "템플릿 인포")
         }
         
         editDeadlineButton.press {
@@ -201,16 +189,6 @@ final class HomeWorryEditVC: BaseVC {
         DispatchQueue.main.async {
             self.dismiss(animated: true)
         }
-    }
-    
-    /// writeVC Modal시에 화면에 띄어줄 title 및 shortInfo를 보내주기 위한 함수
-    private func sendTitleInfo() {
-        let output = templateVM.transform(input: input.eraseToAnyPublisher())
-        output.receive(on: DispatchQueue.main)
-            .sink { [weak self] list in
-                self?.templateTitleShortInfoList = list
-            }
-            .store(in: &cancellables)
     }
 }
 

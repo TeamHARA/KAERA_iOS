@@ -142,6 +142,8 @@ final class WriteVC: BaseVC {
     }
     
     private func updateUI(_ templateContents: TemplateContentModel) {
+        self.templateTitle.text = templateContents.title
+        self.templateInfo.text = templateContents.info
         switch self .writeType {
         /// 고민 작성, 고민 작성(템플릿 변경), 고민 수정(템플릿 변경) 의 경우에는 값을 초기화해주는 것이기 때문에, writeModalVC에서 선택한 템플릿의 값으로 cell을 설정해준다.
         case .post:
@@ -253,6 +255,18 @@ final class WriteVC: BaseVC {
     }
 }
 
+// MARK: - TemplageTitleDelegate
+extension WriteVC: TemplateTitleDelegate {
+    func templateReload(templateId: Int, templateTitle: String, templateInfo: String) {
+        templateContentTV.templateId = templateId
+        input.send(templateContentTV.templateId)
+        // 처음 고민작성시 템플릿을 선택했을때 writeType을 바꿔줌
+        if writeType == .post {
+            self.writeType = .postDifferentTemplate
+        }
+    }
+}
+
 // MARK: - ActivateButtonDelegate
 extension WriteVC: ActivateButtonDelegate {
     func isTitleEmpty(check: Bool) {
@@ -307,24 +321,6 @@ extension WriteVC {
         let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0)
         
         templateContentTV.contentInset = contentInsets
-    }
-}
-
-// MARK: - TemplageTitleDelegate
-extension WriteVC: TemplateTitleDelegate {
-    func templateReload(templateId: Int, templateTitle: String, templateInfo: String) {
-        self.templateTitle.text = templateTitle
-        self.templateInfo.text = templateInfo
-        setTemplateContentTV(templateId)
-        // 처음 고민작성시 템플릿을 선택했을때 writeType을 바꿔줌
-        if writeType == .post {
-            self.writeType = .postDifferentTemplate
-        }
-    }
-    
-    private func setTemplateContentTV(_ templateId: Int) {
-        templateContentTV.templateId = templateId
-        input.send(templateContentTV.templateId)
     }
 }
 
