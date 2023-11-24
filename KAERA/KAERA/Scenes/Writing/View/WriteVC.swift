@@ -253,6 +253,81 @@ final class WriteVC: BaseVC {
     }
 }
 
+// MARK: - ActivateButtonDelegate
+extension WriteVC: ActivateButtonDelegate {
+    func isTitleEmpty(check: Bool) {
+        /// navigationBarView의 상태를 변경해준다.
+        navigationBarView.setupDoneButtonStatus(status: check)
+    }
+}
+
+// MARK: - Keyboard
+extension WriteVC {
+    
+    private func addKeyboardObserver() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(self.keyboardWillAppear(_:)),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+        
+        NotificationCenter.default.addObserver(
+            self, selector: #selector(keyboardWillDisappear),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil)
+    }
+    
+    private func removeKeyboardObserver() {
+        NotificationCenter.default.removeObserver(
+            self,
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+        
+        NotificationCenter.default.removeObserver(
+            self,
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
+    }
+    
+    /// 키보드 높이가 올라올 때, contentInset을 키보드 높이만큼 조정해줌.
+    @objc func keyboardWillAppear(_ notification: NSNotification) {
+        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardHeight = keyboardFrame.cgRectValue.height
+            
+            let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: keyboardHeight + 50, right: 0.0)
+            templateContentTV.contentInset = contentInsets
+        }
+    }
+    
+    /// 키보드 내려갈 떄, 다시 원래대로 복귀
+    @objc func keyboardWillDisappear(_ notification: NSNotification) {
+        let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0)
+        
+        templateContentTV.contentInset = contentInsets
+    }
+}
+
+// MARK: - TemplageTitleDelegate
+extension WriteVC: TemplateTitleDelegate {
+    func templateReload(templateId: Int, templateTitle: String, templateInfo: String) {
+        self.templateTitle.text = templateTitle
+        self.templateInfo.text = templateInfo
+        setTemplateContentTV(templateId)
+        // 처음 고민작성시 템플릿을 선택했을때 writeType을 바꿔줌
+        if writeType == .post {
+            self.writeType = .postDifferentTemplate
+        }
+    }
+    
+    private func setTemplateContentTV(_ templateId: Int) {
+        templateContentTV.templateId = templateId
+        input.send(templateContentTV.templateId)
+    }
+}
+
 // MARK: - Layout
 extension WriteVC {
     private func setLayout() {
@@ -315,77 +390,3 @@ extension WriteVC {
     }
 }
 
-// MARK: - TemplageTitleDelegate
-extension WriteVC: TemplateTitleDelegate {
-    func templateReload(templateId: Int, templateTitle: String, templateInfo: String) {
-        self.templateTitle.text = templateTitle
-        self.templateInfo.text = templateInfo
-        setTemplateContentTV(templateId)
-        // 처음 고민작성시 템플릿을 선택했을때 writeType을 바꿔줌
-        if writeType == .post {
-            self.writeType = .postDifferentTemplate
-        }
-    }
-    
-    private func setTemplateContentTV(_ templateId: Int) {
-        templateContentTV.templateId = templateId
-        input.send(templateContentTV.templateId)
-    }
-}
-
-// MARK: - ActivateButtonDelegate
-extension WriteVC: ActivateButtonDelegate {
-    func isTitleEmpty(check: Bool) {
-        /// navigationBarView의 상태를 변경해준다.
-        navigationBarView.setupDoneButtonStatus(status: check)
-    }
-}
-
-// MARK: - Keyboard
-extension WriteVC {
-    
-    private func addKeyboardObserver() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(self.keyboardWillAppear(_:)),
-            name: UIResponder.keyboardWillShowNotification,
-            object: nil
-        )
-        
-        NotificationCenter.default.addObserver(
-            self, selector: #selector(keyboardWillDisappear),
-            name: UIResponder.keyboardWillHideNotification,
-            object: nil)
-    }
-    
-    private func removeKeyboardObserver() {
-        NotificationCenter.default.removeObserver(
-            self,
-            name: UIResponder.keyboardWillShowNotification,
-            object: nil
-        )
-        
-        NotificationCenter.default.removeObserver(
-            self,
-            name: UIResponder.keyboardWillHideNotification,
-            object: nil
-        )
-    }
-    
-    /// 키보드 높이가 올라올 때, contentInset을 키보드 높이만큼 조정해줌.
-    @objc func keyboardWillAppear(_ notification: NSNotification) {
-        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
-            let keyboardHeight = keyboardFrame.cgRectValue.height
-            
-            let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: keyboardHeight + 50, right: 0.0)
-            templateContentTV.contentInset = contentInsets
-        }
-    }
-    
-    /// 키보드 내려갈 떄, 다시 원래대로 복귀
-    @objc func keyboardWillDisappear(_ notification: NSNotification) {
-        let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0)
-        
-        templateContentTV.contentInset = contentInsets
-    }
-}
