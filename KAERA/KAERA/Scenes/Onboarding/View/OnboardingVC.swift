@@ -78,7 +78,7 @@ class OnboardingVC: UIViewController {
     }
     
     private func setButtonAction() {
-        controlBtn.press { [self] in
+        controlBtn.press { [weak self] in
             if currentPage < 2 {
                 currentPage += 1
             }

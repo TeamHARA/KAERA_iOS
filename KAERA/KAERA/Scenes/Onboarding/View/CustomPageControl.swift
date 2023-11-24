@@ -9,7 +9,7 @@
 import UIKit
 import SnapKit
 
-class CustomPageControl: UIControl {
+final class CustomPageControl: UIControl {
     
     private let numberOfPages: Int = 3
     
