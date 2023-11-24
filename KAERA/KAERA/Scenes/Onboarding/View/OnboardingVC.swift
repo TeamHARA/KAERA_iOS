@@ -79,8 +79,8 @@ class OnboardingVC: UIViewController {
     
     private func setButtonAction() {
         controlBtn.press { [weak self] in
-            if currentPage < 2 {
-                currentPage += 1
+            if self?.currentPage ?? 0 < 2 {
+                self?.currentPage += 1
             }
             else {
                 // TODO: - 로그인 화면으로 넘어가기
