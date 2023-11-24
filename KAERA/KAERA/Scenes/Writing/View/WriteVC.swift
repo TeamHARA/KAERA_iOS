@@ -176,8 +176,13 @@ final class WriteVC: BaseVC {
     }
     
     private func setNaviButtonAction() {
-        navigationBarView.setLeftButtonAction {
-            self.dismiss(animated: true, completion: nil)
+        navigationBarView.setLeftButtonAction { [weak self] in
+            // 제목, 내용 다 텍스트가 없을때만 바로 dismiss함
+            if self?.checkIfWorryContentIsEmpty() ?? false {
+                self?.dismiss(animated: true)
+            }else {
+                self?.makeWritingCancelAlert()
+            }
         }
         
         navigationBarView.setRightButtonAction  { [self] in
@@ -203,50 +208,61 @@ final class WriteVC: BaseVC {
             }
         }
     }
-    private func isStringArrayEmpty(_ array: [String]) -> Bool{
-        let joinedArray = array.joined()
-        if joinedArray.count <= 0 {
+    
+    private func makeWritingCancelAlert() {
+        let failureAlertVC = KaeraAlertVC(buttonType: .cancelAndOK, okTitle: "나가기")
+        failureAlertVC.setTitleSubTitle(title: "화면을 나가면 작성 중인 내용이 사라져요!", subTitle: "지금 나가실 건가요?")
+        self.present(failureAlertVC, animated: true)
+        failureAlertVC.OKButton.press { [weak self] in
+            let presentingVC = self?.presentingViewController
+            self?.dismiss(animated: true) {
+                presentingVC?.dismiss(animated: true)
+            }
+        }
+    }
+    
+    private func checkIfWorryContentIsEmpty() -> Bool {
+        var title: String = ""
+        var answers: [String] = []
+        
+        switch self.writeType {
+        case .post, .postDifferentTemplate:
+            title = WorryPostManager.shared.title
+            answers = WorryPostManager.shared.answers
+            /// 고민 작성 시를 제외하고는 템플릿 변경 시 알럿 창을 띄워주어야 한다.
+        case .patch, .patchDifferentTemplate:
+            title = WorryPatchManager.shared.title
+            answers = WorryPatchManager.shared.answers
+        }
+    
+        let joinedAnswers = answers.joined()
+        
+        if title.isEmpty && joinedAnswers.isEmpty {
             return true
         }else {
             return false
         }
     }
-    
+
     private func setPressBtn() {
-        var title: String = ""
-        var answers: [String] = []
-        
         templateBtn.press { [weak self] in
-            
-            switch self?.writeType {
-            case .post, .postDifferentTemplate:
-                title = WorryPostManager.shared.title
-                answers = WorryPostManager.shared.answers
-            /// 고민 작성 시를 제외하고는 템플릿 변경 시 알럿 창을 띄워주어야 한다.
-            case .patch, .patchDifferentTemplate:
-                title = WorryPatchManager.shared.title
-                answers = WorryPatchManager.shared.answers
-            default:
-                break
-            }
-            
             // 제목, 내용 다 텍스트가 없을때만 바로 modal을 띄움
-            if title.isEmpty && self?.isStringArrayEmpty(answers) ?? false {
+            if self?.checkIfWorryContentIsEmpty() ?? false {
                 self?.modalTemplateSelectVC()
             }else {
-                self?.makeAlert()
+                self?.makeTemplateChangeAlert()
             }
         }
     }
     
-    
-    private func makeAlert() {
+    private func makeTemplateChangeAlert() {
         let failureAlertVC = KaeraAlertVC(buttonType: .cancelAndOK, okTitle: "변경")
         failureAlertVC.setTitleSubTitle(title: "템플릿이 변경되면 작성 중인 내용이 사라집니다.", subTitle: "변경하시겠어요?", highlighting: "변경")
         self.present(failureAlertVC, animated: true)
-        failureAlertVC.OKButton.press {
-            self.dismiss(animated: true)
-            self.modalTemplateSelectVC()
+        failureAlertVC.OKButton.press { [weak self] in
+            self?.dismiss(animated: true) {
+                self?.modalTemplateSelectVC()
+            }
         }
     }
     
