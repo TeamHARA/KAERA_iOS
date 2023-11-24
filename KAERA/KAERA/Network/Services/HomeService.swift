@@ -23,15 +23,20 @@ extension HomeService: BaseTargetType {
     var path: String {
         switch self {
         case .homeGemList(let isSolved):
-            return APIConstant.worryList + "/\(isSolved)"
+            return APIConstant.worry + "/\(isSolved)/list"
+            
         case .worryDetail(let worryId), .deleteWorry(let worryId):
             return APIConstant.worry + "/\(worryId)"
+            
         case .updateDeadline:
-            return APIConstant.worry + "/deadline"
+            return APIConstant.deadline
+            
         case .editWorry:
             return APIConstant.worry
+            
         case .completeWorry:
-            return APIConstant.worry + "/finalAnswer"
+            return APIConstant.finalAnswer
+            
         case .patchReview:
             return APIConstant.review
         }
@@ -50,7 +55,9 @@ extension HomeService: BaseTargetType {
     
     var task: Task {
         switch self {
-        case .homeGemList, .worryDetail, .deleteWorry:
+        case .homeGemList:
+            return .requestParameters(parameters: ["page" : 1, "limit" : 12], encoding: URLEncoding.queryString)
+        case .worryDetail, .deleteWorry:
             return .requestPlain
         case .updateDeadline(let param):
             return .requestJSONEncodable(param)
