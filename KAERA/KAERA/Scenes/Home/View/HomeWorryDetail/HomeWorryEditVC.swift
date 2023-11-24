@@ -98,7 +98,6 @@ final class HomeWorryEditVC: BaseVC {
                 }
             /// 적힌 답변을 writeVC로 보내줌
             writeVC.setTempAnswers(answers: self?.worryDetail?.answers ?? [])
-            writeVC.dataBind()
             let templateId = (self?.worryDetail?.templateId ?? 1) - 1
             
             self?.worryPatchContent.worryId =  self?.worryId ?? 0
