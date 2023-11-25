@@ -183,8 +183,6 @@ final class WriteVC: BaseVC {
                 worryPatchPublishedContent.title = worryPatchContent.title
                 worryPatchPublishedContent.answers = worryPatchContent.answers
                 editWorry()
-                /// HomeWorryDetailVC Reload 해주기 위해 알림 전송
-                NotificationCenter.default.post(name: NSNotification.Name("CompleteWorryEditing"), object: nil, userInfo: nil)
             }
         }
     }
@@ -281,8 +279,11 @@ final class WriteVC: BaseVC {
     
     func editWorry() {
         /// 서버로 고민 내용을 Patch 시켜줌
-        HomeAPI.shared.editWorry(param: worryPatchPublishedContent){ result in
+        HomeAPI.shared.editWorry(param: worryPatchPublishedContent){ [weak self] result in
             guard let result = result, let _ = result.data else { return }
+            self?.worryPatchContent.clearWorryData()
+            /// HomeWorryDetailVC Reload 해주기 위해 알림 전송
+            NotificationCenter.default.post(name: NSNotification.Name("CompleteWorryEditing"), object: nil, userInfo: nil)
         }
         self.dismiss(animated: true)
     }
