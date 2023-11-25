@@ -90,9 +90,6 @@ final class WriteVC: BaseVC {
     
     private var tempAnswers: [String] = []
     
-    let worryPatchContent = WorryPatchManager.shared
-    var worryPatchPublishedContent = PatchWorryModel(worryId: 1, templateId: 1, title: "", answers: [])
-    
     // MARK: - Initialization
     init(type: WriteType) {
         super.init(nibName: nil, bundle: nil)
@@ -179,11 +176,9 @@ final class WriteVC: BaseVC {
                     })
                 })
             case .patch, .patchDifferentTemplate:
-                self?.worryPatchPublishedContent.worryId = WorryPatchManager.shared.worryId
-                self?.worryPatchPublishedContent.templateId = WorryPatchManager.shared.templateId
-                self?.worryPatchPublishedContent.title = WorryPatchManager.shared.title
-                self?.worryPatchPublishedContent.answers = WorryPatchManager.shared.answers
-                self?.editWorry()
+                let worryPatchManager = WorryPatchManager.shared
+                let patchWorryContent: PatchWorryModel = PatchWorryModel(worryId: worryPatchManager.worryId, templateId: worryPatchManager.templateId, title: worryPatchManager.title, answers: worryPatchManager.answers)
+                self?.editWorry(patchWorryContent: patchWorryContent)
             default:
                 break
             }
@@ -280,11 +275,11 @@ final class WriteVC: BaseVC {
         self.tempAnswers = answers
     }
     
-    func editWorry() {
+    func editWorry(patchWorryContent: PatchWorryModel) {
         /// 서버로 고민 내용을 Patch 시켜줌
-        HomeAPI.shared.editWorry(param: worryPatchPublishedContent){ [weak self] result in
+        HomeAPI.shared.editWorry(param: patchWorryContent){ result in
             guard let result = result, let _ = result.data else { return }
-            self?.worryPatchContent.clearWorryData()
+            WorryPatchManager.shared.clearWorryData()
             /// HomeWorryDetailVC Reload 해주기 위해 알림 전송
             NotificationCenter.default.post(name: NSNotification.Name("CompleteWorryEditing"), object: nil, userInfo: nil)
         }
