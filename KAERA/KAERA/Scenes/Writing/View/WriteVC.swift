@@ -117,7 +117,7 @@ final class WriteVC: BaseVC {
     
     // MARK: - Functions
     private func setDelegate() {
-        writeModalVC.sendTitleDelegate = self
+        writeModalVC.sendIdDelegate = self
         templateContentTV.buttonDelegate = self
     }
     
@@ -314,9 +314,9 @@ final class WriteVC: BaseVC {
     }
 }
 
-// MARK: - TemplageTitleDelegate
-extension WriteVC: TemplateTitleDelegate {
-    func templateReload(templateId: Int, templateTitle: String, templateInfo: String) {
+// MARK: - TemplateIdDelegate
+extension WriteVC: TemplateIdDelegate {
+    func templateReload(templateId: Int) {
         input.send(templateId)
         // 처음 고민작성시 템플릿을 선택했을때 writeType을 바꿔줌
         if writeType == .post {
