@@ -99,8 +99,6 @@ final class WriteVC: BaseVC {
     // MARK: - Life Cycles
     override func viewDidLoad() {
         super.viewDidLoad()
-        /// 초기에 완료 상태 비활성화
-//        navigationBarView.setupDoneButtonStatus(status: true)
         setNaviButtonAction()
         setLayout()
         setDelegate()
@@ -193,8 +191,15 @@ final class WriteVC: BaseVC {
     }
     
     private func checkEmpryAnswer() -> Bool {
-        let answers = WorryPatchManager.shared.answers
-        var hasEmptyAnswer = false
+        var answers: [String] = []
+        switch writeType {
+        case .post, .postDifferentTemplate:
+            answers = WorryPostManager.shared.answers
+        case .patch, .patchDifferentTemplate:
+            answers = WorryPatchManager.shared.answers
+        }
+        /// answers가 아예 빈 배열일때 처리
+        var hasEmptyAnswer = answers.isEmpty
         answers.forEach {
             if $0.isEmpty {
                 hasEmptyAnswer = true
@@ -264,9 +269,9 @@ final class WriteVC: BaseVC {
         failureAlertVC.OKButton.press { [weak self] in
             switch self?.writeType {
             case .post, .postDifferentTemplate:
-                WorryPostManager.shared.clearWorryData()
+                WorryPostManager.shared.answers = []
             case .patch, .patchDifferentTemplate:
-                WorryPatchManager.shared.clearWorryData()
+                WorryPatchManager.shared.answers = []
             case .none:
                 break
             }
@@ -317,6 +322,7 @@ extension WriteVC: TemplateTitleDelegate {
             self.writeType = .patchDifferentTemplate
             self.tempAnswers = []
         }
+        checkButtonStatus()
     }
 }
 

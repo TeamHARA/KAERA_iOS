@@ -24,8 +24,6 @@ final class TemplateContentTV: UITableView {
     var answers: [String] = []
     private var writeType: WriteType = .post
     
-    var tempTitle: String = ""
-    
     let worryPostContent = WorryPostManager.shared
     let worryPatchContent = WorryPatchManager.shared
     
