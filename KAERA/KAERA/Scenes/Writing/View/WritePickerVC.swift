@@ -150,9 +150,6 @@ class WritePickerVC: UIViewController, UIGestureRecognizerDelegate {
                     NotificationCenter.default.post(name: NSNotification.Name("updateDeadline"), object: nil, userInfo: ["deadline": self.deadlineContent.dayCount])
                 } else {
                     self.present(failureAlertVC, animated: true)
-                    failureAlertVC.OKButton.press {
-                        self.dismiss(animated: true)
-                    }
                 }
             }
         }
