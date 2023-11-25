@@ -135,26 +135,6 @@ extension TemplateContentTVC: UITextViewDelegate {
             textView.textColor = .kGray4
         }
         
-        let size = CGSize(width: textView.bounds.width, height: .infinity)
-        let estimatedSize = textView.sizeThatFits(size)
-        
-        /// 높이가 111보다 커지면 아래의 코드 실행, 넘지 않으면 고정 높이 반영
-        textView.constraints.forEach { (constraint) in
-            if constraint.firstAttribute == .height {
-                if estimatedSize.height > textViewConstant {
-                    constraint.constant = estimatedSize.height
-                }
-                else {
-                    constraint.constant = textViewConstant
-                }
-            }
-        }
-
-        if let tableView = superview as? UITableView {
-            tableView.beginUpdates()
-            tableView.endUpdates()
-        }
-        
         delegate?.answerDidEndEditing(index: self.indexPath, newText: trimmedText)
     }
 }
