@@ -11,7 +11,7 @@ import SnapKit
 import Then
 
 protocol ActivateButtonDelegate: AnyObject {
-    func isTitleEmpty(check: Bool)
+    func checkButtonStatus()
 }
 
 final class TemplateContentTV: UITableView {
@@ -130,7 +130,7 @@ extension TemplateContentTV: TemplateContentHeaderViewDelegate, TemplateContentT
         self.title = newText
         worryPostContent.title = title
         worryPatchContent.title = title
-        buttonDelegate?.isTitleEmpty(check: title.isEmpty)
+        buttonDelegate?.checkButtonStatus()
     }
     
     func answerDidEndEditing(index: Int, newText: String) {
@@ -138,5 +138,6 @@ extension TemplateContentTV: TemplateContentHeaderViewDelegate, TemplateContentT
         self.answers[index] = newText
         worryPostContent.answers = answers
         worryPatchContent.answers = answers
+        buttonDelegate?.checkButtonStatus()
     }
 }

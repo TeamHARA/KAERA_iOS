@@ -82,10 +82,6 @@ final class WriteVC: BaseVC {
         $0.textColor = .kGray4
         $0.font = .kSb1R12
     }
-    
-    /// tableView의 데이터들을 담는 싱글톤 클래스
-    let postContent = WorryPostManager.shared
-    
     private var writeType: WriteType = .post
     
     private var tempAnswers: [String] = []
@@ -104,7 +100,7 @@ final class WriteVC: BaseVC {
     override func viewDidLoad() {
         super.viewDidLoad()
         /// 초기에 완료 상태 비활성화
-        navigationBarView.setupDoneButtonStatus(status: true)
+//        navigationBarView.setupDoneButtonStatus(status: true)
         setNaviButtonAction()
         setLayout()
         setDelegate()
@@ -164,25 +160,47 @@ final class WriteVC: BaseVC {
         navigationBarView.setRightButtonAction  { [weak self] in
             switch self?.writeType {
             case .post, .postDifferentTemplate:
-                let pickerVC = WritePickerVC(type: .post)
-
-                pickerVC.view.alpha = 0 /// pickerView를 초기에 보이지 않게 설정
-                ///
-                pickerVC.modalPresentationStyle = .overCurrentContext
-                self?.present(pickerVC, animated: false, completion: { /// 애니메이션을 false로 설정
-                    UIView.animate(withDuration: 0.5, animations: {  /// 애니메이션 추가
-                        pickerVC.view.alpha = 1 /// pickerView가 서서히 보이게 설정
-                        pickerVC.view.layoutIfNeeded()
+                if WorryPostManager.shared.title.isEmpty {
+                    self?.showToastMessage(message: "고민의 제목을 붙여주세요!", color: .black)
+                } else if self?.checkEmpryAnswer() ?? true {
+                    self?.showToastMessage(message: "내용이 전부 작성되지 않았어요!", color: .black)
+                } else {
+                    let pickerVC = WritePickerVC(type: .post)
+                    pickerVC.view.alpha = 0 /// pickerView를 초기에 보이지 않게 설정
+                    ///
+                    pickerVC.modalPresentationStyle = .overCurrentContext
+                    self?.present(pickerVC, animated: false, completion: { /// 애니메이션을 false로 설정
+                        UIView.animate(withDuration: 0.5, animations: {  /// 애니메이션 추가
+                            pickerVC.view.alpha = 1 /// pickerView가 서서히 보이게 설정
+                            pickerVC.view.layoutIfNeeded()
+                        })
                     })
-                })
+                }
             case .patch, .patchDifferentTemplate:
-                let worryPatchManager = WorryPatchManager.shared
-                let patchWorryContent: PatchWorryModel = PatchWorryModel(worryId: worryPatchManager.worryId, templateId: worryPatchManager.templateId, title: worryPatchManager.title, answers: worryPatchManager.answers)
-                self?.editWorry(patchWorryContent: patchWorryContent)
+                if WorryPostManager.shared.title.isEmpty {
+                    self?.showToastMessage(message: "고민의 제목을 붙여주세요!", color: .black)
+                } else if self?.checkEmpryAnswer() ?? true {
+                    self?.showToastMessage(message: "내용이 전부 작성되지 않았어요!", color: .black)
+                } else {
+                    let worryPatchManager = WorryPatchManager.shared
+                    let patchWorryContent: PatchWorryModel = PatchWorryModel(worryId: worryPatchManager.worryId, templateId: worryPatchManager.templateId, title: worryPatchManager.title, answers: worryPatchManager.answers)
+                    self?.editWorry(patchWorryContent: patchWorryContent)
+                }
             default:
                 break
             }
         }
+    }
+    
+    private func checkEmpryAnswer() -> Bool {
+        let answers = WorryPatchManager.shared.answers
+        var hasEmptyAnswer = false
+        answers.forEach {
+            if $0.isEmpty {
+                hasEmptyAnswer = true
+            }
+        }
+        return hasEmptyAnswer
     }
     
     private func makeWritingCancelAlert() {
@@ -304,9 +322,20 @@ extension WriteVC: TemplateTitleDelegate {
 
 // MARK: - ActivateButtonDelegate
 extension WriteVC: ActivateButtonDelegate {
-    func isTitleEmpty(check: Bool) {
-        /// navigationBarView의 상태를 변경해준다.
-        navigationBarView.setupDoneButtonStatus(status: check)
+    func checkButtonStatus() {
+        var isTitleEmpty = true
+        switch self.writeType {
+        case .post, .postDifferentTemplate:
+            isTitleEmpty = WorryPostManager.shared.title.isEmpty
+        case .patch, .patchDifferentTemplate:
+            isTitleEmpty = WorryPatchManager.shared.title.isEmpty
+        }
+        
+        if isTitleEmpty || self.checkEmpryAnswer() {
+            navigationBarView.setupDoneButtonStatus(status: false)
+        } else {
+            navigationBarView.setupDoneButtonStatus(status: true)
+        }
     }
 }
 
