@@ -86,7 +86,6 @@ final class WriteVC: BaseVC {
     /// tableView의 데이터들을 담는 싱글톤 클래스
     let postContent = WorryPostManager.shared
     
-    private let pickerVC = WritePickerVC(type: .post)
     private var writeType: WriteType = .post
     
     private var tempAnswers: [String] = []
@@ -165,24 +164,28 @@ final class WriteVC: BaseVC {
             }
         }
         
-        navigationBarView.setRightButtonAction  { [self] in
-            switch self .writeType {
+        navigationBarView.setRightButtonAction  { [weak self] in
+            switch self?.writeType {
             case .post, .postDifferentTemplate:
+                let pickerVC = WritePickerVC(type: .post)
+
                 pickerVC.view.alpha = 0 /// pickerView를 초기에 보이지 않게 설정
                 ///
                 pickerVC.modalPresentationStyle = .overCurrentContext
-                present(pickerVC, animated: false, completion: { /// 애니메이션을 false로 설정
-                    UIView.animate(withDuration: 0.5, animations: { [self] in /// 애니메이션 추가
+                self?.present(pickerVC, animated: false, completion: { /// 애니메이션을 false로 설정
+                    UIView.animate(withDuration: 0.5, animations: {  /// 애니메이션 추가
                         pickerVC.view.alpha = 1 /// pickerView가 서서히 보이게 설정
                         pickerVC.view.layoutIfNeeded()
                     })
                 })
             case .patch, .patchDifferentTemplate:
-                worryPatchPublishedContent.worryId = worryPatchContent.worryId
-                worryPatchPublishedContent.templateId = worryPatchContent.templateId
-                worryPatchPublishedContent.title = worryPatchContent.title
-                worryPatchPublishedContent.answers = worryPatchContent.answers
-                editWorry()
+                self?.worryPatchPublishedContent.worryId = WorryPatchManager.shared.worryId
+                self?.worryPatchPublishedContent.templateId = WorryPatchManager.shared.templateId
+                self?.worryPatchPublishedContent.title = WorryPatchManager.shared.title
+                self?.worryPatchPublishedContent.answers = WorryPatchManager.shared.answers
+                self?.editWorry()
+            default:
+                break
             }
         }
     }
