@@ -135,6 +135,7 @@ class WritePickerVC: UIViewController, UIGestureRecognizerDelegate {
         worryPostPublishedContent.title = worryPostContent.title
         worryPostPublishedContent.answers = worryPostContent.answers
         worryPostPublishedContent.deadline = worryPostContent.deadline
+
         
         switch self .deadlineType {
         case .post:
@@ -170,8 +171,10 @@ class WritePickerVC: UIViewController, UIGestureRecognizerDelegate {
     
     private func postWorryContent() {
         /// 서버로 고민 내용을 POST 시켜줌
-        WriteAPI.shared.postWorryContent(param: worryPostPublishedContent) { result in
+        WriteAPI.shared.postWorryContent(param: worryPostPublishedContent) { [weak self] result in
             guard let result = result, let _ = result.data else { return }
+            /// WorryPostManager 데이터 초기화
+            self?.worryPostContent.clearWorryData()
         }
     }
     
