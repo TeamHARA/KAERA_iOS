@@ -90,7 +90,7 @@ final class HomeWorryEditVC: BaseVC {
             let templateId = (self?.worryDetail?.templateId ?? 1) - 1
             
             self?.worryPatchContent.worryId =  self?.worryId ?? 0
-            self?.worryPatchContent.templateId = templateId + 1
+            self?.worryPatchContent.templateId = templateId
             writeVC.input.send(templateId)
         }
         

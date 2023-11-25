@@ -291,6 +291,10 @@ final class WriteVC: BaseVC {
             /// 시트 상단에 그래버 표시 (기본 값은 false)
             sheet.prefersGrabberVisible = true
         }
+        if writeType == .patch {
+            writeModalVC.setTemplateIndex(idx: WorryPatchManager.shared.templateId)
+        }
+        
         self.present(self.writeModalVC, animated: true)
     }
     
@@ -313,8 +317,7 @@ final class WriteVC: BaseVC {
 // MARK: - TemplageTitleDelegate
 extension WriteVC: TemplateTitleDelegate {
     func templateReload(templateId: Int, templateTitle: String, templateInfo: String) {
-        templateContentTV.templateId = templateId
-        input.send(templateContentTV.templateId)
+        input.send(templateId)
         // 처음 고민작성시 템플릿을 선택했을때 writeType을 바꿔줌
         if writeType == .post {
             self.writeType = .postDifferentTemplate

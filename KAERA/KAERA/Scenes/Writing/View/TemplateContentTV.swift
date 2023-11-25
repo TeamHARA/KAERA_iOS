@@ -17,7 +17,6 @@ protocol ActivateButtonDelegate: AnyObject {
 final class TemplateContentTV: UITableView {
     
     // MARK: - Properties
-    var templateId: Int = 0
     private var questions: [String] = []
     var title: String = ""
     var hints: [String] = []
@@ -111,11 +110,6 @@ extension TemplateContentTV : UITableViewDataSource
         
         /// cell에서 endEditing 시에 적힌 값을 TV로 보내준다.
         cell.delegate = self
-        
-        /// 1씩 작은 templateId에 1을 더해주어 원래 값으로 만들어준다.
-        worryPostContent.templateId = templateId + 1
-        worryPatchContent.templateId = templateId + 1
-        
         cell.dataBind(question: questions[indexPath.row], hint: hints[indexPath.row], answer: answers[indexPath.row], index: indexPath.row)
 
         return cell
