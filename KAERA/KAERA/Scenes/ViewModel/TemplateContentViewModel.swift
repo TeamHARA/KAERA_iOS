@@ -13,7 +13,7 @@ class TemplateContentViewModel: ViewModelType {
     
     private var cancellables = Set<AnyCancellable>()
     
-    private var templateContent = TemplateContentModel(title: "", info: "", guideline: "", questions: [], hints: [])
+    private var templateContent = TemplateContentModel(title: "", guideline: "", questions: [], hints: [])
     
     typealias Input = AnyPublisher<Int, Never>
     typealias Output = AnyPublisher<TemplateContentModel, Never>

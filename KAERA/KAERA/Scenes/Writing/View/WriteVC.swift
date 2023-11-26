@@ -133,7 +133,7 @@ final class WriteVC: BaseVC {
     
     private func updateUI(_ templateContents: TemplateContentModel) {
         self.templateTitle.text = templateContents.title
-        self.templateInfo.text = templateContents.info
+        self.templateInfo.text = templateContents.guideline
         templateContentTV.setData(type: writeType, questions: templateContents.questions, hints: templateContents.hints, answers: tempAnswers)
         
         templateContentTV.reloadData()
