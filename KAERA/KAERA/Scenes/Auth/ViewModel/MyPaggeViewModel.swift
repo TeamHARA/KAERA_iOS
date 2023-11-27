@@ -100,14 +100,16 @@ final class MyPaggeViewModel: ViewModelType {
     }
     
     private func requestSignOut() {
-        AuthAPI.shared.postKakaoLogout { [weak self] status in
-            guard let status else {
-                self?.output.send(.networkFail)
-                return
-            }
-            KeychainManager.delete(key: .accessToken)
-            self?.output.send(.accountAction)
-        }
+        KeychainManager.delete(key: .accessToken)
+        self.output.send(.accountAction)
+//        AuthAPI.shared.postKakaoLogout { [weak self] status in
+//            guard let status else {
+//                self?.output.send(.networkFail)
+//                return
+//            }
+//            KeychainManager.delete(key: .accessToken)
+//            self?.output.send(.accountAction)
+//        }
     }
     
     private func requestDeleteAccount() {

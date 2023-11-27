@@ -83,8 +83,10 @@ class OnboardingVC: UIViewController {
                 self?.currentPage += 1
             }
             else {
-                // TODO: - 로그인 화면으로 넘어가기
-                print("시작?")
+                let signInVC = SignInVC()
+                signInVC.modalPresentationStyle = .fullScreen
+                signInVC.modalTransitionStyle = .crossDissolve
+                self?.present(signInVC, animated: true)
             }
         }
     }
