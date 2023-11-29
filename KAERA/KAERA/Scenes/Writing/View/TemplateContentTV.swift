@@ -11,20 +11,17 @@ import SnapKit
 import Then
 
 protocol ActivateButtonDelegate: AnyObject {
-    func isTitleEmpty(check: Bool)
+    func checkButtonStatus()
 }
 
-class TemplateContentTV: UITableView {
+final class TemplateContentTV: UITableView {
     
     // MARK: - Properties
-    var templateId: Int = 0
     private var questions: [String] = []
     var title: String = ""
     var hints: [String] = []
     var answers: [String] = []
     private var writeType: WriteType = .post
-    
-    var tempTitle: String = ""
     
     let worryPostContent = WorryPostManager.shared
     let worryPatchContent = WorryPatchManager.shared
@@ -44,20 +41,16 @@ class TemplateContentTV: UITableView {
     }
     
     // MARK: - Functions
-    func setData(type: WriteType, questions: [String], hints: [String]) {
+    func setData(type: WriteType, questions: [String], hints: [String], answers: [String]) {
         self.writeType = type
         self.questions = questions
         self.hints = hints
+        self.answers = Array(repeating: "", count: hints.count)
         
-        switch self .writeType {
-            /// 고민 수정 시 각 질문에 대한 원래 답변이 hints에 저장되므로 이를 answers 배열에도 최신화시켜준다.
-        case .patch:
-            self.answers = hints
-            /// 서버에 담아서 보내줄 PatchContent에도 값을 담아줌
-            worryPatchContent.answers = hints
-        case .post, .postDifferentTemplate, .patchDifferentTemplate:
-            self.answers = Array(repeating: "", count: hints.count)
+        for (idx, answer) in answers.enumerated() {
+            self.answers[idx] = answer
         }
+        worryPatchContent.answers = self.answers
     }
     
     private func registerTV() {
@@ -102,15 +95,7 @@ extension TemplateContentTV : UITableViewDataSource
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard let headerCell = tableView.dequeueReusableHeaderFooterView(withIdentifier: TemplateContentHeaderView.className) as? TemplateContentHeaderView else { return nil }
-        
-        /// .patch(고민 수정)의 경우 제목이 이미 있으므로 이를 headerCell의 제목으로 지정해줌.
-        switch self .writeType {
-        case .patch:
-            headerCell.worryTitleTextField.text = title
-        default:
-            headerCell.worryTitleTextField.text = title
-            headerCell.titleNumLabel.text = "\(title.count)/7"
-        }
+        headerCell.worryTitleTextField.text = title
         headerCell.worryTitleTextField.becomeFirstResponder()
         
         /// headerCell에 입력된 고민 제목을 contentInfo에 담아준다.
@@ -125,13 +110,7 @@ extension TemplateContentTV : UITableViewDataSource
         
         /// cell에서 endEditing 시에 적힌 값을 TV로 보내준다.
         cell.delegate = self
-        
-        /// 1씩 작은 templateId에 1을 더해주어 원래 값으로 만들어준다.
-        worryPostContent.templateId = templateId + 1
-        worryPatchContent.templateId = templateId + 1
-        
-        /// .patch(고민수정)의 경우에만 hints배열에 answers값들이 들어가 있다.
-        cell.dataBind(type: self.writeType, question: questions[indexPath.row], hint: hints[indexPath.row], answer: answers[indexPath.row], index: indexPath.row)
+        cell.dataBind(question: questions[indexPath.row], hint: hints[indexPath.row], answer: answers[indexPath.row], index: indexPath.row)
 
         return cell
     }
@@ -143,7 +122,7 @@ extension TemplateContentTV: TemplateContentHeaderViewDelegate, TemplateContentT
         self.title = newText
         worryPostContent.title = title
         worryPatchContent.title = title
-        buttonDelegate?.isTitleEmpty(check: title.isEmpty)
+        buttonDelegate?.checkButtonStatus()
     }
     
     func answerDidEndEditing(index: Int, newText: String) {
@@ -151,5 +130,6 @@ extension TemplateContentTV: TemplateContentHeaderViewDelegate, TemplateContentT
         self.answers[index] = newText
         worryPostContent.answers = answers
         worryPatchContent.answers = answers
+        buttonDelegate?.checkButtonStatus()
     }
 }

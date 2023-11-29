@@ -26,10 +26,7 @@ class WritePickerVC: UIViewController, UIGestureRecognizerDelegate {
     let datePickerView = UIPickerView().then {
         $0.backgroundColor = .kGray1
     }
-    
-    let worryPostContent = WorryPostManager.shared
-    var worryPostPublishedContent = WorryContentRequestModel(templateId: 1, title: "", answers: [], deadline: -1)
-    
+        
     var worryId: Int = 0
     
     var deadlineContent = PatchDeadlineModel(worryId: 1, dayCount: 1)
@@ -113,32 +110,29 @@ class WritePickerVC: UIViewController, UIGestureRecognizerDelegate {
     
     // MARK: - Functions
     private func pressBtn() {
-        completeWritingBtn.press { [self] in
+        completeWritingBtn.press { [weak self] in
             /// picker에서 고른 숫자를 deadline으로 설정해줌.
-            let selectedRow = datePickerView.selectedRow(inComponent: 0)
-            let selectedValue = pickerData[selectedRow]
-            worryPostContent.deadline = Int(selectedValue) ?? -1
-            completeWorry()
+            let selectedRow = self?.datePickerView.selectedRow(inComponent: 0)
+            let selectedValue = self?.pickerData[selectedRow ?? 0]
+            WorryPostManager.shared.deadline = Int(selectedValue ?? "0") ?? -1
+            self?.completeWorry()
         }
         
-        noDeadlineBtn.press { [self] in
+        noDeadlineBtn.press { [weak self] in
             /// -888 로 데드라인 설정시 기한 설정하지 않기와 기능 동일
-            worryPostContent.deadline = -888
-            completeWorry()
+            WorryPostManager.shared.deadline = -888
+            self?.completeWorry()
         }
         
     }
     
     private func completeWorry() {
-        /// contentInfo 싱글톤 클래스에 담긴 내용을 서버로 보내주기 위해 구조체 형식으로 변환시켜줌.
-        worryPostPublishedContent.templateId = worryPostContent.templateId
-        worryPostPublishedContent.title = worryPostContent.title
-        worryPostPublishedContent.answers = worryPostContent.answers
-        worryPostPublishedContent.deadline = worryPostContent.deadline
+        let worryPostContent = WorryPostManager.shared
+        let postWorryModel = WorryContentRequestModel(templateId: worryPostContent.templateId, title: worryPostContent.title, answers: worryPostContent.answers, deadline: worryPostContent.deadline)
         
         switch self .deadlineType {
         case .post:
-            self.postWorryContent()
+            self.postWorryContent(postWorryContent: postWorryModel)
         case .patch:
             deadlineContent.worryId = self.worryId
             deadlineContent.dayCount = worryPostContent.deadline
@@ -150,9 +144,6 @@ class WritePickerVC: UIViewController, UIGestureRecognizerDelegate {
                     NotificationCenter.default.post(name: NSNotification.Name("updateDeadline"), object: nil, userInfo: ["deadline": self.deadlineContent.dayCount])
                 } else {
                     self.present(failureAlertVC, animated: true)
-                    failureAlertVC.OKButton.press {
-                        self.dismiss(animated: true)
-                    }
                 }
             }
         }
@@ -171,10 +162,12 @@ class WritePickerVC: UIViewController, UIGestureRecognizerDelegate {
         datePickerView.dataSource = self
     }
     
-    private func postWorryContent() {
+    private func postWorryContent(postWorryContent: WorryContentRequestModel) {
         /// 서버로 고민 내용을 POST 시켜줌
-        WriteAPI.shared.postWorryContent(param: worryPostPublishedContent) { result in
+        WriteAPI.shared.postWorryContent(param: postWorryContent) { result in
             guard let result = result, let _ = result.data else { return }
+            /// WorryPostManager 데이터 초기화
+            WorryPostManager.shared.clearWorryData()
         }
     }
     

@@ -14,6 +14,11 @@ class WorryPatchManager {
     var templateId: Int = 1
     var title: String = ""
     var answers: [String] = []
+    
+    func clearWorryData() {
+        title = ""
+        answers = []
+    }
 
     private init() { }
 }

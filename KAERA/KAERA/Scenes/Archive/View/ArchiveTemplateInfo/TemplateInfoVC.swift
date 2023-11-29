@@ -137,7 +137,7 @@ class TemplateInfoVC: UIViewController, TemplateInfoTVCDelegate {
         writeVC.dataBind()
         self.templateId = templateId
         writeVC.input.send(templateId)
-        writeVC.templateReload(templateId: templateId, templateTitle: self.templateTitleShortInfoList[templateId].templateTitle, templateInfo: self.templateTitleShortInfoList[templateId].templateDetail)
+        writeVC.templateReload(templateId: templateId)
     }
 }
 

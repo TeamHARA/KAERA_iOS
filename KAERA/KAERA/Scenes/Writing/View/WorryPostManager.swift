@@ -14,6 +14,11 @@ class WorryPostManager {
     var title: String = ""
     var answers: [String] = []
     var deadline: Int = -1
+    
+    func clearWorryData() {
+        title = ""
+        answers = []
+    }
 
     private init() { }
 }

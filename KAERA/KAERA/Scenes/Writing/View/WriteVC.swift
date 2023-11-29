@@ -17,7 +17,7 @@ enum WriteType {
     case patchDifferentTemplate
 }
 
-class WriteVC: BaseVC {
+final class WriteVC: BaseVC {
     
     // MARK: - View Model
     private let templateContentVM = TemplateContentViewModel()
@@ -27,8 +27,7 @@ class WriteVC: BaseVC {
     // MARK: - Properties
     private let writeModalVC = WriteModalVC()
     let templateContentTV = TemplateContentTV()
-    private let templateHeaderView = TemplateContentHeaderView()
-    
+
     private let navigationBarView = CustomNavigationBarView(leftType: .close, rightType: .done, title: "")
     
     let templateBtn = UIButton().then {
@@ -83,17 +82,9 @@ class WriteVC: BaseVC {
         $0.textColor = .kGray4
         $0.font = .kSb1R12
     }
-    
-    /// tableView의 데이터들을 담는 싱글톤 클래스
-    let postContent = WorryPostManager.shared
-    
-    private let pickerVC = WritePickerVC(type: .post)
     private var writeType: WriteType = .post
     
     private var tempAnswers: [String] = []
-    
-    let worryPatchContent = WorryPatchManager.shared
-    var worryPatchPublishedContent = PatchWorryModel(worryId: 1, templateId: 1, title: "", answers: [])
     
     // MARK: - Initialization
     init(type: WriteType) {
@@ -108,12 +99,10 @@ class WriteVC: BaseVC {
     // MARK: - Life Cycles
     override func viewDidLoad() {
         super.viewDidLoad()
-        /// 초기에 완료 상태 비활성화
-        navigationBarView.setupDoneButtonStatus(status: true)
         setNaviButtonAction()
         setLayout()
         setDelegate()
-        pressBtn()
+        setPressBtn()
         hideKeyboardWhenTappedAround()
         addKeyboardObserver()
         dataBind()
@@ -128,7 +117,7 @@ class WriteVC: BaseVC {
     
     // MARK: - Functions
     private func setDelegate() {
-        writeModalVC.sendTitleDelegate = self
+        writeModalVC.sendIdDelegate = self
         templateContentTV.buttonDelegate = self
     }
     
@@ -143,28 +132,10 @@ class WriteVC: BaseVC {
     }
     
     private func updateUI(_ templateContents: TemplateContentModel) {
-        switch self .writeType {
-        /// 고민 작성, 고민 작성(템플릿 변경), 고민 수정(템플릿 변경) 의 경우에는 값을 초기화해주는 것이기 때문에, writeModalVC에서 선택한 템플릿의 값으로 cell을 설정해준다.
-        case .post:
-            templateContentTV.title = ""
-            templateContentTV.setData(type: .post, questions: templateContents.questions, hints: templateContents.hints)
-        case .postDifferentTemplate:
-            templateContentTV.title = ""
-            templateContentTV.setData(type: .postDifferentTemplate, questions: templateContents.questions, hints: templateContents.hints)
-        case .patchDifferentTemplate:
-            templateContentTV.title = ""
-            templateContentTV.setData(type: .patchDifferentTemplate, questions: templateContents.questions, hints: templateContents.hints)
-        /// 고민 수정의 경우에는 HomeWorryEditVC에서 tempAnswer로 전달받은 원래 답변으로 cell을 초기화 시켜준다.
-        case .patch:
-            templateContentTV.setData(type: .patch, questions: templateContents.questions, hints: tempAnswers)
-        }
+        self.templateTitle.text = templateContents.title
+        self.templateInfo.text = templateContents.guideline
+        templateContentTV.setData(type: writeType, questions: templateContents.questions, hints: templateContents.hints, answers: tempAnswers)
         
-        view.addSubview(templateContentTV)
-        templateContentTV.snp.updateConstraints {
-            $0.top.equalTo(self.dividingLine.snp.bottom)
-            $0.horizontalEdges.equalToSuperview()
-            $0.bottom.equalToSuperview()
-        }
         templateContentTV.reloadData()
     }
     
@@ -175,57 +146,138 @@ class WriteVC: BaseVC {
     }
     
     private func setNaviButtonAction() {
-        navigationBarView.setLeftButtonAction {
-            self.dismiss(animated: true, completion: nil)
+        navigationBarView.setLeftButtonAction { [weak self] in
+            // 제목, 내용 다 텍스트가 없을때만 바로 dismiss함
+            if self?.checkIfWorryContentIsEmpty() ?? false {
+                self?.dismiss(animated: true)
+            }else {
+                self?.makeWritingCancelAlert()
+            }
         }
         
-        navigationBarView.setRightButtonAction  { [self] in
-            switch self .writeType {
+        navigationBarView.setRightButtonAction  { [weak self] in
+            switch self?.writeType {
             case .post, .postDifferentTemplate:
-                pickerVC.view.alpha = 0 /// pickerView를 초기에 보이지 않게 설정
-                ///
-                pickerVC.modalPresentationStyle = .overCurrentContext
-                present(pickerVC, animated: false, completion: { /// 애니메이션을 false로 설정
-                    UIView.animate(withDuration: 0.5, animations: { [self] in /// 애니메이션 추가
-                        pickerVC.view.alpha = 1 /// pickerView가 서서히 보이게 설정
-                        pickerVC.view.layoutIfNeeded()
+                if WorryPostManager.shared.title.isEmpty {
+                    self?.showToastMessage(message: "고민의 제목을 붙여주세요!", color: .black)
+                } else if self?.checkEmpryAnswer() ?? true {
+                    self?.showToastMessage(message: "내용이 전부 작성되지 않았어요!", color: .black)
+                } else {
+                    let pickerVC = WritePickerVC(type: .post)
+                    pickerVC.view.alpha = 0 /// pickerView를 초기에 보이지 않게 설정
+                    ///
+                    pickerVC.modalPresentationStyle = .overCurrentContext
+                    self?.present(pickerVC, animated: false, completion: { /// 애니메이션을 false로 설정
+                        UIView.animate(withDuration: 0.5, animations: {  /// 애니메이션 추가
+                            pickerVC.view.alpha = 1 /// pickerView가 서서히 보이게 설정
+                            pickerVC.view.layoutIfNeeded()
+                        })
                     })
-                })
+                }
             case .patch, .patchDifferentTemplate:
-                worryPatchPublishedContent.worryId = worryPatchContent.worryId
-                worryPatchPublishedContent.templateId = worryPatchContent.templateId
-                worryPatchPublishedContent.title = worryPatchContent.title
-                worryPatchPublishedContent.answers = worryPatchContent.answers
-                editWorry()
-                /// HomeWorryDetailVC Reload 해주기 위해 알림 전송
-                NotificationCenter.default.post(name: NSNotification.Name("CompleteWorryEditing"), object: nil, userInfo: nil)
+                if WorryPostManager.shared.title.isEmpty {
+                    self?.showToastMessage(message: "고민의 제목을 붙여주세요!", color: .black)
+                } else if self?.checkEmpryAnswer() ?? true {
+                    self?.showToastMessage(message: "내용이 전부 작성되지 않았어요!", color: .black)
+                } else {
+                    let worryPatchManager = WorryPatchManager.shared
+                    let patchWorryContent: PatchWorryModel = PatchWorryModel(worryId: worryPatchManager.worryId, templateId: worryPatchManager.templateId, title: worryPatchManager.title, answers: worryPatchManager.answers)
+                    self?.editWorry(patchWorryContent: patchWorryContent)
+                }
+            default:
+                break
             }
         }
     }
     
-    private func pressBtn() {
-        templateBtn.press {
-            switch self .writeType {
-            case .post:
-                self.modalTemplateSelectVC()
-                self.writeType = .postDifferentTemplate
+    private func checkEmpryAnswer() -> Bool {
+        var answers: [String] = []
+        switch writeType {
+        case .post, .postDifferentTemplate:
+            answers = WorryPostManager.shared.answers
+        case .patch, .patchDifferentTemplate:
+            answers = WorryPatchManager.shared.answers
+        }
+        /// answers가 아예 빈 배열일때 처리
+        var hasEmptyAnswer = answers.isEmpty
+        answers.forEach {
+            if $0.isEmpty {
+                hasEmptyAnswer = true
+            }
+        }
+        return hasEmptyAnswer
+    }
+    
+    private func makeWritingCancelAlert() {
+        let failureAlertVC = KaeraAlertVC(buttonType: .cancelAndOK, okTitle: "나가기")
+        failureAlertVC.setTitleSubTitle(title: "화면을 나가면 작성 중인 내용이 사라져요!", subTitle: "지금 나가실 건가요?")
+        self.present(failureAlertVC, animated: true)
+        failureAlertVC.OKButton.press { [weak self] in
+            switch self?.writeType {
+            case .post, .postDifferentTemplate:
+                WorryPostManager.shared.clearWorryData()
+            case .patch, .patchDifferentTemplate:
+                WorryPatchManager.shared.clearWorryData()
+            case .none:
+                break
+            }
+            let presentingVC = self?.presentingViewController
+            self?.dismiss(animated: true) {
+                presentingVC?.dismiss(animated: true)
+            }
+        }
+    }
+    
+    private func checkIfWorryContentIsEmpty() -> Bool {
+        var title: String = ""
+        var answers: [String] = []
+        
+        switch self.writeType {
+        case .post, .postDifferentTemplate:
+            title = WorryPostManager.shared.title
+            answers = WorryPostManager.shared.answers
             /// 고민 작성 시를 제외하고는 템플릿 변경 시 알럿 창을 띄워주어야 한다.
-            case .patch:
-                self.writeType = .patchDifferentTemplate
-                self.makeAlert()
-            case .postDifferentTemplate, .patchDifferentTemplate:
-                self.makeAlert()
+        case .patch, .patchDifferentTemplate:
+            title = WorryPatchManager.shared.title
+            answers = WorryPatchManager.shared.answers
+        }
+    
+        let joinedAnswers = answers.joined()
+        
+        if title.isEmpty && joinedAnswers.isEmpty {
+            return true
+        }else {
+            return false
+        }
+    }
+
+    private func setPressBtn() {
+        templateBtn.press { [weak self] in
+            // 제목, 내용 다 텍스트가 없을때만 바로 modal을 띄움
+            if self?.checkIfWorryContentIsEmpty() ?? false {
+                self?.modalTemplateSelectVC()
+            }else {
+                self?.makeTemplateChangeAlert()
             }
         }
     }
     
-    private func makeAlert() {
+    private func makeTemplateChangeAlert() {
         let failureAlertVC = KaeraAlertVC(buttonType: .cancelAndOK, okTitle: "변경")
         failureAlertVC.setTitleSubTitle(title: "템플릿이 변경되면 작성 중인 내용이 사라집니다.", subTitle: "변경하시겠어요?", highlighting: "변경")
         self.present(failureAlertVC, animated: true)
-        failureAlertVC.OKButton.press {
-            self.dismiss(animated: true)
-            self.modalTemplateSelectVC()
+        failureAlertVC.OKButton.press { [weak self] in
+            switch self?.writeType {
+            case .post, .postDifferentTemplate:
+                WorryPostManager.shared.answers = []
+            case .patch, .patchDifferentTemplate:
+                WorryPatchManager.shared.answers = []
+            case .none:
+                break
+            }
+            self?.dismiss(animated: true) {
+                self?.modalTemplateSelectVC()
+            }
         }
     }
     
@@ -239,6 +291,10 @@ class WriteVC: BaseVC {
             /// 시트 상단에 그래버 표시 (기본 값은 false)
             sheet.prefersGrabberVisible = true
         }
+        if writeType == .patch {
+            writeModalVC.setTemplateIndex(idx: WorryPatchManager.shared.templateId)
+        }
+        
         self.present(self.writeModalVC, animated: true)
     }
     
@@ -246,12 +302,98 @@ class WriteVC: BaseVC {
         self.tempAnswers = answers
     }
     
-    func editWorry() {
+    func editWorry(patchWorryContent: PatchWorryModel) {
         /// 서버로 고민 내용을 Patch 시켜줌
-        HomeAPI.shared.editWorry(param: worryPatchPublishedContent){ result in
+        HomeAPI.shared.editWorry(param: patchWorryContent){ result in
             guard let result = result, let _ = result.data else { return }
+            WorryPatchManager.shared.clearWorryData()
+            /// HomeWorryDetailVC Reload 해주기 위해 알림 전송
+            NotificationCenter.default.post(name: NSNotification.Name("CompleteWorryEditing"), object: nil, userInfo: nil)
         }
         self.dismiss(animated: true)
+    }
+}
+
+// MARK: - TemplateIdDelegate
+extension WriteVC: TemplateIdDelegate {
+    func templateReload(templateId: Int) {
+        input.send(templateId)
+        // 처음 고민작성시 템플릿을 선택했을때 writeType을 바꿔줌
+        if writeType == .post {
+            self.writeType = .postDifferentTemplate
+        }else if writeType == .patch {
+            self.writeType = .patchDifferentTemplate
+            self.tempAnswers = []
+        }
+        checkButtonStatus()
+    }
+}
+
+// MARK: - ActivateButtonDelegate
+extension WriteVC: ActivateButtonDelegate {
+    func checkButtonStatus() {
+        var isTitleEmpty = true
+        switch self.writeType {
+        case .post, .postDifferentTemplate:
+            isTitleEmpty = WorryPostManager.shared.title.isEmpty
+        case .patch, .patchDifferentTemplate:
+            isTitleEmpty = WorryPatchManager.shared.title.isEmpty
+        }
+        
+        if isTitleEmpty || self.checkEmpryAnswer() {
+            navigationBarView.setupDoneButtonStatus(status: false)
+        } else {
+            navigationBarView.setupDoneButtonStatus(status: true)
+        }
+    }
+}
+
+// MARK: - Keyboard
+extension WriteVC {
+    
+    private func addKeyboardObserver() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(self.keyboardWillAppear(_:)),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+        
+        NotificationCenter.default.addObserver(
+            self, selector: #selector(keyboardWillDisappear),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil)
+    }
+    
+    private func removeKeyboardObserver() {
+        NotificationCenter.default.removeObserver(
+            self,
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+        
+        NotificationCenter.default.removeObserver(
+            self,
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
+    }
+    
+    /// 키보드 높이가 올라올 때, contentInset을 키보드 높이만큼 조정해줌.
+    @objc func keyboardWillAppear(_ notification: NSNotification) {
+        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardHeight = keyboardFrame.cgRectValue.height
+            
+            let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: keyboardHeight + 50, right: 0.0)
+            templateContentTV.contentInset = contentInsets
+        }
+    }
+    
+    /// 키보드 내려갈 떄, 다시 원래대로 복귀
+    @objc func keyboardWillDisappear(_ notification: NSNotification) {
+        let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0)
+        
+        templateContentTV.contentInset = contentInsets
     }
 }
 
@@ -263,7 +405,14 @@ extension WriteVC {
         templateBtn.addSubviews([templateTitle, templateInfo, dropdownImg])
         view.addSubviews([baseImage, introTitle, introDetail])
         view.addSubviews([dividingLine])
+        view.addSubview(templateContentTV)
         
+        templateContentTV.snp.makeConstraints {
+            $0.top.equalTo(self.dividingLine.snp.bottom)
+            $0.horizontalEdges.equalToSuperview()
+            $0.bottom.equalToSuperview()
+        }
+
         navigationBarView.snp.makeConstraints {
             $0.left.right.equalToSuperview().inset(16)
             $0.top.equalToSuperview().inset(70)
@@ -317,73 +466,3 @@ extension WriteVC {
     }
 }
 
-// MARK: - TemplageTitleDelegate
-extension WriteVC: TemplateTitleDelegate {
-    func templateReload(templateId: Int, templateTitle: String, templateInfo: String) {
-        self.templateTitle.text = templateTitle
-        self.templateInfo.text = templateInfo
-        setTemplateContentTV(templateId)
-    }
-    
-    private func setTemplateContentTV(_ templateId: Int) {
-        templateContentTV.templateId = templateId
-        input.send(templateContentTV.templateId)
-    }
-}
-
-// MARK: - ActivateButtonDelegate
-extension WriteVC: ActivateButtonDelegate {
-    func isTitleEmpty(check: Bool) {
-        /// navigationBarView의 상태를 변경해준다.
-        navigationBarView.setupDoneButtonStatus(status: check)
-    }
-}
-
-// MARK: - Keyboard
-extension WriteVC {
-    
-    private func addKeyboardObserver() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(self.keyboardWillAppear(_:)),
-            name: UIResponder.keyboardWillShowNotification,
-            object: nil
-        )
-        
-        NotificationCenter.default.addObserver(
-            self, selector: #selector(keyboardWillDisappear),
-            name: UIResponder.keyboardWillHideNotification,
-            object: nil)
-    }
-    
-    private func removeKeyboardObserver() {
-        NotificationCenter.default.removeObserver(
-            self,
-            name: UIResponder.keyboardWillShowNotification,
-            object: nil
-        )
-        
-        NotificationCenter.default.removeObserver(
-            self,
-            name: UIResponder.keyboardWillHideNotification,
-            object: nil
-        )
-    }
-    
-    /// 키보드 높이가 올라올 때, contentInset을 키보드 높이만큼 조정해줌.
-    @objc func keyboardWillAppear(_ notification: NSNotification) {
-        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
-            let keyboardHeight = keyboardFrame.cgRectValue.height
-            
-            let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: keyboardHeight + 50, right: 0.0)
-            templateContentTV.contentInset = contentInsets
-        }
-    }
-    
-    /// 키보드 내려갈 떄, 다시 원래대로 복귀
-    @objc func keyboardWillDisappear(_ notification: NSNotification) {
-        let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0)
-        
-        templateContentTV.contentInset = contentInsets
-    }
-}
