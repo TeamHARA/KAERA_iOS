@@ -20,8 +20,8 @@ final class MyPageVC: BaseVC {
         $0.makeRounded(cornerRadius: 8)
     }
     
-    private lazy var nameLabel = UILabel().then {
-        $0.text = userName
+    private let nameLabel = UILabel().then {
+        $0.text = KeychainManager.load(key: .userName)
         $0.font = .kH1B20
         $0.textColor = .kWhite
     }
@@ -44,7 +44,6 @@ final class MyPageVC: BaseVC {
     
     
     // MARK: - Properties
-    private let userName = "캐라님"
     private let loginType: LoginType = .kakao
     private let myPageViewModel = MyPaggeViewModel()
     private let input = PassthroughSubject<MyPageInputType, Never>.init()

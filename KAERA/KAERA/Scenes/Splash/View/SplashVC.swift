@@ -52,11 +52,10 @@ final class SplashVC: BaseVC {
     
     private func shouldSignIn(renewal: Bool) {
         if renewal {
-            //TODO: 온보딩 페이지로 이동
-            let signInVC = SignInVC()
-            signInVC.modalPresentationStyle = .fullScreen
-            signInVC.modalTransitionStyle = .crossDissolve
-            self.present(signInVC, animated: true)
+            let onboardingVC = OnboardingVC()
+            onboardingVC.modalPresentationStyle = .fullScreen
+            onboardingVC.modalTransitionStyle = .crossDissolve
+            self.present(onboardingVC, animated: true)
         } else {
             let tabBarController = KaeraTabbarController()
             tabBarController.modalPresentationStyle = .fullScreen
