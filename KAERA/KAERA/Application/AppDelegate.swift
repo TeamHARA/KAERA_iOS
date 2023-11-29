@@ -11,11 +11,12 @@ import Firebase
 import UserNotifications
 
 
-
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        /// 앱 첫 실행이면 KeyChain Data 삭제
+        removeKeychainAtFirstLaunch()
         
         KakaoSDK.initSDK(appKey: Environment.kakaoAppKey)
         // Firebase SDK 초기화
@@ -35,6 +36,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Messaging.messaging().isAutoInitEnabled = true
         
         return true
+    }
+    
+    private func removeKeychainAtFirstLaunch() {
+        guard UserDefaults.isFirstLaunch() else {
+            return
+        }
+        KeychainManager.clearAllUserInfo()
     }
     
     /// 푸시 권한 요청
