@@ -21,7 +21,9 @@ final class MyPageVC: BaseVC {
     }
     
     private let nameLabel = UILabel().then {
-        $0.text = KeychainManager.load(key: .userName)
+        let userName = KeychainManager.load(key: .userName) ?? "해라"
+        let addedName = userName + " 님"
+        $0.text = addedName
         $0.font = .kH1B20
         $0.textColor = .kWhite
     }
@@ -44,7 +46,7 @@ final class MyPageVC: BaseVC {
     
     
     // MARK: - Properties
-    private let loginType: LoginType = .kakao
+    private let loginType: LoginType = UserDefaults.standard.bool(forKey: "isKakaoLogin") ? LoginType.kakao : LoginType.apple
     private let myPageViewModel = MyPaggeViewModel()
     private let input = PassthroughSubject<MyPageInputType, Never>.init()
     private var cancellables = Set<AnyCancellable>()
