@@ -8,16 +8,13 @@
 import UIKit
 import Combine
 
-// template Modal용
+// Worry Modal용
 class TemplateContentViewModel: ViewModelType {
-    
-    private var cancellables = Set<AnyCancellable>()
-    
-    private var templateContent = TemplateContentModel(title: "", guideline: "", questions: [], hints: [])
     
     typealias Input = AnyPublisher<Int, Never>
     typealias Output = AnyPublisher<TemplateContentModel, Never>
     
+    private var cancellables = Set<AnyCancellable>()
     private let output = PassthroughSubject<TemplateContentModel, Never> ()
     
     func transform(input: Input) -> AnyPublisher<TemplateContentModel, Never> {
