@@ -116,14 +116,16 @@ final class WorryDecisionVC: BaseVC {
     private func completeWorry(completion: @escaping (Bool) -> Void) {
         self.worryCompletePublishedContent.worryId = self.worryId
         self.worryCompletePublishedContent.finalAnswer = self.worryTextView.text
-        /// 고민 삭제 delete 서버 통신
+        self.startLoadingAnimation()
         HomeAPI.shared.completeWorry(param: worryCompletePublishedContent) {[weak self] response in
+            self?.stopLoadingAnimation()
             if let res = response {
                 completion(true)
                 if let quote = res.data?.quote {
                     self?.quoteView.getRandomQuote(text: quote)
                 }
             } else {
+                self?.presentNetworkAlert()
                 completion(false)
             }
         }
