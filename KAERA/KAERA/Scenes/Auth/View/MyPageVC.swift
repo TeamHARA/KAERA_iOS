@@ -59,6 +59,7 @@ final class MyPageVC: BaseVC {
         setTV()
         setPressAction()
         dataBind()
+        startLoadingAnimation()
         input.send(.loadData)
         setNotificationCenter()
     }
@@ -68,6 +69,7 @@ final class MyPageVC: BaseVC {
     }
     
     @objc private func shouldCheckState() {
+        startLoadingAnimation()
         input.send(.push)
     }
     
@@ -91,6 +93,7 @@ final class MyPageVC: BaseVC {
         
         output.receive(on: DispatchQueue.main)
             .sink { [weak self] output in
+                self?.stopLoadingAnimation()
                 self?.handleOutput(output: output)
             }
             .store(in: &cancellables)
@@ -134,10 +137,12 @@ final class MyPageVC: BaseVC {
         switch data.type {
         case .signOut:
             alertVC.OKButton.press { [weak self] in
+                self?.startLoadingAnimation()
                 self?.input.send(.accountAction(type: .signOut))
             }
         case .delete:
             alertVC.OKButton.press { [weak self] in
+                self?.startLoadingAnimation()
                 self?.input.send(.accountAction(type: .delete))
             }
         }
