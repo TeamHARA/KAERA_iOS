@@ -289,15 +289,22 @@ final class WriteVC: BaseVC {
         self.tempAnswers = answers
     }
     
-    func editWorry(patchWorryContent: PatchWorryModel) {
-        /// 서버로 고민 내용을 Patch 시켜줌
-        HomeAPI.shared.editWorry(param: patchWorryContent){ result in
-            guard let result = result, let _ = result.data else { return }
-            WorryPatchManager.shared.clearWorryData()
-            /// HomeWorryDetailVC Reload 해주기 위해 알림 전송
-            NotificationCenter.default.post(name: NSNotification.Name("CompleteWorryEditing"), object: nil, userInfo: nil)
+    private func editWorry(patchWorryContent: PatchWorryModel) {
+        HomeAPI.shared.editWorry(param: patchWorryContent){ [weak self] result in
+            guard let result = result, let _ = result.data else { 
+                self?.presentNetworkAlert()
+                return
+            }
+            WorryPatchManager.shared.clearWorryData()            
+            if let editVC = self?.presentingViewController {
+                if let detailVC = editVC.presentingViewController as? HomeWorryDetailVC {
+                    detailVC.sendInputWithWorryId(id: WorryPatchManager.shared.worryId)
+                }
+                self?.dismiss(animated: true) {
+                    editVC.dismiss(animated: false)
+                }
+            }
         }
-        self.dismiss(animated: true)
     }
 }
 

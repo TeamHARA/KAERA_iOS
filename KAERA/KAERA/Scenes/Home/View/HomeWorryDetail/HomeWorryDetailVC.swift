@@ -109,7 +109,6 @@ final class HomeWorryDetailVC: BaseVC {
         setupTableView()
         setReviewTextView()
         setPressAction()
-        addObserver()
         reviewViewKeyboardButtonAction()
         hideKeyboardWhenTappedAround()
     }
@@ -257,17 +256,6 @@ final class HomeWorryDetailVC: BaseVC {
         worryDetailTV.layoutIfNeeded()
     }
     
-    /// 데드라인 수정시 받는 notification을 관리하는 observer 추가
-    func addObserver() {
-        NotificationCenter.default.addObserver(self, selector: #selector(handleDeadlineUpdate(_:)), name: NSNotification.Name("updateDeadline"), object: nil)
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(self.didCompleteWorryEditing(_:)),
-            name: NSNotification.Name("CompleteWorryEditing"),
-            object: nil
-        )
-    }
-    
     /// 전달 받은 수정된 데드라인 일자로 navigationBar Title 변경
     @objc func handleDeadlineUpdate(_ notification: Notification) {
         if let userInfo = notification.userInfo, let deadline = userInfo["deadline"] as? Int {
@@ -283,12 +271,9 @@ final class HomeWorryDetailVC: BaseVC {
             navigationBarView.setTitleText(text: "고민캐기 D\(dDay)")
         }
     }
-    
-    @objc func didCompleteWorryEditing(_ notification: Notification) {
-        /// 수정된 데이터를 다시 받아오기 위해 ViewModel과 다시 한번 연동
-        input.send(worryId)
-        worryDetailTV.reloadData()
-        self.dismiss(animated: true)
+
+    func sendInputWithTemplateId(id: Int) {
+        input.send(id)
     }
     
     private func reviewViewKeyboardButtonAction() {
