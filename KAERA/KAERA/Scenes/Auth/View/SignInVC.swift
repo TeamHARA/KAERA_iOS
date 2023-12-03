@@ -10,7 +10,7 @@ import SnapKit
 import Then
 import Combine
 
-final class SignInVC: UIViewController {
+final class SignInVC: BaseVC {
         
     private let splashGem = UIImageView().then {
         $0.image = UIImage(named: "splash_gem")
@@ -52,6 +52,7 @@ final class SignInVC: UIViewController {
         let output = signinViewModel.transform(input: SignInViewModel.Input(input))
         output.receive(on: DispatchQueue.main)
             .sink { [weak self] isSucceed in
+                self?.stopLoadingAnimation()
                 if isSucceed {
                     self?.moveToTabBarController()
                 }else {
@@ -70,10 +71,12 @@ final class SignInVC: UIViewController {
     
     private func setLoginButtonAction() {
         kakaoLoginButton.press { [weak self] in
+            self?.startLoadingAnimation()
             self?.input.send(.kakao)
         }
         
         appleLoginButton.press { [weak self] in
+            self?.startLoadingAnimation()
             self?.input.send(.apple)
         }
     }
