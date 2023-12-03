@@ -119,9 +119,18 @@ final class WriteVC: BaseVC {
             input: TemplateContentViewModel.Input(input)
         )
         output.receive(on: DispatchQueue.main)
-            .sink { [weak self] templateContents in
+            .sink(receiveCompletion: { [weak self] completion in
+                switch completion {
+                case .finished:
+                    break
+                case .failure:
+                    self?.presentNetworkAlert()
+                }
+            }, receiveValue: { [weak self] templateContents in
+                self?.stopLoadingAnimation()
                 self?.updateUI(templateContents)
-            }.store(in: &cancellables)
+            })
+            .store(in: &cancellables)
     }
     
     private func updateUI(_ templateContents: TemplateContentModel) {
@@ -319,6 +328,7 @@ final class WriteVC: BaseVC {
 // MARK: - TemplateIdDelegate
 extension WriteVC: TemplateIdDelegate {
     func templateReload(templateId: Int) {
+        startLoadingAnimation()
         input.send(templateId)
         // 처음 고민작성시 템플릿을 선택했을때 writeType을 바꿔줌
         if writeType == .post {
