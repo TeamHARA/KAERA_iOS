@@ -160,7 +160,7 @@ final class WriteVC: BaseVC {
             case .post, .postDifferentTemplate:
                 if WorryPostManager.shared.title.isEmpty {
                     self?.showToastMessage(message: "고민의 제목을 붙여주세요!", color: .black)
-                } else if self?.checkEmpryAnswer() ?? true {
+                } else if self?.checkEmptyAnswer() ?? true {
                     self?.showToastMessage(message: "내용이 전부 작성되지 않았어요!", color: .black)
                 } else {
                     let pickerVC = WritePickerVC(type: .post)
@@ -177,7 +177,7 @@ final class WriteVC: BaseVC {
             case .patch, .patchDifferentTemplate:
                 if WorryPostManager.shared.title.isEmpty {
                     self?.showToastMessage(message: "고민의 제목을 붙여주세요!", color: .black)
-                } else if self?.checkEmpryAnswer() ?? true {
+                } else if self?.checkEmptyAnswer() ?? true {
                     self?.showToastMessage(message: "내용이 전부 작성되지 않았어요!", color: .black)
                 } else {
                     let worryPatchManager = WorryPatchManager.shared
@@ -190,7 +190,7 @@ final class WriteVC: BaseVC {
         }
     }
     
-    private func checkEmpryAnswer() -> Bool {
+    private func checkEmptyAnswer() -> Bool {
         var answers: [String] = []
         switch writeType {
         case .post, .postDifferentTemplate:
@@ -340,7 +340,7 @@ extension WriteVC: ActivateButtonDelegate {
             isTitleEmpty = WorryPatchManager.shared.title.isEmpty
         }
         
-        if isTitleEmpty || self.checkEmpryAnswer() {
+        if isTitleEmpty || self.checkEmptyAnswer() {
             navigationBarView.setupDoneButtonStatus(status: false)
         } else {
             navigationBarView.setupDoneButtonStatus(status: true)
