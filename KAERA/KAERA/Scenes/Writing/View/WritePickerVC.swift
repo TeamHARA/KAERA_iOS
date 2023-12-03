@@ -166,13 +166,13 @@ class WritePickerVC: BaseVC {
     }
     
     func patchWorryDeadline() {
-        /// 서버로 고민 내용을 POST 시켜줌
-        HomeAPI.shared.updateDeadline(param: deadlineContent) { response in
+        self.startLoadingAnimation()
+        HomeAPI.shared.updateDeadline(param: deadlineContent) { [weak self] response in
             guard let _ = response else {
-                /// 서버통신 실패 시 띄울 알럿 창 구현
+                self?.stopLoadingAnimation()
                 let failureAlertVC = KaeraAlertVC(buttonType: .onlyOK, okTitle: "확인")
                 failureAlertVC.setTitleSubTitle(title: "일자 수정에 실패했어요", subTitle: "다시 한번 시도해주세요.", highlighting: "실패")
-                self.present(failureAlertVC, animated: true)
+                self?.present(failureAlertVC, animated: true)
                 return
             }
             NotificationCenter.default.post(name: NSNotification.Name("updateDeadline"), object: nil, userInfo: ["deadline": self.deadlineContent.dayCount])
