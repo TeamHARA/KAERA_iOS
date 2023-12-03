@@ -300,8 +300,14 @@ final class WriteVC: BaseVC {
                 if let detailVC = editVC.presentingViewController as? HomeWorryDetailVC {
                     detailVC.sendInputWithWorryId(id: WorryPatchManager.shared.worryId)
                 }
-                self?.dismiss(animated: true) {
-                    editVC.dismiss(animated: false)
+                self?.showToastMessage(message: "수정완료!", color: .black)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    self?.dismiss(animated: true) {
+                        UIView.animate(withDuration: 0.3) {
+                            editVC.view.alpha = 0
+                            editVC.dismiss(animated: true)
+                        }
+                    }
                 }
             }
         }
