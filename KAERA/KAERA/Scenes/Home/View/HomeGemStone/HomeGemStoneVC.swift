@@ -23,7 +23,11 @@ final class HomeGemStoneVC: BaseVC {
     private var cancellables = Set<AnyCancellable>()
     private let input = PassthroughSubject<Int, Never>.init()
     private var gemStoneList: [HomePublisherModel] = []
+    private var pageType: PageType = .digging
+    private let gemIndexDict: [Int:Int] = [0:0, 1:3, 2:9, 3:6, 4:1, 5:8, 6:11, 7:7, 8:4, 9:2, 10:10, 11:5]
+    private let totalGemStoneNum = 12
     
+    // MARK: - Components
     private let gemStoneCV = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     private let compositionalLayout: UICollectionViewCompositionalLayout = {
       let itemFractionalWidthFraction = 1.0 / 3.0 // horizontal 3개의 셀
@@ -50,19 +54,15 @@ final class HomeGemStoneVC: BaseVC {
       return UICollectionViewCompositionalLayout(section: section)
     }()
 
-    private var pageType: PageType = .digging
-    
     private let stoneEmptyView = GemStoneEmptyView(mainTitle: "아직 고민 원석이 없네요!", subTitle: "+ 버튼을 터치해 고민을 작성해보세요")
     
     private let gemStoneEmptyView = GemStoneEmptyView(mainTitle: "아직 고민 보석이 없네요!", subTitle: "작성된 고민 원석을\n빛나는 보석으로 만들어주세요.")
-    
-    private let gemIndexDict: [Int:Int] = [0:0, 1:3, 2:9, 3:6, 4:1, 5:8, 6:11, 7:7, 8:4, 9:2, 10:10, 11:5]
-    private let totalGemStoneNum = 12
-    
+        
     // MARK: - Initialization
     init(type: PageType = .digging) {
         super.init(nibName: nil, bundle: nil)
         self.pageType = type
+        checkWhichViewIsHidden()
     }
     
     required init?(coder: NSCoder) {
@@ -77,6 +77,7 @@ final class HomeGemStoneVC: BaseVC {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        self.startLoadingAnimation()
         if pageType == .digging {
             input.send(0)
         }else if pageType == .dug {
@@ -108,7 +109,14 @@ final class HomeGemStoneVC: BaseVC {
     }
     
     private func updateUI(gemList: [HomePublisherModel]) {
-        if gemList.isEmpty {
+        self.stopLoadingAnimation()
+        checkWhichViewIsHidden()
+        self.gemStoneList = gemList
+        self.gemStoneCV.reloadData()
+    }
+    
+    private func checkWhichViewIsHidden() {
+        if gemStoneList.isEmpty {
             gemStoneCV.isHidden = true
             if pageType == .digging {
                 stoneEmptyView.isHidden = false
@@ -122,8 +130,6 @@ final class HomeGemStoneVC: BaseVC {
             gemStoneEmptyView.isHidden = true
             gemStoneCV.isHidden = false
         }
-        self.gemStoneList = gemList
-        self.gemStoneCV.reloadData()
     }
 }
 
