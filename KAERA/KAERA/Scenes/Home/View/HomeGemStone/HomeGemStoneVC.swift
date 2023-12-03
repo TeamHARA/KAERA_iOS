@@ -101,11 +101,19 @@ final class HomeGemStoneVC: BaseVC {
             input: HomeGemListViewModel
                 .Input(input)
         )
+        
         output.receive(on: DispatchQueue.main)
-            .sink { [weak self] list in
-                HomeGemStoneCount.shared.count = list.count
+            .sink(receiveCompletion: { [weak self] completion in
+                switch completion {
+                case .finished:
+                    break
+                case .failure:
+                    self?.presentNetworkAlert()
+                }
+            }, receiveValue: { [weak self] list in
                 self?.updateUI(gemList: list)
-            }.store(in: &cancellables)
+            })
+            .store(in: &cancellables)
     }
     
     private func updateUI(gemList: [HomePublisherModel]) {

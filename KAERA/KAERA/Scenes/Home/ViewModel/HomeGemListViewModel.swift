@@ -11,15 +11,14 @@ import Combine
 final class HomeGemListViewModel: ViewModelType {
 
     typealias Input = AnyPublisher<Int, Never>
-    typealias Output = AnyPublisher<[HomePublisherModel], Never>
+    typealias Output = AnyPublisher<[HomePublisherModel], Error>
     
-    private let output: PassthroughSubject<[HomePublisherModel], Never> = .init()
+    private let output: PassthroughSubject<[HomePublisherModel], Error> = .init()
     private var cancellables = Set<AnyCancellable>()
     
     func transform(input: Input) -> Output {
         input
             .sink { [weak self] isSolved in
-//                self?.getGemList(isSovled: isSolved)
                 self?.getHomeGemList(isSolved: isSolved)
             }
             .store(in: &cancellables)
@@ -55,7 +54,10 @@ final class HomeGemListViewModel: ViewModelType {
 extension HomeGemListViewModel {
     private func getHomeGemList(isSolved: Int) {
         HomeAPI.shared.getHomeGemList(param: isSolved) { res in
-            guard let res = res, let data = res.data else { return }
+            guard let res = res, let data = res.data else {
+                self.output.send(completion: .failure(NSError()))
+                return
+            }
             /// 뿌려줄 리스트 초기화
             self.gemStoneList = []
             
