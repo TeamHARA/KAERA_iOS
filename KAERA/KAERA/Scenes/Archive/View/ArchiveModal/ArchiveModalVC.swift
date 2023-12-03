@@ -14,7 +14,7 @@ protocol RefreshListDelegate: AnyObject {
     func refreshList(templateTitle: String, templateId: Int)
 }
 
-class ArchiveModalVC: UIViewController {
+class ArchiveModalVC: BaseVC {
     
     // MARK: - Properties
     private var templateVM: TemplateViewModel = TemplateViewModel()
@@ -56,6 +56,7 @@ class ArchiveModalVC: UIViewController {
         setBindings()
         registerCV()
         setLayout()
+        startLoadingAnimation()
         input.send()
     }
     
@@ -90,13 +91,21 @@ extension ArchiveModalVC {
     private func setBindings() {
         let output = templateVM.transformModal(input: input.eraseToAnyPublisher())
         output.receive(on: DispatchQueue.main)
-            .sink { [weak self] list in
+            .sink(receiveCompletion: { [weak self] completion in
+                switch completion {
+                case .finished:
+                    break
+                case .failure:
+                    self?.presentNetworkAlert()
+                }
+            }, receiveValue: { [weak self] list in
+                self?.stopLoadingAnimation()
                 self?.templateList = list
                 let showEveryJewels = TemplateInfoPublisherModel(templateId: 0, templateTitle: "모든 보석 보기", info: "", templateDetail: "그동안 캐낸 모든 보석을 볼 수 있어요", image: UIImage())
                 self?.templateList.insert(showEveryJewels, at:0)
                 print("templateList입니다", self?.templateList ?? [])
                 self?.templateListCV.reloadData()
-            }
+            })
             .store(in: &cancellables)
     }
 }
