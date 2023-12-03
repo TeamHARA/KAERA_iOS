@@ -81,7 +81,7 @@ final class HomeWorryDetailVC: BaseVC {
         self.pageType = type
         self.worryId = worryId
         dataBind()
-        /// input 전달
+        self.startLoadingAnimation()
         input.send(worryId)
     }
     
@@ -210,6 +210,7 @@ final class HomeWorryDetailVC: BaseVC {
         )
         output.receive(on: DispatchQueue.main)
             .sink { [weak self] worryDetail in
+                self?.stopLoadingAnimation()
                 self?.updateUI(worryDetail: worryDetail)
             }.store(in: &cancellables)
     }
@@ -272,7 +273,8 @@ final class HomeWorryDetailVC: BaseVC {
         }
     }
 
-    func sendInputWithTemplateId(id: Int) {
+    func sendInputWithWorryId(id: Int) {
+        self.startLoadingAnimation()
         input.send(id)
     }
     
