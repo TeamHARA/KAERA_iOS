@@ -39,14 +39,14 @@ class TemplateViewModel: ViewModelType {
     var templateUpdateList: [TemplateInfoPublisherModel] = []
         
     typealias Input = AnyPublisher<Void, Never>
-    typealias Output = AnyPublisher<[TemplateInfoPublisherModel], Never>
+    typealias Output = AnyPublisher<[TemplateInfoPublisherModel], Error>
     
-    private let output = PassthroughSubject<[TemplateInfoPublisherModel], Never> ()
+    private let output = PassthroughSubject<[TemplateInfoPublisherModel], Error> ()
     
     private var cancellables = Set<AnyCancellable>()
     
     /// 고민보관함뷰의 고민 작성지 뷰에서 사용
-    func transform(input: Input) -> AnyPublisher<[TemplateInfoPublisherModel], Never> {
+    func transform(input: Input) -> AnyPublisher<[TemplateInfoPublisherModel], Error> {
         input.sink{[weak self] _ in
             self?.convertTemplateInfo()
         }
@@ -55,7 +55,7 @@ class TemplateViewModel: ViewModelType {
     }
     
     /// 고민작성뷰와 고민보관함뷰의 modalVC에서 사용
-    func transformModal(input: Input) -> AnyPublisher<[TemplateInfoPublisherModel], Never> {
+    func transformModal(input: Input) -> AnyPublisher<[TemplateInfoPublisherModel], Error> {
         input.sink{[weak self] _ in
             self?.convertIdtoImg()
         }
@@ -68,7 +68,10 @@ class TemplateViewModel: ViewModelType {
 extension TemplateViewModel {
     private func convertIdtoImg() {
         WriteAPI.shared.getTemplateList { result in
-            guard let result = result, let data = result.data else { return }
+            guard let result = result, let data = result.data else {
+                self.output.send(completion: .failure(NSError()))
+                return
+            }
 
             self.templateUpdateList = data.compactMap {
                 guard let imgName = self.idToImgTuple[customKey(index: $0.templateId, hasUsed: $0.hasUsed)] else { return nil }
@@ -80,7 +83,10 @@ extension TemplateViewModel {
 
     private func convertTemplateInfo() {
         WriteAPI.shared.getTemplateList { result in
-            guard let result = result, let data = result.data else { return }
+            guard let result = result, let data = result.data else {
+                self.output.send(completion: .failure(NSError()))
+                return
+            }
 
             self.templateInfoList = data.compactMap {
                 guard let imgName = self.idToImgTuple[customKey(index: $0.templateId, hasUsed: true)] else { return nil }
