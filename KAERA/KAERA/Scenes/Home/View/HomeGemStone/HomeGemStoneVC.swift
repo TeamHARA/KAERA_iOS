@@ -110,9 +110,9 @@ final class HomeGemStoneVC: BaseVC {
     
     private func updateUI(gemList: [HomePublisherModel]) {
         self.stopLoadingAnimation()
-        checkWhichViewIsHidden()
         self.gemStoneList = gemList
         self.gemStoneCV.reloadData()
+        checkWhichViewIsHidden()
     }
     
     private func checkWhichViewIsHidden() {
