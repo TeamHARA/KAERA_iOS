@@ -145,15 +145,16 @@ class WritePickerVC: BaseVC {
     }
     
     private func postWorryContent(postWorryContent: WorryContentRequestModel) {
-        /// 서버로 고민 내용을 POST 시켜줌
-        WriteAPI.shared.postWorryContent(param: postWorryContent) { result in
+        startLoadingAnimation()
+        WriteAPI.shared.postWorryContent(param: postWorryContent) { [weak self] result in
             guard let result = result, let _ = result.data else {
-                self.presentNetworkAlert()
+                self?.presentNetworkAlert()
                 return
             }
-            if let writeVC = self.presentingViewController {
+            self?.stopLoadingAnimation()
+            if let writeVC = self?.presentingViewController {
                 UIView.animate(withDuration: 0.5, animations: {
-                    self.pickerViewLayout.alpha = 0
+                    self?.pickerViewLayout.alpha = 0
                 }) { [weak self] _ in
                     self?.dismiss(animated: false) {
                         writeVC.dismiss(animated: true)
