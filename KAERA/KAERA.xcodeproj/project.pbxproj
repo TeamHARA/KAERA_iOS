@@ -74,6 +74,7 @@
 		E71FC22C2AD29400001DD27D /* RenewalTokenModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E71FC22B2AD29400001DD27D /* RenewalTokenModel.swift */; };
 		E71FC2442ADC01B6001DD27D /* MyPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E71FC2432ADC01B6001DD27D /* MyPageVC.swift */; };
 		E721EABD2A51D5D900A04AA0 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = E721EABC2A51D5D900A04AA0 /* Then */; };
+		E72D6AE82B1C234000CF8B01 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = E72D6AE72B1C234000CF8B01 /* Lottie */; };
 		E73CA3DA2A69300F00BAC9D6 /* HomePublisherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73CA3D92A69300F00BAC9D6 /* HomePublisherModel.swift */; };
 		E73CA3DC2A693C9D00BAC9D6 /* GemStoneEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73CA3DB2A693C9D00BAC9D6 /* GemStoneEmptyView.swift */; };
 		E73CA3DF2A6A62F700BAC9D6 /* HomeWorryDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73CA3DE2A6A62F700BAC9D6 /* HomeWorryDetailVC.swift */; };
@@ -284,6 +285,7 @@
 				E7AC122F2A51D54900FE504C /* CombineMoya in Frameworks */,
 				E70764D72AC9972400627AA7 /* FirebaseInAppMessagingSwift-Beta in Frameworks */,
 				E70764CD2AC9972400627AA7 /* FirebaseFirestoreCombine-Community in Frameworks */,
+				E72D6AE82B1C234000CF8B01 /* Lottie in Frameworks */,
 				E70764E12AC9972400627AA7 /* FirebaseRemoteConfig in Frameworks */,
 				E70764BF2AC9972400627AA7 /* FirebaseAuth in Frameworks */,
 				E70764C52AC9972400627AA7 /* FirebaseDatabase in Frameworks */,
@@ -824,6 +826,7 @@
 				E70764E22AC9972400627AA7 /* FirebaseRemoteConfigSwift */,
 				E70764E42AC9972400627AA7 /* FirebaseStorage */,
 				E70764E62AC9972400627AA7 /* FirebaseStorageCombine-Community */,
+				E72D6AE72B1C234000CF8B01 /* Lottie */,
 			);
 			productName = KAERA;
 			productReference = E7C808E52A4D37F800F475CE /* KAERA.app */;
@@ -859,6 +862,7 @@
 				E721EABB2A51D5D900A04AA0 /* XCRemoteSwiftPackageReference "Then" */,
 				E7A94CC52AA6A46800F231D0 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
 				E70764B12AC9972400627AA7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				E72D6AE62B1C234000CF8B01 /* XCRemoteSwiftPackageReference "lottie-ios" */,
 			);
 			productRefGroup = E7C808E62A4D37F800F475CE /* Products */;
 			projectDirPath = "";
@@ -1213,6 +1217,14 @@
 				minimumVersion = 3.0.0;
 			};
 		};
+		E72D6AE62B1C234000CF8B01 /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-ios.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.3.4;
+			};
+		};
 		E7A94CC52AA6A46800F231D0 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/kakao/kakao-ios-sdk";
@@ -1379,6 +1391,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = E721EABB2A51D5D900A04AA0 /* XCRemoteSwiftPackageReference "Then" */;
 			productName = Then;
+		};
+		E72D6AE72B1C234000CF8B01 /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E72D6AE62B1C234000CF8B01 /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			productName = Lottie;
 		};
 		E7A94CC62AA6A46800F231D0 /* KakaoSDKAuth */ = {
 			isa = XCSwiftPackageProductDependency;
