@@ -175,11 +175,13 @@ class WritePickerVC: BaseVC {
                 self?.present(failureAlertVC, animated: true)
                 return
             }
-            NotificationCenter.default.post(name: NSNotification.Name("updateDeadline"), object: nil, userInfo: ["deadline": self.deadlineContent.dayCount])
-            
-            if let editVC = self.presentingViewController {
+            let dayCount = self?.deadlineContent.dayCount ?? 1
+            if let editVC = self?.presentingViewController {
+                if let detailVC = editVC.presentingViewController as? HomeWorryDetailVC {
+                    detailVC.updateDeadline(deadline: dayCount)
+                }
                 UIView.animate(withDuration: 0.5, animations: {
-                    self.pickerViewLayout.alpha = 0
+                    self?.pickerViewLayout.alpha = 0
                 }) { [weak self] _ in
                     self?.dismiss(animated: false) {
                         editVC.dismiss(animated: true)
