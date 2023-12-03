@@ -360,12 +360,13 @@ extension HomeWorryDetailVC {
     func patchReviewText() {
         self.reviewText = reviewView.reviewTextView.text ?? ""
         let reviewModel = WorryReviewRequestBody(worryId: worryId, review: reviewText)
-        
+        self.startLoadingAnimation()
         HomeAPI.shared.patchReview(body: reviewModel) { [weak self] res in
             guard let data = res?.data else {
                 self?.presentNetworkAlert()
                 return
             }
+            self?.stopLoadingAnimation()
             self?.reviewView.updateReviewDate(date: data.updatedAt)
             self?.isReviewEditing = false
             self?.view.endEditing(true)
