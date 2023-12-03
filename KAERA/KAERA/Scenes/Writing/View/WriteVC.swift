@@ -106,13 +106,6 @@ final class WriteVC: BaseVC {
         hideKeyboardWhenTappedAround()
         addKeyboardObserver()
         dataBind()
-        
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(self.didCompleteWritingNotification(_:)),
-            name: NSNotification.Name("CompleteWriting"),
-            object: nil
-        )
     }
     
     // MARK: - Functions
@@ -137,12 +130,6 @@ final class WriteVC: BaseVC {
         templateContentTV.setData(type: writeType, questions: templateContents.questions, hints: templateContents.hints, answers: tempAnswers)
         
         templateContentTV.reloadData()
-    }
-    
-    @objc func didCompleteWritingNotification(_ notification: Notification) {
-        DispatchQueue.main.async { [self] in
-            self.dismiss(animated: true)
-        }
     }
     
     private func setNaviButtonAction() {
@@ -321,8 +308,10 @@ extension WriteVC: TemplateIdDelegate {
         // 처음 고민작성시 템플릿을 선택했을때 writeType을 바꿔줌
         if writeType == .post {
             self.writeType = .postDifferentTemplate
+            WorryPostManager.shared.templateId = templateId
         }else if writeType == .patch {
             self.writeType = .patchDifferentTemplate
+            WorryPatchManager.shared.templateId = templateId
             self.tempAnswers = []
         }
         checkButtonStatus()

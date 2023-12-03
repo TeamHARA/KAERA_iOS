@@ -67,7 +67,6 @@ final class HomeWorryEditVC: BaseVC {
         setUI()
         setPressAction()
         hideKeyboardWhenTappedAround()
-        addObserver()
     }
     
     // MARK: - Function
@@ -171,21 +170,6 @@ final class HomeWorryEditVC: BaseVC {
             } else {
                 completion(false)
             }
-        }
-    }
-    
-    private func addObserver() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(self.didCompleteWritingNotification(_:)),
-            name: NSNotification.Name("CompleteWriting"),
-            object: nil
-        )
-    }
-    
-    @objc func didCompleteWritingNotification(_ notification: Notification) {
-        DispatchQueue.main.async {
-            self.dismiss(animated: true)
         }
     }
 }

@@ -146,14 +146,6 @@ class WritePickerVC: BaseVC {
                 }
             }
         }
-        UIView.animate(withDuration: 0.5, animations: { [self] in
-            view.alpha = 0
-            view.layoutIfNeeded()
-        }, completion: { _ in
-            self.dismiss(animated: false, completion: {
-                NotificationCenter.default.post(name: NSNotification.Name("CompleteWriting"), object: nil, userInfo: nil)
-            })
-        })
     }
     
     private func setDelegate() {
@@ -164,7 +156,19 @@ class WritePickerVC: BaseVC {
     private func postWorryContent(postWorryContent: WorryContentRequestModel) {
         /// 서버로 고민 내용을 POST 시켜줌
         WriteAPI.shared.postWorryContent(param: postWorryContent) { result in
-            guard let result = result, let _ = result.data else { return }
+            guard let result = result, let _ = result.data else {
+                self.presentNetworkAlert()
+                return
+            }
+            if let writeVC = self.presentingViewController {
+                UIView.animate(withDuration: 0.5, animations: {
+                    self.pickerViewLayout.alpha = 0
+                }) { [weak self] _ in
+                    self?.dismiss(animated: false) {
+                        writeVC.dismiss(animated: true)
+                    }
+                }
+            }
             /// WorryPostManager 데이터 초기화
             WorryPostManager.shared.clearWorryData()
         }
