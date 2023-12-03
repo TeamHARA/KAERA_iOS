@@ -19,7 +19,7 @@ class TemplateContentViewModel: ViewModelType {
     
     func transform(input: Input) -> AnyPublisher<TemplateContentModel, Never> {
         input.sink{[weak self] templateId in
-            self?.getTemplateContents(templateId + 1)
+            self?.getTemplateContents(templateId)
         }
         .store(in: &cancellables)
         

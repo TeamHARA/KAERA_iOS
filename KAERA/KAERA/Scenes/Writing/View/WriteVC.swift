@@ -292,7 +292,7 @@ final class WriteVC: BaseVC {
             sheet.prefersGrabberVisible = true
         }
         if writeType == .patch {
-            writeModalVC.setTemplateIndex(idx: WorryPatchManager.shared.templateId)
+            writeModalVC.setTemplateIndex(templateId: WorryPatchManager.shared.templateId)
         }
         
         self.present(self.writeModalVC, animated: true)
