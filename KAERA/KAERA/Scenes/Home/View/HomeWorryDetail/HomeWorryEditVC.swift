@@ -160,8 +160,9 @@ final class HomeWorryEditVC: BaseVC {
     }
     
     private func deleteWorry(completion: @escaping (Bool) -> Void) {
-        /// 고민 삭제 delete 서버 통신
+        self.startLoadingAnimation()
         HomeAPI.shared.deleteWorry(param: self.worryId) { response in
+            self.stopLoadingAnimation()
             if response?.status == 200 {
                 completion(true)
             } else {
