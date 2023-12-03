@@ -48,7 +48,9 @@ final class TemplateContentTV: UITableView {
         self.answers = Array(repeating: "", count: hints.count)
         
         for (idx, answer) in answers.enumerated() {
-            self.answers[idx] = answer
+            if self.answers.indices.contains(idx) {
+                self.answers[idx] = answer
+            }
         }
         worryPatchContent.answers = self.answers
     }
