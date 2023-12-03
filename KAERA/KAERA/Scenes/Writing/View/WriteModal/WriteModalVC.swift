@@ -14,7 +14,7 @@ protocol TemplateIdDelegate: AnyObject {
     func templateReload(templateId: Int)
 }
 
-class WriteModalVC: UIViewController {
+class WriteModalVC: BaseVC {
     // MARK: - Properties
     var templateVM: TemplateViewModel = TemplateViewModel()
     private var cancellables = Set<AnyCancellable>()
@@ -50,6 +50,7 @@ class WriteModalVC: UIViewController {
         setBindings()
         registerCV()
         setLayout()
+        startLoadingAnimation()
         input.send()
     }
     
@@ -91,10 +92,18 @@ extension WriteModalVC {
     private func setBindings() {
         let output = templateVM.transformModal(input: input.eraseToAnyPublisher())
         output.receive(on: DispatchQueue.main)
-            .sink { [weak self] list in
+            .sink(receiveCompletion: { [weak self] completion in
+                switch completion {
+                case .finished:
+                    break
+                case .failure:
+                    self?.presentNetworkAlert()
+                }
+            }, receiveValue: { [weak self] list in
+                self?.stopLoadingAnimation()
                 self?.templateList = list
                 self?.templateListCV.reloadData()
-            }
+            })
             .store(in: &cancellables)
     }
 }
