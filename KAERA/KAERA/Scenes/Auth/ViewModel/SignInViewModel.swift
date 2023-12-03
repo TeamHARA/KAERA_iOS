@@ -20,6 +20,8 @@ final class SignInViewModel: NSObject, ViewModelType {
     
     private var cancellables = Set<AnyCancellable>()
     
+    private let isKakaoLogin: String = "isKakaoLogin"
+    
     // MARK: - Initialization
     override init() {
         super.init()
@@ -81,6 +83,7 @@ extension SignInViewModel {
             
             /// user info 저장
             KeychainManager.saveUserInfo(id: "\(data.id)", userName: data.name, accessToken: data.accessToken, refreshToken: data.refreshToken)
+            UserDefaults.standard.set(true, forKey: self?.isKakaoLogin ?? "")
             
             self?.output.send(true)
         }
@@ -93,6 +96,7 @@ extension SignInViewModel {
                 return
             }
             KeychainManager.saveUserInfo(id: "\(data.id)", userName: data.name,accessToken: data.accessToken, refreshToken: data.refreshToken)
+            UserDefaults.standard.set(false, forKey: self?.isKakaoLogin ?? "")
             
             self?.output.send(true)
         }
