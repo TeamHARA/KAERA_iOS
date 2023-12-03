@@ -290,12 +290,14 @@ final class WriteVC: BaseVC {
     }
     
     private func editWorry(patchWorryContent: PatchWorryModel) {
+        self.startLoadingAnimation()
         HomeAPI.shared.editWorry(param: patchWorryContent){ [weak self] result in
             guard let result = result, let _ = result.data else { 
                 self?.presentNetworkAlert()
                 return
             }
-            WorryPatchManager.shared.clearWorryData()            
+            self?.stopLoadingAnimation()
+            WorryPatchManager.shared.clearWorryData()
             if let editVC = self?.presentingViewController {
                 if let detailVC = editVC.presentingViewController as? HomeWorryDetailVC {
                     detailVC.sendInputWithWorryId(id: WorryPatchManager.shared.worryId)
