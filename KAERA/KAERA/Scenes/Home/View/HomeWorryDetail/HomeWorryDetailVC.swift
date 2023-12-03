@@ -209,13 +209,22 @@ final class HomeWorryDetailVC: BaseVC {
             input: HomeWorryDetailViewModel.Input(input)
         )
         output.receive(on: DispatchQueue.main)
-            .sink { [weak self] worryDetail in
-                self?.stopLoadingAnimation()
+            .sink(receiveCompletion: { [weak self] completion in
+                switch completion {
+                case .finished:
+                    break
+                case .failure:
+                    self?.presentNetworkAlert()
+                }
+            }, receiveValue: { [weak self] worryDetail in
                 self?.updateUI(worryDetail: worryDetail)
-            }.store(in: &cancellables)
+            })
+            .store(in: &cancellables)
     }
     
     private func updateUI(worryDetail: WorryDetailModel) {
+        self.stopLoadingAnimation()
+        
         questions = worryDetail.subtitles
         answers = worryDetail.answers
         updateDate = worryDetail.updatedAt
