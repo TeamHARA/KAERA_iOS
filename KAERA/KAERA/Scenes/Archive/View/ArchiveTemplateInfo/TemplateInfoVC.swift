@@ -43,10 +43,6 @@ class TemplateInfoVC: UIViewController, TemplateInfoTVCDelegate {
     private var templateInfoList: [TemplateInfoPublisherModel] = []
     private let input = PassthroughSubject<Void, Never> ()
     
-    // writeVC Modal시에 화면에 띄어줄 제목을 담아서 보내줌
-    private var templateTitleShortInfoList:
-    [TemplateInfoPublisherModel] = []
-    
     private let writeModalVC = WriteModalVC()
     
     private var templateId: Int = 1
@@ -59,7 +55,6 @@ class TemplateInfoVC: UIViewController, TemplateInfoTVCDelegate {
         registerTV()
         resetCellStatus()
         setObserver()
-        sendTitleInfo()
         input.send() /// 구독 후 ViewModel과 데이터를 연동
     }
     
@@ -117,16 +112,6 @@ class TemplateInfoVC: UIViewController, TemplateInfoTVCDelegate {
     private func updateTV(_ list: [TemplateInfoPublisherModel]) {
         templateInfoList = list
         templateInfoTV.reloadData()
-    }
-    
-    // writeVC Modal시에 화면에 띄어줄 title 및 shortInfo를 보내주기 위한 함수
-    private func sendTitleInfo() {
-        let output = templateVM.transform(input: input.eraseToAnyPublisher())
-        output.receive(on: DispatchQueue.main)
-            .sink { [weak self] list in
-                self?.templateTitleShortInfoList = list
-            }
-            .store(in: &cancellables)
     }
     
     // MARK: - TemplateInfoTVCDelegate
