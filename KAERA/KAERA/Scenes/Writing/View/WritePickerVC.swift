@@ -14,7 +14,7 @@ enum DeadlineType {
     case patch
 }
 
-class WritePickerVC: UIViewController, UIGestureRecognizerDelegate {
+class WritePickerVC: BaseVC {
     
     // MARK: - Properties
     let pickerData = Array(1...30).map { String($0) }
@@ -105,7 +105,6 @@ class WritePickerVC: UIViewController, UIGestureRecognizerDelegate {
         setLayout()
         pressBtn()
         setDelegate()
-        addTabGesture()
     }
     
     // MARK: - Functions
@@ -182,25 +181,20 @@ class WritePickerVC: UIViewController, UIGestureRecognizerDelegate {
         }
     }
     
-    private func addTabGesture() {
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(backgroundTapped))
-        tapGesture.delegate = self
-        view.addGestureRecognizer(tapGesture)
-    }
-    
-    @objc private func backgroundTapped() {
-        UIView.animate(withDuration: 0.5, animations: {
-            self.pickerViewLayout.alpha = 0
-            self.view.layoutIfNeeded()
-        }) { _ in
-            self.dismiss(animated: false, completion: nil)
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        guard let touch = touches.first else {
+            return
         }
-    }
-    
-    // MARK: - tabGesture Delegate
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
-        // 터치영역이 pickerViewLayout이 아닌 경우에만 true를 반환
-        return !(touch.view?.isDescendant(of: pickerViewLayout) ?? false)
+        
+        /// 배경 영역을 탭한 경우 뷰 컨트롤러를 닫음
+        if !pickerViewLayout.frame.contains(touch.location(in: self.view)) {
+            UIView.animate(withDuration: 0.5, animations: {
+                self.pickerViewLayout.alpha = 0
+            }) { _ in
+                self.dismiss(animated: false, completion: nil)
+            }
+        }
     }
 }
 
