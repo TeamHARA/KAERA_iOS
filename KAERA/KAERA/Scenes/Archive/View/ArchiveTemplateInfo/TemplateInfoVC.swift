@@ -10,7 +10,7 @@ import SnapKit
 import Then
 import Combine
 
-class TemplateInfoVC: UIViewController, TemplateInfoTVCDelegate {
+class TemplateInfoVC: BaseVC, TemplateInfoTVCDelegate {
     
     // MARK: - Properties
     private let titleLabel = UILabel().then {
@@ -55,7 +55,7 @@ class TemplateInfoVC: UIViewController, TemplateInfoTVCDelegate {
         registerTV()
         resetCellStatus()
         setObserver()
-        input.send() /// 구독 후 ViewModel과 데이터를 연동
+        input.send()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -103,9 +103,16 @@ class TemplateInfoVC: UIViewController, TemplateInfoTVCDelegate {
     private func dataBind() {
         let output = templateVM.transform(input: input.eraseToAnyPublisher())
         output.receive(on: DispatchQueue.main)
-            .sink { [weak self] list in
+            .sink(receiveCompletion: { [weak self] completion in
+                switch completion {
+                case .finished:
+                    break
+                case .failure:
+                    self?.presentNetworkAlert()
+                }
+            }, receiveValue: { [weak self] list in
                 self?.updateTV(list)
-            }
+            })
             .store(in: &cancellables)
     }
     
