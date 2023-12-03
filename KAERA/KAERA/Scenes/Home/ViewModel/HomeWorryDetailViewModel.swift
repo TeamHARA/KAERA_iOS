@@ -12,21 +12,20 @@ final class HomeWorryDetailViewModel: ViewModelType {
     
     typealias Input = AnyPublisher<Int, Never>
     
-    typealias Output = AnyPublisher<WorryDetailModel, Never>
+    typealias Output = AnyPublisher<WorryDetailModel, Error>
     
-    private let output: PassthroughSubject<WorryDetailModel, Never> = .init()
+    private let output: PassthroughSubject<WorryDetailModel, Error> = .init()
     private var cancellables = Set<AnyCancellable>()
     
     var worryDetail: WorryDetailModel?
     
     // MARK: - Function
-    func transform(input: AnyPublisher<Int, Never>) -> AnyPublisher<WorryDetailModel, Never> {
+    func transform(input: AnyPublisher<Int, Never>) -> AnyPublisher<WorryDetailModel, Error> {
         input
             .sink { [weak self] worryId in
                 self?.getWorryDetail(worryId: worryId)
             }
             .store(in: &cancellables)
-        
         return output.eraseToAnyPublisher()
     }
 }
@@ -35,8 +34,10 @@ final class HomeWorryDetailViewModel: ViewModelType {
 extension HomeWorryDetailViewModel {
     private func getWorryDetail(worryId: Int) {
         HomeAPI.shared.getWorryDetail(param: worryId) { res in
-            guard let res = res else { return }
-            guard let data = res.data else { return }
+            guard let res = res, let data = res.data else {
+                self.output.send(completion: .failure(NSError()))
+                return
+            }
             self.output.send(data)
             self.worryDetail = data
         }
