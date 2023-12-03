@@ -135,16 +135,7 @@ class WritePickerVC: BaseVC {
         case .patch:
             deadlineContent.worryId = self.worryId
             deadlineContent.dayCount = worryPostContent.deadline
-            /// 서버통신 실패 시 띄울 알럿 창 구현
-            let failureAlertVC = KaeraAlertVC(buttonType: .onlyOK, okTitle: "확인")
-            failureAlertVC.setTitleSubTitle(title: "일자 수정에 실패했어요", subTitle: "다시 한번 시도해주세요.", highlighting: "실패")
-            self.patchWorryDeadline { success in
-                if success {
-                    NotificationCenter.default.post(name: NSNotification.Name("updateDeadline"), object: nil, userInfo: ["deadline": self.deadlineContent.dayCount])
-                } else {
-                    self.present(failureAlertVC, animated: true)
-                }
-            }
+            self.patchWorryDeadline()
         }
     }
     
@@ -174,14 +165,28 @@ class WritePickerVC: BaseVC {
         }
     }
     
-    func patchWorryDeadline(completion: @escaping (Bool) -> Void) {
+    func patchWorryDeadline() {
         /// 서버로 고민 내용을 POST 시켜줌
         HomeAPI.shared.updateDeadline(param: deadlineContent) { response in
-            if response?.status == 200 {
-                completion(true)
-            } else {
-                completion(false)
+            guard let res = response else {
+                /// 서버통신 실패 시 띄울 알럿 창 구현
+                let failureAlertVC = KaeraAlertVC(buttonType: .onlyOK, okTitle: "확인")
+                failureAlertVC.setTitleSubTitle(title: "일자 수정에 실패했어요", subTitle: "다시 한번 시도해주세요.", highlighting: "실패")
+                self.present(failureAlertVC, animated: true)
+                return
             }
+            NotificationCenter.default.post(name: NSNotification.Name("updateDeadline"), object: nil, userInfo: ["deadline": self.deadlineContent.dayCount])
+            
+            if let editVC = self.presentingViewController {
+                UIView.animate(withDuration: 0.5, animations: {
+                    self.pickerViewLayout.alpha = 0
+                }) { [weak self] _ in
+                    self?.dismiss(animated: false) {
+                        editVC.dismiss(animated: true)
+                    }
+                }
+            }
+            
         }
     }
     

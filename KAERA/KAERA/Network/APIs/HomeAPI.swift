@@ -89,8 +89,14 @@ final class HomeAPI {
             case .success(let result):
                 do {
                     self?.updateDeadlineResponse = try result.map(GeneralResponse<String>?.self)
-                    guard let worryDeadline = self?.updateDeadlineResponse else { return }
-                    completion(worryDeadline)
+                    guard let response = self?.updateDeadlineResponse else { return }
+                    
+                    if 200..<300 ~= response.status {
+                        completion(response)
+                    } else {
+                        completion(response)
+                    }
+                    
                 } catch(let err) {
                     print(err.localizedDescription)
                     completion(nil)
