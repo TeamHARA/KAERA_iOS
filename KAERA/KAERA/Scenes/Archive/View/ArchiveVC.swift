@@ -10,7 +10,7 @@ import SnapKit
 import Then
 import Combine
 
-class ArchiveVC: UIViewController, RefreshListDelegate {
+class ArchiveVC: BaseVC, RefreshListDelegate {
     
     // MARK: - Properties
     private let archiveHeaderView = ArchiveHeaderView()
@@ -55,6 +55,7 @@ class ArchiveVC: UIViewController, RefreshListDelegate {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        self.startLoadingAnimation()
         input.send(templateIndex)
     }
     
@@ -93,22 +94,30 @@ class ArchiveVC: UIViewController, RefreshListDelegate {
         }
     }
     
-    
-    /// 뷰모델의 데이터를 뷰컨의 리스트 데이터와 연동
     func dataBind() {
         let output = worryVM.transform(
             input: WorryListViewModel.Input(input)
         )
         output.receive(on: DispatchQueue.main)
-            .sink { [weak self] worryList in
-                self?.worryListWithTemplate = worryList // 받아온 데이터로 worryListWithTemplate 업데이트
+            .sink(receiveCompletion: { [weak self] completion in
+                switch completion {
+                case .finished:
+                    break
+                case .failure:
+                    self?.presentNetworkAlert()
+                }
+            }, receiveValue: { [weak self] worryList in
+                self?.stopLoadingAnimation()
+                self?.worryListWithTemplate = worryList
                 self?.archiveHeaderView.setNumLabelText(text: "총 \(worryList.count)개")
-                self?.worryListCV.reloadData() // 컬렉션 뷰 다시 그리기
-            }.store(in: &cancellables)
+                self?.worryListCV.reloadData()
+            })
+            .store(in: &cancellables)
     }
     
     // MARK: - RefreshListDelegate
     func refreshList(templateTitle: String, templateId: Int) {
+        startLoadingAnimation()
         input.send(templateId)
         self.templateIndex = templateId
         archiveHeaderView.setSortButtonTitle(title: templateTitle)

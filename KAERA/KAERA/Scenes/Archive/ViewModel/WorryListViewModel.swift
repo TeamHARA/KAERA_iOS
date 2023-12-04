@@ -19,11 +19,11 @@ class WorryListViewModel: ViewModelType {
     private var cancellables = Set<AnyCancellable>()
     
     typealias Input = AnyPublisher<Int, Never>
-    typealias Output = AnyPublisher<[WorryListPublisherModel], Never>
+    typealias Output = AnyPublisher<[WorryListPublisherModel], Error>
     
-    private let output = PassthroughSubject<[WorryListPublisherModel], Never> ()
+    private let output = PassthroughSubject<[WorryListPublisherModel], Error> ()
     
-    func transform(input: Input) -> AnyPublisher<[WorryListPublisherModel], Never> {
+    func transform(input: Input) -> AnyPublisher<[WorryListPublisherModel], Error> {
         input.sink{[weak self] templateId in
             self?.getNetworkResponse(templateId)
         }
@@ -44,7 +44,10 @@ class WorryListViewModel: ViewModelType {
     
     private func getNetworkResponse(_ templateId: Int) {
         ArchiveAPI.shared.getArchiveWorryList(param: templateId) { result in
-            guard let result = result, let data = result.data else { return }
+            guard let result = result, let data = result.data else {
+                self.output.send(completion: .failure(NSError()))
+                return
+            }
             self.convertIdtoWorryList(data.worry)
         }
     }

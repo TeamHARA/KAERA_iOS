@@ -20,7 +20,7 @@ final class HomeAPI {
     public private(set) var worryDetailResponse: GeneralResponse<WorryDetailModel>?
     public private(set) var deleteWorryResponse: EmptyResponse?
     public private(set) var updateDeadlineResponse: GeneralResponse<String>?
-    public private(set) var editWorryResponse: GeneralResponse<String>?
+    public private(set) var editWorryResponse: GeneralResponse<EditWorryResponseModel>?
     public private(set) var completeWorryResponse: GeneralResponse<QuoteModel>?
     public private(set) var worryReviewResponse: GeneralResponse<WorryReviewResponseModel>?
    
@@ -89,8 +89,14 @@ final class HomeAPI {
             case .success(let result):
                 do {
                     self?.updateDeadlineResponse = try result.map(GeneralResponse<String>?.self)
-                    guard let worryDeadline = self?.updateDeadlineResponse else { return }
-                    completion(worryDeadline)
+                    guard let response = self?.updateDeadlineResponse else { return }
+                    
+                    if 200..<300 ~= response.status {
+                        completion(response)
+                    } else {
+                        completion(response)
+                    }
+                    
                 } catch(let err) {
                     print(err.localizedDescription)
                     completion(nil)
@@ -103,14 +109,14 @@ final class HomeAPI {
     }
     
     // MARK: - EditWorry
-    func editWorry(param: PatchWorryModel, completion: @escaping (GeneralResponse<String>?) -> ()) {
+    func editWorry(param: PatchWorryModel, completion: @escaping (GeneralResponse<EditWorryResponseModel>?) -> ()) {
         homeProvider.request(.editWorry(param: param)) { [weak self] response in
             switch response {
             case .success(let result):
                 do {
-                    self?.editWorryResponse = try result.map(GeneralResponse<String>?.self)
-                    guard let worryContent = self?.editWorryResponse else { return }
-                    completion(worryContent)
+                    self?.editWorryResponse = try result.map(GeneralResponse<EditWorryResponseModel>?.self)
+                    guard let editWorryRes = self?.editWorryResponse else { return }
+                    completion(editWorryRes)
                 } catch(let err) {
                     print(err.localizedDescription)
                     completion(nil)

@@ -8,21 +8,18 @@
 import UIKit
 import Combine
 
-// template Modal용
+// Worry Modal용
 class TemplateContentViewModel: ViewModelType {
     
-    private var cancellables = Set<AnyCancellable>()
-    
-    private var templateContent = TemplateContentModel(title: "", guideline: "", questions: [], hints: [])
-    
     typealias Input = AnyPublisher<Int, Never>
-    typealias Output = AnyPublisher<TemplateContentModel, Never>
+    typealias Output = AnyPublisher<TemplateContentModel, Error>
     
-    private let output = PassthroughSubject<TemplateContentModel, Never> ()
+    private var cancellables = Set<AnyCancellable>()
+    private let output = PassthroughSubject<TemplateContentModel, Error> ()
     
-    func transform(input: Input) -> AnyPublisher<TemplateContentModel, Never> {
+    func transform(input: Input) -> Output {
         input.sink{[weak self] templateId in
-            self?.getTemplateContents(templateId + 1)
+            self?.getTemplateContents(templateId)
         }
         .store(in: &cancellables)
         
@@ -34,7 +31,10 @@ extension TemplateContentViewModel {
     private func getTemplateContents(_ templateId: Int) {
         /// 서버 통신으로 template Id request 후에 데이터 가져오기
         WriteAPI.shared.getTemplateQuestion(param: templateId) { result in
-            guard let result = result, let data = result.data else { return }
+            guard let result = result, let data = result.data else {
+                self.output.send(completion: .failure(NSError()))
+                return
+            }
             self.output.send(data)
         }
     }

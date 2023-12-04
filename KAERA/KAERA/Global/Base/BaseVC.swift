@@ -7,6 +7,7 @@
 
 import UIKit
 import SafariServices
+import Lottie
 
 class BaseVC: UIViewController, UIGestureRecognizerDelegate {
     
@@ -22,6 +23,13 @@ class BaseVC: UIViewController, UIGestureRecognizerDelegate {
         activityIndicator.style = .medium
         activityIndicator.stopAnimating()
         return activityIndicator
+    }()
+    
+    private let loadingView: LottieAnimationView = {
+        let view: LottieAnimationView = LottieAnimationView(name: "kaera_loading")
+        view.loopMode = .loop
+        view.animationSpeed = 0.3
+        return view
     }()
     
     let screenWidth = UIScreen.main.bounds.size.width
@@ -69,6 +77,7 @@ extension BaseVC {
         let alertVC = KaeraAlertVC(buttonType: .onlyOK)
         alertVC.setTitleSubTitle(title: "요청에 실패했어요...😢", subTitle: "잠시후 다시 시도해주세요")
         self.present(alertVC, animated: true)
+        self.stopLoadingAnimation()
     }
 }
 
@@ -81,5 +90,25 @@ extension BaseVC {
         if let nav = tabBarController?.viewControllers?[index] as? UINavigationController {
             nav.popToRootViewController(animated: true)
         }
+    }
+}
+
+// MARK: - Animation
+extension BaseVC {
+    
+    func startLoadingAnimation() {
+        self.view.addSubView(loadingView)
+        loadingView.translatesAutoresizingMaskIntoConstraints = false
+        loadingView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        loadingView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: -80).isActive = true
+        loadingView.heightAnchor.constraint(equalToConstant: 400).isActive = true
+        loadingView.widthAnchor.constraint(equalToConstant: 400).isActive = true
+
+        self.loadingView.play()
+    }
+    
+    func stopLoadingAnimation() {
+        self.loadingView.stop()
+        self.loadingView.removeFromSuperview()
     }
 }

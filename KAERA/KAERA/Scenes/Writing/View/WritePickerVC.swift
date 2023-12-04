@@ -14,7 +14,7 @@ enum DeadlineType {
     case patch
 }
 
-class WritePickerVC: UIViewController, UIGestureRecognizerDelegate {
+class WritePickerVC: BaseVC {
     
     // MARK: - Properties
     let pickerData = Array(1...30).map { String($0) }
@@ -105,7 +105,6 @@ class WritePickerVC: UIViewController, UIGestureRecognizerDelegate {
         setLayout()
         pressBtn()
         setDelegate()
-        addTabGesture()
     }
     
     // MARK: - Functions
@@ -136,25 +135,8 @@ class WritePickerVC: UIViewController, UIGestureRecognizerDelegate {
         case .patch:
             deadlineContent.worryId = self.worryId
             deadlineContent.dayCount = worryPostContent.deadline
-            /// 서버통신 실패 시 띄울 알럿 창 구현
-            let failureAlertVC = KaeraAlertVC(buttonType: .onlyOK, okTitle: "확인")
-            failureAlertVC.setTitleSubTitle(title: "일자 수정에 실패했어요", subTitle: "다시 한번 시도해주세요.", highlighting: "실패")
-            self.patchWorryDeadline { success in
-                if success {
-                    NotificationCenter.default.post(name: NSNotification.Name("updateDeadline"), object: nil, userInfo: ["deadline": self.deadlineContent.dayCount])
-                } else {
-                    self.present(failureAlertVC, animated: true)
-                }
-            }
+            self.patchWorryDeadline()
         }
-        UIView.animate(withDuration: 0.5, animations: { [self] in
-            view.alpha = 0
-            view.layoutIfNeeded()
-        }, completion: { _ in
-            self.dismiss(animated: false, completion: {
-                NotificationCenter.default.post(name: NSNotification.Name("CompleteWriting"), object: nil, userInfo: nil)
-            })
-        })
     }
     
     private func setDelegate() {
@@ -163,44 +145,68 @@ class WritePickerVC: UIViewController, UIGestureRecognizerDelegate {
     }
     
     private func postWorryContent(postWorryContent: WorryContentRequestModel) {
-        /// 서버로 고민 내용을 POST 시켜줌
-        WriteAPI.shared.postWorryContent(param: postWorryContent) { result in
-            guard let result = result, let _ = result.data else { return }
+        startLoadingAnimation()
+        WriteAPI.shared.postWorryContent(param: postWorryContent) { [weak self] result in
+            guard let result = result, let _ = result.data else {
+                self?.presentNetworkAlert()
+                return
+            }
+            self?.stopLoadingAnimation()
+            if let writeVC = self?.presentingViewController {
+                UIView.animate(withDuration: 0.5, animations: {
+                    self?.pickerViewLayout.alpha = 0
+                }) { [weak self] _ in
+                    self?.dismiss(animated: false) {
+                        writeVC.dismiss(animated: true)
+                    }
+                }
+            }
             /// WorryPostManager 데이터 초기화
             WorryPostManager.shared.clearWorryData()
         }
     }
     
-    func patchWorryDeadline(completion: @escaping (Bool) -> Void) {
-        /// 서버로 고민 내용을 POST 시켜줌
-        HomeAPI.shared.updateDeadline(param: deadlineContent) { response in
-            if response?.status == 200 {
-                completion(true)
-            } else {
-                completion(false)
+    func patchWorryDeadline() {
+        self.startLoadingAnimation()
+        HomeAPI.shared.updateDeadline(param: deadlineContent) { [weak self] response in
+            guard let _ = response else {
+                self?.stopLoadingAnimation()
+                let failureAlertVC = KaeraAlertVC(buttonType: .onlyOK, okTitle: "확인")
+                failureAlertVC.setTitleSubTitle(title: "일자 수정에 실패했어요", subTitle: "다시 한번 시도해주세요.", highlighting: "실패")
+                self?.present(failureAlertVC, animated: true)
+                return
+            }
+            let dayCount = self?.deadlineContent.dayCount ?? 1
+            if let editVC = self?.presentingViewController {
+                if let detailVC = editVC.presentingViewController as? HomeWorryDetailVC {
+                    detailVC.updateDeadline(deadline: dayCount)
+                }
+                UIView.animate(withDuration: 0.5, animations: {
+                    self?.pickerViewLayout.alpha = 0
+                }) { [weak self] _ in
+                    self?.dismiss(animated: false) {
+                        editVC.dismiss(animated: true)
+                    }
+                }
+            }
+            
+        }
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        guard let touch = touches.first else {
+            return
+        }
+        
+        /// 배경 영역을 탭한 경우 뷰 컨트롤러를 닫음
+        if !pickerViewLayout.frame.contains(touch.location(in: self.view)) {
+            UIView.animate(withDuration: 0.5, animations: {
+                self.pickerViewLayout.alpha = 0
+            }) { _ in
+                self.dismiss(animated: false, completion: nil)
             }
         }
-    }
-    
-    private func addTabGesture() {
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(backgroundTapped))
-        tapGesture.delegate = self
-        view.addGestureRecognizer(tapGesture)
-    }
-    
-    @objc private func backgroundTapped() {
-        UIView.animate(withDuration: 0.5, animations: {
-            self.pickerViewLayout.alpha = 0
-            self.view.layoutIfNeeded()
-        }) { _ in
-            self.dismiss(animated: false, completion: nil)
-        }
-    }
-    
-    // MARK: - tabGesture Delegate
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
-        // 터치영역이 pickerViewLayout이 아닌 경우에만 true를 반환
-        return !(touch.view?.isDescendant(of: pickerViewLayout) ?? false)
     }
 }
 

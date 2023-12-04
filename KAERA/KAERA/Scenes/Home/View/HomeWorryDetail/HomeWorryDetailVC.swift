@@ -74,14 +74,14 @@ final class HomeWorryDetailVC: BaseVC {
     private var finalAnswer = ""
     private var reviewText = ""
     private var isReviewEditing: Bool = false
-
+    
     // MARK: - Initialization
     init(worryId: Int, type: PageType) {
         super.init(nibName: nil, bundle: nil)
         self.pageType = type
         self.worryId = worryId
         dataBind()
-        /// input 전달
+        self.startLoadingAnimation()
         input.send(worryId)
     }
     
@@ -109,7 +109,6 @@ final class HomeWorryDetailVC: BaseVC {
         setupTableView()
         setReviewTextView()
         setPressAction()
-        addObserver()
         reviewViewKeyboardButtonAction()
         hideKeyboardWhenTappedAround()
     }
@@ -210,19 +209,29 @@ final class HomeWorryDetailVC: BaseVC {
             input: HomeWorryDetailViewModel.Input(input)
         )
         output.receive(on: DispatchQueue.main)
-            .sink { [weak self] worryDetail in
+            .sink(receiveCompletion: { [weak self] completion in
+                switch completion {
+                case .finished:
+                    break
+                case .failure:
+                    self?.presentNetworkAlert()
+                }
+            }, receiveValue: { [weak self] worryDetail in
                 self?.updateUI(worryDetail: worryDetail)
-            }.store(in: &cancellables)
+            })
+            .store(in: &cancellables)
     }
     
     private func updateUI(worryDetail: WorryDetailModel) {
+        self.stopLoadingAnimation()
+        
         questions = worryDetail.subtitles
         answers = worryDetail.answers
         updateDate = worryDetail.updatedAt
         worryTitle = worryDetail.title
         templateId = worryDetail.templateId
         period = worryDetail.period
-
+        
         switch pageType {
         case .digging:
             /// dDay가 -888인 경우 데드라인 미 지정한 것
@@ -257,38 +266,23 @@ final class HomeWorryDetailVC: BaseVC {
         worryDetailTV.layoutIfNeeded()
     }
     
-    /// 데드라인 수정시 받는 notification을 관리하는 observer 추가
-    func addObserver() {
-        NotificationCenter.default.addObserver(self, selector: #selector(handleDeadlineUpdate(_:)), name: NSNotification.Name("updateDeadline"), object: nil)
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(self.didCompleteWorryEditing(_:)),
-            name: NSNotification.Name("CompleteWorryEditing"),
-            object: nil
-        )
-    }
-    
     /// 전달 받은 수정된 데드라인 일자로 navigationBar Title 변경
-    @objc func handleDeadlineUpdate(_ notification: Notification) {
-        if let userInfo = notification.userInfo, let deadline = userInfo["deadline"] as? Int {
-            if deadline < -800 || deadline > 800 {
-                dDay = "-∞"
-            } else if deadline > 0 {
-                dDay = "-\(deadline)"
-            } else if deadline < 0 {
-                dDay = "\(deadline)"
-            } else if deadline == 0 {
-                dDay = "day"
-            }
-            navigationBarView.setTitleText(text: "고민캐기 D\(dDay)")
+    func updateDeadline(deadline: Int) {
+        if deadline < -800 || deadline > 800 {
+            dDay = "-∞"
+        } else if deadline > 0 {
+            dDay = "-\(deadline)"
+        } else if deadline < 0 {
+            dDay = "\(deadline)"
+        } else if deadline == 0 {
+            dDay = "day"
         }
+        navigationBarView.setTitleText(text: "고민캐기 D\(dDay)")
     }
     
-    @objc func didCompleteWorryEditing(_ notification: Notification) {
-        /// 수정된 데이터를 다시 받아오기 위해 ViewModel과 다시 한번 연동
-        input.send(worryId)
-        worryDetailTV.reloadData()
-        self.dismiss(animated: true)
+    func sendInputWithWorryId(id: Int) {
+        self.startLoadingAnimation()
+        input.send(id)
     }
     
     private func reviewViewKeyboardButtonAction() {
@@ -366,12 +360,13 @@ extension HomeWorryDetailVC {
     func patchReviewText() {
         self.reviewText = reviewView.reviewTextView.text ?? ""
         let reviewModel = WorryReviewRequestBody(worryId: worryId, review: reviewText)
-        
+        self.startLoadingAnimation()
         HomeAPI.shared.patchReview(body: reviewModel) { [weak self] res in
             guard let data = res?.data else {
                 self?.presentNetworkAlert()
                 return
             }
+            self?.stopLoadingAnimation()
             self?.reviewView.updateReviewDate(date: data.updatedAt)
             self?.isReviewEditing = false
             self?.view.endEditing(true)

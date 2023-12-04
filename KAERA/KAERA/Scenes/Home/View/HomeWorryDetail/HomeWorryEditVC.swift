@@ -67,7 +67,6 @@ final class HomeWorryEditVC: BaseVC {
         setUI()
         setPressAction()
         hideKeyboardWhenTappedAround()
-        addObserver()
     }
     
     // MARK: - Function
@@ -87,32 +86,29 @@ final class HomeWorryEditVC: BaseVC {
             }
             /// 적힌 답변을 writeVC로 보내줌
             writeVC.setTempAnswers(answers: self?.worryDetail?.answers ?? [])
-            let templateId = (self?.worryDetail?.templateId ?? 1) - 1
+            let templateId = (self?.worryDetail?.templateId ?? 1)
             
             self?.worryPatchContent.worryId =  self?.worryId ?? 0
             self?.worryPatchContent.templateId = templateId
             writeVC.input.send(templateId)
         }
         
-        editDeadlineButton.press {
+        editDeadlineButton.press { [weak self] in
             let pickerVC = WritePickerVC(type: .patch)
-            pickerVC.worryId = self.worryId
+            pickerVC.worryId = self?.worryId ?? 0
             pickerVC.modalPresentationStyle = .fullScreen
             pickerVC.modalTransitionStyle = .coverVertical
-            pickerVC.completeWritingBtn.press {
-                self.dismiss(animated: true)
-            }
             pickerVC.view.alpha = 0 /// pickerView를 초기에 보이지 않게 설정
             ///
             pickerVC.modalPresentationStyle = .overCurrentContext
-            self.present(pickerVC, animated: false, completion: { /// 애니메이션을 false로 설정
+            self?.present(pickerVC, animated: false, completion: { /// 애니메이션을 false로 설정
                 UIView.animate(withDuration: 0.5, animations: { /// 애니메이션 추가
                     pickerVC.view.alpha = 1 /// pickerView가 서서히 보이게 설정
                     pickerVC.view.layoutIfNeeded()
                 })
             })
             
-            pickerVC.datePickerView.selectRow(abs(self.worryDetail?.dDay ?? 0) - 1, inComponent: 0, animated: true)
+            pickerVC.datePickerView.selectRow(abs(self?.worryDetail?.dDay ?? 0) - 1, inComponent: 0, animated: true)
         }
         
         deleteWorryButton.press {
@@ -164,28 +160,14 @@ final class HomeWorryEditVC: BaseVC {
     }
     
     private func deleteWorry(completion: @escaping (Bool) -> Void) {
-        /// 고민 삭제 delete 서버 통신
+        self.startLoadingAnimation()
         HomeAPI.shared.deleteWorry(param: self.worryId) { response in
+            self.stopLoadingAnimation()
             if response?.status == 200 {
                 completion(true)
             } else {
                 completion(false)
             }
-        }
-    }
-    
-    private func addObserver() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(self.didCompleteWritingNotification(_:)),
-            name: NSNotification.Name("CompleteWriting"),
-            object: nil
-        )
-    }
-    
-    @objc func didCompleteWritingNotification(_ notification: Notification) {
-        DispatchQueue.main.async {
-            self.dismiss(animated: true)
         }
     }
 }

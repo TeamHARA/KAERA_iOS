@@ -106,13 +106,6 @@ final class WriteVC: BaseVC {
         hideKeyboardWhenTappedAround()
         addKeyboardObserver()
         dataBind()
-        
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(self.didCompleteWritingNotification(_:)),
-            name: NSNotification.Name("CompleteWriting"),
-            object: nil
-        )
     }
     
     // MARK: - Functions
@@ -126,9 +119,18 @@ final class WriteVC: BaseVC {
             input: TemplateContentViewModel.Input(input)
         )
         output.receive(on: DispatchQueue.main)
-            .sink { [weak self] templateContents in
+            .sink(receiveCompletion: { [weak self] completion in
+                switch completion {
+                case .finished:
+                    break
+                case .failure:
+                    self?.presentNetworkAlert()
+                }
+            }, receiveValue: { [weak self] templateContents in
+                self?.stopLoadingAnimation()
                 self?.updateUI(templateContents)
-            }.store(in: &cancellables)
+            })
+            .store(in: &cancellables)
     }
     
     private func updateUI(_ templateContents: TemplateContentModel) {
@@ -137,12 +139,6 @@ final class WriteVC: BaseVC {
         templateContentTV.setData(type: writeType, questions: templateContents.questions, hints: templateContents.hints, answers: tempAnswers)
         
         templateContentTV.reloadData()
-    }
-    
-    @objc func didCompleteWritingNotification(_ notification: Notification) {
-        DispatchQueue.main.async { [self] in
-            self.dismiss(animated: true)
-        }
     }
     
     private func setNaviButtonAction() {
@@ -160,7 +156,7 @@ final class WriteVC: BaseVC {
             case .post, .postDifferentTemplate:
                 if WorryPostManager.shared.title.isEmpty {
                     self?.showToastMessage(message: "고민의 제목을 붙여주세요!", color: .black)
-                } else if self?.checkEmpryAnswer() ?? true {
+                } else if self?.checkEmptyAnswer() ?? true {
                     self?.showToastMessage(message: "내용이 전부 작성되지 않았어요!", color: .black)
                 } else {
                     let pickerVC = WritePickerVC(type: .post)
@@ -177,7 +173,7 @@ final class WriteVC: BaseVC {
             case .patch, .patchDifferentTemplate:
                 if WorryPostManager.shared.title.isEmpty {
                     self?.showToastMessage(message: "고민의 제목을 붙여주세요!", color: .black)
-                } else if self?.checkEmpryAnswer() ?? true {
+                } else if self?.checkEmptyAnswer() ?? true {
                     self?.showToastMessage(message: "내용이 전부 작성되지 않았어요!", color: .black)
                 } else {
                     let worryPatchManager = WorryPatchManager.shared
@@ -190,7 +186,7 @@ final class WriteVC: BaseVC {
         }
     }
     
-    private func checkEmpryAnswer() -> Bool {
+    private func checkEmptyAnswer() -> Bool {
         var answers: [String] = []
         switch writeType {
         case .post, .postDifferentTemplate:
@@ -292,7 +288,7 @@ final class WriteVC: BaseVC {
             sheet.prefersGrabberVisible = true
         }
         if writeType == .patch {
-            writeModalVC.setTemplateIndex(idx: WorryPatchManager.shared.templateId)
+            writeModalVC.setTemplateIndex(templateId: WorryPatchManager.shared.templateId)
         }
         
         self.present(self.writeModalVC, animated: true)
@@ -302,27 +298,45 @@ final class WriteVC: BaseVC {
         self.tempAnswers = answers
     }
     
-    func editWorry(patchWorryContent: PatchWorryModel) {
-        /// 서버로 고민 내용을 Patch 시켜줌
-        HomeAPI.shared.editWorry(param: patchWorryContent){ result in
-            guard let result = result, let _ = result.data else { return }
+    private func editWorry(patchWorryContent: PatchWorryModel) {
+        self.startLoadingAnimation()
+        HomeAPI.shared.editWorry(param: patchWorryContent){ [weak self] result in
+            guard let result = result, let _ = result.data else { 
+                self?.presentNetworkAlert()
+                return
+            }
+            self?.stopLoadingAnimation()
             WorryPatchManager.shared.clearWorryData()
-            /// HomeWorryDetailVC Reload 해주기 위해 알림 전송
-            NotificationCenter.default.post(name: NSNotification.Name("CompleteWorryEditing"), object: nil, userInfo: nil)
+            if let editVC = self?.presentingViewController {
+                if let detailVC = editVC.presentingViewController as? HomeWorryDetailVC {
+                    detailVC.sendInputWithWorryId(id: WorryPatchManager.shared.worryId)
+                }
+                self?.showToastMessage(message: "수정완료!", color: .black)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    self?.dismiss(animated: true) {
+                        UIView.animate(withDuration: 0.3) {
+                            editVC.view.alpha = 0
+                            editVC.dismiss(animated: true)
+                        }
+                    }
+                }
+            }
         }
-        self.dismiss(animated: true)
     }
 }
 
 // MARK: - TemplateIdDelegate
 extension WriteVC: TemplateIdDelegate {
     func templateReload(templateId: Int) {
+        startLoadingAnimation()
         input.send(templateId)
         // 처음 고민작성시 템플릿을 선택했을때 writeType을 바꿔줌
         if writeType == .post {
             self.writeType = .postDifferentTemplate
+            WorryPostManager.shared.templateId = templateId
         }else if writeType == .patch {
             self.writeType = .patchDifferentTemplate
+            WorryPatchManager.shared.templateId = templateId
             self.tempAnswers = []
         }
         checkButtonStatus()
@@ -340,7 +354,7 @@ extension WriteVC: ActivateButtonDelegate {
             isTitleEmpty = WorryPatchManager.shared.title.isEmpty
         }
         
-        if isTitleEmpty || self.checkEmpryAnswer() {
+        if isTitleEmpty || self.checkEmptyAnswer() {
             navigationBarView.setupDoneButtonStatus(status: false)
         } else {
             navigationBarView.setupDoneButtonStatus(status: true)
