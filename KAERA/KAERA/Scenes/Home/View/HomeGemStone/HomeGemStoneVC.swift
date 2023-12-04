@@ -111,7 +111,9 @@ final class HomeGemStoneVC: BaseVC {
                     self?.presentNetworkAlert()
                 }
             }, receiveValue: { [weak self] list in
-                HomeGemStoneCount.shared.count = list.count
+                if self?.pageType == .digging {
+                    HomeGemStoneCount.shared.count = list.count
+                }
                 self?.updateUI(gemList: list)
             })
             .store(in: &cancellables)
