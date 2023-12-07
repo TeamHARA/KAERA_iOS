@@ -77,6 +77,7 @@
 		E72D6AE82B1C234000CF8B01 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = E72D6AE72B1C234000CF8B01 /* Lottie */; };
 		E72D6AEB2B1C255F00CF8B01 /* kaera_loading.json in Resources */ = {isa = PBXBuildFile; fileRef = E72D6AEA2B1C255F00CF8B01 /* kaera_loading.json */; };
 		E72D6AF32B1C907800CF8B01 /* EditWorryResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72D6AF22B1C907800CF8B01 /* EditWorryResponseModel.swift */; };
+		E72D6AF62B21E1A500CF8B01 /* WriteEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72D6AF52B21E1A500CF8B01 /* WriteEmptyView.swift */; };
 		E73CA3DA2A69300F00BAC9D6 /* HomePublisherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73CA3D92A69300F00BAC9D6 /* HomePublisherModel.swift */; };
 		E73CA3DC2A693C9D00BAC9D6 /* GemStoneEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73CA3DB2A693C9D00BAC9D6 /* GemStoneEmptyView.swift */; };
 		E73CA3DF2A6A62F700BAC9D6 /* HomeWorryDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73CA3DE2A6A62F700BAC9D6 /* HomeWorryDetailVC.swift */; };
@@ -196,6 +197,7 @@
 		E71FC2432ADC01B6001DD27D /* MyPageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageVC.swift; sourceTree = "<group>"; };
 		E72D6AEA2B1C255F00CF8B01 /* kaera_loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = kaera_loading.json; sourceTree = "<group>"; };
 		E72D6AF22B1C907800CF8B01 /* EditWorryResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditWorryResponseModel.swift; sourceTree = "<group>"; };
+		E72D6AF52B21E1A500CF8B01 /* WriteEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteEmptyView.swift; sourceTree = "<group>"; };
 		E73CA3D92A69300F00BAC9D6 /* HomePublisherModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePublisherModel.swift; sourceTree = "<group>"; };
 		E73CA3DB2A693C9D00BAC9D6 /* GemStoneEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GemStoneEmptyView.swift; sourceTree = "<group>"; };
 		E73CA3DE2A6A62F700BAC9D6 /* HomeWorryDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeWorryDetailVC.swift; sourceTree = "<group>"; };
@@ -727,6 +729,7 @@
 				85EBC7F42A5AD94100B9E891 /* WriteVC.swift */,
 				85887D8F2A5EFA2C00F7FB21 /* WritePickerVC.swift */,
 				85887D802A5C428500F7FB21 /* WriteModal */,
+				E72D6AF52B21E1A500CF8B01 /* WriteEmptyView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -932,6 +935,7 @@
 				E79AAC332A52F2C300F3F439 /* UITextField+.swift in Sources */,
 				E79AAC322A52F2C300F3F439 /* UIColor+.swift in Sources */,
 				E70C7CA12A90959A006B2E74 /* HomeService.swift in Sources */,
+				E72D6AF62B21E1A500CF8B01 /* WriteEmptyView.swift in Sources */,
 				E73CA3E22A6A688A00BAC9D6 /* CustomNavigationBarView.swift in Sources */,
 				85887D972A60430600F7FB21 /* ArchiveModalCVC.swift in Sources */,
 				E79AAC372A52F2C300F3F439 /* CALayer+.swift in Sources */,
