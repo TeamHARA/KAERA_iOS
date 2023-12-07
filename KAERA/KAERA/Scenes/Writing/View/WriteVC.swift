@@ -55,33 +55,16 @@ final class WriteVC: BaseVC {
         $0.backgroundColor = .kGray2
     }
     
-    private let bottomDividingLine = UIView().then {
-        $0.backgroundColor = .kGray3
-    }
-    
     private let worryContentLabel = UILabel().then {
         $0.text = "고민 내용 작성하기"
         $0.textColor = .kWhite
         $0.font = .kB2R16
     }
     
-    private let baseImage = UIImageView().then {
-        $0.image = UIImage(named: "gem_no_template")
-        $0.contentMode = .scaleToFill
-        $0.backgroundColor = .clear
-    }
+    private let writeEmptyView = WriteEmptyView()
     
-    private let introTitle = UILabel().then {
-        $0.text = "선택된 템플릿이 없어요!"
-        $0.textColor = .kWhite
-        $0.font = .kH3B18
-    }
+    private var isTemplateContentTVAdded = false
     
-    private let introDetail = UILabel().then {
-        $0.text = "상단에서 템플릿을 골라볼까요?"
-        $0.textColor = .kGray4
-        $0.font = .kSb1R12
-    }
     private var writeType: WriteType = .post
     
     private var tempAnswers: [String] = []
@@ -277,12 +260,12 @@ final class WriteVC: BaseVC {
         }
     }
     
-    private func modalTemplateSelectVC() {
+    func modalTemplateSelectVC() {
         self.writeModalVC.modalPresentationStyle = .pageSheet
         
         if let sheet = self.writeModalVC.sheetPresentationController {
             /// 지원할 크기 지정(.medium(), .large())
-            sheet.detents = [.medium()]
+            sheet.detents = [.medium(), .large()]
             
             /// 시트 상단에 그래버 표시 (기본 값은 false)
             sheet.prefersGrabberVisible = true
@@ -328,6 +311,18 @@ final class WriteVC: BaseVC {
 // MARK: - TemplateIdDelegate
 extension WriteVC: TemplateIdDelegate {
     func templateReload(templateId: Int) {
+        if !isTemplateContentTVAdded {
+            view.addSubview(templateContentTV)
+
+            templateContentTV.snp.makeConstraints {
+                $0.top.equalTo(self.dividingLine.snp.bottom)
+                $0.horizontalEdges.equalToSuperview()
+                $0.bottom.equalToSuperview()
+            }
+            
+            isTemplateContentTVAdded = true
+        }
+        
         startLoadingAnimation()
         input.send(templateId)
         // 처음 고민작성시 템플릿을 선택했을때 writeType을 바꿔줌
@@ -417,15 +412,7 @@ extension WriteVC {
         view.backgroundColor = .kGray1
         view.addSubviews([navigationBarView, templateBtn])
         templateBtn.addSubviews([templateTitle, templateInfo, dropdownImg])
-        view.addSubviews([baseImage, introTitle, introDetail])
-        view.addSubviews([dividingLine])
-        view.addSubview(templateContentTV)
-        
-        templateContentTV.snp.makeConstraints {
-            $0.top.equalTo(self.dividingLine.snp.bottom)
-            $0.horizontalEdges.equalToSuperview()
-            $0.bottom.equalToSuperview()
-        }
+        view.addSubview(dividingLine)
 
         navigationBarView.snp.makeConstraints {
             $0.left.right.equalToSuperview().inset(16)
@@ -461,21 +448,24 @@ extension WriteVC {
             $0.height.equalTo(12)
         }
         
-        baseImage.snp.makeConstraints {
-            $0.top.equalTo(dividingLine.snp.bottom).offset(200.adjustedW)
-            $0.centerX.equalToSuperview()
-            $0.width.equalTo(120.adjustedW)
-            $0.height.equalTo(95.adjustedW)
-        }
-        
-        introTitle.snp.makeConstraints {
-            $0.top.equalTo(baseImage.snp.bottom).offset(32)
-            $0.centerX.equalToSuperview()
-        }
-        
-        introDetail.snp.makeConstraints {
-            $0.top.equalTo(introTitle.snp.bottom).offset(16)
-            $0.centerX.equalToSuperview()
+        if writeType == .patch {
+            view.addSubview(templateContentTV)
+            
+            templateContentTV.snp.makeConstraints {
+                $0.top.equalTo(self.dividingLine.snp.bottom)
+                $0.horizontalEdges.equalToSuperview()
+                $0.bottom.equalToSuperview()
+            }
+            
+            self.isTemplateContentTVAdded = true
+        } else {
+            view.addSubview(writeEmptyView)
+            
+            writeEmptyView.snp.makeConstraints {
+                $0.top.equalTo(dividingLine)
+                $0.width.equalToSuperview()
+                $0.bottom.equalToSuperview()
+            }
         }
     }
 }

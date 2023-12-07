@@ -88,7 +88,9 @@ extension KaeraTabbarController: UITabBarControllerDelegate {
                 let writeVC = WriteVC(type: .post)
                 writeVC.modalPresentationStyle = .fullScreen
                 writeVC.modalTransitionStyle = .coverVertical
-                self.present(writeVC, animated: true, completion: nil)
+                self.present(writeVC, animated: true) {
+                    writeVC.modalTemplateSelectVC()
+                }
             }
             return false // 탭 변경을 막음
         }
