@@ -62,7 +62,6 @@ final class HomeWorryDetailVC: BaseVC {
     private var worryTitle = ""
     private var templateId = 1
     private var worryId = 1
-    private var dDay = ""
     private var period = ""
     private var pageType: PageType = .digging
     
@@ -234,17 +233,8 @@ final class HomeWorryDetailVC: BaseVC {
         
         switch pageType {
         case .digging:
-            /// dDay가 -888인 경우 데드라인 미 지정한 것
-            if worryDetail.dDay < -800 || worryDetail.dDay > 800 {
-                dDay = "-∞"
-            } else if worryDetail.dDay > 0 {
-                dDay = "-\(worryDetail.dDay)"
-            } else if worryDetail.dDay < 0 {
-                dDay = "\(worryDetail.dDay)"
-            } else if worryDetail.dDay == 0 {
-                dDay = "day"
-            }
-            navigationBarView.setTitleText(text: "고민캐기 D\(dDay)")
+            updateDeadline(deadline: worryDetail.dDay)
+
         case .dug:
             if let finalAnswer = worryDetail.finalAnswer {
                 self.finalAnswer = finalAnswer
@@ -268,14 +258,15 @@ final class HomeWorryDetailVC: BaseVC {
     
     /// 전달 받은 수정된 데드라인 일자로 navigationBar Title 변경
     func updateDeadline(deadline: Int) {
+        var dDay = ""
         if deadline < -800 || deadline > 800 {
             dDay = "-∞"
-        } else if deadline > 0 {
-            dDay = "-\(deadline)"
         } else if deadline < 0 {
             dDay = "\(deadline)"
+        } else if deadline > 0 {
+            dDay = "+\(deadline)"
         } else if deadline == 0 {
-            dDay = "day"
+            dDay = "-day"
         }
         navigationBarView.setTitleText(text: "고민캐기 D\(dDay)")
     }

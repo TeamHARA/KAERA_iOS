@@ -21,6 +21,8 @@ class WritePickerVC: BaseVC {
     
     let pickerViewLayout = UIView().then {
         $0.backgroundColor = .kGray1
+        $0.layer.cornerRadius = 8
+        $0.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner]
     }
     
     let datePickerView = UIPickerView().then {
@@ -28,9 +30,7 @@ class WritePickerVC: BaseVC {
     }
         
     var worryId: Int = 0
-    
-    var deadlineContent = PatchDeadlineModel(worryId: 1, dayCount: 1)
-    
+        
     private let pickerViewTitle = UILabel().then {
         $0.text = "이 고민, 언제까지 끝낼까요?"
         $0.font = .kB1B16
@@ -48,19 +48,7 @@ class WritePickerVC: BaseVC {
         $0.font = .kH2R20
         $0.textColor = .kWhite
     }
-    
-    private let upperCover = UIView().then {
-        $0.backgroundColor = .kGray1
-        $0.layer.cornerRadius = 8
-        $0.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-    }
-    
-    private let lowerCover = UIView().then {
-        $0.backgroundColor = .kGray1
-        $0.layer.cornerRadius = 8
-        $0.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
-    }
-    
+
     let completeWritingBtn = UIButton().then {
         $0.backgroundColor = .kGray5
         $0.titleLabel?.font = .kB2R16
@@ -111,31 +99,28 @@ class WritePickerVC: BaseVC {
     private func pressBtn() {
         completeWritingBtn.press { [weak self] in
             /// picker에서 고른 숫자를 deadline으로 설정해줌.
-            let selectedRow = self?.datePickerView.selectedRow(inComponent: 0)
-            let selectedValue = self?.pickerData[selectedRow ?? 0]
-            WorryPostManager.shared.deadline = Int(selectedValue ?? "0") ?? -1
-            self?.completeWorry()
+            let selectedRow = self?.datePickerView.selectedRow(inComponent: 0) ?? 0
+            WorryPostManager.shared.deadline = selectedRow + 1
+            self?.completeDeadline(deadline: selectedRow + 1)
         }
         
         noDeadlineBtn.press { [weak self] in
             /// -888 로 데드라인 설정시 기한 설정하지 않기와 기능 동일
-            WorryPostManager.shared.deadline = -888
-            self?.completeWorry()
+            self?.completeDeadline(deadline: -888)
         }
         
     }
     
-    private func completeWorry() {
-        let worryPostContent = WorryPostManager.shared
-        let postWorryModel = WorryContentRequestModel(templateId: worryPostContent.templateId, title: worryPostContent.title, answers: worryPostContent.answers, deadline: worryPostContent.deadline)
-        
-        switch self .deadlineType {
+    private func completeDeadline(deadline: Int) {
+        switch self.deadlineType {
         case .post:
+            let worryPostContent = WorryPostManager.shared
+            let postWorryModel = WorryContentRequestModel(templateId: worryPostContent.templateId, title: worryPostContent.title, answers: worryPostContent.answers, deadline: worryPostContent.deadline)
             self.postWorryContent(postWorryContent: postWorryModel)
+            
         case .patch:
-            deadlineContent.worryId = self.worryId
-            deadlineContent.dayCount = worryPostContent.deadline
-            self.patchWorryDeadline()
+            let deadlineContent = PatchDeadlineModel(worryId: self.worryId, dayCount: deadline)
+            self.patchWorryDeadline(deadlineContent: deadlineContent)
         }
     }
     
@@ -166,20 +151,19 @@ class WritePickerVC: BaseVC {
         }
     }
     
-    func patchWorryDeadline() {
+    func patchWorryDeadline(deadlineContent: PatchDeadlineModel) {
         self.startLoadingAnimation()
         HomeAPI.shared.updateDeadline(param: deadlineContent) { [weak self] response in
+            self?.stopLoadingAnimation()
             guard let _ = response else {
-                self?.stopLoadingAnimation()
                 let failureAlertVC = KaeraAlertVC(buttonType: .onlyOK, okTitle: "확인")
                 failureAlertVC.setTitleSubTitle(title: "일자 수정에 실패했어요", subTitle: "다시 한번 시도해주세요.", highlighting: "실패")
                 self?.present(failureAlertVC, animated: true)
                 return
             }
-            let dayCount = self?.deadlineContent.dayCount ?? 1
             if let editVC = self?.presentingViewController {
                 if let detailVC = editVC.presentingViewController as? HomeWorryDetailVC {
-                    detailVC.updateDeadline(deadline: dayCount)
+                    detailVC.updateDeadline(deadline: -deadlineContent.dayCount)
                 }
                 UIView.animate(withDuration: 0.5, animations: {
                     self?.pickerViewLayout.alpha = 0
@@ -216,13 +200,18 @@ extension WritePickerVC {
         view.backgroundColor = .black.withAlphaComponent(0.5)
         view.addSubview(pickerViewLayout)
         
-        pickerViewLayout.addSubviews([datePickerView, upperCover, pickerViewTitle, lowerCover, completeWritingBtn, noDeadlineBtn])
+        pickerViewLayout.addSubviews([pickerViewTitle, datePickerView, completeWritingBtn, noDeadlineBtn])
         
         pickerViewLayout.snp.makeConstraints {
             $0.width.equalTo(358.adjustedW)
-            $0.height.equalTo(360.adjustedW)
+            $0.height.equalTo(448.adjustedH)
             $0.centerX.equalToSuperview()
             $0.centerY.equalToSuperview()
+        }
+        
+        pickerViewTitle.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(54.adjustedW)
+            $0.centerX.equalToSuperview()
         }
         
         /// datepickerView 관련 Component
@@ -232,7 +221,7 @@ extension WritePickerVC {
             $0.width.equalTo(358.adjustedW)
             $0.height.equalTo(136.adjustedW)
             $0.centerX.equalToSuperview()
-            $0.centerY.equalToSuperview()
+            $0.top.equalTo(pickerViewTitle.snp.bottom).offset(50.adjustedH)
         }
         
         firstLabel.snp.makeConstraints {
@@ -244,39 +233,19 @@ extension WritePickerVC {
             $0.trailing.equalToSuperview().offset(-32.adjustedW)
             $0.centerY.equalToSuperview()
         }
-        
-        /// pickerVC 관련 Component
-        upperCover.snp.makeConstraints {
-            $0.leading.equalTo(datePickerView.snp.leading)
-            $0.trailing.equalTo(datePickerView.snp.trailing)
-            $0.bottom.equalTo(datePickerView.snp.top)
-            $0.height.equalTo(120)
-        }
-        
-        pickerViewTitle.snp.makeConstraints {
-            $0.top.equalTo(upperCover.snp.top).offset(54.adjustedW)
-            $0.centerX.equalToSuperview()
-        }
-        
-        lowerCover.snp.makeConstraints {
-            $0.leading.equalTo(datePickerView.snp.leading)
-            $0.trailing.equalTo(datePickerView.snp.trailing)
-            $0.top.equalTo(datePickerView.snp.bottom)
-            $0.height.equalTo(192)
-        }
-        
+
         completeWritingBtn.snp.makeConstraints {
             $0.width.equalTo(326.adjustedW)
             $0.height.equalTo(52.adjustedW)
             $0.centerX.equalToSuperview()
-            $0.bottom.equalTo(lowerCover.snp.bottom).offset(-90.adjustedW)
+            $0.top.equalTo(datePickerView.snp.bottom).offset(50.adjustedH)
         }
         
         noDeadlineBtn.snp.makeConstraints {
             $0.width.equalTo(113.adjustedW)
             $0.height.equalTo(21.adjustedW)
             $0.centerX.equalToSuperview()
-            $0.bottom.equalTo(lowerCover.snp.bottom).offset(-56.adjustedW)
+            $0.top.equalTo(completeWritingBtn.snp.bottom).offset(23.adjustedH)
         }
     }
 }

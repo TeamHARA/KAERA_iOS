@@ -29,7 +29,7 @@ class TemplateContentTVC: UITableViewCell {
         $0.backgroundColor = .clear
     }
     
-    private let textViewConstant: CGFloat = 111.adjustedH
+    private let textViewHeightConstant: CGFloat = 111.adjustedH
     
     private var placeHolder: String = ""
             
@@ -93,11 +93,12 @@ class TemplateContentTVC: UITableViewCell {
         let newSize = CGSize(width: textView.frame.size.width, height: .infinity)
 
         let newSizeThatFits = textView.sizeThatFits(newSize)
-        
-        textView.snp.updateConstraints {
-            $0.height.equalTo(newSizeThatFits.height)
+
+        if newSizeThatFits.height > textViewHeightConstant {
+            textView.snp.updateConstraints {
+                $0.height.equalTo(newSizeThatFits.height)
+            }
         }
-        
     }
 }
 
@@ -112,11 +113,11 @@ extension TemplateContentTVC: UITextViewDelegate {
         /// 높이가 111보다 커지면 아래의 코드 실행, 넘지 않으면 고정 높이 반영
         textView.constraints.forEach { (constraint) in
             if constraint.firstAttribute == .height {
-                if estimatedSize.height > textViewConstant {
+                if estimatedSize.height > textViewHeightConstant {
                     constraint.constant = estimatedSize.height
                 }
                 else {
-                    constraint.constant = textViewConstant
+                    constraint.constant = textViewHeightConstant
                 }
             }
         }
