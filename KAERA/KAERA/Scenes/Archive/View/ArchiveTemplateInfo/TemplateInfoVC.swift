@@ -45,8 +45,6 @@ class TemplateInfoVC: BaseVC, TemplateInfoTVCDelegate {
     
     private let writeModalVC = WriteModalVC()
     
-    private var templateId: Int = 1
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         dataBind()
@@ -96,7 +94,6 @@ class TemplateInfoVC: BaseVC, TemplateInfoTVCDelegate {
             /// Cell의 상태를 담고 있는 Bool 배열에서 click된 cell의 상태를 변경 (true <-> false)
             expandedCells[indexPath.row] = !expandedCells[indexPath.row]
             templateInfoTV.reloadRows(at: [indexPath], with: .automatic)
-            print(expandedCells)
         }
     }
     
@@ -126,9 +123,6 @@ class TemplateInfoVC: BaseVC, TemplateInfoTVCDelegate {
         let writeVC = WriteVC(type: .postDifferentTemplate)
         writeVC.modalPresentationStyle = .fullScreen
         self.present(writeVC, animated: true, completion: nil)
-        writeVC.dataBind()
-        self.templateId = templateId
-        writeVC.input.send(templateId)
         writeVC.templateReload(templateId: templateId)
     }
 }
