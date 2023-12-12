@@ -89,9 +89,8 @@ class TemplateInfoTVC: UITableViewCell {
     // MARK: - Functions
     private func pressBtn() {
         writingBtn.press {
-            /// indexPath[1] : 값의 row data를 담고 있음.
-            let templateId = self.indexPath?[1] ?? 0
-            self.delegate?.didPressWritingButton(templateId: templateId)
+            let indexRow = self.indexPath?[1] ?? 0
+            self.delegate?.didPressWritingButton(templateId: indexRow + 1)
         }
     }
     
@@ -103,7 +102,6 @@ class TemplateInfoTVC: UITableViewCell {
     
     @objc
     func cellTap(_ gesture: UITapGestureRecognizer) {
-        print("CellTouched")
         NotificationCenter.default.post(
                 name: NSNotification.Name("CellTouched"),
                 object: nil,
