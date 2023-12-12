@@ -29,4 +29,5 @@ struct APIConstant {
     static let logout = "/auth/logout"
     static let appleLogin = "/auth/apple/login"
     static let finalAnswer = "/worry/finalAnswer"
+    static let deleteAccount = "/auth/unregister"
 }
