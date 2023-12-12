@@ -16,7 +16,7 @@ enum MyPageInputType {
 enum MyPageOutputType {
     case data(data: [MyPageTVCModel])
     case push(hasChanged: Bool)
-    case accountAction
+    case accountAction(type: AccountActionType)
     case networkFail
 }
 
