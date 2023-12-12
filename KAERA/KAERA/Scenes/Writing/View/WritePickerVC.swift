@@ -30,9 +30,7 @@ class WritePickerVC: BaseVC {
     }
         
     var worryId: Int = 0
-    
-    var deadlineContent = PatchDeadlineModel(worryId: 1, dayCount: 1)
-    
+        
     private let pickerViewTitle = UILabel().then {
         $0.text = "이 고민, 언제까지 끝낼까요?"
         $0.font = .kB1B16
@@ -101,31 +99,28 @@ class WritePickerVC: BaseVC {
     private func pressBtn() {
         completeWritingBtn.press { [weak self] in
             /// picker에서 고른 숫자를 deadline으로 설정해줌.
-            let selectedRow = self?.datePickerView.selectedRow(inComponent: 0)
-            let selectedValue = self?.pickerData[selectedRow ?? 0]
-            WorryPostManager.shared.deadline = Int(selectedValue ?? "0") ?? -1
-            self?.completeWorry()
+            let selectedRow = self?.datePickerView.selectedRow(inComponent: 0) ?? 0
+            WorryPostManager.shared.deadline = selectedRow + 1
+            self?.completeDeadline(deadline: selectedRow + 1)
         }
         
         noDeadlineBtn.press { [weak self] in
             /// -888 로 데드라인 설정시 기한 설정하지 않기와 기능 동일
-            WorryPostManager.shared.deadline = -888
-            self?.completeWorry()
+            self?.completeDeadline(deadline: -888)
         }
         
     }
     
-    private func completeWorry() {
-        let worryPostContent = WorryPostManager.shared
-        let postWorryModel = WorryContentRequestModel(templateId: worryPostContent.templateId, title: worryPostContent.title, answers: worryPostContent.answers, deadline: worryPostContent.deadline)
-        
-        switch self .deadlineType {
+    private func completeDeadline(deadline: Int) {
+        switch self.deadlineType {
         case .post:
+            let worryPostContent = WorryPostManager.shared
+            let postWorryModel = WorryContentRequestModel(templateId: worryPostContent.templateId, title: worryPostContent.title, answers: worryPostContent.answers, deadline: worryPostContent.deadline)
             self.postWorryContent(postWorryContent: postWorryModel)
+            
         case .patch:
-            deadlineContent.worryId = self.worryId
-            deadlineContent.dayCount = worryPostContent.deadline
-            self.patchWorryDeadline()
+            let deadlineContent = PatchDeadlineModel(worryId: self.worryId, dayCount: deadline)
+            self.patchWorryDeadline(deadlineContent: deadlineContent)
         }
     }
     
@@ -156,20 +151,19 @@ class WritePickerVC: BaseVC {
         }
     }
     
-    func patchWorryDeadline() {
+    func patchWorryDeadline(deadlineContent: PatchDeadlineModel) {
         self.startLoadingAnimation()
         HomeAPI.shared.updateDeadline(param: deadlineContent) { [weak self] response in
+            self?.stopLoadingAnimation()
             guard let _ = response else {
-                self?.stopLoadingAnimation()
                 let failureAlertVC = KaeraAlertVC(buttonType: .onlyOK, okTitle: "확인")
                 failureAlertVC.setTitleSubTitle(title: "일자 수정에 실패했어요", subTitle: "다시 한번 시도해주세요.", highlighting: "실패")
                 self?.present(failureAlertVC, animated: true)
                 return
             }
-            let dayCount = self?.deadlineContent.dayCount ?? 1
             if let editVC = self?.presentingViewController {
                 if let detailVC = editVC.presentingViewController as? HomeWorryDetailVC {
-                    detailVC.updateDeadline(deadline: dayCount)
+                    detailVC.updateDeadline(deadline: -deadlineContent.dayCount)
                 }
                 UIView.animate(withDuration: 0.5, animations: {
                     self?.pickerViewLayout.alpha = 0
