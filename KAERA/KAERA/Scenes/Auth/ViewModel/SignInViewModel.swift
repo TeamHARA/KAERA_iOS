@@ -114,9 +114,13 @@ extension SignInViewModel: ASAuthorizationControllerDelegate {
             
             let user = appleIDCredential.user
             let fullName = appleIDCredential.fullName
+            var userName = ""
             
-            /// 이름을 못받을 경우 "해라"로 기입 될 수 있게 수정
-            let userName = (fullName?.familyName ?? "") + (fullName?.givenName ?? "해라")
+            if let familyName = fullName?.familyName, let givenName = fullName?.givenName {
+                userName = familyName + givenName
+            }else {
+                userName = KeychainManager.load(key: .userName) ?? "해라"
+            }
             
             if let identityToken = appleIDCredential.identityToken,
                let tokenString = String(data: identityToken, encoding: .utf8) {
