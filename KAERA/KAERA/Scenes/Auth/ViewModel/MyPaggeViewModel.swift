@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 import UserNotifications
-
+import KakaoSDKUser
 
 final class MyPaggeViewModel: ViewModelType {
     
@@ -101,20 +101,45 @@ final class MyPaggeViewModel: ViewModelType {
     
     private func requestSignOut() {
         KeychainManager.delete(key: .accessToken)
-        self.output.send(.accountAction)
-//        AuthAPI.shared.postKakaoLogout { [weak self] status in
-//            guard let status else {
-//                self?.output.send(.networkFail)
-//                return
-//            }
-//            KeychainManager.delete(key: .accessToken)
-//            self?.output.send(.accountAction)
-//        }
+        AuthAPI.shared.postLogout { [weak self] status in
+            guard status != nil else {
+                self?.output.send(.networkFail)
+                return
+            }
+            if UserDefaults.standard.bool(forKey: "isKakaoLogin") {
+                UserApi.shared.logout {(error) in
+                    if error != nil {
+                        self?.output.send(.networkFail)
+                        return
+                    }
+                }
+            }
+            
+            KeychainManager.delete(key: .accessToken)
+            self?.output.send(.accountAction(type: .signOut))
+        }
     }
     
     private func requestDeleteAccount() {
-        print("회원탈퇴 호출")
-        //TODO: 유저정보 다 지우기
-        output.send(.accountAction)
+        AuthAPI.shared.deleteAccount { [weak self] status in
+            guard status != nil else {
+                self?.output.send(.networkFail)
+                return
+            }
+            if UserDefaults.standard.bool(forKey: "isKakaoLogin") {
+                UserApi.shared.unlink {(error) in
+                    if error != nil {
+                        self?.output.send(.networkFail)
+                        return
+                    }
+                }
+            }
+            
+            KeychainManager.delete(key: .accessToken)
+            KeychainManager.delete(key: .refreshToken)
+            KeychainManager.delete(key: .fcmToken)
+            KeychainManager.delete(key: .userId)
+            self?.output.send(.accountAction(type: .delete))
+        }
     }
 }
