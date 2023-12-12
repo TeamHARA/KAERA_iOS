@@ -12,7 +12,7 @@ struct NetworkConstant {
     static let noTokenHeader = ["Content-Type": "application/json"]
     
     static let hasTokenHeader = ["Content-Type": "application/json",
-                                 "Authorization": NetworkConstant.bearerToken]
+                                 "Authorization": NetworkConstant.accessToken]
     
     /// 임시로 현재 고정  bearerToken 직접 사용
     static let bearerToken = {
