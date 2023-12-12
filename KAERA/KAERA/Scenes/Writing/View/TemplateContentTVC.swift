@@ -88,6 +88,17 @@ class TemplateContentTVC: UITableViewCell {
             textView.textColor = .kWhite
         }
     }
+    
+    func adjustTextViewHeight() {
+        let newSize = CGSize(width: textView.frame.size.width, height: .infinity)
+
+        let newSizeThatFits = textView.sizeThatFits(newSize)
+        
+        textView.snp.updateConstraints {
+            $0.height.equalTo(newSizeThatFits.height)
+        }
+        
+    }
 }
 
 extension TemplateContentTVC: UITextViewDelegate {
