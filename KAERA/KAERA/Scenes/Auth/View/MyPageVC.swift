@@ -109,12 +109,16 @@ final class MyPageVC: BaseVC {
             if hasChanged {
                 myPageTV.reloadData()
             }
-        case .accountAction:
+        case .accountAction(let type):
             if let alertVC = self.presentedViewController {
                 alertVC.dismiss(animated: true) {
                     if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
-                        // window의 rootViewController 설정
-                        sceneDelegate.window?.rootViewController = SplashVC()
+                        switch type {
+                        case .signOut:
+                            sceneDelegate.window?.rootViewController = SignInVC()
+                        case .delete:
+                            sceneDelegate.window?.rootViewController = SplashVC()
+                        }
                     }
 
                 }
