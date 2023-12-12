@@ -10,9 +10,10 @@ import Moya
 
 enum AuthService {
     case kakaoLogin(token: String)
-    case kakaoLogout
+    case serviceLogout
     case renewelToken
     case appleLogin(body: AppleSignInRequestBody)
+    case deleteAccount
 }
 
 extension AuthService: BaseTargetType {
@@ -23,17 +24,21 @@ extension AuthService: BaseTargetType {
             return APIConstant.kakaoLogin
         case .renewelToken:
             return APIConstant.refresh
-        case .kakaoLogout:
+        case .serviceLogout:
             return APIConstant.logout
         case .appleLogin:
             return APIConstant.appleLogin
+        case .deleteAccount:
+            return APIConstant.deleteAccount
         }
     }
     
     var method: Moya.Method {
         switch self {
-        case .kakaoLogin, .renewelToken, .kakaoLogout, .appleLogin:
+        case .kakaoLogin, .renewelToken, .serviceLogout, .appleLogin:
             return .post
+        case .deleteAccount:
+            return .delete
         }
     }
     
@@ -50,11 +55,14 @@ extension AuthService: BaseTargetType {
             let requestBody = RenewalRequestBody(accessToken: accessToken, refreshToken: refreshToken)
             return .requestJSONEncodable(requestBody)
             
-        case .kakaoLogout:
+        case .serviceLogout:
             return .requestPlain
         
 		case .appleLogin(let body):
             return .requestJSONEncodable(body)
+            
+        case .deleteAccount:
+            return .requestPlain
         }
     }
     
@@ -62,7 +70,7 @@ extension AuthService: BaseTargetType {
         switch self {
         case .kakaoLogin, .renewelToken, .appleLogin:
             return NetworkConstant.noTokenHeader
-        case .kakaoLogout:
+        case .serviceLogout, .deleteAccount:
             return NetworkConstant.hasTokenHeader
         }
     }
