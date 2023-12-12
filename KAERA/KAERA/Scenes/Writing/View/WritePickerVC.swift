@@ -21,6 +21,8 @@ class WritePickerVC: BaseVC {
     
     let pickerViewLayout = UIView().then {
         $0.backgroundColor = .kGray1
+        $0.layer.cornerRadius = 8
+        $0.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner]
     }
     
     let datePickerView = UIPickerView().then {
@@ -48,19 +50,7 @@ class WritePickerVC: BaseVC {
         $0.font = .kH2R20
         $0.textColor = .kWhite
     }
-    
-    private let upperCover = UIView().then {
-        $0.backgroundColor = .kGray1
-        $0.layer.cornerRadius = 8
-        $0.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-    }
-    
-    private let lowerCover = UIView().then {
-        $0.backgroundColor = .kGray1
-        $0.layer.cornerRadius = 8
-        $0.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
-    }
-    
+
     let completeWritingBtn = UIButton().then {
         $0.backgroundColor = .kGray5
         $0.titleLabel?.font = .kB2R16
@@ -216,13 +206,18 @@ extension WritePickerVC {
         view.backgroundColor = .black.withAlphaComponent(0.5)
         view.addSubview(pickerViewLayout)
         
-        pickerViewLayout.addSubviews([datePickerView, upperCover, pickerViewTitle, lowerCover, completeWritingBtn, noDeadlineBtn])
+        pickerViewLayout.addSubviews([pickerViewTitle, datePickerView, completeWritingBtn, noDeadlineBtn])
         
         pickerViewLayout.snp.makeConstraints {
             $0.width.equalTo(358.adjustedW)
-            $0.height.equalTo(360.adjustedW)
+            $0.height.equalTo(448.adjustedH)
             $0.centerX.equalToSuperview()
             $0.centerY.equalToSuperview()
+        }
+        
+        pickerViewTitle.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(54.adjustedW)
+            $0.centerX.equalToSuperview()
         }
         
         /// datepickerView 관련 Component
@@ -232,7 +227,7 @@ extension WritePickerVC {
             $0.width.equalTo(358.adjustedW)
             $0.height.equalTo(136.adjustedW)
             $0.centerX.equalToSuperview()
-            $0.centerY.equalToSuperview()
+            $0.top.equalTo(pickerViewTitle.snp.bottom).offset(50.adjustedH)
         }
         
         firstLabel.snp.makeConstraints {
@@ -244,39 +239,19 @@ extension WritePickerVC {
             $0.trailing.equalToSuperview().offset(-32.adjustedW)
             $0.centerY.equalToSuperview()
         }
-        
-        /// pickerVC 관련 Component
-        upperCover.snp.makeConstraints {
-            $0.leading.equalTo(datePickerView.snp.leading)
-            $0.trailing.equalTo(datePickerView.snp.trailing)
-            $0.bottom.equalTo(datePickerView.snp.top)
-            $0.height.equalTo(120)
-        }
-        
-        pickerViewTitle.snp.makeConstraints {
-            $0.top.equalTo(upperCover.snp.top).offset(54.adjustedW)
-            $0.centerX.equalToSuperview()
-        }
-        
-        lowerCover.snp.makeConstraints {
-            $0.leading.equalTo(datePickerView.snp.leading)
-            $0.trailing.equalTo(datePickerView.snp.trailing)
-            $0.top.equalTo(datePickerView.snp.bottom)
-            $0.height.equalTo(192)
-        }
-        
+
         completeWritingBtn.snp.makeConstraints {
             $0.width.equalTo(326.adjustedW)
             $0.height.equalTo(52.adjustedW)
             $0.centerX.equalToSuperview()
-            $0.bottom.equalTo(lowerCover.snp.bottom).offset(-90.adjustedW)
+            $0.top.equalTo(datePickerView.snp.bottom).offset(50.adjustedH)
         }
         
         noDeadlineBtn.snp.makeConstraints {
             $0.width.equalTo(113.adjustedW)
             $0.height.equalTo(21.adjustedW)
             $0.centerX.equalToSuperview()
-            $0.bottom.equalTo(lowerCover.snp.bottom).offset(-56.adjustedW)
+            $0.top.equalTo(completeWritingBtn.snp.bottom).offset(23.adjustedH)
         }
     }
 }
