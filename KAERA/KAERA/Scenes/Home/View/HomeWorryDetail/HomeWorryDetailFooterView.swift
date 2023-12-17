@@ -50,7 +50,7 @@ final class HomeWorryDetailFooterView: UITableViewHeaderFooterView {
     
     // MARK: - Function
     func setData(updateAt: String, finalAnswer: String = "") {
-        writtenDateLabel.text = updateAt
+        writtenDateLabel.text = "작성일 " + updateAt
         answerLabel.text = finalAnswer
     }
     
