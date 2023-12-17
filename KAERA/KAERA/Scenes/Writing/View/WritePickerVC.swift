@@ -105,8 +105,8 @@ class WritePickerVC: BaseVC {
         }
         
         noDeadlineBtn.press { [weak self] in
-            /// -888 로 데드라인 설정시 기한 설정하지 않기와 기능 동일
-            self?.completeDeadline(deadline: -888)
+            WorryPostManager.shared.deadline = -1
+            self?.completeDeadline(deadline: -1)
         }
         
     }
