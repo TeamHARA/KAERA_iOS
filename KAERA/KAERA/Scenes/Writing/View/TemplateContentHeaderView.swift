@@ -42,6 +42,8 @@ final class TemplateContentHeaderView: UITableViewHeaderFooterView {
         $0.backgroundColor = .kGray3
     }
     
+    private let maxLength = 7
+    
     // MARK: - Initialization
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
@@ -83,8 +85,6 @@ final class TemplateContentHeaderView: UITableViewHeaderFooterView {
     
     @objc func textDidChange(noti: NSNotification) {
         if let text = worryTitleTextField.text {
-            let maxLength = 7
-            
             /// 마지막 문자에 한글 받침을 사용할 수 없는 문제를 해결하기 위해 변경
             if text.count >= maxLength {
                 if let endIndex = text.index(text.startIndex, offsetBy: maxLength, limitedBy: text.endIndex) {
@@ -96,6 +96,13 @@ final class TemplateContentHeaderView: UITableViewHeaderFooterView {
                     DispatchQueue.main.async {
                         self.worryTitleTextField.text = String(fixedText)
                     }
+                    var newText = String(fixedText)
+                    let trimmedText = newText.trimmingCharacters(in: .whitespacesAndNewlines)
+                    if trimmedText.isEmpty {
+                        newText = ""
+                    }
+                    delegate?.titleHasChanged(newText: newText)
+
                 }
             }
         }
@@ -111,14 +118,26 @@ extension TemplateContentHeaderView: UITextFieldDelegate {
         return true
     }
     
-    /// 글자수 7자 이하로 제한
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard let inputText = textField.text else { return true }
+        var newText = inputText
+        
         if let char = string.cString(using: String.Encoding.utf8) {
             /// backSpace는 글자수 제한이 걸려도 눌릴 수 있게 해줌
             let isBackSpace = strcmp(char, "\\b")
             if isBackSpace == -92 {
-                return true
+                newText = String(newText.dropLast())
+            }else {
+                newText = newText + string
             }
+        }
+        
+        if newText.count < maxLength {
+            let trimmedText = newText.trimmingCharacters(in: .whitespacesAndNewlines)
+            if trimmedText.isEmpty {
+                newText = ""
+            }
+            delegate?.titleHasChanged(newText: newText)
         }
         return true
     }
@@ -128,10 +147,6 @@ extension TemplateContentHeaderView: UITextFieldDelegate {
         let attributedString = NSMutableAttributedString(string: "\(worryTitleTextField.text!.count)/7")
         attributedString.addAttribute(.foregroundColor, value: UIColor.kWhite, range: ("\(worryTitleTextField.text!.count)/7" as NSString).range(of:"\(worryTitleTextField.text!.count)"))
         titleNumLabel.attributedText = attributedString
-    }
-    
-    func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
-        delegate?.titleDidEndEditing(newText: worryTitleTextField.text ?? "")
     }
 }
 
