@@ -17,11 +17,13 @@ class TemplateContentTVC: UITableViewCell {
     
     // MARK: - Properties
     weak var delegate: TemplateContentTVCDelegate?
-    
     private var indexPath: Int = 0
-    
     private var keyboardHeight: CGFloat = 336.adjustedH
+    private let textViewHeightConstant: CGFloat = 111.adjustedH
+    private var placeHolder: String = ""
+    private var wasTextViewEmpty: Bool = true
     
+    // MARK: - Components
     private var questionLabel = UILabel().then {
         $0.text = "질문지 제목"
         $0.font = .kB1B16
@@ -29,11 +31,7 @@ class TemplateContentTVC: UITableViewCell {
         $0.backgroundColor = .clear
     }
     
-    private let textViewHeightConstant: CGFloat = 111.adjustedH
-    
-    private var placeHolder: String = ""
-            
-    lazy var textView = UITextView().then {
+    private lazy var textView = UITextView().then {
         $0.isScrollEnabled = false
         $0.delegate = self
         $0.textContainer.lineBreakMode = .byWordWrapping
@@ -103,6 +101,7 @@ class TemplateContentTVC: UITableViewCell {
 }
 
 extension TemplateContentTVC: UITextViewDelegate {
+    
     // MARK: textview 높이 자동조절
     func textViewDidChange(_ textView: UITextView) {
         
@@ -129,12 +128,17 @@ extension TemplateContentTVC: UITextViewDelegate {
             tableView.beginUpdates()
             tableView.endUpdates()
         }
-        var newText = textView.text ?? ""
-        let trimmedText = textView.text.trimmingCharacters(in: .whitespacesAndNewlines)
-        if trimmedText.isEmpty {
-            newText = ""
+        
+        let newText = textView.text ?? ""
+        let trimmedText = newText.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        if trimmedText.isEmpty && !wasTextViewEmpty{
+            delegate?.answerHasChanged(index: self.indexPath, newText: "")
+            wasTextViewEmpty = true
+        }else if !trimmedText.isEmpty && wasTextViewEmpty {
+            delegate?.answerHasChanged(index: self.indexPath, newText: newText)
+            wasTextViewEmpty = false
         }
-        delegate?.answerHasChanged(index: self.indexPath, newText: newText)
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
@@ -152,5 +156,6 @@ extension TemplateContentTVC: UITextViewDelegate {
             textView.text = placeHolder
             textView.textColor = .kGray4
         }
+        delegate?.answerHasChanged(index: self.indexPath, newText: textView.text ?? "")
     }
 }
