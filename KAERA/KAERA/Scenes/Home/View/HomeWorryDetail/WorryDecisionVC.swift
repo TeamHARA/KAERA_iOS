@@ -95,19 +95,18 @@ final class WorryDecisionVC: BaseVC {
     }
     
     private func setPressAction() {
-        doneButton.press {
-            self.completeWorry { success in
-                print("성공 여부", success)
+        doneButton.press { [weak self] in
+            self?.completeWorry { success in
                 if success {
-                    self.quoteView.setGemImage(templateId: self.templateId)
-                    self.showWorryQuote()
+                    self?.quoteView.setGemImage(templateId: self?.templateId ?? 1)
+                    self?.showWorryQuote()
                 /// 서버통신 실패 시 "고민 보석 캐기 실패" 알럿창 띄우기
                 } else {
                     let failureAlertVC = KaeraAlertVC(buttonType: .onlyOK, okTitle: "확인")
                     failureAlertVC.setTitleSubTitle(title: "고민 보석 캐기에 실패했어요", subTitle: "다시 한번 시도해주세요.", highlighting: "실패")
-                    self.present(failureAlertVC, animated: true)
+                    self?.present(failureAlertVC, animated: true)
                     failureAlertVC.OKButton.press {
-                        self.dismiss(animated: true)
+                        self?.dismiss(animated: true)
                     }
                 }
             }
