@@ -35,20 +35,21 @@ final class WorryDecisionVC: BaseVC {
     private let worryTextView = UITextView().then {
         $0.backgroundColor = .kGray4
         $0.layer.cornerRadius = 8
-        $0.text = "40자 이내로 적어주세요."
+        $0.text = ""
         $0.font = .kB4R14
         $0.textColor = .kGray3
         $0.isScrollEnabled = true
-        $0.textContainerInset = UIEdgeInsets(top: 12, left: 5, bottom: 12, right: 5)
+        $0.textContainerInset = UIEdgeInsets(top: 12, left: 12, bottom: 12, right: 12)
     }
     
     private let doneButton = UIButton().then {
-        $0.backgroundColor = .kYellow1
+        $0.backgroundColor = .kGray4
         $0.setTitle("완료", for: .normal)
         $0.titleLabel?.textColor = .kWhite
         $0.titleLabel?.font = .kB1B16
         $0.titleLabel?.textAlignment = .center
         $0.layer.cornerRadius = 8
+        $0.isEnabled = false
     }
     private let quoteView = WorryQuoteView().then {
         $0.backgroundColor = .kGray2
@@ -94,19 +95,18 @@ final class WorryDecisionVC: BaseVC {
     }
     
     private func setPressAction() {
-        doneButton.press {
-            self.completeWorry { success in
-                print("성공 여부", success)
+        doneButton.press { [weak self] in
+            self?.completeWorry { success in
                 if success {
-                    self.quoteView.setGemImage(templateId: self.templateId)
-                    self.showWorryQuote()
+                    self?.quoteView.setGemImage(templateId: self?.templateId ?? 1)
+                    self?.showWorryQuote()
                 /// 서버통신 실패 시 "고민 보석 캐기 실패" 알럿창 띄우기
                 } else {
                     let failureAlertVC = KaeraAlertVC(buttonType: .onlyOK, okTitle: "확인")
                     failureAlertVC.setTitleSubTitle(title: "고민 보석 캐기에 실패했어요", subTitle: "다시 한번 시도해주세요.", highlighting: "실패")
-                    self.present(failureAlertVC, animated: true)
+                    self?.present(failureAlertVC, animated: true)
                     failureAlertVC.OKButton.press {
-                        self.dismiss(animated: true)
+                        self?.dismiss(animated: true)
                     }
                 }
             }
@@ -234,7 +234,7 @@ extension WorryDecisionVC {
 extension WorryDecisionVC: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         var inputText = ""
-        inputText = textView.text == placeholderText ? " " : textView.text
+        inputText = textView.textColor == .kGray3 ? " " : textView.text
         /// 행간 간격 150% 설정
         let style = NSMutableParagraphStyle()
         style.lineSpacing = UIFont.kB4R14.lineHeight * 0.5
@@ -262,8 +262,15 @@ extension WorryDecisionVC: UITextViewDelegate {
     }
     
     func textViewDidChange(_ textView: UITextView) {
+        let trimmedText = textView.text.trimmingCharacters(in: .whitespacesAndNewlines)
         
-        guard !textView.text.isEmpty else { return }
+        guard !trimmedText.isEmpty else {
+            doneButton.isEnabled = false
+            doneButton.backgroundColor = .kGray4
+            return
+        }
+        doneButton.isEnabled = true
+        doneButton.backgroundColor = .kYellow1
         
         if textView.text.count > 40 {
             textView.deleteBackward()
