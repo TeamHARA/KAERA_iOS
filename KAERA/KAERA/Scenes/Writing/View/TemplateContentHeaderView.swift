@@ -10,7 +10,7 @@ import SnapKit
 import Then
 
 protocol TemplateContentHeaderViewDelegate: AnyObject {
-    func titleDidEndEditing(newText: String)
+    func titleHasChanged(newText: String)
 }
 
 final class TemplateContentHeaderView: UITableViewHeaderFooterView {

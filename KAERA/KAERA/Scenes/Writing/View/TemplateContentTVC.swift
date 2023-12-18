@@ -10,7 +10,7 @@ import SnapKit
 import Then
 
 protocol TemplateContentTVCDelegate: AnyObject {
-    func answerDidEndEditing(index: Int, newText: String)
+    func answerHasChanged(index: Int, newText: String)
 }
 
 class TemplateContentTVC: UITableViewCell {
