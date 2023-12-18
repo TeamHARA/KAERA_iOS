@@ -129,6 +129,12 @@ extension TemplateContentTVC: UITextViewDelegate {
             tableView.beginUpdates()
             tableView.endUpdates()
         }
+        var newText = textView.text ?? ""
+        let trimmedText = textView.text.trimmingCharacters(in: .whitespacesAndNewlines)
+        if trimmedText.isEmpty {
+            newText = ""
+        }
+        delegate?.answerHasChanged(index: self.indexPath, newText: newText)
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
@@ -146,7 +152,5 @@ extension TemplateContentTVC: UITextViewDelegate {
             textView.text = placeHolder
             textView.textColor = .kGray4
         }
-        
-        delegate?.answerDidEndEditing(index: self.indexPath, newText: trimmedText)
     }
 }
