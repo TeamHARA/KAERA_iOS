@@ -113,6 +113,7 @@ extension TemplateContentTV : UITableViewDataSource
         /// cell에서 endEditing 시에 적힌 값을 TV로 보내준다.
         cell.delegate = self
         cell.dataBind(question: questions[indexPath.row], hint: hints[indexPath.row], answer: answers[indexPath.row], index: indexPath.row)
+        cell.setTextViewLineStyle(hint: hints[indexPath.row])
         cell.adjustTextViewHeight()
 
         return cell
