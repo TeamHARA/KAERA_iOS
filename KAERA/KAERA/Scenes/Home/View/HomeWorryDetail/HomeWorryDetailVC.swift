@@ -236,11 +236,12 @@ final class HomeWorryDetailVC: BaseVC {
             updateDeadline(deadline: worryDetail.dDay)
 
         case .dug:
+            reviewView.setUpdatedDate(updatedAt: worryDetail.updatedAt)
             if let finalAnswer = worryDetail.finalAnswer {
                 self.finalAnswer = finalAnswer
                 if let review = worryDetail.review {
                     self.reviewText = review.content
-                    self.reviewView.setData(content: review.content, updatedAt: review.updatedAt)
+                    self.reviewView.setReviewText(content: review.content)
                 }
             }
             navigationBarView.setTitleText(text: "나의 고민")

@@ -49,13 +49,16 @@ final class WorryDetailReviewView: UIView {
     }
     
     // MARK: - Function
-    func setData(content: String, updatedAt: String) {
-        reviewDateLabel.text = updatedAt
+    func setReviewText(content: String) {
         if !content.isEmpty {
             reviewTextView.text = content
         }else {
             reviewTextView.text = "이 고민을 통해 배운점 또는 생각을 자유롭게 적어보세요"
         }
+    }
+    
+    func setUpdatedDate(updatedAt: String) {
+        reviewDateLabel.text = updatedAt
     }
     
     private let saveButton = UIButton().then {
