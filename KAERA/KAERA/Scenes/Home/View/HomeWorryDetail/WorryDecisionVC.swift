@@ -43,12 +43,13 @@ final class WorryDecisionVC: BaseVC {
     }
     
     private let doneButton = UIButton().then {
-        $0.backgroundColor = .kYellow1
+        $0.backgroundColor = .kGray4
         $0.setTitle("완료", for: .normal)
         $0.titleLabel?.textColor = .kWhite
         $0.titleLabel?.font = .kB1B16
         $0.titleLabel?.textAlignment = .center
         $0.layer.cornerRadius = 8
+        $0.isEnabled = false
     }
     private let quoteView = WorryQuoteView().then {
         $0.backgroundColor = .kGray2
