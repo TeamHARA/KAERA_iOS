@@ -10,18 +10,20 @@ import SnapKit
 import Then
 
 protocol TemplateContentTVCDelegate: AnyObject {
-    func answerDidEndEditing(index: Int, newText: String)
+    func answerHasChanged(index: Int, newText: String)
 }
 
 class TemplateContentTVC: UITableViewCell {
     
     // MARK: - Properties
     weak var delegate: TemplateContentTVCDelegate?
-    
     private var indexPath: Int = 0
-    
     private var keyboardHeight: CGFloat = 336.adjustedH
+    private let textViewHeightConstant: CGFloat = 111.adjustedH
+    private var placeHolder: String = ""
+    private var wasTextViewEmpty: Bool = true
     
+    // MARK: - Components
     private var questionLabel = UILabel().then {
         $0.text = "질문지 제목"
         $0.font = .kB1B16
@@ -29,25 +31,21 @@ class TemplateContentTVC: UITableViewCell {
         $0.backgroundColor = .clear
     }
     
-    private let textViewHeightConstant: CGFloat = 111.adjustedH
-    
-    private var placeHolder: String = ""
-            
-    lazy var textView = UITextView().then {
+    private let textView = UITextView().then {
         $0.isScrollEnabled = false
-        $0.delegate = self
         $0.textContainer.lineBreakMode = .byWordWrapping
         $0.textContainerInset = UIEdgeInsets(top: 18, left: 17, bottom: 18, right: 17)
         $0.backgroundColor = .kGray2
         $0.layer.cornerRadius = 12
-        $0.text = placeHolder
+        $0.text = ""
         $0.textColor = .kGray4
         $0.font = .kB2R16
     }
     
+    
+    // MARK: - Initialization
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
         setLayout()
         textView.delegate = self
     }
@@ -57,22 +55,20 @@ class TemplateContentTVC: UITableViewCell {
     }
     
     // MARK: - Functions
-    private func setLayout() {
-        contentView.backgroundColor = .kGray1
-        contentView.addSubviews([questionLabel, textView])
+    func setTextViewLineStyle(hint: String) {
+        let style = NSMutableParagraphStyle()
+        style.lineSpacing = UIFont.kB2R16.lineHeight * 0.5
+        style.alignment = .justified
+        let attributedText = NSAttributedString(
+            string: hint,
+            attributes: [
+                .paragraphStyle: style,
+                .foregroundColor: UIColor.kGray4,
+                .font: UIFont.kB2R16
+            ]
+        )
         
-        questionLabel.snp.makeConstraints{
-            $0.top.equalToSuperview()
-            $0.leading.equalToSuperview().offset(16)
-            $0.height.equalTo(24)
-        }
-        
-        textView.snp.makeConstraints {
-            $0.top.equalTo(questionLabel.snp.bottom).offset(16)
-            $0.horizontalEdges.equalToSuperview().inset(16)
-            $0.height.equalTo(111.adjustedH)
-            $0.bottom.equalToSuperview().offset(-54)
-        }
+        textView.attributedText = attributedText
     }
     
     func dataBind(question: String, hint: String, answer: String, index: Int) {
@@ -100,9 +96,27 @@ class TemplateContentTVC: UITableViewCell {
             }
         }
     }
+    private func setLayout() {
+        contentView.backgroundColor = .kGray1
+        contentView.addSubviews([questionLabel, textView])
+        
+        questionLabel.snp.makeConstraints{
+            $0.top.equalToSuperview()
+            $0.leading.equalToSuperview().offset(16)
+            $0.height.equalTo(24)
+        }
+        
+        textView.snp.makeConstraints {
+            $0.top.equalTo(questionLabel.snp.bottom).offset(16)
+            $0.horizontalEdges.equalToSuperview().inset(16)
+            $0.height.equalTo(111.adjustedH)
+            $0.bottom.equalToSuperview().offset(-54)
+        }
+    }
 }
 
 extension TemplateContentTVC: UITextViewDelegate {
+    
     // MARK: textview 높이 자동조절
     func textViewDidChange(_ textView: UITextView) {
         
@@ -129,14 +143,36 @@ extension TemplateContentTVC: UITextViewDelegate {
             tableView.beginUpdates()
             tableView.endUpdates()
         }
+        
+        let newText = textView.text ?? ""
+        let trimmedText = newText.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        if trimmedText.isEmpty && !wasTextViewEmpty{
+            delegate?.answerHasChanged(index: self.indexPath, newText: "")
+            wasTextViewEmpty = true
+        }else if !trimmedText.isEmpty && wasTextViewEmpty {
+            delegate?.answerHasChanged(index: self.indexPath, newText: newText)
+            wasTextViewEmpty = false
+        }
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
-
-        if textView.textColor == .kGray4 {
-            textView.text = nil
-            textView.textColor = .kWhite
-        }
+        var inputText = ""
+        inputText = textView.textColor == .kGray4 ? " " : textView.text
+        /// 행간 간격 150% 설정
+        let style = NSMutableParagraphStyle()
+        style.lineSpacing = UIFont.kB2R16.lineHeight * 0.5
+        style.alignment = .justified
+        let attributedText = NSAttributedString(
+            string: inputText,
+            attributes: [
+                .paragraphStyle: style,
+                .foregroundColor: UIColor.kWhite,
+                .font: UIFont.kB2R16
+            ]
+        )
+        
+        textView.attributedText = attributedText
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
@@ -146,7 +182,6 @@ extension TemplateContentTVC: UITextViewDelegate {
             textView.text = placeHolder
             textView.textColor = .kGray4
         }
-        
-        delegate?.answerDidEndEditing(index: self.indexPath, newText: trimmedText)
+        delegate?.answerHasChanged(index: self.indexPath, newText: textView.text ?? "")
     }
 }
