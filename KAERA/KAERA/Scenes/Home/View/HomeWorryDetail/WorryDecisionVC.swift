@@ -234,7 +234,7 @@ extension WorryDecisionVC {
 extension WorryDecisionVC: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         var inputText = ""
-        inputText = textView.text == placeholderText ? " " : textView.text
+        inputText = textView.textColor == .kGray3 ? " " : textView.text
         /// 행간 간격 150% 설정
         let style = NSMutableParagraphStyle()
         style.lineSpacing = UIFont.kB4R14.lineHeight * 0.5
