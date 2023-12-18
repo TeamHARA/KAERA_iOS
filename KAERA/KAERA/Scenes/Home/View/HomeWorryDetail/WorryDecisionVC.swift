@@ -35,11 +35,11 @@ final class WorryDecisionVC: BaseVC {
     private let worryTextView = UITextView().then {
         $0.backgroundColor = .kGray4
         $0.layer.cornerRadius = 8
-        $0.text = "40자 이내로 적어주세요."
+        $0.text = ""
         $0.font = .kB4R14
         $0.textColor = .kGray3
         $0.isScrollEnabled = true
-        $0.textContainerInset = UIEdgeInsets(top: 12, left: 5, bottom: 12, right: 5)
+        $0.textContainerInset = UIEdgeInsets(top: 12, left: 12, bottom: 12, right: 12)
     }
     
     private let doneButton = UIButton().then {
