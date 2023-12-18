@@ -262,8 +262,15 @@ extension WorryDecisionVC: UITextViewDelegate {
     }
     
     func textViewDidChange(_ textView: UITextView) {
+        let trimmedText = textView.text.trimmingCharacters(in: .whitespacesAndNewlines)
         
-        guard !textView.text.isEmpty else { return }
+        guard !trimmedText.isEmpty else {
+            doneButton.isEnabled = false
+            doneButton.backgroundColor = .kGray4
+            return
+        }
+        doneButton.isEnabled = true
+        doneButton.backgroundColor = .kYellow1
         
         if textView.text.count > 40 {
             textView.deleteBackward()
