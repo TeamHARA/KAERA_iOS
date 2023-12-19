@@ -78,6 +78,7 @@
 		E72D6AEB2B1C255F00CF8B01 /* kaera_loading.json in Resources */ = {isa = PBXBuildFile; fileRef = E72D6AEA2B1C255F00CF8B01 /* kaera_loading.json */; };
 		E72D6AF32B1C907800CF8B01 /* EditWorryResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72D6AF22B1C907800CF8B01 /* EditWorryResponseModel.swift */; };
 		E72D6AF62B21E1A500CF8B01 /* WriteEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72D6AF52B21E1A500CF8B01 /* WriteEmptyView.swift */; };
+		E73A4C162B31234600C019EF /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E73A4C152B31234600C019EF /* Settings.bundle */; };
 		E73CA3DA2A69300F00BAC9D6 /* HomePublisherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73CA3D92A69300F00BAC9D6 /* HomePublisherModel.swift */; };
 		E73CA3DC2A693C9D00BAC9D6 /* GemStoneEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73CA3DB2A693C9D00BAC9D6 /* GemStoneEmptyView.swift */; };
 		E73CA3DF2A6A62F700BAC9D6 /* HomeWorryDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73CA3DE2A6A62F700BAC9D6 /* HomeWorryDetailVC.swift */; };
@@ -198,6 +199,7 @@
 		E72D6AEA2B1C255F00CF8B01 /* kaera_loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = kaera_loading.json; sourceTree = "<group>"; };
 		E72D6AF22B1C907800CF8B01 /* EditWorryResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditWorryResponseModel.swift; sourceTree = "<group>"; };
 		E72D6AF52B21E1A500CF8B01 /* WriteEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteEmptyView.swift; sourceTree = "<group>"; };
+		E73A4C152B31234600C019EF /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		E73CA3D92A69300F00BAC9D6 /* HomePublisherModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePublisherModel.swift; sourceTree = "<group>"; };
 		E73CA3DB2A693C9D00BAC9D6 /* GemStoneEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GemStoneEmptyView.swift; sourceTree = "<group>"; };
 		E73CA3DE2A6A62F700BAC9D6 /* HomeWorryDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeWorryDetailVC.swift; sourceTree = "<group>"; };
@@ -749,6 +751,7 @@
 		E7C808DC2A4D37F800F475CE = {
 			isa = PBXGroup;
 			children = (
+				E73A4C152B31234600C019EF /* Settings.bundle */,
 				E7C808E72A4D37F800F475CE /* KAERA */,
 				E7C808E62A4D37F800F475CE /* Products */,
 			);
@@ -895,6 +898,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E73A4C162B31234600C019EF /* Settings.bundle in Resources */,
 				E72D6AEB2B1C255F00CF8B01 /* kaera_loading.json in Resources */,
 				E7C808F22A4D37FA00F475CE /* Assets.xcassets in Resources */,
 				E7C30F612A533D08002BD782 /* NanumSquareNeoTTF-aLt.ttf in Resources */,
