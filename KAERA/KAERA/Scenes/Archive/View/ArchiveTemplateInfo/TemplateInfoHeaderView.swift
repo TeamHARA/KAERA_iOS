@@ -24,7 +24,7 @@ class TemplateInfoHeaderView: UIView {
     }
     
     private let instaLabel = UILabel().then {
-        $0.text = "인스타그램 스토리에 고민 보석을 빛내보세요!"
+        $0.text = "캐라 인스타그램에서 다양한 고민 원석을 살펴보세요!"
         $0.font = .kB3B14
         $0.textColor = .white
     }
@@ -33,18 +33,32 @@ class TemplateInfoHeaderView: UIView {
         $0.backgroundColor = .kYellow1
         $0.titleLabel?.font = .kB2R16
         $0.setTitle("공유하기", for: .normal)
-        $0.setTitleColor(.white, for: .normal)
+        $0.setTitleColor(.black, for: .normal)
         $0.layer.cornerRadius = 8
     }
     
     // MARK: - View Life Cycle
     override init(frame: CGRect) {
         super.init(frame: frame)
+        setPressAction()
         setLayout()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setPressAction() {
+        instaBtn.press {
+            let kaeraUserName = "kaera.app"
+            let appURL = URL(string: "instagram://user?username=\(kaeraUserName)")!
+            let webURL = URL(string: "https://www.instagram.com/\(kaeraUserName)/")!
+            if UIApplication.shared.canOpenURL(appURL) {
+                  UIApplication.shared.open(appURL, options: [:], completionHandler: nil)
+            } else {
+                UIApplication.shared.open(webURL)
+            }
+        }
     }
 }
 
