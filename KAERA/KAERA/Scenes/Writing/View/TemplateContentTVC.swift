@@ -55,15 +55,15 @@ class TemplateContentTVC: UITableViewCell {
     }
     
     // MARK: - Functions
-    func setTextViewLineStyle(hint: String) {
+    func setTextViewStyle(inputText: String, textColor: UIColor) {
         let style = NSMutableParagraphStyle()
         style.lineSpacing = UIFont.kB2R16.lineHeight * 0.5
         style.alignment = .justified
         let attributedText = NSAttributedString(
-            string: hint,
+            string: inputText,
             attributes: [
                 .paragraphStyle: style,
-                .foregroundColor: UIColor.kGray4,
+                .foregroundColor: textColor,
                 .font: UIFont.kB2R16
             ]
         )
@@ -77,11 +77,9 @@ class TemplateContentTVC: UITableViewCell {
         self.indexPath = index
         
         if answer.isEmpty {
-            textView.text = placeHolder
-            textView.textColor = .kGray4
+            setTextViewStyle(inputText: placeHolder,textColor: .kGray4)
         } else {
-            textView.text = answer
-            textView.textColor = .kWhite
+            setTextViewStyle(inputText: answer, textColor: .kWhite)
         }
     }
     
@@ -159,20 +157,7 @@ extension TemplateContentTVC: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         var inputText = ""
         inputText = textView.textColor == .kGray4 ? " " : textView.text
-        /// 행간 간격 150% 설정
-        let style = NSMutableParagraphStyle()
-        style.lineSpacing = UIFont.kB2R16.lineHeight * 0.5
-        style.alignment = .justified
-        let attributedText = NSAttributedString(
-            string: inputText,
-            attributes: [
-                .paragraphStyle: style,
-                .foregroundColor: UIColor.kWhite,
-                .font: UIFont.kB2R16
-            ]
-        )
-        
-        textView.attributedText = attributedText
+        setTextViewStyle(inputText: inputText, textColor: .kWhite)
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
