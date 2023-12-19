@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>PreferenceSpecifiers</key>
+	<array>
+		<dict>
+			<key>Title</key>
+			<string>Licenses</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+		</dict>
+		<dict>
+			<key>File</key>
+			<string>LicenseProject/abseil-cpp-binary</string>
+			<key>Title</key>
+			<string>abseil (1.2022062300.0)</string>
+			<key>Type</key>
+			<string>PSChildPaneSpecifier</string>
+		</dict>
+		<dict>
+			<key>File</key>
+			<string>LicenseProject/Alamofire</string>
+			<key>Title</key>
+			<string>Alamofire (5.7.1)</string>
+			<key>Type</key>
+			<string>PSChildPaneSpecifier</string>
+		</dict>
+		<dict>
+			<key>File</key>
+			<string>LicenseProject/firebase-ios-sdk</string>
+			<key>Title</key>
+			<string>Firebase (10.16.0)</string>
+			<key>Type</key>
+			<string>PSChildPaneSpecifier</string>
+		</dict>
+		<dict>
+			<key>File</key>
+			<string>LicenseProject/GoogleAppMeasurement</string>
+			<key>Title</key>
+			<string>GoogleAppMeasurement (10.16.0)</string>
+			<key>Type</key>
+			<string>PSChildPaneSpecifier</string>
+		</dict>
+		<dict>
+			<key>File</key>
+			<string>LicenseProject/GoogleDataTransport</string>
+			<key>Title</key>
+			<string>GoogleDataTransport (9.2.5)</string>
+			<key>Type</key>
+			<string>PSChildPaneSpecifier</string>
+		</dict>
+		<dict>
+			<key>File</key>
+			<string>LicenseProject/GoogleUtilities</string>
+			<key>Title</key>
+			<string>GoogleUtilities (7.11.5)</string>
+			<key>Type</key>
+			<string>PSChildPaneSpecifier</string>
+		</dict>
+		<dict>
+			<key>File</key>
+			<string>LicenseProject/grpc-binary</string>
+			<key>Title</key>
+			<string>gRPC (1.49.1)</string>
+			<key>Type</key>
+			<string>PSChildPaneSpecifier</string>
+		</dict>
+		<dict>
+			<key>File</key>
+			<string>LicenseProject/gtm-session-fetcher</string>
+			<key>Title</key>
+			<string>gtm-session-fetcher (3.1.1)</string>
+			<key>Type</key>
+			<string>PSChildPaneSpecifier</string>
+		</dict>
+		<dict>
+			<key>File</key>
+			<string>LicenseProject/interop-ios-for-google-sdks</string>
+			<key>Title</key>
+			<string>InteropForGoogle (100.0.0)</string>
+			<key>Type</key>
+			<string>PSChildPaneSpecifier</string>
+		</dict>
+		<dict>
+			<key>File</key>
+			<string>LicenseProject/kakao-ios-sdk</string>
+			<key>Title</key>
+			<string>kakao-ios-sdk</string>
+			<key>Type</key>
+			<string>PSChildPaneSpecifier</string>
+		</dict>
+		<dict>
+			<key>File</key>
+			<string>LicenseProject/leveldb</string>
+			<key>Title</key>
+			<string>leveldb (1.22.2)</string>
+			<key>Type</key>
+			<string>PSChildPaneSpecifier</string>
+		</dict>
+		<dict>
+			<key>File</key>
+			<string>LicenseProject/lottie-ios</string>
+			<key>Title</key>
+			<string>Lottie (4.3.4)</string>
+			<key>Type</key>
+			<string>PSChildPaneSpecifier</string>
+		</dict>
+		<dict>
+			<key>File</key>
+			<string>LicenseProject/Moya</string>
+			<key>Title</key>
+			<string>Moya (15.0.3)</string>
+			<key>Type</key>
+			<string>PSChildPaneSpecifier</string>
+		</dict>
+		<dict>
+			<key>File</key>
+			<string>LicenseProject/nanopb</string>
+			<key>Title</key>
+			<string>nanopb (2.30909.0)</string>
+			<key>Type</key>
+			<string>PSChildPaneSpecifier</string>
+		</dict>
+		<dict>
+			<key>File</key>
+			<string>LicenseProject/promises</string>
+			<key>Title</key>
+			<string>Promises (2.3.1)</string>
+			<key>Type</key>
+			<string>PSChildPaneSpecifier</string>
+		</dict>
+		<dict>
+			<key>File</key>
+			<string>LicenseProject/ReactiveSwift</string>
+			<key>Title</key>
+			<string>ReactiveSwift (6.7.0)</string>
+			<key>Type</key>
+			<string>PSChildPaneSpecifier</string>
+		</dict>
+		<dict>
+			<key>File</key>
+			<string>LicenseProject/RxSwift</string>
+			<key>Title</key>
+			<string>RxSwift (6.6.0)</string>
+			<key>Type</key>
+			<string>PSChildPaneSpecifier</string>
+		</dict>
+		<dict>
+			<key>File</key>
+			<string>LicenseProject/SnapKit</string>
+			<key>Title</key>
+			<string>SnapKit (5.6.0)</string>
+			<key>Type</key>
+			<string>PSChildPaneSpecifier</string>
+		</dict>
+		<dict>
+			<key>File</key>
+			<string>LicenseProject/swift-protobuf</string>
+			<key>Title</key>
+			<string>SwiftProtobuf (1.24.0)</string>
+			<key>Type</key>
+			<string>PSChildPaneSpecifier</string>
+		</dict>
+		<dict>
+			<key>File</key>
+			<string>LicenseProject/Then</string>
+			<key>Title</key>
+			<string>Then (3.0.0)</string>
+			<key>Type</key>
+			<string>PSChildPaneSpecifier</string>
+		</dict>
+	</array>
+</dict>
+</plist>
