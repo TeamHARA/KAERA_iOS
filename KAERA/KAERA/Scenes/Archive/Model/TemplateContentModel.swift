@@ -22,8 +22,3 @@ struct WorryContentRequestModel: Codable {
     var answers: [String]
     var deadline: Int
 }
-
-struct WorryContentResponseModel: Codable {
-    let createdAt: String
-    let deadline: String
-}
