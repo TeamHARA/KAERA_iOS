@@ -13,10 +13,7 @@ final class WriteAPI {
     
     static let shared: WriteAPI = WriteAPI()
     private let writeProvider = MoyaProvider<WriteService>(session: Session(interceptor: AuthInterceptor.shared), plugins: [MoyaLoggingPlugin()])
-    
-    // tableView의 데이터들을 담는 싱글톤 클래스
-    let contentInfo = WorryPostManager.shared
-    
+
     private init() { }
     
     public private(set) var templateListResponse: GeneralArrayResponse<TemplateListModel>?
