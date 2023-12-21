@@ -132,7 +132,7 @@ class WritePickerVC: BaseVC {
     private func postWorryContent(postWorryContent: WorryContentRequestModel) {
         startLoadingAnimation()
         WriteAPI.shared.postWorryContent(param: postWorryContent) { [weak self] result in
-            guard let result = result, let _ = result.data else {
+            guard let result = result, let data = result.data else {
                 self?.presentNetworkAlert()
                 return
             }
@@ -141,6 +141,7 @@ class WritePickerVC: BaseVC {
                 UIView.animate(withDuration: 0.5, animations: {
                     self?.pickerViewLayout.alpha = 0
                 }) { [weak self] _ in
+                    // TODO: 고민 작성 후 해당 고민 상세로 이동
                     self?.dismiss(animated: false) {
                         writeVC.dismiss(animated: true)
                     }
