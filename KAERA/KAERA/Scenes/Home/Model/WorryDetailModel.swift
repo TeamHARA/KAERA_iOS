@@ -15,17 +15,13 @@ struct WorryDetailModel: Codable {
     let period, updatedAt, deadline: String
     let dDay: Int
     let finalAnswer: String?
-    let review: Review?
-    
-    enum CodingKeys : String, CodingKey {
-        case dDay = "d-day"
-        case title, templateId, subtitles, answers, period, updatedAt, deadline, finalAnswer, review
-    }
+    let review: Review
 }
 
 // MARK: - Review
 struct Review: Codable {
-    let content, updatedAt: String
+    let content: String?
+    let updatedAt: String?
 }
 
 struct PatchDeadlineModel: Codable {
