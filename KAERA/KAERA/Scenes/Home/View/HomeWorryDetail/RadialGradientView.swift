@@ -24,7 +24,7 @@ class RadialGradientView: UIView {
     
     private func commonInit() {
         clipsToBounds = true
-        layer.cornerRadius = 4
+        layer.cornerRadius = 8
     }
     
     override func draw(_ rect: CGRect) {
