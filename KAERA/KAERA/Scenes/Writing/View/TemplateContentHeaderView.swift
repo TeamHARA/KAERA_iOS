@@ -10,7 +10,7 @@ import SnapKit
 import Then
 
 protocol TemplateContentHeaderViewDelegate: AnyObject {
-    func titleHasChanged(newText: String)
+    func titleHasChanged(checkText: Bool, newText: String)
 }
 
 final class TemplateContentHeaderView: UITableViewHeaderFooterView {
@@ -101,8 +101,7 @@ final class TemplateContentHeaderView: UITableViewHeaderFooterView {
                     if trimmedText.isEmpty {
                         newText = ""
                     }
-                    delegate?.titleHasChanged(newText: newText)
-
+                    delegate?.titleHasChanged(checkText: false, newText: newText)
                 }
             }
         }
@@ -127,7 +126,7 @@ extension TemplateContentHeaderView: UITextFieldDelegate {
             let isBackSpace = strcmp(char, "\\b")
             if isBackSpace == -92 {
                 newText = String(newText.dropLast())
-            }else {
+            } else {
                 newText = newText + string
             }
         }
@@ -137,7 +136,8 @@ extension TemplateContentHeaderView: UITextFieldDelegate {
             if trimmedText.isEmpty {
                 newText = ""
             }
-            delegate?.titleHasChanged(newText: newText)
+            /// 단순히 "완료" 버튼 활성화를 위한 delegate
+            delegate?.titleHasChanged(checkText: true, newText: newText)
         }
         return true
     }
@@ -147,6 +147,16 @@ extension TemplateContentHeaderView: UITextFieldDelegate {
         let attributedString = NSMutableAttributedString(string: "\(worryTitleTextField.text!.count)/7")
         attributedString.addAttribute(.foregroundColor, value: UIColor.kWhite, range: ("\(worryTitleTextField.text!.count)/7" as NSString).range(of:"\(worryTitleTextField.text!.count)"))
         titleNumLabel.attributedText = attributedString
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        let inputText = textField.text ?? ""
+        if inputText.count < maxLength {
+            /// 실제 제목 값은 textfieldEndEditing 시에만 변경
+            delegate?.titleHasChanged(checkText: false, newText: inputText)
+        }
+        /// textfieldEndEditing 시에 버튼 활성화 여부 다시 체크
+        delegate?.titleHasChanged(checkText: true, newText: inputText)
     }
 }
 
