@@ -119,14 +119,17 @@ extension TemplateContentTV : UITableViewDataSource
 }
 
 extension TemplateContentTV: TemplateContentHeaderViewDelegate, TemplateContentTVCDelegate {
-    func titleHasChanged(newText: String) {
+    func titleHasChanged(checkText: Bool, newText: String) {
         /// 테이블 뷰 cell이 재사용될 때 제목 값이 날라가는 걸 방지하기 위해 title 지역변수에 제목을 저장해준다.
-        self.title = newText
-        worryPostContent.title = title
-        worryPatchContent.title = title
-        buttonDelegate?.checkButtonStatus()
+        if checkText == true {
+            buttonDelegate?.checkButtonStatus()
+        } else {
+            self.title = newText
+            worryPostContent.title = title
+            worryPatchContent.title = title
+        }
     }
-    
+        
     func answerHasChanged(index: Int, newText: String) {
         /// 테이블 뷰 값의 순서가 바뀌는 것을 막기 위해 index를 cell로 부터 받아서 answers 지역변수에 index값과 함께 저장해준다.
         self.answers[index] = newText
