@@ -113,7 +113,7 @@ extension TemplateContentTV : UITableViewDataSource
         cell.delegate = self
         cell.dataBind(question: questions[indexPath.row], hint: hints[indexPath.row], answer: answers[indexPath.row], index: indexPath.row)
         cell.adjustTextViewHeight()
-
+        
         return cell
     }
 }

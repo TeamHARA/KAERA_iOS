@@ -102,7 +102,6 @@ final class TemplateContentHeaderView: UITableViewHeaderFooterView {
                         newText = ""
                     }
                     delegate?.titleHasChanged(newText: newText)
-
                 }
             }
         }
@@ -127,7 +126,7 @@ extension TemplateContentHeaderView: UITextFieldDelegate {
             let isBackSpace = strcmp(char, "\\b")
             if isBackSpace == -92 {
                 newText = String(newText.dropLast())
-            }else {
+            } else {
                 newText = newText + string
             }
         }
@@ -137,6 +136,7 @@ extension TemplateContentHeaderView: UITextFieldDelegate {
             if trimmedText.isEmpty {
                 newText = ""
             }
+            /// 단순히 "완료" 버튼 활성화를 위한 delegate
             delegate?.titleHasChanged(newText: newText)
         }
         return true
@@ -147,6 +147,12 @@ extension TemplateContentHeaderView: UITextFieldDelegate {
         let attributedString = NSMutableAttributedString(string: "\(worryTitleTextField.text!.count)/7")
         attributedString.addAttribute(.foregroundColor, value: UIColor.kWhite, range: ("\(worryTitleTextField.text!.count)/7" as NSString).range(of:"\(worryTitleTextField.text!.count)"))
         titleNumLabel.attributedText = attributedString
+    }
+    
+    /// 제목작성이 끝나는 시점에서 delegate를 추가로 실행하여 온전한 제목 전송
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        let inputText = textField.text ?? ""
+        delegate?.titleHasChanged(newText: inputText)
     }
 }
 
