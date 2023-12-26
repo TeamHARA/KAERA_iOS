@@ -117,6 +117,7 @@
 		E79AAC4A2A52F3E000F3F439 /* BaseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79AAC482A52F3E000F3F439 /* BaseVC.swift */; };
 		E79AAC4B2A52F3E000F3F439 /* BaseNC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79AAC492A52F3E000F3F439 /* BaseNC.swift */; };
 		E79AAC5A2A531E3300F3F439 /* NanumMyeongjoOTF.otf in Resources */ = {isa = PBXBuildFile; fileRef = E79AAC592A531E3300F3F439 /* NanumMyeongjoOTF.otf */; };
+		E7A3A2822B3ACCCB008A03D7 /* WorryDeadlineUpdateResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7A3A2812B3ACCCB008A03D7 /* WorryDeadlineUpdateResponseModel.swift */; };
 		E7A94CC42AA484E300F231D0 /* SignInVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7A94CC32AA484E300F231D0 /* SignInVC.swift */; };
 		E7A94CC72AA6A46800F231D0 /* KakaoSDKAuth in Frameworks */ = {isa = PBXBuildFile; productRef = E7A94CC62AA6A46800F231D0 /* KakaoSDKAuth */; };
 		E7A94CC92AA6A46800F231D0 /* KakaoSDKCommon in Frameworks */ = {isa = PBXBuildFile; productRef = E7A94CC82AA6A46800F231D0 /* KakaoSDKCommon */; };
@@ -240,6 +241,7 @@
 		E79AAC482A52F3E000F3F439 /* BaseVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseVC.swift; sourceTree = "<group>"; };
 		E79AAC492A52F3E000F3F439 /* BaseNC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseNC.swift; sourceTree = "<group>"; };
 		E79AAC592A531E3300F3F439 /* NanumMyeongjoOTF.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumMyeongjoOTF.otf; sourceTree = "<group>"; };
+		E7A3A2812B3ACCCB008A03D7 /* WorryDeadlineUpdateResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorryDeadlineUpdateResponseModel.swift; sourceTree = "<group>"; };
 		E7A94CC12AA4569300F231D0 /* KAERA.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = KAERA.entitlements; sourceTree = "<group>"; };
 		E7A94CC32AA484E300F231D0 /* SignInVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInVC.swift; sourceTree = "<group>"; };
 		E7A94CCC2AAC149900F231D0 /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
@@ -696,6 +698,7 @@
 				85831C312AF0F5F2008839A0 /* CompleteWorryModel.swift */,
 				E72D6AF22B1C907800CF8B01 /* EditWorryResponseModel.swift */,
 				E772E70C2AF9AE650098E091 /* HomeGemStoneCount.swift */,
+				E7A3A2812B3ACCCB008A03D7 /* WorryDeadlineUpdateResponseModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -955,6 +958,7 @@
 				E70764752AC06B6000627AA7 /* KeyChainManager.swift in Sources */,
 				E79AAC3D2A52F2C300F3F439 /* UIFont+.swift in Sources */,
 				85887D8E2A5D086300F7FB21 /* TemplateViewModel.swift in Sources */,
+				E7A3A2822B3ACCCB008A03D7 /* WorryDeadlineUpdateResponseModel.swift in Sources */,
 				85ECEE4D2A9B821500A624AE /* WriteAPI.swift in Sources */,
 				E7BB4F492A5EF7320018312B /* HomeGemListModel.swift in Sources */,
 				E7BB4F512A5EF8260018312B /* WorryListModel.swift in Sources */,
