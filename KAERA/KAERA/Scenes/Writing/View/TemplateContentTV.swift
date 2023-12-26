@@ -113,23 +113,20 @@ extension TemplateContentTV : UITableViewDataSource
         cell.delegate = self
         cell.dataBind(question: questions[indexPath.row], hint: hints[indexPath.row], answer: answers[indexPath.row], index: indexPath.row)
         cell.adjustTextViewHeight()
-
+        
         return cell
     }
 }
 
 extension TemplateContentTV: TemplateContentHeaderViewDelegate, TemplateContentTVCDelegate {
-    func titleHasChanged(checkText: Bool, newText: String) {
+    func titleHasChanged(newText: String) {
         /// 테이블 뷰 cell이 재사용될 때 제목 값이 날라가는 걸 방지하기 위해 title 지역변수에 제목을 저장해준다.
-        if checkText == true {
-            buttonDelegate?.checkButtonStatus()
-        } else {
-            self.title = newText
-            worryPostContent.title = title
-            worryPatchContent.title = title
-        }
+        self.title = newText
+        worryPostContent.title = title
+        worryPatchContent.title = title
+        buttonDelegate?.checkButtonStatus()
     }
-        
+    
     func answerHasChanged(index: Int, newText: String) {
         /// 테이블 뷰 값의 순서가 바뀌는 것을 막기 위해 index를 cell로 부터 받아서 answers 지역변수에 index값과 함께 저장해준다.
         self.answers[index] = newText

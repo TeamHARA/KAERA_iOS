@@ -10,7 +10,7 @@ import SnapKit
 import Then
 
 protocol TemplateContentHeaderViewDelegate: AnyObject {
-    func titleHasChanged(checkText: Bool, newText: String)
+    func titleHasChanged(newText: String)
 }
 
 final class TemplateContentHeaderView: UITableViewHeaderFooterView {
@@ -101,7 +101,7 @@ final class TemplateContentHeaderView: UITableViewHeaderFooterView {
                     if trimmedText.isEmpty {
                         newText = ""
                     }
-                    delegate?.titleHasChanged(checkText: false, newText: newText)
+                    delegate?.titleHasChanged(newText: newText)
                 }
             }
         }
@@ -137,7 +137,7 @@ extension TemplateContentHeaderView: UITextFieldDelegate {
                 newText = ""
             }
             /// 단순히 "완료" 버튼 활성화를 위한 delegate
-            delegate?.titleHasChanged(checkText: true, newText: newText)
+            delegate?.titleHasChanged(newText: newText)
         }
         return true
     }
@@ -149,14 +149,10 @@ extension TemplateContentHeaderView: UITextFieldDelegate {
         titleNumLabel.attributedText = attributedString
     }
     
+    /// 제목작성이 끝나는 시점에서 delegate를 추가로 실행하여 온전한 제목 전송
     func textFieldDidEndEditing(_ textField: UITextField) {
         let inputText = textField.text ?? ""
-        if inputText.count < maxLength {
-            /// 실제 제목 값은 textfieldEndEditing 시에만 변경
-            delegate?.titleHasChanged(checkText: false, newText: inputText)
-        }
-        /// textfieldEndEditing 시에 버튼 활성화 여부 다시 체크
-        delegate?.titleHasChanged(checkText: true, newText: inputText)
+        delegate?.titleHasChanged(newText: inputText)
     }
 }
 
