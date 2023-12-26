@@ -64,10 +64,10 @@ final class MyPaggeViewModel: ViewModelType {
         }
         
         let urlStringArray = [
-            "https://daffy-lawyer-1b8.notion.site/HARA-da398bb18b39485ba103a9daf7a2bfa3",
-            "https://www.google.com",
-            "https://github.com/TeamHARA/KAERA_iOS",
-            "https://www.notion.so/TEAM-cd8e429815a54c64b67ad272499f8e22?pvs=4"]
+            "https://daffy-lawyer-1b8.notion.site/Kaera-bd1d79798c2542728761fa628e49ada6?pvs=4",
+            "https://instagram.com/kaera.app?igshid=OGQ5ZDc2ODk2ZA%3D%3D&utm_source=qr",
+            "https://daffy-lawyer-1b8.notion.site/e4383e48fd2a4e32b44d9d01ba663fd5?pvs=4",
+            "https://daffy-lawyer-1b8.notion.site/baf26a6459024af89fdfec26031adcf1?pvs=4"]
         var urls = Array<URL>()
         urlStringArray.forEach { url in
             if let url = URL(string: url) {
