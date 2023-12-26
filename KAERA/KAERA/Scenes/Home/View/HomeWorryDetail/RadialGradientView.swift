@@ -37,14 +37,15 @@ class RadialGradientView: UIView {
         let locations: [CGFloat] = [0, 1]
         
         if let gradient = CGGradient(colorsSpace: colorSpace, colors: colors, locations: locations) {
+            /// 그라데이션의 시작 지점 : 좌상단의 왼쪽 아래 지점
             let centerPoint = CGPoint(x: rect.minX - rect.width * 1/16, y: rect.minY + rect.height * 1/6)
+            /// radial 그라데이션의 반지름 길이 : rectangularView 대각선 길이의 1.5배로 설정
             let radius = sqrt(rect.width * rect.width + rect.height * rect.height) * 1.5
             context.drawRadialGradient(gradient,
                                        startCenter: centerPoint, startRadius: 0,
                                        endCenter: centerPoint, endRadius: radius,
                                        options: CGGradientDrawingOptions())
         }
-        
         context.restoreGState()
     }
 }
