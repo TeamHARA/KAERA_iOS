@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import SnapKit
 
 class RadialGradientView: UIView {
     var startColor = UIColor.hexStringToUIColor(hex: "#444C55", alpha: 1)
