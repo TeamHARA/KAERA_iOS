@@ -11,7 +11,6 @@ struct WorryContentResponseModel: Codable {
     let worryId: Int
     let title: String
     let templateId: Int
-    let subtitles: [String]
     let answers: [String]
     let createdAt: String
     let deadline: String
