@@ -236,15 +236,19 @@ final class HomeWorryDetailVC: BaseVC {
             updateDeadline(deadline: worryDetail.dDay)
 
         case .dug:
-            reviewView.setUpdatedDate(updatedAt: worryDetail.updatedAt)
+            navigationBarView.setTitleText(text: "나의 고민")
+
             if let finalAnswer = worryDetail.finalAnswer {
                 self.finalAnswer = finalAnswer
-                if let review = worryDetail.review {
-                    self.reviewText = review.content
-                    self.reviewView.setReviewText(content: review.content)
-                }
             }
-            navigationBarView.setTitleText(text: "나의 고민")
+            if let content = worryDetail.review.content {
+                self.reviewText = content
+                self.reviewView.setReviewText(content: content)
+            }
+            
+            if let updatedAt = worryDetail.review.updatedAt {
+                reviewView.setUpdatedDate(updatedAt: updatedAt)
+            }
         }
         
         /// 갱신된 데이터로 테이블뷰 정보를 갱신
