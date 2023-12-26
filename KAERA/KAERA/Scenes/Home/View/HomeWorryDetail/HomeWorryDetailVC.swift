@@ -42,9 +42,7 @@ final class HomeWorryDetailVC: BaseVC {
         $0.backgroundColor = .clear
     }
     
-    private let backgroundImageView = UIImageView().then {
-        $0.image = UIImage(named: "framebg")
-    }
+    private let backgroundImageView = RadialGradientView()
     
     private let bottmContainerView = UIView().then {
         $0.backgroundColor = .kGray1

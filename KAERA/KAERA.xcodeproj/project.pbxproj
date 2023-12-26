@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		850C55962ADB2AA00088ABBB /* WorryPatchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850C55952ADB2AA00088ABBB /* WorryPatchManager.swift */; };
+		856D96E12B3AA37200D6ADFF /* RadialGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856D96E02B3AA37200D6ADFF /* RadialGradientView.swift */; };
 		85831C322AF0F5F2008839A0 /* CompleteWorryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85831C312AF0F5F2008839A0 /* CompleteWorryModel.swift */; };
 		85887D822A5C429F00F7FB21 /* WriteModalVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85887D812A5C429F00F7FB21 /* WriteModalVC.swift */; };
 		85887D842A5C42A700F7FB21 /* WriteModalCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85887D832A5C42A700F7FB21 /* WriteModalCVC.swift */; };
@@ -158,6 +159,7 @@
 
 /* Begin PBXFileReference section */
 		850C55952ADB2AA00088ABBB /* WorryPatchManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorryPatchManager.swift; sourceTree = "<group>"; };
+		856D96E02B3AA37200D6ADFF /* RadialGradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadialGradientView.swift; sourceTree = "<group>"; };
 		85831C312AF0F5F2008839A0 /* CompleteWorryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompleteWorryModel.swift; sourceTree = "<group>"; };
 		85887D812A5C429F00F7FB21 /* WriteModalVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteModalVC.swift; sourceTree = "<group>"; };
 		85887D832A5C42A700F7FB21 /* WriteModalCVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteModalCVC.swift; sourceTree = "<group>"; };
@@ -447,6 +449,7 @@
 				E749692F2A7B2DF000C3C0CF /* WorryDecisionVC.swift */,
 				E74969332A80AE2100C3C0CF /* WorryQuoteView.swift */,
 				E7A94CCE2AAD9F9100F231D0 /* HomeWorryEditVC.swift */,
+				856D96E02B3AA37200D6ADFF /* RadialGradientView.swift */,
 			);
 			path = HomeWorryDetail;
 			sourceTree = "<group>";
@@ -974,6 +977,7 @@
 				E71FC22C2AD29400001DD27D /* RenewalTokenModel.swift in Sources */,
 				E7B94D782ADEAAB3005D9FB8 /* MyPageTVFooterView.swift in Sources */,
 				85887D9E2A61219700F7FB21 /* TemplateInfoHeaderView.swift in Sources */,
+				856D96E12B3AA37200D6ADFF /* RadialGradientView.swift in Sources */,
 				E79AAC4A2A52F3E000F3F439 /* BaseVC.swift in Sources */,
 				E70764732ABFFF9200627AA7 /* SignInViewModel.swift in Sources */,
 				E71FC2262AD284D9001DD27D /* SplashVC.swift in Sources */,
