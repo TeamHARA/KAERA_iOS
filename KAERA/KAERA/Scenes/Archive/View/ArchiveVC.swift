@@ -183,9 +183,9 @@ extension ArchiveVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("indexPath?: ", indexPath.row)
         let worryDetailVC = HomeWorryDetailVC(worryId: worryListWithTemplate[indexPath.row].worryId, type: .dug)
-        worryDetailVC.modalPresentationStyle = .overFullScreen
+        worryDetailVC.modalPresentationStyle = .fullScreen
         worryDetailVC.modalTransitionStyle = .coverVertical
-        self.present(worryDetailVC, animated: true)
+        self.present(worryDetailVC, animated: true, completion: nil)
     }
 }
 
