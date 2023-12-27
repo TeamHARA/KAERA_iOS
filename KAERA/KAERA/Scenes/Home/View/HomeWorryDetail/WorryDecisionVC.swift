@@ -145,8 +145,9 @@ final class WorryDecisionVC: BaseVC {
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.8) {
             if let worryDetailVC = self.presentingViewController {
-                self.dismiss(animated: true)
-                worryDetailVC.dismiss(animated: true)
+                self.dismiss(animated: true) {
+                    worryDetailVC.dismiss(animated: true)
+                }
             }
         }
     }

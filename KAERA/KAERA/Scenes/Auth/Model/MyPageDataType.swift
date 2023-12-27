@@ -37,7 +37,6 @@ struct MyPageAccountAlertInfoModel {
     let type: AccountActionType
 }
 
-//TODO: API나오면 서버 리스폰스 모델로 교체
 struct MyPageURLModel {
     let manual: String
     let instagram: String
