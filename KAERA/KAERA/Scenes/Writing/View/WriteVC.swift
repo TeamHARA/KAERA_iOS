@@ -346,10 +346,14 @@ extension WriteVC: ActivateButtonDelegate {
         }
         
         if isTitleEmpty || self.checkEmptyAnswer() {
-            navigationBarView.setupDoneButtonStatus(status: false)
+            setupDoneButton(status: false)
         } else {
-            navigationBarView.setupDoneButtonStatus(status: true)
+            setupDoneButton(status: true)
         }
+    }
+    
+    func setupDoneButton(status: Bool) {
+        navigationBarView.setupDoneButtonStatus(status: status)
     }
 }
 

@@ -132,7 +132,7 @@ class WritePickerVC: BaseVC {
     private func postWorryContent(postWorryContent: WorryContentRequestModel) {
         startLoadingAnimation()
         WriteAPI.shared.postWorryContent(param: postWorryContent) { [weak self] result in
-            guard let result = result, let data = result.data else {
+            guard let result = result, let _ = result.data else {
                 self?.presentNetworkAlert()
                 return
             }

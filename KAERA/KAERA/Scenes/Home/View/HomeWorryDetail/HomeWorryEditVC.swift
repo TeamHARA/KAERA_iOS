@@ -90,6 +90,7 @@ final class HomeWorryEditVC: BaseVC {
             
             self?.worryPatchContent.worryId =  self?.worryId ?? 0
             self?.worryPatchContent.templateId = templateId
+            writeVC.setupDoneButton(status: true)
             writeVC.input.send(templateId)
         }
         
