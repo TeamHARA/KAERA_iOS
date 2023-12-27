@@ -132,18 +132,20 @@ class WritePickerVC: BaseVC {
     private func postWorryContent(postWorryContent: WorryContentRequestModel) {
         startLoadingAnimation()
         WriteAPI.shared.postWorryContent(param: postWorryContent) { [weak self] result in
-            guard let result = result, let _ = result.data else {
+            guard let result = result, let data = result.data else {
                 self?.presentNetworkAlert()
                 return
             }
             self?.stopLoadingAnimation()
-            if let writeVC = self?.presentingViewController {
+            // TODO: 리스폰스 데이터 worryDetail로 변환해 넘겨주고 updateUI 실행
+            if let writeNC = self?.presentingViewController, let NC = writeNC as? BaseNC {
                 UIView.animate(withDuration: 0.5, animations: {
                     self?.pickerViewLayout.alpha = 0
                 }) { [weak self] _ in
-                    // TODO: 고민 작성 후 해당 고민 상세로 이동
                     self?.dismiss(animated: false) {
-                        writeVC.dismiss(animated: true)
+                        let worryDetailVC = HomeWorryDetailVC(worryId: data.worryId, type: .digging)
+                        NC.setViewControllers([worryDetailVC], animated: true)
+                        NC.popToRootViewController(animated: true)
                     }
                 }
             }
