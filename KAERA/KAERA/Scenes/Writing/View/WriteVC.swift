@@ -12,9 +12,7 @@ import Then
 
 enum WriteType {
     case post
-    case postDifferentTemplate
     case patch
-    case patchDifferentTemplate
 }
 
 final class WriteVC: BaseVC {
@@ -136,7 +134,7 @@ final class WriteVC: BaseVC {
         
         navigationBarView.setRightButtonAction  { [weak self] in
             switch self?.writeType {
-            case .post, .postDifferentTemplate:
+            case .post:
                 if WorryPostManager.shared.title.isEmpty {
                     self?.showToastMessage(message: "고민의 제목을 붙여주세요!", color: .black)
                 } else if self?.checkEmptyAnswer() ?? true {
@@ -153,7 +151,7 @@ final class WriteVC: BaseVC {
                         })
                     })
                 }
-            case .patch, .patchDifferentTemplate:
+            case .patch:
                 if WorryPostManager.shared.title.isEmpty {
                     self?.showToastMessage(message: "고민의 제목을 붙여주세요!", color: .black)
                 } else if self?.checkEmptyAnswer() ?? true {
@@ -172,9 +170,9 @@ final class WriteVC: BaseVC {
     private func checkEmptyAnswer() -> Bool {
         var answers: [String] = []
         switch writeType {
-        case .post, .postDifferentTemplate:
+        case .post:
             answers = WorryPostManager.shared.answers
-        case .patch, .patchDifferentTemplate:
+        case .patch:
             answers = WorryPatchManager.shared.answers
         }
         /// answers가 아예 빈 배열일때 처리
@@ -193,9 +191,9 @@ final class WriteVC: BaseVC {
         self.present(failureAlertVC, animated: true)
         failureAlertVC.OKButton.press { [weak self] in
             switch self?.writeType {
-            case .post, .postDifferentTemplate:
+            case .post:
                 WorryPostManager.shared.clearWorryData()
-            case .patch, .patchDifferentTemplate:
+            case .patch:
                 WorryPatchManager.shared.clearWorryData()
             case .none:
                 break
@@ -212,11 +210,11 @@ final class WriteVC: BaseVC {
         var answers: [String] = []
         
         switch self.writeType {
-        case .post, .postDifferentTemplate:
+        case .post:
             title = WorryPostManager.shared.title
             answers = WorryPostManager.shared.answers
             /// 고민 작성 시를 제외하고는 템플릿 변경 시 알럿 창을 띄워주어야 한다.
-        case .patch, .patchDifferentTemplate:
+        case .patch:
             title = WorryPatchManager.shared.title
             answers = WorryPatchManager.shared.answers
         }
@@ -247,9 +245,9 @@ final class WriteVC: BaseVC {
         self.present(failureAlertVC, animated: true)
         failureAlertVC.OKButton.press { [weak self] in
             switch self?.writeType {
-            case .post, .postDifferentTemplate:
+            case .post:
                 WorryPostManager.shared.answers = []
-            case .patch, .patchDifferentTemplate:
+            case .patch:
                 WorryPatchManager.shared.answers = []
             case .none:
                 break
@@ -327,10 +325,8 @@ extension WriteVC: TemplateIdDelegate {
         input.send(templateId)
         // 처음 고민작성시 템플릿을 선택했을때 writeType을 바꿔줌
         if writeType == .post {
-            self.writeType = .postDifferentTemplate
             WorryPostManager.shared.templateId = templateId
         }else if writeType == .patch {
-            self.writeType = .patchDifferentTemplate
             WorryPatchManager.shared.templateId = templateId
             self.tempAnswers = []
         }
@@ -343,9 +339,9 @@ extension WriteVC: ActivateButtonDelegate {
     func checkButtonStatus() {
         var isTitleEmpty = true
         switch self.writeType {
-        case .post, .postDifferentTemplate:
+        case .post:
             isTitleEmpty = WorryPostManager.shared.title.isEmpty
-        case .patch, .patchDifferentTemplate:
+        case .patch:
             isTitleEmpty = WorryPatchManager.shared.title.isEmpty
         }
         
