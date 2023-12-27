@@ -145,7 +145,6 @@ class WritePickerVC: BaseVC {
                     self?.dismiss(animated: false) {
                         let worryDetailVC = HomeWorryDetailVC(worryId: data.worryId, type: .digging)
                         NC.setViewControllers([worryDetailVC], animated: true)
-                        NC.popToRootViewController(animated: true)
                     }
                 }
             }
