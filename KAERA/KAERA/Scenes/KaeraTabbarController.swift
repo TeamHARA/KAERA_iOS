@@ -85,11 +85,13 @@ extension KaeraTabbarController: UITabBarControllerDelegate {
                 alertVC.setTitleSubTitle(title: "고민 원석이 가득찼어요!", subTitle: "너무 많은 고민은 머릿 속을 어지럽혀요 \n다른 고민들을 끝낸 다음, 새 원석을 생성할 수 있어요")
                 self.present(alertVC, animated: true)
             }else {
-                let writeVC = WriteVC(type: .post)
-                writeVC.modalPresentationStyle = .fullScreen
-                writeVC.modalTransitionStyle = .coverVertical
-                self.present(writeVC, animated: true) {
-                    writeVC.modalTemplateSelectVC()
+                let writeNC = BaseNC(rootViewController: WriteVC(type: .post))
+                writeNC.isNavigationBarHidden = true
+                writeNC.modalPresentationStyle = .fullScreen
+                writeNC.modalTransitionStyle = .coverVertical
+                self.present(writeNC, animated: true) {
+                    let writeVC = writeNC.viewControllers[0] as? WriteVC
+                    writeVC?.modalTemplateSelectVC()
                 }
             }
             return false // 탭 변경을 막음
