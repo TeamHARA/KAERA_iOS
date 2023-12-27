@@ -154,9 +154,9 @@ class WritePickerVC: BaseVC {
     
     func patchWorryDeadline(deadlineContent: PatchDeadlineModel) {
         self.startLoadingAnimation()
-        HomeAPI.shared.updateDeadline(param: deadlineContent) { [weak self] response in
+        HomeAPI.shared.updateDeadline(param: deadlineContent) { [weak self] result in
             self?.stopLoadingAnimation()
-            guard let _ = response else {
+            guard let result, let data = result.data else {
                 let failureAlertVC = KaeraAlertVC(buttonType: .onlyOK, okTitle: "확인")
                 failureAlertVC.setTitleSubTitle(title: "일자 수정에 실패했어요", subTitle: "다시 한번 시도해주세요.", highlighting: "실패")
                 self?.present(failureAlertVC, animated: true)
@@ -164,7 +164,7 @@ class WritePickerVC: BaseVC {
             }
             if let editVC = self?.presentingViewController {
                 if let detailVC = editVC.presentingViewController as? HomeWorryDetailVC {
-                    detailVC.updateDeadline(deadline: -deadlineContent.dayCount)
+                    detailVC.updateDeadline(deadline: data.dDay)
                 }
                 UIView.animate(withDuration: 0.5, animations: {
                     self?.pickerViewLayout.alpha = 0

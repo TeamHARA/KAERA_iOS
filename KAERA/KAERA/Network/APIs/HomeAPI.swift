@@ -19,7 +19,7 @@ final class HomeAPI {
     public private(set) var homeGemListResponse: GeneralArrayResponse<HomeGemListModel>?
     public private(set) var worryDetailResponse: GeneralResponse<WorryDetailModel>?
     public private(set) var deleteWorryResponse: EmptyResponse?
-    public private(set) var updateDeadlineResponse: GeneralResponse<String>?
+    public private(set) var updateDeadlineResponse: GeneralResponse<WorryDeadlineUpdateResponseModel>?
     public private(set) var editWorryResponse: GeneralResponse<EditWorryResponseModel>?
     public private(set) var completeWorryResponse: GeneralResponse<QuoteModel>?
     public private(set) var worryReviewResponse: GeneralResponse<WorryReviewResponseModel>?
@@ -83,18 +83,18 @@ final class HomeAPI {
     }
     
     // MARK: - UpdateDeadline
-    func updateDeadline(param: PatchDeadlineModel, completion: @escaping (GeneralResponse<String>?) -> ()) {
+    func updateDeadline(param: PatchDeadlineModel, completion: @escaping (GeneralResponse<WorryDeadlineUpdateResponseModel>?) -> ()) {
         homeProvider.request(.updateDeadline(param: param)) { [weak self] response in
             switch response {
             case .success(let result):
                 do {
-                    self?.updateDeadlineResponse = try result.map(GeneralResponse<String>?.self)
+                    self?.updateDeadlineResponse = try result.map(GeneralResponse<WorryDeadlineUpdateResponseModel>?.self)
                     guard let response = self?.updateDeadlineResponse else { return }
                     
                     if 200..<300 ~= response.status {
                         completion(response)
                     } else {
-                        completion(response)
+                        completion(nil)
                     }
                     
                 } catch(let err) {
