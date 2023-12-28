@@ -139,6 +139,9 @@ final class HomeWorryDetailVC: BaseVC {
                 $0.height.equalTo(tableContentHeight)
             }
         case .dug:
+            /// reviewTextView의 사이즈 값을 content가 적용된 것으로 업데이트
+            updateReviewTextViewHeight()
+            
             if reviewTextViewHeight > defaultTextViewHeight {
                 worryDetailContentView.snp.updateConstraints {
                     $0.height.equalTo(tableContentHeight + reviewSpacing + restReviewViewHeight + reviewTextViewHeight)
@@ -291,6 +294,12 @@ final class HomeWorryDetailVC: BaseVC {
         }
         self.present(alertVC, animated: true)
     }
+    
+    private func updateReviewTextViewHeight() {
+        let fixedWidth = reviewView.reviewTextView.frame.size.width
+        let newSize = reviewView.reviewTextView.sizeThatFits(CGSize(width: fixedWidth, height: CGFloat.greatestFiniteMagnitude))
+        self.reviewTextViewHeight = newSize.height
+    }
 }
 // MARK: - KeyBoard
 extension HomeWorryDetailVC {
@@ -389,12 +398,6 @@ extension HomeWorryDetailVC: UITextViewDelegate {
             textView.textColor = .kGray5
             textView.font = .kSb1R12
         }
-    }
-    
-    func textViewDidChange(_ textView: UITextView) {
-        let fixedWidth = textView.frame.size.width
-        let newSize = textView.sizeThatFits(CGSize(width: fixedWidth, height: CGFloat.greatestFiniteMagnitude))
-        self.reviewTextViewHeight = newSize.height
     }
 }
 
