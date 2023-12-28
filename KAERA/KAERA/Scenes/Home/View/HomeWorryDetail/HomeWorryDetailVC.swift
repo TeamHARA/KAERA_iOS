@@ -281,7 +281,7 @@ final class HomeWorryDetailVC: BaseVC {
         let alertVC = KaeraAlertVC(okTitle: "삭제")
         alertVC.setTitleSubTitle(title: "기록을 취소하시나요?", subTitle: "작성된 기록이 저장되지 않았어요.")
         alertVC.OKButton.press {  [weak self] in
-            self?.reviewView.updateReviewContent(text: self?.reviewText ?? "")
+            self?.reviewView.setReviewText(content: self?.reviewText ?? "")
             self?.dismiss(animated: true) {
                 self?.view.endEditing(true)
             }
@@ -353,7 +353,7 @@ extension HomeWorryDetailVC {
                 return
             }
             self?.stopLoadingAnimation()
-            self?.reviewView.updateReviewDate(date: data.updatedAt)
+            self?.reviewView.setUpdatedDate(updatedAt: data.updatedAt)
             self?.isReviewEditing = false
             self?.view.endEditing(true)
             self?.showToastMessage(message: "작성완료!", color: .black)

@@ -82,15 +82,6 @@ final class WorryDetailReviewView: UIView {
             completion()
         }
     }
-    
-    func updateReviewContent(text: String) {
-        self.reviewTextView.text = text
-    }
-    
-    func updateReviewDate(date: String) {
-        self.reviewDateLabel.text = date
-    }
-
 }
 
 // MARK: - UI
