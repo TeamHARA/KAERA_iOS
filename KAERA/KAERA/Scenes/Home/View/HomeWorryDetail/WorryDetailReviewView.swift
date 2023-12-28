@@ -23,7 +23,7 @@ final class WorryDetailReviewView: UIView {
     
     let reviewTextView = UITextView().then {
         $0.textColor = .kGray5
-        $0.font = .kSb2R12W
+        $0.font = .kSb1R12
         $0.backgroundColor = .clear
         $0.isScrollEnabled = false
         $0.textContainerInset = UIEdgeInsets.zero // 텍스트 컨테이너의 여백 제거
@@ -36,6 +36,8 @@ final class WorryDetailReviewView: UIView {
         $0.font = .kSb1R12
         $0.text = "2019.09.01"
     }
+    
+    private let placeholderText = "이 고민을 통해 배운점 또는 생각을 자유롭게 적어보세요"
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -51,9 +53,21 @@ final class WorryDetailReviewView: UIView {
     // MARK: - Function
     func setReviewText(content: String) {
         if !content.isEmpty {
-            reviewTextView.text = content
+            let style = NSMutableParagraphStyle()
+            style.lineSpacing = UIFont.kB4R14.lineHeight * 0.5
+            let attributedText = NSAttributedString(
+                string: content,
+                attributes: [
+                    .paragraphStyle: style,
+                    .foregroundColor: UIColor.kWhite,
+                    .font: UIFont.kB4R14
+                ]
+            )
+            reviewTextView.attributedText = attributedText
         }else {
-            reviewTextView.text = "이 고민을 통해 배운점 또는 생각을 자유롭게 적어보세요"
+            reviewTextView.textColor = .kGray5
+            reviewTextView.font = .kSb1R12
+            reviewTextView.text = placeholderText
         }
     }
     
