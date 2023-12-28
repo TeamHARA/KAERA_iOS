@@ -235,18 +235,10 @@ final class HomeWorryDetailVC: BaseVC {
 
         case .dug:
             navigationBarView.setTitleText(text: "나의 고민")
-
-            if let finalAnswer = worryDetail.finalAnswer {
-                self.finalAnswer = finalAnswer
-            }
-            if let content = worryDetail.review.content {
-                self.reviewText = content
-                self.reviewView.setReviewText(content: content)
-            }
-            
-            if let updatedAt = worryDetail.review.updatedAt {
-                reviewView.setUpdatedDate(updatedAt: updatedAt)
-            }
+                self.finalAnswer = worryDetail.finalAnswer
+                self.reviewText = worryDetail.review.content
+                reviewView.setReviewText(content: worryDetail.review.content)
+                reviewView.setUpdatedDate(updatedAt: worryDetail.review.updatedAt)
         }
         
         /// 갱신된 데이터로 테이블뷰 정보를 갱신
