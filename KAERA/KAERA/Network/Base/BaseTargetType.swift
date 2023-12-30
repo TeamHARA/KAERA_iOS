@@ -12,7 +12,9 @@ protocol BaseTargetType: TargetType { }
 
 extension BaseTargetType {
     var baseURL: URL {
-        return URL(string: APIConstant.baseURL)!
+        guard let baseURL = URL(string: APIConstant.baseURL) else {
+            fatalError("APIConstant.baseURL Not Configured")
+        }
+        return baseURL
     }
-
 }
