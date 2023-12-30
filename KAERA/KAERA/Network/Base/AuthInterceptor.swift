@@ -19,7 +19,7 @@ final class AuthInterceptor: RequestInterceptor {
     func retry(_ request: Request, for session: Session, dueTo error: Error, completion: @escaping (RetryResult) -> Void) {
         print("retry 진입")
         guard let response = request.task?.response as? HTTPURLResponse, response.statusCode == 401, let pathComponents = request.request?.url?.pathComponents,
-              !pathComponents.contains("getNewToken")
+              !pathComponents.contains("refresh")
         else {
             dump(error)
             completion(.doNotRetryWithError(error))
@@ -35,6 +35,5 @@ final class AuthInterceptor: RequestInterceptor {
             KeychainManager.save(key: .accessToken, value: renewedAccessToken)
             completion(.retry)
         }
-        
     }
 }
