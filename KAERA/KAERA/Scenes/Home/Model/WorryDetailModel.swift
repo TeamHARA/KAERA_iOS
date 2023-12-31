@@ -14,14 +14,14 @@ struct WorryDetailModel: Codable {
     let subtitles, answers: [String]
     let period, updatedAt, deadline: String
     let dDay: Int
-    let finalAnswer: String?
+    let finalAnswer: String
     let review: Review
 }
 
 // MARK: - Review
 struct Review: Codable {
-    let content: String?
-    let updatedAt: String?
+    let content: String
+    let updatedAt: String
 }
 
 struct PatchDeadlineModel: Codable {

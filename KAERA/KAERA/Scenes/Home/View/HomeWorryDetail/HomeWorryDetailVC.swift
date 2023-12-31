@@ -139,6 +139,9 @@ final class HomeWorryDetailVC: BaseVC {
                 $0.height.equalTo(tableContentHeight)
             }
         case .dug:
+            /// reviewTextView의 사이즈 값을 content가 적용된 것으로 업데이트
+            updateReviewTextViewHeight()
+            
             if reviewTextViewHeight > defaultTextViewHeight {
                 worryDetailContentView.snp.updateConstraints {
                     $0.height.equalTo(tableContentHeight + reviewSpacing + restReviewViewHeight + reviewTextViewHeight)
@@ -235,18 +238,10 @@ final class HomeWorryDetailVC: BaseVC {
 
         case .dug:
             navigationBarView.setTitleText(text: "나의 고민")
-
-            if let finalAnswer = worryDetail.finalAnswer {
-                self.finalAnswer = finalAnswer
-            }
-            if let content = worryDetail.review.content {
-                self.reviewText = content
-                self.reviewView.setReviewText(content: content)
-            }
-            
-            if let updatedAt = worryDetail.review.updatedAt {
-                reviewView.setUpdatedDate(updatedAt: updatedAt)
-            }
+                self.finalAnswer = worryDetail.finalAnswer
+                self.reviewText = worryDetail.review.content
+                reviewView.setReviewText(content: worryDetail.review.content)
+                reviewView.setUpdatedDate(updatedAt: worryDetail.review.updatedAt)
         }
         
         /// 갱신된 데이터로 테이블뷰 정보를 갱신
@@ -289,7 +284,7 @@ final class HomeWorryDetailVC: BaseVC {
         let alertVC = KaeraAlertVC(okTitle: "삭제")
         alertVC.setTitleSubTitle(title: "기록을 취소하시나요?", subTitle: "작성된 기록이 저장되지 않았어요.")
         alertVC.OKButton.press {  [weak self] in
-            self?.reviewView.updateReviewContent(text: self?.reviewText ?? "")
+            self?.reviewView.setReviewText(content: self?.reviewText ?? "")
             self?.dismiss(animated: true) {
                 self?.view.endEditing(true)
             }
@@ -298,6 +293,12 @@ final class HomeWorryDetailVC: BaseVC {
             self?.reviewView.reviewTextView.becomeFirstResponder()
         }
         self.present(alertVC, animated: true)
+    }
+    
+    private func updateReviewTextViewHeight() {
+        let fixedWidth = reviewView.reviewTextView.frame.size.width
+        let newSize = reviewView.reviewTextView.sizeThatFits(CGSize(width: fixedWidth, height: CGFloat.greatestFiniteMagnitude))
+        self.reviewTextViewHeight = newSize.height
     }
 }
 // MARK: - KeyBoard
@@ -361,7 +362,7 @@ extension HomeWorryDetailVC {
                 return
             }
             self?.stopLoadingAnimation()
-            self?.reviewView.updateReviewDate(date: data.updatedAt)
+            self?.reviewView.setUpdatedDate(updatedAt: data.updatedAt)
             self?.isReviewEditing = false
             self?.view.endEditing(true)
             self?.showToastMessage(message: "작성완료!", color: .black)
@@ -373,7 +374,7 @@ extension HomeWorryDetailVC {
 extension HomeWorryDetailVC: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         var inputText = ""
-        inputText = textView.text == placeholderText ? " " : textView.text
+        inputText = textView.textColor == .kGray5 ? " " : textView.text
         /// 행간 간격 150% 설정
         let style = NSMutableParagraphStyle()
         style.lineSpacing = UIFont.kB4R14.lineHeight * 0.5
@@ -391,17 +392,12 @@ extension HomeWorryDetailVC: UITextViewDelegate {
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
-        if textView.text.isEmpty {
+        let trimmedText = textView.text.trimmingCharacters(in: .whitespacesAndNewlines)
+        if trimmedText.isEmpty {
             textView.text = placeholderText
             textView.textColor = .kGray5
             textView.font = .kSb1R12
         }
-    }
-    
-    func textViewDidChange(_ textView: UITextView) {
-        let fixedWidth = textView.frame.size.width
-        let newSize = textView.sizeThatFits(CGSize(width: fixedWidth, height: CGFloat.greatestFiniteMagnitude))
-        self.reviewTextViewHeight = newSize.height
     }
 }
 
