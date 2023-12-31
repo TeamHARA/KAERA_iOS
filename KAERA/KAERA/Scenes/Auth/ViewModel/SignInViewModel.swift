@@ -46,16 +46,24 @@ final class SignInViewModel: NSObject, ViewModelType {
         /// 카카오톡 실행 가능한지 확인
         if UserApi.isKakaoTalkLoginAvailable() {
             /// 카카오톡 로그인 실행
-            UserApi.shared.loginWithKakaoTalk {(oauthToken, error) in
+            UserApi.shared.loginWithKakaoTalk {[weak self](oauthToken, error) in
                 if error != nil {
+                    self?.output.send(false)
                 } else {
                     print("loginWithKakaoTalk() success.")
-                    self.postKakaoLogin(token: oauthToken?.accessToken ?? "")
+                    self?.postKakaoLogin(token: oauthToken?.accessToken ?? "")
                 }
             }
             
         } else {
-            output.send(false)
+            UserApi.shared.loginWithKakaoAccount { [weak self] (oauthToken, error) in
+                if error != nil {
+                    self?.output.send(false)
+                } else {
+                    print("loginWithKakaoAccount() success.")
+                    self?.postKakaoLogin(token: oauthToken?.accessToken ?? "")
+                }
+            }
         }
     }
     
