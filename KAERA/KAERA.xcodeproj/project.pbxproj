@@ -149,6 +149,10 @@
 		E7C808E92A4D37F800F475CE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C808E82A4D37F800F475CE /* AppDelegate.swift */; };
 		E7C808EB2A4D37F800F475CE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C808EA2A4D37F800F475CE /* SceneDelegate.swift */; };
 		E7C808F22A4D37FA00F475CE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E7C808F12A4D37FA00F475CE /* Assets.xcassets */; };
+		E7CEAD832B4419C200A0A0F3 /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = E70C7C9E2A908574006B2E74 /* Secrets.xcconfig */; };
+		E7CEAD842B4419C200A0A0F3 /* Debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = E7A3A2842B3D7F14008A03D7 /* Debug.xcconfig */; };
+		E7CEAD852B4419C200A0A0F3 /* QA.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = E7A3A2862B3D8C94008A03D7 /* QA.xcconfig */; };
+		E7CEAD862B4419C200A0A0F3 /* Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = E7A3A2852B3D7F20008A03D7 /* Release.xcconfig */; };
 		E7DE36242AE4F59900B0DC67 /* MyPageDataType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7DE36232AE4F59900B0DC67 /* MyPageDataType.swift */; };
 		E7F8CC642B10712600066BB1 /* OnboardingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7F8CC622B10712600066BB1 /* OnboardingVC.swift */; };
 		E7F8CC652B10712600066BB1 /* CustomPageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7F8CC632B10712600066BB1 /* CustomPageControl.swift */; };
@@ -922,6 +926,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E7CEAD832B4419C200A0A0F3 /* Secrets.xcconfig in Resources */,
+				E7CEAD842B4419C200A0A0F3 /* Debug.xcconfig in Resources */,
+				E7CEAD852B4419C200A0A0F3 /* QA.xcconfig in Resources */,
+				E7CEAD862B4419C200A0A0F3 /* Release.xcconfig in Resources */,
 				E73A4C162B31234600C019EF /* Settings.bundle in Resources */,
 				E72D6AEB2B1C255F00CF8B01 /* kaera_loading.json in Resources */,
 				E7C808F22A4D37FA00F475CE /* Assets.xcassets in Resources */,
