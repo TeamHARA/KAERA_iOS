@@ -118,10 +118,6 @@
 		E79AAC4B2A52F3E000F3F439 /* BaseNC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79AAC492A52F3E000F3F439 /* BaseNC.swift */; };
 		E79AAC5A2A531E3300F3F439 /* NanumMyeongjoOTF.otf in Resources */ = {isa = PBXBuildFile; fileRef = E79AAC592A531E3300F3F439 /* NanumMyeongjoOTF.otf */; };
 		E7A3A2822B3ACCCB008A03D7 /* WorryDeadlineUpdateResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7A3A2812B3ACCCB008A03D7 /* WorryDeadlineUpdateResponseModel.swift */; };
-		E7A3A2872B3D8CF2008A03D7 /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = E70C7C9E2A908574006B2E74 /* Secrets.xcconfig */; };
-		E7A3A2882B3D8CF4008A03D7 /* Debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = E7A3A2842B3D7F14008A03D7 /* Debug.xcconfig */; };
-		E7A3A2892B3D8CF6008A03D7 /* QA.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = E7A3A2862B3D8C94008A03D7 /* QA.xcconfig */; };
-		E7A3A28A2B3D8CF9008A03D7 /* Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = E7A3A2852B3D7F20008A03D7 /* Release.xcconfig */; };
 		E7A94CC42AA484E300F231D0 /* SignInVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7A94CC32AA484E300F231D0 /* SignInVC.swift */; };
 		E7A94CC72AA6A46800F231D0 /* KakaoSDKAuth in Frameworks */ = {isa = PBXBuildFile; productRef = E7A94CC62AA6A46800F231D0 /* KakaoSDKAuth */; };
 		E7A94CC92AA6A46800F231D0 /* KakaoSDKCommon in Frameworks */ = {isa = PBXBuildFile; productRef = E7A94CC82AA6A46800F231D0 /* KakaoSDKCommon */; };
@@ -928,15 +924,11 @@
 			files = (
 				E73A4C162B31234600C019EF /* Settings.bundle in Resources */,
 				E72D6AEB2B1C255F00CF8B01 /* kaera_loading.json in Resources */,
-				E7A3A2872B3D8CF2008A03D7 /* Secrets.xcconfig in Resources */,
 				E7C808F22A4D37FA00F475CE /* Assets.xcassets in Resources */,
 				E7C30F612A533D08002BD782 /* NanumSquareNeoTTF-aLt.ttf in Resources */,
 				E7C30F622A533D08002BD782 /* NanumSquareNeoTTF-bRg.ttf in Resources */,
 				E7C30F632A533D08002BD782 /* NanumSquareNeoTTF-cBd.ttf in Resources */,
-				E7A3A2892B3D8CF6008A03D7 /* QA.xcconfig in Resources */,
-				E7A3A28A2B3D8CF9008A03D7 /* Release.xcconfig in Resources */,
 				E79AAC5A2A531E3300F3F439 /* NanumMyeongjoOTF.otf in Resources */,
-				E7A3A2882B3D8CF4008A03D7 /* Debug.xcconfig in Resources */,
 				E70764EB2AC9980600627AA7 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
