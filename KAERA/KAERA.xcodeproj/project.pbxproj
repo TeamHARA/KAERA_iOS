@@ -149,10 +149,6 @@
 		E7C808E92A4D37F800F475CE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C808E82A4D37F800F475CE /* AppDelegate.swift */; };
 		E7C808EB2A4D37F800F475CE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C808EA2A4D37F800F475CE /* SceneDelegate.swift */; };
 		E7C808F22A4D37FA00F475CE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E7C808F12A4D37FA00F475CE /* Assets.xcassets */; };
-		E7CEAD832B4419C200A0A0F3 /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = E70C7C9E2A908574006B2E74 /* Secrets.xcconfig */; };
-		E7CEAD842B4419C200A0A0F3 /* Debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = E7A3A2842B3D7F14008A03D7 /* Debug.xcconfig */; };
-		E7CEAD852B4419C200A0A0F3 /* QA.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = E7A3A2862B3D8C94008A03D7 /* QA.xcconfig */; };
-		E7CEAD862B4419C200A0A0F3 /* Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = E7A3A2852B3D7F20008A03D7 /* Release.xcconfig */; };
 		E7DE36242AE4F59900B0DC67 /* MyPageDataType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7DE36232AE4F59900B0DC67 /* MyPageDataType.swift */; };
 		E7F8CC642B10712600066BB1 /* OnboardingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7F8CC622B10712600066BB1 /* OnboardingVC.swift */; };
 		E7F8CC652B10712600066BB1 /* CustomPageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7F8CC632B10712600066BB1 /* CustomPageControl.swift */; };
@@ -198,12 +194,15 @@
 		E70764722ABFFF9200627AA7 /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
 		E70764742AC06B6000627AA7 /* KeyChainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainManager.swift; sourceTree = "<group>"; };
 		E70764EA2AC9980600627AA7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		E70C7C9E2A908574006B2E74 /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 		E70C7CA02A90959A006B2E74 /* HomeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeService.swift; sourceTree = "<group>"; };
 		E70C7CA22A909829006B2E74 /* HomeAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeAPI.swift; sourceTree = "<group>"; };
 		E71FC2252AD284D9001DD27D /* SplashVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashVC.swift; sourceTree = "<group>"; };
 		E71FC22B2AD29400001DD27D /* RenewalTokenModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenewalTokenModel.swift; sourceTree = "<group>"; };
 		E71FC2432ADC01B6001DD27D /* MyPageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageVC.swift; sourceTree = "<group>"; };
+		E720015A2B46920D00D57DCF /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
+		E720015B2B46921900D57DCF /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
+		E720015C2B46921900D57DCF /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
+		E720015D2B46921900D57DCF /* QA.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = QA.xcconfig; sourceTree = "<group>"; };
 		E72D6AEA2B1C255F00CF8B01 /* kaera_loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = kaera_loading.json; sourceTree = "<group>"; };
 		E72D6AF22B1C907800CF8B01 /* EditWorryResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditWorryResponseModel.swift; sourceTree = "<group>"; };
 		E72D6AF52B21E1A500CF8B01 /* WriteEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteEmptyView.swift; sourceTree = "<group>"; };
@@ -246,9 +245,6 @@
 		E79AAC492A52F3E000F3F439 /* BaseNC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseNC.swift; sourceTree = "<group>"; };
 		E79AAC592A531E3300F3F439 /* NanumMyeongjoOTF.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumMyeongjoOTF.otf; sourceTree = "<group>"; };
 		E7A3A2812B3ACCCB008A03D7 /* WorryDeadlineUpdateResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorryDeadlineUpdateResponseModel.swift; sourceTree = "<group>"; };
-		E7A3A2842B3D7F14008A03D7 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
-		E7A3A2852B3D7F20008A03D7 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
-		E7A3A2862B3D8C94008A03D7 /* QA.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = QA.xcconfig; sourceTree = "<group>"; };
 		E7A94CC12AA4569300F231D0 /* KAERA.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = KAERA.entitlements; sourceTree = "<group>"; };
 		E7A94CC32AA484E300F231D0 /* SignInVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInVC.swift; sourceTree = "<group>"; };
 		E7A94CCC2AAC149900F231D0 /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
@@ -439,6 +435,17 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		E72001592B4691F300D57DCF /* Supports */ = {
+			isa = PBXGroup;
+			children = (
+				E720015A2B46920D00D57DCF /* Debug.xcconfig */,
+				E720015D2B46921900D57DCF /* QA.xcconfig */,
+				E720015C2B46921900D57DCF /* Release.xcconfig */,
+				E720015B2B46921900D57DCF /* Secrets.xcconfig */,
+			);
+			path = Supports;
+			sourceTree = "<group>";
+		};
 		E72D6AE92B1C254400CF8B01 /* Animations */ = {
 			isa = PBXGroup;
 			children = (
@@ -580,17 +587,6 @@
 				E79AAC592A531E3300F3F439 /* NanumMyeongjoOTF.otf */,
 			);
 			path = Fonts;
-			sourceTree = "<group>";
-		};
-		E7A3A2832B3D7ECB008A03D7 /* Supports */ = {
-			isa = PBXGroup;
-			children = (
-				E70C7C9E2A908574006B2E74 /* Secrets.xcconfig */,
-				E7A3A2842B3D7F14008A03D7 /* Debug.xcconfig */,
-				E7A3A2862B3D8C94008A03D7 /* QA.xcconfig */,
-				E7A3A2852B3D7F20008A03D7 /* Release.xcconfig */,
-			);
-			path = Supports;
 			sourceTree = "<group>";
 		};
 		E7A94CC22AA484C300F231D0 /* Auth */ = {
@@ -778,6 +774,7 @@
 			isa = PBXGroup;
 			children = (
 				E73A4C152B31234600C019EF /* Settings.bundle */,
+				E72001592B4691F300D57DCF /* Supports */,
 				E7C808E72A4D37F800F475CE /* KAERA */,
 				E7C808E62A4D37F800F475CE /* Products */,
 			);
@@ -794,7 +791,6 @@
 		E7C808E72A4D37F800F475CE /* KAERA */ = {
 			isa = PBXGroup;
 			children = (
-				E7A3A2832B3D7ECB008A03D7 /* Supports */,
 				E7A94CC12AA4569300F231D0 /* KAERA.entitlements */,
 				E7AC12162A51CBA400FE504C /* Global */,
 				E78C39F12A5138D200A15120 /* Scenes */,
@@ -926,10 +922,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E7CEAD832B4419C200A0A0F3 /* Secrets.xcconfig in Resources */,
-				E7CEAD842B4419C200A0A0F3 /* Debug.xcconfig in Resources */,
-				E7CEAD852B4419C200A0A0F3 /* QA.xcconfig in Resources */,
-				E7CEAD862B4419C200A0A0F3 /* Release.xcconfig in Resources */,
 				E73A4C162B31234600C019EF /* Settings.bundle in Resources */,
 				E72D6AEB2B1C255F00CF8B01 /* kaera_loading.json in Resources */,
 				E7C808F22A4D37FA00F475CE /* Assets.xcassets in Resources */,
@@ -1062,7 +1054,7 @@
 /* Begin XCBuildConfiguration section */
 		E7A3A28B2B3D8D52008A03D7 /* QA */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E7A3A2862B3D8C94008A03D7 /* QA.xcconfig */;
+			baseConfigurationReference = E720015D2B46921900D57DCF /* QA.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1157,7 +1149,7 @@
 		};
 		E7C808F72A4D37FA00F475CE /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E7A3A2842B3D7F14008A03D7 /* Debug.xcconfig */;
+			baseConfigurationReference = E720015A2B46920D00D57DCF /* Debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1220,7 +1212,7 @@
 		};
 		E7C808F82A4D37FA00F475CE /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E7A3A2852B3D7F20008A03D7 /* Release.xcconfig */;
+			baseConfigurationReference = E720015C2B46921900D57DCF /* Release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
