@@ -195,6 +195,7 @@
 		E70764742AC06B6000627AA7 /* KeyChainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainManager.swift; sourceTree = "<group>"; };
 		E70764EA2AC9980600627AA7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E70BB9042B48EBA3005CBE6B /* Empty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Empty.swift; sourceTree = "<group>"; };
+		E70BB9062B48F38A005CBE6B /* ci_post_clone.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = ci_post_clone.sh; sourceTree = "<group>"; };
 		E70C7CA02A90959A006B2E74 /* HomeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeService.swift; sourceTree = "<group>"; };
 		E70C7CA22A909829006B2E74 /* HomeAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeAPI.swift; sourceTree = "<group>"; };
 		E71FC2252AD284D9001DD27D /* SplashVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashVC.swift; sourceTree = "<group>"; };
@@ -409,6 +410,14 @@
 				E7B94D732ADE9A35005D9FB8 /* MyPaggeViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		E70BB9052B48F368005CBE6B /* ci_scripts */ = {
+			isa = PBXGroup;
+			children = (
+				E70BB9062B48F38A005CBE6B /* ci_post_clone.sh */,
+			);
+			path = ci_scripts;
 			sourceTree = "<group>";
 		};
 		E71FC2242AD284B1001DD27D /* Splash */ = {
@@ -775,6 +784,7 @@
 		E7C808DC2A4D37F800F475CE = {
 			isa = PBXGroup;
 			children = (
+				E70BB9052B48F368005CBE6B /* ci_scripts */,
 				E73A4C152B31234600C019EF /* Settings.bundle */,
 				E72001592B4691F300D57DCF /* Supports */,
 				E7C808E72A4D37F800F475CE /* KAERA */,
