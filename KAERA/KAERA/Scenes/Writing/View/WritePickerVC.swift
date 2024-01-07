@@ -137,13 +137,16 @@ class WritePickerVC: BaseVC {
                 return
             }
             self?.stopLoadingAnimation()
-            // TODO: 리스폰스 데이터 worryDetail로 변환해 넘겨주고 updateUI 실행
+            
             if let writeNC = self?.presentingViewController, let NC = writeNC as? BaseNC {
                 UIView.animate(withDuration: 0.5, animations: {
                     self?.pickerViewLayout.alpha = 0
                 }) { [weak self] _ in
                     self?.dismiss(animated: false) {
-                        let worryDetailVC = HomeWorryDetailVC(worryId: data.worryId, type: .digging)
+                        
+                        let worryDetailModel = WorryDetailModel(title: data.title, templateId: data.templateId, subtitles: data.subtitles , answers: data.answers, period: "", updatedAt: data.createdAt, deadline: data.deadline, dDay: data.dDay, finalAnswer: "", review: Review(content: "", updatedAt: ""))
+                        
+                        let worryDetailVC = HomeWorryDetailVC(worryId: data.worryId, type: .digging, worryDetail: worryDetailModel)
                         NC.setViewControllers([worryDetailVC], animated: true)
                     }
                 }

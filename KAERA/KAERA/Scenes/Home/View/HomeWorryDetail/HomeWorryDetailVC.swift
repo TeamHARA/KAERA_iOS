@@ -73,13 +73,19 @@ final class HomeWorryDetailVC: BaseVC {
     private var isReviewEditing: Bool = false
     
     // MARK: - Initialization
-    init(worryId: Int, type: PageType) {
+    init(worryId: Int, type: PageType, worryDetail: WorryDetailModel? = nil) {
         super.init(nibName: nil, bundle: nil)
         self.pageType = type
         self.worryId = worryId
         dataBind()
-        self.startLoadingAnimation()
-        input.send(worryId)
+
+        if let worryDetailData = worryDetail {
+            updateUI(worryDetail: worryDetailData)
+            worryDetailViewModel.worryDetail = worryDetailData
+        } else {
+            self.startLoadingAnimation()
+            input.send(worryId)
+        }
     }
     
     required init?(coder: NSCoder) {
