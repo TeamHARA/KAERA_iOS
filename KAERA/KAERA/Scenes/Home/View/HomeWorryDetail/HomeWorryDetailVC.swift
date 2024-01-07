@@ -184,7 +184,7 @@ final class HomeWorryDetailVC: BaseVC {
         worryDetailTV.register(HomeWorryDetailFooterView.self, forHeaderFooterViewReuseIdentifier: HomeWorryDetailFooterView.className)
         /// estimated 높이를 설정해줘야 contentSize에 반영이 됨
         worryDetailTV.estimatedSectionHeaderHeight = 200
-        worryDetailTV.estimatedRowHeight = 200
+        worryDetailTV.estimatedRowHeight = 1000
         worryDetailTV.estimatedSectionFooterHeight = 200
         worryDetailTV.backgroundView = backgroundImageView
     }
@@ -235,13 +235,13 @@ final class HomeWorryDetailVC: BaseVC {
         switch pageType {
         case .digging:
             updateDeadline(deadline: worryDetail.dDay)
-
+            
         case .dug:
             navigationBarView.setTitleText(text: "나의 고민")
-                self.finalAnswer = worryDetail.finalAnswer
-                self.reviewText = worryDetail.review.content
-                reviewView.setReviewText(content: worryDetail.review.content)
-                reviewView.setUpdatedDate(updatedAt: worryDetail.review.updatedAt)
+            self.finalAnswer = worryDetail.finalAnswer
+            self.reviewText = worryDetail.review.content
+            reviewView.setReviewText(content: worryDetail.review.content)
+            reviewView.setUpdatedDate(updatedAt: worryDetail.review.updatedAt)
         }
         
         /// 갱신된 데이터로 테이블뷰 정보를 갱신
