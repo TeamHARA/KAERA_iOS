@@ -81,6 +81,7 @@ final class HomeWorryDetailVC: BaseVC {
 
         if let worryDetailData = worryDetail {
             updateUI(worryDetail: worryDetailData)
+            worryDetailViewModel.worryDetail = worryDetailData
         } else {
             self.startLoadingAnimation()
             input.send(worryId)
