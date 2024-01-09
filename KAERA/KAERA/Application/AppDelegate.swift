@@ -95,8 +95,6 @@ extension AppDelegate: MessagingDelegate {
     
     /// 토큰 갱신 모니터링 메서드
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
-        print("Firebase registration token: \(String(describing: fcmToken))")
-        
         if let fcmToken {
             print("Saved FCM Token: \(fcmToken)")
             /// 키체인에 FCM Token 저장
