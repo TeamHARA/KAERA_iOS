@@ -15,9 +15,15 @@ final class AuthInterceptor: RequestInterceptor {
     
     private init() {}
 
+    private let retryLimit = 5
     
     func retry(_ request: Request, for session: Session, dueTo error: Error, completion: @escaping (RetryResult) -> Void) {
         print("retry 진입")
+        if request.retryCount > retryLimit {
+            print("Over retry limit")
+            completion(.doNotRetryWithError(error))
+            return
+        }
         guard let response = request.task?.response as? HTTPURLResponse, response.statusCode == 401, let pathComponents = request.request?.url?.pathComponents,
               !pathComponents.contains("refresh")
         else {
