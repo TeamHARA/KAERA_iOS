@@ -123,8 +123,24 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     }
     
     /// 푸시알림을 클릭했을 때 실행되는 메서드
-    func userNotificationCenter(_ center: UNUserNotificationCenter,didReceive response: UNNotificationResponse,withCompletionHandler completionHandler: @escaping () -> Void) {
-        //TODO: 푸시알림을 통해 진입시 액션 구현
-        completionHandler()
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
+ 
+        // 푸시알림에 들어있는 데이터들
+        let userInfo = response.notification.request.content.userInfo
+        guard let worryIdString = userInfo["worryId"] as? String else { return }
+        if let worryId = Int(worryIdString) {
+            LaunchingWithPushMessage.shared.worryId = worryId
+            
+            if LaunchingWithPushMessage.shared.hasLaunchedWithPush {
+                return
+            }
+            /// kakaoSDK 내 정의된 최상단 VC를 얻는 메서드
+            let currentVC = UIApplication.getMostTopViewController()
+
+            let worryDetailVC = HomeWorryDetailVC(worryId: worryId, type: .digging)
+            worryDetailVC.modalTransitionStyle = .coverVertical
+            worryDetailVC.modalPresentationStyle = .fullScreen
+            currentVC?.present(worryDetailVC, animated: true)
+        }
     }
 }
