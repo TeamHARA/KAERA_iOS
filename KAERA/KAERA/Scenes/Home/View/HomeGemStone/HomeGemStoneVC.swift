@@ -83,8 +83,12 @@ final class HomeGemStoneVC: BaseVC {
         }else if pageType == .dug {
             input.send(1)
         }
+        
+        if LaunchingWithPushMessage.shared.hasLaunchedWithPush {
+            presentWorryDetail()
+        }
     }
-    
+
     // MARK: - Function
     private func setGemStoneCV() {
         gemStoneCV.register(GemStoneCVC.self, forCellWithReuseIdentifier: GemStoneCVC.className)
@@ -141,6 +145,17 @@ final class HomeGemStoneVC: BaseVC {
             gemStoneEmptyView.isHidden = true
             gemStoneCV.isHidden = false
         }
+    }
+    
+    private func presentWorryDetail() {
+        guard let worryId = LaunchingWithPushMessage.shared.worryId else { return }
+        
+        let vc = HomeWorryDetailVC(worryId: worryId, type: pageType)
+        vc.modalPresentationStyle = .fullScreen
+        vc.modalTransitionStyle = .coverVertical
+        self.present(vc, animated: true)
+        
+        LaunchingWithPushMessage.shared.hasLaunchedWithPush = false
     }
 }
 
