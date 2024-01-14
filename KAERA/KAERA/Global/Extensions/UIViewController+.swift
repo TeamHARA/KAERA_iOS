@@ -123,7 +123,7 @@ extension UIViewController {
         case .red:
             toastLabel.backgroundColor = .white.withAlphaComponent(0.4)
             toastLabel.textColor = .black
-            frame = CGRect(x: self.view.frame.size.width / 2 - CGFloat(width) / 2, y: 107.adjustedH, width: CGFloat(width), height: 40)
+            frame = CGRect(x: self.view.frame.size.width / 2 - CGFloat(width) / 2, y: 425.adjustedH, width: CGFloat(width), height: 40)
         }
         
         toastLabel.frame = frame
