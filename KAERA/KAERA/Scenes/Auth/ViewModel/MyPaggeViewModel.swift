@@ -100,7 +100,6 @@ final class MyPaggeViewModel: ViewModelType {
     }
     
     private func requestSignOut() {
-        KeychainManager.delete(key: .accessToken)
         AuthAPI.shared.postLogout { [weak self] status in
             guard status != nil else {
                 self?.output.send(.networkFail)
