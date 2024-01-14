@@ -84,9 +84,7 @@ final class HomeGemStoneVC: BaseVC {
             input.send(1)
         }
         
-        if LaunchingWithPushMessage.shared.hasLaunchedWithPush {
-            presentWorryDetail()
-        }
+
     }
 
     // MARK: - Function
@@ -128,6 +126,17 @@ final class HomeGemStoneVC: BaseVC {
         self.gemStoneList = gemList
         self.gemStoneCV.reloadData()
         checkWhichViewIsHidden()
+
+        if LaunchingWithPushMessage.shared.hasLaunchedWithPush {
+            gemList.forEach {
+                if $0.worryId == LaunchingWithPushMessage.shared.worryId {
+                    presentWorryDetail()
+                    return
+                }
+            }
+            self.showToastMessage(message: "해결되었거나 존재하지 않는 고민입니다😅", color: .red)
+            LaunchingWithPushMessage.shared.hasLaunchedWithPush = false
+        }
     }
     
     private func checkWhichViewIsHidden() {
