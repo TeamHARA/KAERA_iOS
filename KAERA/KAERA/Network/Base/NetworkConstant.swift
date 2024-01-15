@@ -10,9 +10,12 @@ import Foundation
 struct NetworkConstant {
     
     static let noTokenHeader = ["Content-Type": "application/json"]
-    
-    static let hasTokenHeader = ["Content-Type": "application/json",
-                                 "Authorization": NetworkConstant.accessToken]
+        
+    static var hasTokenHeader: [String: String] {
+        get {
+           return ["Content-Type": "application/json", "Authorization": NetworkConstant.accessToken]
+        }
+    }
     
     /// 임시로 현재 고정  bearerToken 직접 사용
     static let bearerToken = {
@@ -22,10 +25,12 @@ struct NetworkConstant {
         return token
     }()
     
-    static let accessToken = {
-        guard let accessToken = KeychainManager.load(key: .accessToken) else {  fatalError("AccessToken Not in the Keychain")
+    static var accessToken: String {
+        get {
+            guard let accessToken = KeychainManager.load(key: .accessToken) else {  fatalError("AccessToken Not in the Keychain")
+            }
+            return accessToken
         }
-        return accessToken
-    }()
+    }
     
 }
