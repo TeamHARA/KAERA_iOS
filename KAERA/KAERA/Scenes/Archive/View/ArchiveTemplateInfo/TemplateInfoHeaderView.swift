@@ -18,6 +18,13 @@ class TemplateInfoHeaderView: UIView {
         $0.layer.cornerRadius = 16
         $0.backgroundColor = .clear
     }
+    
+    private let instaLabel = UILabel().then {
+        $0.text = "캐라 인스타그램에서 다른\n고민 여정을 살펴보세요!"
+        $0.numberOfLines = 2
+        $0.textColor = .white
+        $0.font = .kB5R14W
+    }
 
     // MARK: - View Life Cycle
     override init(frame: CGRect) {
@@ -47,12 +54,17 @@ class TemplateInfoHeaderView: UIView {
 // MARK: - Layout
 extension TemplateInfoHeaderView {
     private func setLayout() {
-        self.addSubviews([instaBtn])
+        self.addSubviews([instaBtn, instaLabel])
 
         instaBtn.snp.makeConstraints {
             $0.width.equalTo(342.adjustedW)
             $0.height.equalTo(113.adjustedW)
             $0.edges.equalToSuperview()
+        }
+        
+        instaLabel.snp.makeConstraints {
+            $0.leading.equalTo(instaBtn.snp.leading).offset(36.adjustedW)
+            $0.bottom.equalTo(instaBtn.snp.bottom).offset(-30.adjustedH)
         }
     }
 }

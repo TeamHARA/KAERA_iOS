@@ -163,7 +163,7 @@ extension TemplateInfoVC: UITableViewDelegate {
         containerView.addSubview(headerView)
         headerView.snp.makeConstraints {
             $0.top.equalTo(containerView)
-            $0.bottom.equalTo(containerView).offset(-32)
+            $0.bottom.equalTo(containerView).offset(-20)
             $0.leading.trailing.equalTo(containerView)
         }
         return containerView
