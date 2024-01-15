@@ -83,8 +83,10 @@ final class HomeGemStoneVC: BaseVC {
         }else if pageType == .dug {
             input.send(1)
         }
+        
+
     }
-    
+
     // MARK: - Function
     private func setGemStoneCV() {
         gemStoneCV.register(GemStoneCVC.self, forCellWithReuseIdentifier: GemStoneCVC.className)
@@ -124,6 +126,17 @@ final class HomeGemStoneVC: BaseVC {
         self.gemStoneList = gemList
         self.gemStoneCV.reloadData()
         checkWhichViewIsHidden()
+
+        if LaunchingWithPushMessage.shared.hasLaunchedWithPush {
+            gemList.forEach {
+                if $0.worryId == LaunchingWithPushMessage.shared.worryId {
+                    presentWorryDetail()
+                    return
+                }
+            }
+            self.showToastMessage(message: "해결되었거나 존재하지 않는 고민입니다😅", color: .red)
+            LaunchingWithPushMessage.shared.hasLaunchedWithPush = false
+        }
     }
     
     private func checkWhichViewIsHidden() {
@@ -141,6 +154,17 @@ final class HomeGemStoneVC: BaseVC {
             gemStoneEmptyView.isHidden = true
             gemStoneCV.isHidden = false
         }
+    }
+    
+    private func presentWorryDetail() {
+        guard let worryId = LaunchingWithPushMessage.shared.worryId else { return }
+        
+        let vc = HomeWorryDetailVC(worryId: worryId, type: pageType)
+        vc.modalPresentationStyle = .fullScreen
+        vc.modalTransitionStyle = .coverVertical
+        self.present(vc, animated: true)
+        
+        LaunchingWithPushMessage.shared.hasLaunchedWithPush = false
     }
 }
 

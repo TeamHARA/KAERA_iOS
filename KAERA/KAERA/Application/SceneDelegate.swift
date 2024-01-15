@@ -16,6 +16,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: windowScene)
         window?.rootViewController = SplashVC()
         window?.makeKeyAndVisible()
+        
+        if connectionOptions.notificationResponse != nil {
+            LaunchingWithPushMessage.shared.hasLaunchedWithPush = true
+        }
     }
     
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
