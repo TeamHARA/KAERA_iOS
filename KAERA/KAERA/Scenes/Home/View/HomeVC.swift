@@ -62,6 +62,20 @@ final class HomeVC: BaseVC {
             pageVC.setViewControllers([firstVC], direction: .forward, animated: true)
         }
     }
+    
+    func presentDugWorryDetail(worryId: Int) {
+        pageVC.setViewControllers([contents[1]], direction: .forward, animated: true)
+        headerLabel.text = "그동안 캐낸 보석들 ✨"
+        pageIcn.image = UIImage(named: "icn_dug_page")
+        headerBGView.snp.updateConstraints {
+            $0.width.equalTo(176.adjustedW)
+        }
+        let dugDetailVC = HomeWorryDetailVC(worryId: worryId, type: .dug)
+        dugDetailVC.modalTransitionStyle = .coverVertical
+        dugDetailVC.modalPresentationStyle = .fullScreen
+        self.present(dugDetailVC, animated: true)
+    }
+    
 }
 
 extension HomeVC: UIPageViewControllerDelegate {

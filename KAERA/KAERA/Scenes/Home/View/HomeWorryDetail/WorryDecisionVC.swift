@@ -144,11 +144,22 @@ final class WorryDecisionVC: BaseVC {
             })
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.8) {
-            if let worryDetailVC = self.presentingViewController {
+            self.presnetToDugWorryDetail()
+        }
+    }
+    
+    private func presnetToDugWorryDetail() {
+        if let digDetailVC = self.presentingViewController, let tabBar = digDetailVC.presentingViewController as? KaeraTabbarController {
+            if let homeTab = tabBar.viewControllers?[0] as? BaseNC {
                 self.dismiss(animated: true) {
-                    worryDetailVC.dismiss(animated: true)
+                    digDetailVC.dismiss(animated: true) {
+                        if let homeVC = homeTab.viewControllers[0] as? HomeVC {
+                            homeVC.presentDugWorryDetail(worryId: self.worryId)
+                        }
+                    }
                 }
             }
+            
         }
     }
     
