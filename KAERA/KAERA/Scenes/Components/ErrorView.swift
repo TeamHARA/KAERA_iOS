@@ -1,5 +1,5 @@
 //
-//  GemStoneEmptyView.swift
+//  ErrorView.swift
 //  KAERA
 //
 //  Created by 배성호 on 2024/01/16.
@@ -14,34 +14,15 @@ final class ErrorView: UIView {
     // MARK: - Properties
     private var errorType: ErrorCase = .appError
     
-    private lazy var errorImageView = UIImageView().then {
-        switch self .errorType {
-        case .appError:
-            $0.image = UIImage(named: "app_error")
-        case .internetError:
-            $0.image = UIImage(named: "internet_error")
-        }
-    }
+    private let errorImageView = UIImageView()
+    private let errorBtn = UIButton()
     
-    private lazy var errorBtn = UIButton().then {
-        switch self .errorType {
-        case .appError:
-            $0.setBackgroundImage(UIImage(named: "app_error_btn"), for: .normal)
-        case .internetError:
-            $0.backgroundColor = .clear
-            $0.titleLabel?.font = .kB4R14
-            $0.setTitle("새로고침하기", for: .normal)
-            $0.setTitleColor(.kGray4, for: .normal)
-            $0.layer.cornerRadius = 30
-            $0.layer.borderWidth = 1
-            $0.layer.borderColor = UIColor.kGray4.cgColor
-        }
-    }
+    var retryAction: (() -> Void)?
 
     // MARK: - Initialization
     override init(frame: CGRect) {
         super.init(frame: .zero)
-        setLayout()
+        pressBtn()
     }
     
     required init?(coder: NSCoder) {
@@ -50,8 +31,36 @@ final class ErrorView: UIView {
     
     func modifyType(errorType: ErrorCase) {
         self.errorType = errorType
+        // 이미지 뷰와 버튼의 속성을 errorType에 따라 업데이트
+        switch errorType {
+        case .appError:
+            errorImageView.image = UIImage(named: "app_error")
+            errorBtn.setBackgroundImage(UIImage(named: "app_error_btn"), for: .normal)
+            errorBtn.backgroundColor = nil
+            errorBtn.setTitle(nil, for: .normal)
+            errorBtn.setTitleColor(nil, for: .normal)
+            errorBtn.layer.cornerRadius = 0
+            errorBtn.layer.borderWidth = 0
+            errorBtn.layer.borderColor = UIColor.clear.cgColor
+        case .internetError:
+            errorImageView.image = UIImage(named: "internet_error")
+            errorBtn.setBackgroundImage(nil, for: .normal)
+            errorBtn.backgroundColor = .clear
+            errorBtn.titleLabel?.font = .kB4R14
+            errorBtn.setTitle("새로고침하기", for: .normal)
+            errorBtn.setTitleColor(.kGray4, for: .normal)
+            errorBtn.layer.cornerRadius = 18
+            errorBtn.layer.borderWidth = 1
+            errorBtn.layer.borderColor = UIColor.kGray4.cgColor
+        }
+        setLayout()
     }
     
+    private func pressBtn() {
+        errorBtn.press {
+            self.retryAction?()
+        }
+    }
     
     // MARK: - Function
     private func setLayout() {
