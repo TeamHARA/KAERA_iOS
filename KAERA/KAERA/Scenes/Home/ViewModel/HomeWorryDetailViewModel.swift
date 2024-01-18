@@ -33,13 +33,19 @@ final class HomeWorryDetailViewModel: ViewModelType {
 // MARK: - Network
 extension HomeWorryDetailViewModel {
     private func getWorryDetail(worryId: Int) {
-        HomeAPI.shared.getWorryDetail(param: worryId) { res in
-            guard let res = res, let data = res.data else {
-                self.output.send(completion: .failure(NSError()))
-                return
+        HomeAPI.shared.getWorryDetail(param: worryId) { [weak self] result in
+            switch result {
+            case .success(let response):
+                guard let data = response.data else {
+                    self?.output.send(completion: .failure(ErrorCase.appError))
+                    return
+                }
+                self?.output.send(data)
+                self?.worryDetail = data
+
+            case .failure(let errorCase):
+                self?.output.send(completion: .failure(errorCase))
             }
-            self.output.send(data)
-            self.worryDetail = data
         }
     }
 }
