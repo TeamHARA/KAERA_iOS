@@ -53,6 +53,12 @@ final class HomeWorryDetailVC: BaseVC {
         $0.backgroundColor = .kGray3
         $0.layer.cornerRadius = 8
     }
+    
+    private var errorView = ErrorView().then {
+        $0.backgroundColor = .kGray1
+        $0.isHidden = true
+    }
+
     private let reviewView = WorryDetailReviewView()
     private var questions = [String]()
     private var answers = [String]()
@@ -71,7 +77,7 @@ final class HomeWorryDetailVC: BaseVC {
     private var finalAnswer = ""
     private var reviewText = ""
     private var isReviewEditing: Bool = false
-    
+        
     // MARK: - Initialization
     init(worryId: Int, type: PageType) {
         super.init(nibName: nil, bundle: nil)
@@ -95,19 +101,20 @@ final class HomeWorryDetailVC: BaseVC {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .kGray1
-        setLayout()
         switch pageType {
         case .digging:
             setDiggingLayout()
         case .dug:
             setDugLayout()
         }
+        setLayout()
         setNaviButtonAction()
         setupTableView()
         setReviewTextView()
         setPressAction()
         reviewViewKeyboardButtonAction()
         hideKeyboardWhenTappedAround()
+        configureErrorView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -204,20 +211,39 @@ final class HomeWorryDetailVC: BaseVC {
         }
     }
     
+    private func configureErrorView() {
+        errorView.retryAction = { [weak self] in
+            self?.reloadWorryDetail()
+        }
+    }
+
+    private func reloadWorryDetail() {
+        self.errorView.isHidden = true
+        self.startLoadingAnimation()
+        input.send(worryId)
+    }
+    
     private func dataBind() {
         let output = worryDetailViewModel.transform(
             input: HomeWorryDetailViewModel.Input(input)
         )
         output.receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { [weak self] completion in
+                self?.stopLoadingAnimation() /// 어떠한 요청이든 로딩 액션 중지
                 switch completion {
                 case .finished:
                     break
-                case .failure:
-                    self?.presentNetworkAlert()
+                case .failure(let err as ErrorCase):
+                    self?.errorView.modifyType(errorType: err)
+                    self?.errorView.isHidden = false
+                    self?.setLayout()
+                    
+                default:
+                    break
                 }
             }, receiveValue: { [weak self] worryDetail in
                 self?.updateUI(worryDetail: worryDetail)
+                self?.errorView.isHidden = true /// 데이터 로드 성공, 에러 뷰 숨김
             })
             .store(in: &cancellables)
     }
@@ -444,7 +470,7 @@ extension HomeWorryDetailVC: UITableViewDataSource, UITableViewDelegate {
 // MARK: - UI
 extension HomeWorryDetailVC {
     private func setLayout() {
-        self.view.addSubviews([navigationBarView, worryDetailScrollView])
+        self.view.addSubviews([worryDetailScrollView, navigationBarView])
         
         navigationBarView.snp.makeConstraints {
             $0.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(16)
@@ -475,10 +501,15 @@ extension HomeWorryDetailVC {
             $0.height.equalTo(worryDetailTV.contentSize.height)
         }
         
+        self.view.addSubView(errorView)
+        errorView.snp.makeConstraints {
+            $0.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(16)
+            $0.verticalEdges.equalTo(view.safeAreaLayoutGuide).inset(16)
+        }
     }
     
     private func setDiggingLayout() {
-        self.view.addSubviews([bottmContainerView])
+        self.view.addSubviews([navigationBarView, bottmContainerView])
         
         navigationBarView.snp.makeConstraints {
             $0.left.right.equalToSuperview().inset(16)
