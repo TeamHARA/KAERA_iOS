@@ -46,21 +46,25 @@ final class HomeAPI {
     }
     
     // MARK: - WorryDetail
-    func getWorryDetail(param: Int, completion: @escaping (GeneralResponse<WorryDetailModel>?) -> () ) {
-        homeProvider.request(.worryDetail(worryId: param)) { [weak self] response in
+    func getWorryDetail(param: Int, completion: @escaping (Result<GeneralResponse<WorryDetailModel>, ErrorCase>) -> Void) {
+        homeProvider.request(.worryDetail(worryId: param)) { response in
             switch response {
             case .success(let result):
+                /// do-catch문 안쓸시에 타입형 안맞는 오류 발생
                 do {
-                    self?.worryDetailResponse = try result.map(GeneralResponse<WorryDetailModel>?.self)
-                    guard let worryDetail = self?.worryDetailResponse else { return }
-                    completion(worryDetail)
-                } catch(let err) {
-                    print(err.localizedDescription)
-                    completion(nil)
+                    let worryDetailResponse = try result.map(GeneralResponse<WorryDetailModel>.self)
+                    completion(.success(worryDetailResponse))
+                } catch {
+                    completion(.failure(.appError))
                 }
             case .failure(let err):
-                print(err.localizedDescription)
-                completion(nil)
+                if let response = err.response {
+                    /// HTTP 상태 코드가 400-500 사이인 경우 appError로 처리
+                    completion(.failure((400...500).contains(response.statusCode) ? .appError : .internetError))
+                } else {
+                    /// 응답이 없는 경우 internetError로 처리
+                    completion(.failure(.internetError))
+                }
             }
         }
     }
