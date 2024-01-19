@@ -22,31 +22,33 @@ final class HomeWorryDetailViewModel: ViewModelType {
     // MARK: - Function
     func transform(input: AnyPublisher<Int, Never>) -> AnyPublisher<WorryDetailModel, Error> {
         input
-            .sink { [weak self] worryId in
-                self?.getWorryDetail(worryId: worryId)
+            .flatMap { [weak self] worryId -> AnyPublisher<WorryDetailModel, Error> in
+                guard let self = self else { return Fail(error: ErrorCase.appError).eraseToAnyPublisher() }
+                
+                return self.getWorryDetail(worryId: worryId)
             }
-            .store(in: &cancellables)
-        return output.eraseToAnyPublisher()
+            .eraseToAnyPublisher()
     }
 }
 
 // MARK: - Network
 extension HomeWorryDetailViewModel {
-    private func getWorryDetail(worryId: Int) {
-        HomeAPI.shared.getWorryDetail(param: worryId) { [weak self] result in
-            switch result {
-            case .success(let response):
-                guard let data = response.data else {
-                    self?.output.send(completion: .failure(ErrorCase.appError))
-                    return
+    private func getWorryDetail(worryId: Int) -> AnyPublisher<WorryDetailModel, Error> {
+        Future<WorryDetailModel, Error> { promise in
+            HomeAPI.shared.getWorryDetail(param: worryId) { result in
+                switch result {
+                case .success(let response):
+                    if let data = response.data {
+                        promise(.success(data))
+                    } else {
+                        promise(.failure(ErrorCase.appError))
+                    }
+                case .failure(let errorCase):
+                    promise(.failure(errorCase))
                 }
-                self?.output.send(data)
-                self?.worryDetail = data
-
-            case .failure(let errorCase):
-                self?.output.send(completion: .failure(errorCase))
             }
         }
+        .eraseToAnyPublisher()
     }
 }
 
