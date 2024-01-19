@@ -17,12 +17,9 @@ final class ErrorView: UIView {
     private let errorImageView = UIImageView()
     private let errorBtn = UIButton()
     
-    var retryAction: (() -> Void)?
-
     // MARK: - Initialization
     override init(frame: CGRect) {
         super.init(frame: .zero)
-        pressBtn()
     }
     
     required init?(coder: NSCoder) {
@@ -31,7 +28,12 @@ final class ErrorView: UIView {
     
     func modifyType(errorType: ErrorCase) {
         self.errorType = errorType
-        // 이미지 뷰와 버튼의 속성을 errorType에 따라 업데이트
+        updateUI()
+        setLayout()
+    }
+    
+    private func updateUI() {
+        /// 이미지 뷰와 버튼의 속성을 errorType에 따라 업데이트
         switch errorType {
         case .appError:
             errorImageView.image = UIImage(named: "app_error")
@@ -53,12 +55,11 @@ final class ErrorView: UIView {
             errorBtn.layer.borderWidth = 1
             errorBtn.layer.borderColor = UIColor.kGray4.cgColor
         }
-        setLayout()
     }
     
-    private func pressBtn() {
+    func pressBtn(_ closure: @escaping () -> ()) {
         errorBtn.press {
-            self.retryAction?()
+            closure()
         }
     }
     
@@ -96,6 +97,4 @@ final class ErrorView: UIView {
             }
         }
     }
-    
-    
 }
