@@ -212,13 +212,17 @@ final class HomeWorryDetailVC: BaseVC {
     }
     
     private func configureErrorView() {
-        errorView.retryAction = { [weak self] in
+        errorView.pressBtn { [weak self] in
             self?.reloadWorryDetail()
         }
     }
 
     private func reloadWorryDetail() {
         self.errorView.isHidden = true
+        /// 구독을 취소하고 다시 구독을 시행한다
+        /// cancellables.removeAll()과 동일한 역할을 하지만 새롭게 선언하는 것이 시간복잡도 측면에서 더 효과적이다.
+        cancellables = []
+        dataBind()
         self.startLoadingAnimation()
         input.send(worryId)
     }
@@ -236,8 +240,6 @@ final class HomeWorryDetailVC: BaseVC {
                 case .failure(let err as ErrorCase):
                     self?.errorView.modifyType(errorType: err)
                     self?.errorView.isHidden = false
-                    self?.setLayout()
-                    
                 default:
                     break
                 }
