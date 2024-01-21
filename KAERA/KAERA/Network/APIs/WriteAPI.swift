@@ -12,7 +12,7 @@ import Moya
 final class WriteAPI {
     
     static let shared: WriteAPI = WriteAPI()
-    private let writeProvider = MoyaProvider<WriteService>(session: Session(interceptor: AuthInterceptor.shared), plugins: [MoyaLoggingPlugin()])
+    private let writeProvider = MoyaProvider<WriteService>(session: MoyaSession.shared.session, plugins: [MoyaLoggingPlugin()])
 
     private init() { }
     

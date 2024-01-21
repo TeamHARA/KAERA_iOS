@@ -11,7 +11,7 @@ import Moya
 final class AuthAPI {
     
     static let shared: AuthAPI = AuthAPI()
-    private let authProvider = MoyaProvider<AuthService>(session: Session(interceptor: AuthInterceptor.shared), plugins: [MoyaLoggingPlugin()])
+    private let authProvider = MoyaProvider<AuthService>(session: MoyaSession.shared.session, plugins: [MoyaLoggingPlugin()])
     
     private init() { }
     
