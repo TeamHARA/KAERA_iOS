@@ -53,6 +53,12 @@ final class HomeWorryDetailVC: BaseVC {
         $0.backgroundColor = .kGray3
         $0.layer.cornerRadius = 8
     }
+    
+    private var errorView = ErrorView().then {
+        $0.backgroundColor = .kGray1
+        $0.isHidden = true
+    }
+
     private let reviewView = WorryDetailReviewView()
     private var questions = [String]()
     private var answers = [String]()
@@ -71,7 +77,7 @@ final class HomeWorryDetailVC: BaseVC {
     private var finalAnswer = ""
     private var reviewText = ""
     private var isReviewEditing: Bool = false
-    
+        
     // MARK: - Initialization
     init(worryId: Int, type: PageType, worryDetail: WorryDetailModel? = nil) {
         super.init(nibName: nil, bundle: nil)
@@ -108,12 +114,14 @@ final class HomeWorryDetailVC: BaseVC {
         case .dug:
             setDugLayout()
         }
+        setErrorViewLayout()
         setNaviButtonAction()
         setupTableView()
         setReviewTextView()
         setPressAction()
         reviewViewKeyboardButtonAction()
         hideKeyboardWhenTappedAround()
+        configureErrorView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -210,20 +218,41 @@ final class HomeWorryDetailVC: BaseVC {
         }
     }
     
+    private func configureErrorView() {
+        errorView.pressBtn { [weak self] in
+            self?.reloadWorryDetail()
+        }
+    }
+
+    private func reloadWorryDetail() {
+        self.errorView.isHidden = true
+        /// 구독을 취소하고 다시 구독을 시행한다
+        /// cancellables.removeAll()과 동일한 역할을 하지만 새롭게 선언하는 것이 시간복잡도 측면에서 더 효과적이다.
+        cancellables = []
+        dataBind()
+        self.startLoadingAnimation()
+        input.send(worryId)
+    }
+    
     private func dataBind() {
         let output = worryDetailViewModel.transform(
             input: HomeWorryDetailViewModel.Input(input)
         )
         output.receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { [weak self] completion in
+                self?.stopLoadingAnimation() /// 어떠한 요청이든 로딩 액션 중지
                 switch completion {
                 case .finished:
                     break
-                case .failure:
-                    self?.presentNetworkAlert()
+                case .failure(let err as ErrorCase):
+                    self?.errorView.modifyType(errorType: err)
+                    self?.errorView.isHidden = false
+                default:
+                    break
                 }
             }, receiveValue: { [weak self] worryDetail in
                 self?.updateUI(worryDetail: worryDetail)
+                self?.errorView.isHidden = true /// 데이터 로드 성공, 에러 뷰 숨김
             })
             .store(in: &cancellables)
     }
@@ -450,7 +479,7 @@ extension HomeWorryDetailVC: UITableViewDataSource, UITableViewDelegate {
 // MARK: - UI
 extension HomeWorryDetailVC {
     private func setLayout() {
-        self.view.addSubviews([navigationBarView, worryDetailScrollView])
+        self.view.addSubviews([worryDetailScrollView, navigationBarView])
         
         navigationBarView.snp.makeConstraints {
             $0.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(16)
@@ -480,17 +509,10 @@ extension HomeWorryDetailVC {
             $0.top.equalToSuperview()
             $0.height.equalTo(worryDetailTV.contentSize.height)
         }
-        
     }
     
     private func setDiggingLayout() {
         self.view.addSubviews([bottmContainerView])
-        
-        navigationBarView.snp.makeConstraints {
-            $0.left.right.equalToSuperview().inset(16)
-            $0.top.equalTo(view.safeAreaLayoutGuide).inset(20)
-            $0.height.equalTo(50)
-        }
         
         bottmContainerView.snp.makeConstraints {
             $0.directionalHorizontalEdges.equalToSuperview()
@@ -514,6 +536,15 @@ extension HomeWorryDetailVC {
             $0.directionalHorizontalEdges.equalToSuperview()
             $0.bottom.equalToSuperview().inset(16)
             $0.height.equalTo(restReviewViewHeight + defaultTextViewHeight)
+        }
+    }
+    
+    private func setErrorViewLayout() {
+        self.view.addSubView(errorView)
+        
+        errorView.snp.makeConstraints {
+            $0.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(16)
+            $0.verticalEdges.equalTo(view.safeAreaLayoutGuide).inset(16)
         }
     }
 }
