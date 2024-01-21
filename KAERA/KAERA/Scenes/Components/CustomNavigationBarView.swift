@@ -113,6 +113,8 @@ final class CustomNavigationBarView: UIView {
     
     func setTitleText(text: String) {
         self.titleLabel.text = text
+        self.titleLabel.textColor = .kYellow1
+        self.titleLabel.setColor(to: "고민캐기", with: .kWhite)
     }
     
     
