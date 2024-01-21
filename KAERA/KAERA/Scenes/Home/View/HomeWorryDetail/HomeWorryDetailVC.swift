@@ -101,13 +101,14 @@ final class HomeWorryDetailVC: BaseVC {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .kGray1
+        setLayout()
         switch pageType {
         case .digging:
             setDiggingLayout()
         case .dug:
             setDugLayout()
         }
-        setLayout()
+        setErrorViewLayout()
         setNaviButtonAction()
         setupTableView()
         setReviewTextView()
@@ -502,22 +503,10 @@ extension HomeWorryDetailVC {
             $0.top.equalToSuperview()
             $0.height.equalTo(worryDetailTV.contentSize.height)
         }
-        
-        self.view.addSubView(errorView)
-        errorView.snp.makeConstraints {
-            $0.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(16)
-            $0.verticalEdges.equalTo(view.safeAreaLayoutGuide).inset(16)
-        }
     }
     
     private func setDiggingLayout() {
-        self.view.addSubviews([navigationBarView, bottmContainerView])
-        
-        navigationBarView.snp.makeConstraints {
-            $0.left.right.equalToSuperview().inset(16)
-            $0.top.equalTo(view.safeAreaLayoutGuide).inset(20)
-            $0.height.equalTo(50)
-        }
+        self.view.addSubviews([bottmContainerView])
         
         bottmContainerView.snp.makeConstraints {
             $0.directionalHorizontalEdges.equalToSuperview()
@@ -541,6 +530,15 @@ extension HomeWorryDetailVC {
             $0.directionalHorizontalEdges.equalToSuperview()
             $0.bottom.equalToSuperview().inset(16)
             $0.height.equalTo(restReviewViewHeight + defaultTextViewHeight)
+        }
+    }
+    
+    private func setErrorViewLayout() {
+        self.view.addSubView(errorView)
+        
+        errorView.snp.makeConstraints {
+            $0.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(16)
+            $0.verticalEdges.equalTo(view.safeAreaLayoutGuide).inset(16)
         }
     }
 }

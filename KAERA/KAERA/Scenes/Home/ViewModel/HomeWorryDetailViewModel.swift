@@ -22,13 +22,12 @@ final class HomeWorryDetailViewModel: ViewModelType {
     // MARK: - Function
     func transform(input: AnyPublisher<Int, Never>) -> AnyPublisher<WorryDetailModel, Error> {
         input
-            .flatMap { [weak self] worryId -> AnyPublisher<WorryDetailModel, Error> in
-                guard let self = self else { return Fail(error: ErrorCase.appError).eraseToAnyPublisher() }
-                
-                return self.getWorryDetail(worryId: worryId)
+            .flatMap { worryId in
+                self.getWorryDetail(worryId: worryId)
             }
             .eraseToAnyPublisher()
     }
+
 }
 
 // MARK: - Network
@@ -40,6 +39,7 @@ extension HomeWorryDetailViewModel {
                 case .success(let response):
                     if let data = response.data {
                         promise(.success(data))
+                        self.worryDetail = data
                     } else {
                         promise(.failure(ErrorCase.appError))
                     }
