@@ -50,7 +50,6 @@ final class HomeAPI {
         homeProvider.request(.worryDetail(worryId: param)) { response in
             switch response {
             case .success(let result):
-                /// do-catch문 안쓸시에 타입형 안맞는 오류 발생
                 do {
                     let worryDetailResponse = try result.map(GeneralResponse<WorryDetailModel>.self)
                     completion(.success(worryDetailResponse))
