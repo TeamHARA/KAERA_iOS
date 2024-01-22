@@ -11,7 +11,7 @@ import Moya
 final class ArchiveAPI {
     
     static let shared: ArchiveAPI = ArchiveAPI()
-    private let archiveProvider = MoyaProvider<ArchiveService>(session: Session(interceptor: AuthInterceptor.shared),plugins: [MoyaLoggingPlugin()])
+    private let archiveProvider = MoyaProvider<ArchiveService>(session: MoyaSession.shared.session,plugins: [MoyaLoggingPlugin()])
     
     private init() { }
     

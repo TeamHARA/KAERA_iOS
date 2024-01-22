@@ -12,7 +12,7 @@ final class HomeAPI {
     
     static let shared: HomeAPI = HomeAPI()
 
-    private let homeProvider = MoyaProvider<HomeService>(session: Session(interceptor: AuthInterceptor.shared), plugins: [MoyaLoggingPlugin()])
+    private let homeProvider = MoyaProvider<HomeService>(session: MoyaSession.shared.session, plugins: [MoyaLoggingPlugin()])
     
     private init() { }
     
@@ -50,7 +50,6 @@ final class HomeAPI {
         homeProvider.request(.worryDetail(worryId: param)) { response in
             switch response {
             case .success(let result):
-                /// do-catch문 안쓸시에 타입형 안맞는 오류 발생
                 do {
                     let worryDetailResponse = try result.map(GeneralResponse<WorryDetailModel>.self)
                     completion(.success(worryDetailResponse))

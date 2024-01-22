@@ -73,6 +73,7 @@
 		E70764EB2AC9980600627AA7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E70764EA2AC9980600627AA7 /* GoogleService-Info.plist */; };
 		E70C7CA12A90959A006B2E74 /* HomeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E70C7CA02A90959A006B2E74 /* HomeService.swift */; };
 		E70C7CA32A909829006B2E74 /* HomeAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E70C7CA22A909829006B2E74 /* HomeAPI.swift */; };
+		E719C10D2B5D584600FED2EB /* MoyaSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = E719C10C2B5D584600FED2EB /* MoyaSession.swift */; };
 		E71FC2262AD284D9001DD27D /* SplashVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E71FC2252AD284D9001DD27D /* SplashVC.swift */; };
 		E71FC22C2AD29400001DD27D /* RenewalTokenModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E71FC22B2AD29400001DD27D /* RenewalTokenModel.swift */; };
 		E71FC2442ADC01B6001DD27D /* MyPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E71FC2432ADC01B6001DD27D /* MyPageVC.swift */; };
@@ -203,6 +204,7 @@
 		E70BB9062B48F38A005CBE6B /* ci_post_clone.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = ci_post_clone.sh; sourceTree = "<group>"; };
 		E70C7CA02A90959A006B2E74 /* HomeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeService.swift; sourceTree = "<group>"; };
 		E70C7CA22A909829006B2E74 /* HomeAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeAPI.swift; sourceTree = "<group>"; };
+		E719C10C2B5D584600FED2EB /* MoyaSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoyaSession.swift; sourceTree = "<group>"; };
 		E71FC2252AD284D9001DD27D /* SplashVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashVC.swift; sourceTree = "<group>"; };
 		E71FC22B2AD29400001DD27D /* RenewalTokenModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenewalTokenModel.swift; sourceTree = "<group>"; };
 		E71FC2432ADC01B6001DD27D /* MyPageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageVC.swift; sourceTree = "<group>"; };
@@ -699,6 +701,7 @@
 				E79AAC422A52F36500F3F439 /* NetworkResult.swift */,
 				E7AC12202A51CFFD00FE504C /* GeneralResponse.swift */,
 				E7B0912F2B0DF6AA00F47BEB /* AuthInterceptor.swift */,
+				E719C10C2B5D584600FED2EB /* MoyaSession.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -1009,6 +1012,7 @@
 				E79AAC302A52F2C300F3F439 /* String+.swift in Sources */,
 				E72D6AF32B1C907800CF8B01 /* EditWorryResponseModel.swift in Sources */,
 				85A849312A87A9F7009F1468 /* TemplateContentTVC.swift in Sources */,
+				E719C10D2B5D584600FED2EB /* MoyaSession.swift in Sources */,
 				85ECEE492A9A406B00A624AE /* ArchiveService.swift in Sources */,
 				E7F8CC642B10712600066BB1 /* OnboardingVC.swift in Sources */,
 				E79AAC4B2A52F3E000F3F439 /* BaseNC.swift in Sources */,
