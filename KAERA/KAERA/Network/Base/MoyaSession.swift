@@ -12,7 +12,7 @@ final class MoyaSession {
     
     let session: Session = {
         let configuration = URLSessionConfiguration.af.default
-        configuration.timeoutIntervalForRequest = 5
+        configuration.timeoutIntervalForRequest = 3
         let interceptor = AuthInterceptor.shared
         return Session(configuration: configuration, interceptor: interceptor)
     }()
