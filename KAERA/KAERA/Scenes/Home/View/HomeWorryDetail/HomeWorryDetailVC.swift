@@ -165,7 +165,7 @@ final class HomeWorryDetailVC: BaseVC {
                                       + 10)
                 }
                 
-            }else {
+            } else {
                 worryDetailContentView.snp.updateConstraints {
                     $0.height.equalTo(tableContentHeight + reviewSpacing + restReviewViewHeight + defaultTextViewHeight)
                 }

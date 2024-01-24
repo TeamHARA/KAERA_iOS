@@ -15,7 +15,6 @@ final class HomeWorryDetailViewModel: ViewModelType {
     typealias Output = AnyPublisher<WorryDetailModel, Error>
     
     private let output: PassthroughSubject<WorryDetailModel, Error> = .init()
-    private var cancellables = Set<AnyCancellable>()
     
     var worryDetail: WorryDetailModel?
     
@@ -27,7 +26,6 @@ final class HomeWorryDetailViewModel: ViewModelType {
             }
             .eraseToAnyPublisher()
     }
-
 }
 
 // MARK: - Network
