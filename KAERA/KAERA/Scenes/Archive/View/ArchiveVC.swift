@@ -32,6 +32,11 @@ class ArchiveVC: BaseVC, RefreshListDelegate {
     
     private var worryListWithTemplate: [WorryListPublisherModel] = []
     
+    private var errorView = ErrorView().then {
+        $0.backgroundColor = .kGray1
+        $0.isHidden = true
+    }
+    
     // MARK: - View Model
     private var worryVM = WorryListViewModel()
     private var cancellables = Set<AnyCancellable>()
@@ -49,9 +54,11 @@ class ArchiveVC: BaseVC, RefreshListDelegate {
         self.navigationController?.isNavigationBarHidden = true
         dataBind()
         setLayout()
+        setErrorViewLayout()
         registerCV()
         pressBtn()
         setDelgate()
+        configureErrorView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -103,8 +110,12 @@ class ArchiveVC: BaseVC, RefreshListDelegate {
                 switch completion {
                 case .finished:
                     break
-                case .failure:
+                case .failure(let err as ErrorCase):
                     self?.presentNetworkAlert()
+                    self?.errorView.modifyType(errorType: err)
+                    self?.errorView.isHidden = false
+                default:
+                    break
                 }
             }, receiveValue: { [weak self] worryList in
                 self?.stopLoadingAnimation()
@@ -113,6 +124,31 @@ class ArchiveVC: BaseVC, RefreshListDelegate {
                 self?.worryListCV.reloadData()
             })
             .store(in: &cancellables)
+    }
+    
+    private func configureErrorView() {
+        errorView.pressBtn { [weak self] in
+            self?.reloadWorryDetail()
+        }
+    }
+
+    private func reloadWorryDetail() {
+        self.errorView.isHidden = true
+        /// 구독을 취소하고 다시 구독을 시행한다
+        /// cancellables.removeAll()과 동일한 역할을 하지만 새롭게 선언하는 것이 시간복잡도 측면에서 더 효과적이다.
+        cancellables = []
+        dataBind()
+        self.startLoadingAnimation()
+        input.send(templateIndex)
+    }
+    
+    private func setErrorViewLayout() {
+        self.view.addSubView(errorView)
+        
+        errorView.snp.makeConstraints {
+            $0.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(16)
+            $0.verticalEdges.equalTo(view.safeAreaLayoutGuide).inset(16)
+        }
     }
     
     // MARK: - RefreshListDelegate
