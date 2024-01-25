@@ -165,7 +165,7 @@ final class HomeWorryDetailVC: BaseVC {
                                       + 10)
                 }
                 
-            }else {
+            } else {
                 worryDetailContentView.snp.updateConstraints {
                     $0.height.equalTo(tableContentHeight + reviewSpacing + restReviewViewHeight + defaultTextViewHeight)
                 }
@@ -245,6 +245,7 @@ final class HomeWorryDetailVC: BaseVC {
                 case .finished:
                     break
                 case .failure(let err as ErrorCase):
+                    self?.presentNetworkAlert()
                     self?.errorView.modifyType(errorType: err)
                     self?.errorView.isHidden = false
                 default:
