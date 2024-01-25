@@ -134,8 +134,6 @@ class ArchiveVC: BaseVC, RefreshListDelegate {
 
     private func reloadWorryDetail() {
         self.errorView.isHidden = true
-        /// 구독을 취소하고 다시 구독을 시행한다
-        /// cancellables.removeAll()과 동일한 역할을 하지만 새롭게 선언하는 것이 시간복잡도 측면에서 더 효과적이다.
         cancellables = []
         dataBind()
         self.startLoadingAnimation()
@@ -146,8 +144,7 @@ class ArchiveVC: BaseVC, RefreshListDelegate {
         self.view.addSubView(errorView)
         
         errorView.snp.makeConstraints {
-            $0.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(16)
-            $0.verticalEdges.equalTo(view.safeAreaLayoutGuide).inset(16)
+            $0.edges.equalTo(view.safeAreaLayoutGuide).inset(16)
         }
     }
     

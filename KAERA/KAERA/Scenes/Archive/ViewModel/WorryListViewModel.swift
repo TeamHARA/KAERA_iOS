@@ -17,8 +17,6 @@ final class WorryListViewModel: ViewModelType {
     typealias Input = AnyPublisher<Int, Never>
     typealias Output = AnyPublisher<[WorryListPublisherModel], Error>
     
-    private let output: PassthroughSubject<[WorryListPublisherModel], Error> = .init()
-    
     func transform(input: AnyPublisher<Int, Never>) -> AnyPublisher<[WorryListPublisherModel], Error> {
         input
             .flatMap { templateId in
