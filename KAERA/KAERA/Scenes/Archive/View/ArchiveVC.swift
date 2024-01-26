@@ -106,6 +106,7 @@ class ArchiveVC: BaseVC, RefreshListDelegate {
         )
         output.receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { [weak self] completion in
+                self?.stopLoadingAnimation()
                 switch completion {
                 case .finished:
                     break
