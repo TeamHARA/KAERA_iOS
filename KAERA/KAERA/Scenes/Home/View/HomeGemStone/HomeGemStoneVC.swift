@@ -112,6 +112,7 @@ final class HomeGemStoneVC: BaseVC {
                 case .finished:
                     break
                 case .failure(let err as ErrorCase):
+                    self?.presentNetworkAlert()
                     self?.errorView.modifyType(errorType: err)
                     self?.errorView.updateTopOffset(100)
                     self?.errorView.isHidden = false
