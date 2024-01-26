@@ -9,11 +9,11 @@ import Foundation
 import Combine
 
 final class HomeGemListViewModel: ViewModelType {
-
+    
     typealias Input = AnyPublisher<Int, Never>
     typealias Output = AnyPublisher<[HomePublisherModel], Error>
     
-    private let output: PassthroughSubject<[HomePublisherModel], Error> = .init()
+    private var output: PassthroughSubject<[HomePublisherModel], Error> = .init()
     private var cancellables = Set<AnyCancellable>()
     
     func transform(input: Input) -> Output {
@@ -31,7 +31,7 @@ final class HomeGemListViewModel: ViewModelType {
         let id: Int
         let isSolved: Int
     }
-
+    
     private var gemStoneDictionary: [TemplateKey: String] = [
         TemplateKey(id: 1, isSolved: 0): "gemstone_blue",
         TemplateKey(id: 1, isSolved: 1): "gem_blue_l",
@@ -47,28 +47,37 @@ final class HomeGemListViewModel: ViewModelType {
         TemplateKey(id: 6, isSolved: 1): "gem_yellow_l",
     ]
     
-    private var gemStoneList: [HomePublisherModel] = []
-
 }
 // MARK: - Network
 extension HomeGemListViewModel {
+    
     private func getHomeGemList(isSolved: Int) {
-        HomeAPI.shared.getHomeGemList(param: isSolved) { res in
-            guard let res = res, let data = res.data else {
-                self.output.send(completion: .failure(NSError()))
-                return
+        HomeAPI.shared.getHomeGemList(param: isSolved) { [weak self] result in
+            switch result {
+            case .success(let response):
+                if let data = response.data {
+                    var gemStoneList: [HomePublisherModel] = []
+                    
+                    data.forEach {
+                        let image = self?.gemStoneDictionary[TemplateKey(id: $0.templateId, isSolved: isSolved)] ?? "gemstone_pink"
+                        let publisherModel = HomePublisherModel(worryId: $0.worryId, templateId: $0.templateId, imageName: image, title: $0.title)
+                        gemStoneList.append(publisherModel)
+                    }
+                   
+                    self?.output.send(gemStoneList)
+                } else {
+                    self?.output.send(completion: .failure(ErrorCase.appError))
+                    self?.resetSubscription()
+                }
+            case .failure(let errorCase):
+                self?.output.send(completion: .failure(errorCase))
+                self?.resetSubscription()
             }
-            /// 뿌려줄 리스트 초기화
-            self.gemStoneList = []
-            
-            data.forEach {
-                let image = self.gemStoneDictionary[TemplateKey(id: $0.templateId, isSolved: isSolved)] ?? "gemstone_pink"
-                let publisherModel = HomePublisherModel(worryId: $0.worryId, templateId: $0.templateId, imageName: image, title: $0.title)
-                self.gemStoneList.append(publisherModel)
-            }
-            
-            self.output.send(self.gemStoneList)
         }
-
+    }
+    
+    private func resetSubscription() {
+        cancellables = []
+        output = PassthroughSubject()
     }
 }
