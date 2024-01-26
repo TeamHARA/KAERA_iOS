@@ -20,10 +20,18 @@ final class ErrorView: UIView {
     // MARK: - Initialization
     override init(frame: CGRect) {
         super.init(frame: .zero)
+        self.backgroundColor = .kGray1
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: - Function
+    func updateTopOffset(_ offset: CGFloat) {
+        errorImageView.snp.updateConstraints {
+            $0.top.equalToSuperview().offset(offset.adjustedH)
+        }
     }
     
     func modifyType(errorType: ErrorCase) {
@@ -72,7 +80,7 @@ final class ErrorView: UIView {
         }
     }
     
-    // MARK: - Function
+
     private func setLayout() {
         self.addSubviews([errorImageView, errorBtn])
         

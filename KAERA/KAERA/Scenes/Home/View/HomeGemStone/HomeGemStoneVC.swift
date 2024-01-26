@@ -113,9 +113,7 @@ final class HomeGemStoneVC: BaseVC {
                     break
                 case .failure(let err as ErrorCase):
                     self?.errorView.modifyType(errorType: err)
-                    self?.errorView.errorImageView.snp.updateConstraints {
-                        $0.top.equalToSuperview().offset(100.adjustedH)
-                    }
+                    self?.errorView.updateTopOffset(100)
                     self?.errorView.isHidden = false
                 default:
                     break

@@ -33,7 +33,6 @@ class ArchiveVC: BaseVC, RefreshListDelegate {
     private var worryListWithTemplate: [WorryListPublisherModel] = []
     
     private var errorView = ErrorView().then {
-        $0.backgroundColor = .kGray1
         $0.isHidden = true
     }
     
