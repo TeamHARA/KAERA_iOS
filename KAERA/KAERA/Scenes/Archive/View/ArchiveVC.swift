@@ -33,7 +33,6 @@ class ArchiveVC: BaseVC, RefreshListDelegate {
     private var worryListWithTemplate: [WorryListPublisherModel] = []
     
     private var errorView = ErrorView().then {
-        $0.backgroundColor = .kGray1
         $0.isHidden = true
     }
     
@@ -107,6 +106,7 @@ class ArchiveVC: BaseVC, RefreshListDelegate {
         )
         output.receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { [weak self] completion in
+                self?.stopLoadingAnimation()
                 switch completion {
                 case .finished:
                     break

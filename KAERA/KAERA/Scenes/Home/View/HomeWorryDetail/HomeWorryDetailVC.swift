@@ -55,7 +55,6 @@ final class HomeWorryDetailVC: BaseVC {
     }
     
     private var errorView = ErrorView().then {
-        $0.backgroundColor = .kGray1
         $0.isHidden = true
     }
 
@@ -240,7 +239,7 @@ final class HomeWorryDetailVC: BaseVC {
         )
         output.receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { [weak self] completion in
-                self?.stopLoadingAnimation() /// 어떠한 요청이든 로딩 액션 중지
+                self?.stopLoadingAnimation()
                 switch completion {
                 case .finished:
                     break
@@ -252,15 +251,14 @@ final class HomeWorryDetailVC: BaseVC {
                     break
                 }
             }, receiveValue: { [weak self] worryDetail in
+                self?.stopLoadingAnimation()
                 self?.updateUI(worryDetail: worryDetail)
-                self?.errorView.isHidden = true /// 데이터 로드 성공, 에러 뷰 숨김
+                self?.errorView.isHidden = true
             })
             .store(in: &cancellables)
     }
     
     private func updateUI(worryDetail: WorryDetailModel) {
-        self.stopLoadingAnimation()
-        
         questions = worryDetail.subtitles
         answers = worryDetail.answers
         updateDate = worryDetail.updatedAt

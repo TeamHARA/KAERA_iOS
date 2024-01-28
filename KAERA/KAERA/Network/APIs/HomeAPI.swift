@@ -25,43 +25,45 @@ final class HomeAPI {
     public private(set) var worryReviewResponse: GeneralResponse<WorryReviewResponseModel>?
    
     // MARK: - HomeGemList
-    func getHomeGemList(param: Int, completion: @escaping (GeneralArrayResponse<HomeGemListModel>?) -> ()) {
+    func getHomeGemList(param: Int, completion: @escaping (Result<GeneralArrayResponse<HomeGemListModel>, ErrorCase>) -> ()) {
         homeProvider.request(.homeGemList(isSolved: param)) { [weak self] response in
             switch response {
             case .success(let result):
                 do {
                     self?.homeGemListResponse = try
                     result.map(GeneralArrayResponse<HomeGemListModel>?.self)
-                    guard let gemList = self?.homeGemListResponse else { return }
-                    completion(gemList)
+                    guard let response = self?.homeGemListResponse else { return }
+                    completion(.success(response))
                 } catch(let err) {
                     print(err.localizedDescription)
-                    completion(nil)
+                    completion(.failure(.appError))
                 }
             case .failure(let err):
-                print(err.localizedDescription)
-                completion(nil)
+                if let response = err.response {
+                    completion(.failure((400...500).contains(response.statusCode) ? .appError : .internetError))
+                } else {
+                    completion(.failure(.internetError))
+                }
             }
         }
     }
     
     // MARK: - WorryDetail
     func getWorryDetail(param: Int, completion: @escaping (Result<GeneralResponse<WorryDetailModel>, ErrorCase>) -> Void) {
-        homeProvider.request(.worryDetail(worryId: param)) { response in
+        homeProvider.request(.worryDetail(worryId: param)) { [weak self] response in
             switch response {
             case .success(let result):
                 do {
-                    let worryDetailResponse = try result.map(GeneralResponse<WorryDetailModel>.self)
-                    completion(.success(worryDetailResponse))
+                    self?.worryDetailResponse = try result.map(GeneralResponse<WorryDetailModel>.self)
+                    guard let response = self?.worryDetailResponse else { return }
+                    completion(.success(response))
                 } catch {
                     completion(.failure(.appError))
                 }
             case .failure(let err):
                 if let response = err.response {
-                    /// HTTP 상태 코드가 400-500 사이인 경우 appError로 처리
                     completion(.failure((400...500).contains(response.statusCode) ? .appError : .internetError))
                 } else {
-                    /// 응답이 없는 경우 internetError로 처리
                     completion(.failure(.internetError))
                 }
             }

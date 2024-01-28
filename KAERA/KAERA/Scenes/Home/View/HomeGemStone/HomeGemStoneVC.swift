@@ -58,6 +58,10 @@ final class HomeGemStoneVC: BaseVC {
     
     private let gemStoneEmptyView = GemStoneEmptyView(mainTitle: "아직 고민 보석이 없네요!", subTitle: "작성된 고민 원석을\n빛나는 보석으로 만들어주세요.")
         
+    private let errorView = ErrorView().then {
+        $0.isHidden = true
+    }
+    
     // MARK: - Initialization
     init(type: PageType = .digging) {
         super.init(nibName: nil, bundle: nil)
@@ -74,6 +78,7 @@ final class HomeGemStoneVC: BaseVC {
         dataBind()
         setGemStoneCV()
         setLayout()
+        setErrorRealoadAction()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -83,8 +88,6 @@ final class HomeGemStoneVC: BaseVC {
         }else if pageType == .dug {
             input.send(1)
         }
-        
-
     }
 
     // MARK: - Function
@@ -100,29 +103,34 @@ final class HomeGemStoneVC: BaseVC {
     
     private func dataBind() {
         let output = gemListViewModel.transform(
-            input: HomeGemListViewModel
-                .Input(input)
+            input: HomeGemListViewModel.Input(input)
         )
-        
         output.receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { [weak self] completion in
+                self?.stopLoadingAnimation()
                 switch completion {
                 case .finished:
                     break
-                case .failure:
+                case .failure(let err as ErrorCase):
                     self?.presentNetworkAlert()
+                    self?.errorView.modifyType(errorType: err)
+                    self?.errorView.updateTopOffset(100)
+                    self?.errorView.isHidden = false
+                default:
+                    break
                 }
             }, receiveValue: { [weak self] list in
+                self?.stopLoadingAnimation()
                 if self?.pageType == .digging {
                     HomeGemStoneCount.shared.count = list.count
                 }
                 self?.updateUI(gemList: list)
+                self?.errorView.isHidden = true
             })
             .store(in: &cancellables)
     }
     
     private func updateUI(gemList: [HomePublisherModel]) {
-        self.stopLoadingAnimation()
         self.gemStoneList = gemList
         self.gemStoneCV.reloadData()
         checkWhichViewIsHidden()
@@ -165,6 +173,22 @@ final class HomeGemStoneVC: BaseVC {
         self.present(vc, animated: true)
         
         LaunchingWithPushMessage.shared.hasLaunchedWithPush = false
+    }
+    private func setErrorRealoadAction() {
+        self.errorView.pressBtn { [weak self] in
+            self?.reloadErrorView()
+        }
+    }
+    
+    private func reloadErrorView() {
+        cancellables = []
+        dataBind()
+        self.startLoadingAnimation()
+        if pageType == .digging {
+            input.send(0)
+        }else if pageType == .dug {
+            input.send(1)
+        }
     }
 }
 
@@ -225,7 +249,7 @@ extension HomeGemStoneVC: UICollectionViewDataSource {
 extension HomeGemStoneVC {
     private func setLayout() {
         self.view.backgroundColor = .kGray1
-        self.view.addSubviews([stoneEmptyView, gemStoneEmptyView, gemStoneCV])
+        self.view.addSubviews([stoneEmptyView, gemStoneEmptyView, gemStoneCV, errorView])
         
         gemStoneCV.snp.makeConstraints {
             $0.directionalHorizontalEdges.top.equalToSuperview()
@@ -243,5 +267,10 @@ extension HomeGemStoneVC {
             $0.directionalHorizontalEdges.equalToSuperview()
             $0.height.equalTo(185.adjustedH)
         }
+        
+        errorView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
     }
 }
