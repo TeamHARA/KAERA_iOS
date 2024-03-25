@@ -22,8 +22,8 @@ final class HomeWorryDetailViewModel: ViewModelType {
     // MARK: - Function
     func transform(input: AnyPublisher<Int, Never>) -> AnyPublisher<WorryDetailModel, Error> {
         input
-            .sink { worryId in
-                self.getWorryDetail(worryId: worryId)
+            .sink { [weak self] worryId in
+                self?.getWorryDetail(worryId: worryId)
             }
             .store(in: &cancellables)
         return output.eraseToAnyPublisher()

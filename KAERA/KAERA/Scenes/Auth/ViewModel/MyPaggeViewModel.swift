@@ -51,10 +51,7 @@ final class MyPaggeViewModel: ViewModelType {
         UNUserNotificationCenter.current().getNotificationSettings { setting in
             PushSettingInfo.shared.isPushOn = setting.alertSetting == .enabled
             let hasChanged: Bool = priorState != PushSettingInfo.shared.isPushOn
-            ///  이전과 상태과 바뀌었으면 상태값 send
-            if hasChanged{
-                self.output.send(.push(hasChanged: hasChanged))
-            }
+            self.output.send(.push(hasChanged: hasChanged))
         }
     }
 
